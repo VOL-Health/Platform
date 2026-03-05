@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VOL Health™ – Workforce Stability Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --brand-blue:#1f57b8;
+      --brand-green:#2e8b57;
+      --brand-yellow:#f2b705;
+      --shai-gray:#6e758a;
+      --shai-gray-dark:#545b70;
+      --bg:#050816;
+      --card:#0d1224;
+      --muted:#9399b3;
+      --border:#242944;
+      --text:#e9ecff;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(31,87,184,0.18), transparent 60%),
+        radial-gradient(1000px 700px at 80% 30%, rgba(46,139,87,0.14), transparent 60%),
+        linear-gradient(180deg, #050816 0%, #05060f 100%);
+      color:var(--text);
+    }
+
+    a{ color:inherit; }
+
+    .wrap{ max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
+
+    /* Top bar */
+    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:20px; }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand h1{ font-size:18px; letter-spacing:0.06em; margin:0; font-weight:900; }
+    .brand .sub{ font-size:11px; color:rgba(255,255,255,0.65); letter-spacing:0.06em; font-weight:700; }
+
+    .nav{ display:flex; gap:18px; flex-wrap:wrap; justify-content:flex-end; }
+    .nav a{
+      font-size:12px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.72);
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+    .nav a:hover{ background: rgba(255,255,255,0.06); }
+
+    /* Cards */
+    .card{
+      background: linear-gradient(180deg, rgba(13,18,36,0.92), rgba(10,14,30,0.92));
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:22px;
+      box-shadow: 0 28px 80px rgba(0,0,0,0.40);
+    }
+
+    /* Buttons */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:11px 18px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.09em;
+      text-decoration:none;
+      border:none;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:transform 0.12s ease, filter 0.12s ease;
+    }
+    .btn:hover{ transform:translateY(-1px); filter:brightness(1.05); }
+    .btn-vi{ background:var(--brand-blue); color:#fff; }
+    .btn-wsi{ background:var(--brand-green); color:#fff; }
+    .btn-shai{ background:var(--shai-gray); color:#fff; }
+
+    /* Hero */
+    .hero{ padding:26px; display:grid; grid-template-columns: 1.15fr 0.85fr; gap:18px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.82);
+      font-size:12px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+
+    .hero h2{ margin:0 0 12px; font-size:44px; line-height:1.03; letter-spacing:-0.02em; }
+    .hero p{ margin:0; max-width:70ch; color:rgba(255,255,255,0.80); line-height:1.6; font-size:14.5px; }
+    .hero p + p{ margin-top:10px; }
+    .hero h2 .kicker{ display:block; margin-top:8px; font-size:0.74em; opacity:0.92; }
+    .tm{ font-size:0.55em; vertical-align:super; margin-left:1px; opacity:0.9; }
+    .hero .signal{ margin-top:10px; color:rgba(232,236,255,0.88); font-weight:700; }
+
+    .hero-cta{ margin-top:16px; display:flex; flex-wrap:wrap; gap:10px; }
+
+    .snapshot{ padding:18px; border-radius:18px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.18); }
+    .snapshot h3{ margin:0 0 8px; font-size:15px; }
+    .snapshot .sub{ color:rgba(255,255,255,0.70); font-size:12.5px; line-height:1.45; margin-bottom:14px; }
+    .bar{ height:16px; border-radius:999px; background: linear-gradient(90deg, #2e8b57 0%, #f2b705 50%, #d6452d 100%); position:relative; overflow:hidden; }
+    .bar::after{ content:""; position:absolute; left:62%; top:-4px; width:2px; height:24px; background:rgba(255,255,255,0.9); border-radius:2px; }
+    .bar-labels{ display:flex; justify-content:space-between; margin-top:6px; font-size:11px; color:rgba(255,255,255,0.70); }
+
+    .metrics{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+    .metric{
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius:16px;
+      padding:12px;
+    }
+    .metric .label{ color:rgba(255,255,255,0.65); font-size:11px; text-transform:uppercase; letter-spacing:0.10em; font-weight:900; }
+    .metric .value{ font-size:18px; font-weight:900; margin-top:6px; }
+    .metric .note{ color:rgba(255,255,255,0.70); font-size:12px; margin-top:4px; line-height:1.35; }
+
+    /* Sections */
+    .section{ margin-top:22px; }
+    .section-head h2{ margin:0; font-size:22px; }
+    .section-head p{ margin:6px 0 0; color:rgba(255,255,255,0.76); font-size:13.5px; line-height:1.55; }
+
+    /* Accordion chooser */
+    .chooser{ padding:18px; }
+    .accordion{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
+
+    .acc-item{
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.18);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .acc-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:16px 16px;
+      cursor:pointer;
+      user-select:none;
+      outline:none;
+    }
+
+    .acc-title{ font-size:18px; font-weight:900; margin:0; }
+    .acc-sub{ margin:4px 0 0; color:rgba(255,255,255,0.75); font-size:12.5px; }
+
+    .acc-toggle{
+      width:38px; height:38px; border-radius:12px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.03);
+      display:flex; align-items:center; justify-content:center;
+      flex:0 0 auto;
+    }
+
+    .acc-toggle span{ display:inline-block; font-size:16px; transform:rotate(0deg); transition:transform 0.18s ease; opacity:0.9; }
+
+    .acc-body{
+      max-height:0;
+      overflow:hidden;
+      transition:max-height 0.22s ease;
+      border-top:1px solid rgba(255,255,255,0.08);
+    }
+
+    .acc-inner{ padding:14px 16px 16px; display:grid; grid-template-columns: 1.2fr 0.8fr; gap:14px; align-items:start; }
+
+    .acc-text{ color:rgba(255,255,255,0.80); font-size:13px; line-height:1.55; }
+
+    .acc-list{ margin:10px 0 0; padding-left:18px; color:rgba(255,255,255,0.78); }
+    .acc-list li{ margin:6px 0; }
+
+    .acc-actions{ display:flex; flex-direction:column; gap:10px; align-items:flex-start; justify-content:flex-start; }
+
+    .acc-item.open .acc-body{ max-height:520px; }
+    .acc-item.open .acc-toggle span{ transform:rotate(90deg); }
+
+    /* Stability map */
+    .map-card{ padding:18px; }
+    .map-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; align-items:start; margin-top:14px; }
+    .map-box{ padding:14px; border-radius:18px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.18); }
+
+    .tool-list{ margin:10px 0 0; padding-left:18px; color:rgba(255,255,255,0.80); font-size:13px; line-height:1.55; }
+    .tool-list li{ margin:8px 0; }
+
+    .mini-roi{
+      margin-top:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius:16px;
+      padding:12px;
+    }
+    .mini-roi .grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; color:#d0d4ef; font-size:13px; }
+
+    /* Modal */
+    .modal{ position:fixed; inset:0; background:rgba(0,0,0,0.70); display:none; align-items:center; justify-content:center; padding:18px; z-index:999; }
+    .modal.open{ display:flex; }
+    .modal-panel{ width:min(1100px, 96vw); height:min(720px, 88vh); background:#070a18; border:1px solid rgba(255,255,255,0.12); border-radius:18px; overflow:hidden; box-shadow: 0 40px 120px rgba(0,0,0,0.55); }
+    .modal-top{ display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.10); background: rgba(255,255,255,0.03); }
+    .modal-top .t{ font-size:12px; letter-spacing:0.10em; text-transform:uppercase; color:rgba(255,255,255,0.75); font-weight:900; }
+    .modal-top button{ background:rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:8px 10px; cursor:pointer; }
+    .modal-top button:hover{ background:rgba(255,255,255,0.10); }
+    iframe{ width:100%; height:100%; border:none; }
+
+    footer{ margin-top:22px; color:rgba(255,255,255,0.55); font-size:11.5px; line-height:1.55; }
+
+    @media (max-width: 920px){
+      .hero{ grid-template-columns:1fr; }
+      .acc-inner{ grid-template-columns: 1fr; }
+      .map-grid{ grid-template-columns: 1fr; }
+      .hero h2{ font-size:36px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="topbar">
+      <div class="brand">
+        <div>
+          <h1>VOL HEALTH</h1>
+          <div class="sub">STAFFHEALTH + ACCUSHIELD VERIFIED</div>
+        </div>
+      </div>
+
+      <!-- Top nav includes anchors per your requirement -->
+      <nav class="nav" aria-label="Primary">
+        <a href="#acc-vi">VI</a>
+        <a href="#acc-wsi">WSI</a>
+        <a href="#acc-shai">SHAI Stability Engine</a>
+        <a href="#stability-map">Stability Map</a>
+      </nav>
+    </div>
+
+    <!-- HERO -->
+    <section class="card hero" id="top">
+      <div>
+        <div class="pill">VOL HEALTH™ DIAGNOSTIC VIEWS FOR VOLATILITY &amp; WORKFORCE STABILITY</div>
+        <h2>One VOL Health<span class="tm">™</span> story.<br/>Two diagnostic views.<br/><span class="kicker">One Stability Engine.</span></h2>
+        <p>
+          VOL Health™ gives senior living operators a directional way to see <strong>where staffing volatility is stressing operations today</strong>
+          and <strong>how stable their workforce pipeline really is</strong> — through a Volatility Index (VI) and a Workforce Stability Index (WSI).
+        </p>
+        <p class="signal">
+          Then activate the <strong>Stability Engine</strong> to move north-east — reducing volatility now while strengthening long-term workforce stability.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-vi" href="volatility-index.html">View Volatility Index →</a>
+          <a class="btn btn-wsi" href="wsi.html">View Workforce Stability Index →</a>
+          <button class="btn btn-shai" type="button" onclick="openSHAI('SHAI%20-%20WFI.html')">View SHAI →</button>
+          <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
+        </div>
+      </div>
+
+      <aside class="snapshot">
+        <h3>Sample VOL Health™ Snapshot</h3>
+        <div class="sub">Illustrative view of a mixed-stability senior living community. Use the tools to tune the inputs to your reality.</div>
+        <div class="bar" aria-hidden="true"></div>
+        <div class="bar-labels"><span>Low volatility</span><span>High volatility</span></div>
+        <div class="metrics">
+          <div class="metric">
+            <div class="label">Stability score</div>
+            <div class="value">62 / 100</div>
+            <div class="note">Mixed stability – early warning zone.</div>
+          </div>
+          <div class="metric">
+            <div class="label">Annual economics at stake</div>
+            <div class="value">$480k – $960k</div>
+            <div class="note">Illustrative range influenced by volatility.</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- CHOOSER (Accordion style, starts CLOSED, opens independently) -->
+    <section class="section card chooser" id="chooser">
+      <div class="section-head">
+        <h2>Choose your VOL Health™ view</h2>
+        <p>Use VOL Health as a single framework, then pick the lens that fits the conversation: volatility today, or workforce stability over time.</p>
+      </div>
+
+      <div class="accordion">
+
+        <!-- VI -->
+        <div class="acc-item" id="acc-vi">
+          <div class="acc-header" onclick="toggleAcc('acc-vi')" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <div class="acc-title">VOL Health™ Volatility Index (VI)</div>
+              <div class="acc-sub">Directional diagnostic for volatility, operations, and labor strain.</div>
+            </div>
+            <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
+          </div>
+          <div class="acc-body" aria-hidden="true">
+            <div class="acc-inner">
+              <div class="acc-text">
+                Directional diagnostic that scores the Trinity of Volatility, Operations &amp; Labor across ten drivers — census, OT, PBJ exposure, survey risk, reimbursement, reputation, leadership bandwidth, and more.
+                <ul class="acc-list">
+                  <li><strong>Why VI:</strong> Make endemic volatility visible in one stability score and economic range.</li>
+                  <li><strong>How it works:</strong> Ten inputs roll into a 0–100 stability score and directional annual economics.</li>
+                  <li><strong>Details:</strong> Calibrated for PBJ, OT, survey risk, and portfolio views.</li>
+                </ul>
+              </div>
+              <div class="acc-actions">
+                <a class="btn btn-vi" href="volatility-index.html">View Volatility Index →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WSI -->
+        <div class="acc-item" id="acc-wsi">
+          <div class="acc-header" onclick="toggleAcc('acc-wsi')" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <div class="acc-title">Workforce Stability Index (WSI)</div>
+              <div class="acc-sub">Companion view focused on workforce pipeline stability and drag.</div>
+            </div>
+            <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
+          </div>
+          <div class="acc-body" aria-hidden="true">
+            <div class="acc-inner">
+              <div class="acc-text">
+                Scores staffing volatility, financial exposure, operational &amp; compliance risk, and workforce pipeline health into a single WSI score.
+                <ul class="acc-list">
+                  <li><strong>Why WSI:</strong> Quantify how unstable schedules, vacancies, and turnover drag operations and margin.</li>
+                  <li><strong>How it works:</strong> Mix of direct inputs or portfolio distributions roll up into a 0–100 WSI.</li>
+                  <li><strong>Details:</strong> Shows volatility cost, stabilizable upside, and workforce drag as dollar ranges.</li>
+                </ul>
+              </div>
+              <div class="acc-actions">
+                <a class="btn btn-wsi" href="wsi.html">View Workforce Stability Index →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHAI -->
+        <div class="acc-item" id="acc-shai">
+          <div class="acc-header" onclick="toggleAcc('acc-shai')" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <div class="acc-title">SHAI™ Stability Engine</div>
+              <div class="acc-sub">Activation layer that reduces near-term volatility while strengthening long-term workforce stability.</div>
+            </div>
+            <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
+          </div>
+          <div class="acc-body" aria-hidden="true">
+            <div class="acc-inner">
+              <div class="acc-text">
+                SHAI connects insight to action:
+                <ul class="acc-list">
+                  <li><strong>SHAI Buffer:</strong> Improves shift continuity and reliability to reduce near-term volatility.</li>
+                  <li><strong>SHAI Workforce Engine:</strong> Identifies high-fit internal hire candidates and pipeline actions (Optigy-aligned).</li>
+                  <li><strong>Stability Delta:</strong> Tracks improvement over time: <code>ΔVI</code> and <code>ΔWSI</code>.</li>
+                </ul>
+              </div>
+              <div class="acc-actions">
+                <button class="btn btn-shai" type="button" onclick="openSHAI('SHAI%20-%20WFI.html')">View SHAI →</button>
+                <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STABILITY MAP (Corrected structure: two map-box siblings inside map-grid) -->
+    <section class="section card map-card" id="stability-map">
+      <div class="section-head">
+        <h2>VOL Health Stability Map</h2>
+        <p>
+          A portfolio-friendly view that plots each community by VI (volatility control)
+          and WSI (workforce stability). The goal is simple: move north-east over time
+          and measure the <strong>Stability Delta</strong>.
+        </p>
+      </div>
+
+      <div class="map-grid">
+        <!-- LEFT: SVG -->
+        <div class="map-box">
+          <svg viewBox="0 0 520 420" width="100%" height="auto" role="img" aria-label="VOL Health Stability Map">
+
+            <!-- DEFINITIONS -->
+            <defs>
+
+              <!-- background gradient -->
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0d1224"/>
+                <stop offset="100%" stop-color="#141a33"/>
+              </linearGradient>
+
+              <!-- glow for dots -->
+              <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+
+              <!-- arrow head -->
+              <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.55)"/>
+              </marker>
+
+            </defs>
+
+            <!-- background -->
+            <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
+
+            <!-- subtle NE success zone -->
+            <rect x="260" y="60" width="180" height="120" rx="14" fill="rgba(46,139,87,0.08)"/>
+
+            <!-- grid -->
+            <g stroke="rgba(255,255,255,0.10)" stroke-width="1">
+              <line x1="80" y1="60" x2="80" y2="360"/>
+              <line x1="170" y1="60" x2="170" y2="360"/>
+              <line x1="260" y1="60" x2="260" y2="360"/>
+              <line x1="350" y1="60" x2="350" y2="360"/>
+              <line x1="440" y1="60" x2="440" y2="360"/>
+
+              <line x1="80" y1="60" x2="440" y2="60"/>
+              <line x1="80" y1="120" x2="440" y2="120"/>
+              <line x1="80" y1="180" x2="440" y2="180"/>
+              <line x1="80" y1="240" x2="440" y2="240"/>
+              <line x1="80" y1="300" x2="440" y2="300"/>
+              <line x1="80" y1="360" x2="440" y2="360"/>
+            </g>
+
+            <!-- axes -->
+            <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
+              <line x1="80" y1="360" x2="440" y2="360"/>
+              <line x1="80" y1="360" x2="80" y2="60"/>
+            </g>
+
+            <!-- quadrant labels -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+               font-size="14"
+               fill="rgba(255,255,255,0.85)">
+              <text x="95" y="90">Acute Volatility</text>
+              <text x="295" y="90">Operational Stability</text>
+              <text x="95" y="210">Structural Instability</text>
+              <text x="295" y="210">Managed Volatility</text>
+            </g>
+
+            <!-- direction arrow -->
+            <path d="M250 300 L430 110"
+                  stroke="rgba(255,255,255,0.22)"
+                  stroke-width="2.5"
+                  stroke-dasharray="6 8"
+                  stroke-linecap="round"
+                  marker-end="url(#arrowHead)"/>
+
+            <text x="438" y="112"
+                  font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+                  font-size="12"
+                  fill="rgba(255,255,255,0.62)">Target</text>
+
+            <!-- sample points -->
+            <g filter="url(#dotGlow)">
+
+              <!-- worst -->
+              <circle cx="150" cy="320" r="7" fill="#e63946" stroke="white" stroke-width="1.5"/>
+
+              <!-- developing -->
+              <circle cx="220" cy="260" r="7" fill="#f2b705" stroke="white" stroke-width="1.5"/>
+
+              <!-- improving -->
+              <circle cx="320" cy="230" r="7" fill="#1f57b8" stroke="white" stroke-width="1.5"/>
+
+              <!-- best -->
+              <circle cx="400" cy="150" r="7" fill="#2e8b57" stroke="white" stroke-width="1.5"/>
+
+            </g>
+
+            <!-- axis labels -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+               font-size="12"
+               fill="rgba(255,255,255,0.75)">
+              <text x="250" y="400">VI (Volatility Control) →</text>
+              <text x="18" y="210" transform="rotate(-90 18 210)">WSI (Workforce Stability) →</text>
+            </g>
+
+            <!-- ticks -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+               font-size="11"
+               fill="rgba(255,255,255,0.55)">
+              <text x="72" y="380">0</text>
+              <text x="430" y="380">100</text>
+              <text x="56" y="66">100</text>
+              <text x="60" y="368">0</text>
+            </g>
+
+          </svg>
+        </div>
+
+        <!-- RIGHT: Explanation + mini ROI -->
+        <div class="map-box">
+          <h3 style="margin:0 0 8px; font-size:18px;">How communities move north-east</h3>
+          <ul class="tool-list">
+            <li><strong>SHAI Buffer</strong> reduces near-term volatility by improving shift continuity and reliability.</li>
+            <li><strong>SHAI Workforce Engine</strong> identifies high-fit internal hires and pipeline actions (Optigy-aligned).</li>
+            <li><strong>Stability Delta</strong> reports improvement over time: <code>ΔVI</code> and <code>ΔWSI</code>.</li>
+          </ul>
+
+          <div class="mini-roi">
+            <div style="margin-bottom:10px; color:rgba(255,255,255,0.78); font-size:13px;">
+              For exec reporting, keep the “improvement” language positive even when costs move down:
+            </div>
+            <div class="grid">
+              <div><strong>VI:</strong> 49 → 72</div><div><strong>+23</strong> volatility control</div>
+              <div><strong>WSI:</strong> 41 → 63</div><div><strong>+22</strong> workforce stability</div>
+              <div><strong>OT:</strong> $312k → $204k</div><div><strong>$108k</strong> cost reduction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        Prototype concept for internal discussion and testing. Built by Hudson Keel as a directional framework for senior living volatility &amp; workforce stability diagnostics.
+        <br/>
+        VOL Health™ is a working name for an internal tool and does not represent a commercial product offering.
+      </footer>
+    </section>
+
+  </div>
+<script>
+    // Accordion: starts closed by default (no .open classes in markup)
+    // Opens independently (no "close others" logic).
+    function toggleAcc(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+
+      const isOpen = el.classList.toggle('open');
+
+      const header = el.querySelector('.acc-header');
+      const body = el.querySelector('.acc-body');
+
+      if(header) header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if(body) body.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    }
+
+    // Allow Enter/Space to toggle when focused
+    document.addEventListener('keydown', (e) => {
+      const t = e.target;
+      if(!t || !t.classList || !t.classList.contains('acc-header')) return;
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        const parent = t.closest('.acc-item');
+        if(parent) toggleAcc(parent.id);
+      }
+    });
+  </script>
+</body>
+</html>
