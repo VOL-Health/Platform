@@ -10,8 +10,6 @@
       --brand-green:#2e8b57;
       --brand-yellow:#f2b705;
       --brand-red:#e63946;
-      --shai-gray:#6e758a;
-      --shai-gray-dark:#545b70;
       --bg:#050816;
       --card:#0d1224;
       --muted:#9399b3;
@@ -24,7 +22,7 @@
 
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
       background:
         radial-gradient(1200px 700px at 10% 10%, rgba(31,87,184,0.18), transparent 60%),
         radial-gradient(1000px 700px at 80% 30%, rgba(46,139,87,0.14), transparent 60%),
@@ -40,12 +38,6 @@
       padding:26px 18px 40px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
     .topbar{
       display:flex;
       align-items:center;
@@ -54,11 +46,17 @@
       padding-bottom:12px;
     }
 
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     .brand-logo{
       height:100px;
       width:auto;
       display:block;
-      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.35));
     }
 
     .nav{
@@ -76,16 +74,16 @@
       padding:10px 12px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
     }
 
-    .nav a:hover{ background: rgba(255,255,255,0.06); }
+    .nav a:hover{ background:rgba(255,255,255,0.06); }
 
     .card{
-      background: linear-gradient(180deg, rgba(13,18,36,0.92), rgba(10,14,30,0.92));
+      background:linear-gradient(180deg, rgba(13,18,36,0.92), rgba(10,14,30,0.92));
       border:1px solid rgba(255,255,255,0.10);
       border-radius:22px;
-      box-shadow: 0 28px 80px rgba(0,0,0,0.40);
+      box-shadow:0 28px 80px rgba(0,0,0,0.40);
     }
 
     .btn{
@@ -103,26 +101,24 @@
       cursor:pointer;
       white-space:nowrap;
       transition:transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
-      background: rgba(255,255,255,0.04);
+      background:rgba(255,255,255,0.04);
       color:#fff;
     }
 
     .btn:hover{
       transform:translateY(-1px);
       filter:brightness(1.05);
-      background: rgba(255,255,255,0.06);
+      background:rgba(255,255,255,0.06);
     }
 
-    .btn-vi{ background:var(--brand-blue); color:#fff; }
-    .btn-wsi{ background:var(--brand-green); color:#fff; }
+    .btn-vi{ background:var(--brand-blue); }
+    .btn-wsi{ background:var(--brand-green); }
     .btn-shai{
-      background: rgba(110,117,138,0.22);
-      color:#fff;
-      border-color: rgba(255,255,255,0.16);
+      background:rgba(110,117,138,0.22);
+      border-color:rgba(255,255,255,0.16);
     }
-
     .btn-reset{
-      background: transparent;
+      background:transparent;
       color:#d7defa;
       border:1px solid rgba(255,255,255,0.14);
     }
@@ -130,7 +126,7 @@
     .hero{
       padding:26px;
       display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns:1.15fr 0.85fr;
       gap:18px;
     }
 
@@ -141,7 +137,7 @@
       padding:8px 12px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
       color:rgba(255,255,255,0.82);
       font-size:12px;
       letter-spacing:0.08em;
@@ -157,16 +153,6 @@
       letter-spacing:-0.02em;
     }
 
-    .hero p{
-      margin:0;
-      max-width:70ch;
-      color:rgba(255,255,255,0.80);
-      line-height:1.6;
-      font-size:14.5px;
-    }
-
-    .hero p + p{ margin-top:10px; }
-
     .hero h2 .kicker{
       display:block;
       margin-top:8px;
@@ -180,6 +166,16 @@
       margin-left:1px;
       opacity:0.9;
     }
+
+    .hero p{
+      margin:0;
+      max-width:70ch;
+      color:rgba(255,255,255,0.80);
+      line-height:1.6;
+      font-size:14.5px;
+    }
+
+    .hero p + p{ margin-top:10px; }
 
     .hero .signal{
       margin-top:10px;
@@ -211,7 +207,7 @@
       width:auto;
       display:block;
       opacity:0.95;
-      filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35));
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,0.35));
     }
 
     .snapshot{
@@ -265,7 +261,7 @@
     .bar{
       height:16px;
       border-radius:999px;
-      background: linear-gradient(90deg, #2e8b57 0%, #f2b705 50%, #d6452d 100%);
+      background:linear-gradient(90deg, #2e8b57 0%, #f2b705 50%, #d6452d 100%);
       position:relative;
       overflow:hidden;
     }
@@ -298,7 +294,7 @@
 
     .metric{
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
       border-radius:16px;
       padding:12px;
     }
@@ -323,6 +319,25 @@
       margin-top:4px;
       line-height:1.35;
     }
+
+    .saved-state,
+    .zone-legend,
+    .mini-roi,
+    .map-readout{
+      margin-top:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .saved-state{
+      font-size:12.5px;
+      color:rgba(255,255,255,0.82);
+      line-height:1.5;
+    }
+
+    .saved-state strong{ color:#fff; }
 
     .section{ margin-top:22px; }
 
@@ -349,7 +364,7 @@
 
     .acc-item{
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
+      background:rgba(0,0,0,0.18);
       border-radius:18px;
       overflow:hidden;
     }
@@ -382,7 +397,7 @@
       height:38px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
       display:flex;
       align-items:center;
       justify-content:center;
@@ -407,7 +422,7 @@
     .acc-inner{
       padding:14px 16px 16px;
       display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns:1.2fr 0.8fr;
       gap:14px;
       align-items:start;
     }
@@ -441,7 +456,7 @@
 
     .map-grid{
       display:grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
       gap:16px;
       align-items:start;
       margin-top:14px;
@@ -452,7 +467,7 @@
       border-radius:18px;
       border:1px solid rgba(255,255,255,0.10);
       background:rgba(0,0,0,0.18);
-      backdrop-filter: blur(6px);
+      backdrop-filter:blur(6px);
       min-width:0;
     }
 
@@ -460,11 +475,11 @@
       width:100%;
       height:auto;
       display:block;
-      box-shadow: inset 0 0 40px rgba(0,0,0,0.35);
+      box-shadow:inset 0 0 40px rgba(0,0,0,0.35);
     }
 
-    .map-box svg line { opacity: 0.25; }
-    .map-box svg text { letter-spacing: .02em; }
+    .map-box svg line { opacity:0.25; }
+    .map-box svg text { letter-spacing:.02em; }
 
     .tool-list{
       margin:10px 0 0;
@@ -475,16 +490,6 @@
     }
 
     .tool-list li{ margin:8px 0; }
-
-    .mini-roi,
-    .zone-legend,
-    .saved-state{
-      margin-top:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
-      border-radius:16px;
-      padding:12px;
-    }
 
     .mini-roi .grid,
     .zone-legend .grid{
@@ -498,24 +503,6 @@
     .zone-legend .grid div{
       min-width:0;
       line-height:1.35;
-    }
-
-    .saved-state{
-      font-size:12.5px;
-      color:rgba(255,255,255,0.82);
-      line-height:1.5;
-    }
-
-    .saved-state strong{
-      color:#fff;
-    }
-
-    .map-readout{
-      margin-top:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
-      border-radius:16px;
-      padding:12px;
     }
 
     .map-readout h4{
@@ -543,8 +530,8 @@
       margin-top:12px;
     }
 
-    #stabilityDynamicLayer circle {
-      filter: drop-shadow(0 0 8px rgba(255,255,255,0.55));
+    #stabilityDynamicLayer circle{
+      filter:drop-shadow(0 0 8px rgba(255,255,255,0.55));
     }
 
     footer{
@@ -554,10 +541,10 @@
       line-height:1.55;
     }
 
-    @media (max-width: 920px){
+    @media (max-width:920px){
       .hero{ grid-template-columns:1fr; }
-      .acc-inner{ grid-template-columns: 1fr; }
-      .map-grid{ grid-template-columns: 1fr; }
+      .acc-inner{ grid-template-columns:1fr; }
+      .map-grid{ grid-template-columns:1fr; }
       .hero h2{ font-size:36px; }
       .nav{ gap:10px; }
       .readout-grid,
@@ -731,7 +718,7 @@
       <div class="section-head">
         <h2>VOL Health Stability Map</h2>
         <p>
-          A portfolio-friendly view that plots each community by <strong>WSI on the horizontal axis</strong> and <strong>VI on the vertical axis</strong>. The goal is simple: move north-east over time and measure the <strong>Stability Delta</strong>.
+          Because it is rarely measured, endemic volatility is almost never intentionally managed. This threshold-based map shows where a community sits today — and the path toward managed and optimized stability.
         </p>
       </div>
 
@@ -746,8 +733,8 @@
               </linearGradient>
 
               <linearGradient id="optimizedFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="rgba(143,224,173,0.30)"/>
-                <stop offset="100%" stop-color="rgba(46,139,87,0.52)"/>
+                <stop offset="0%" stop-color="rgba(143,224,173,0.36)"/>
+                <stop offset="100%" stop-color="rgba(46,139,87,0.60)"/>
               </linearGradient>
 
               <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
@@ -773,30 +760,39 @@
 
             <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
 
-            <!-- 4 major zones -->
-            <rect x="80"  y="60"  width="180" height="150" fill="rgba(230,57,70,0.10)"/>
-            <rect x="260" y="60"  width="180" height="150" fill="rgba(46,139,87,0.10)"/>
-            <rect x="80"  y="210" width="180" height="150" fill="rgba(242,183,5,0.10)"/>
-            <rect x="260" y="210" width="180" height="150" fill="rgba(31,87,184,0.10)"/>
+            <!-- threshold-based 5x5 zones -->
+            <!-- Exposed Operations: 0-60 / 0-60 -->
+            <rect x="80" y="180" width="216" height="180" fill="rgba(242,183,5,0.10)"/>
 
-            <!-- elevated optimized zone 80+/80+ -->
+            <!-- Manually Stabilized: 0-60 / 60-100 -->
+            <rect x="80" y="60" width="216" height="120" fill="rgba(230,57,70,0.10)"/>
+
+            <!-- Volatility Pressure: 60-100 / 0-60 -->
+            <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.10)"/>
+
+            <!-- Managed Stability: 60-100 / 60-100 -->
+            <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.10)"/>
+
+            <!-- Optimized Stability: 80-100 / 80-100 -->
             <rect x="368" y="60" width="72" height="60" rx="14"
                   fill="url(#optimizedFill)"
-                  stroke="rgba(255,255,255,0.22)"
+                  stroke="rgba(255,255,255,0.24)"
                   filter="url(#optimizedGlow)"/>
 
-            <!-- grid -->
+            <!-- 5x5 grid lines -->
             <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
-              <line x1="80"  y1="60" x2="80"  y2="360"/>
-              <line x1="170" y1="60" x2="170" y2="360"/>
-              <line x1="260" y1="60" x2="260" y2="360"/>
-              <line x1="350" y1="60" x2="350" y2="360"/>
+              <line x1="80" y1="60" x2="80" y2="360"/>
+              <line x1="152" y1="60" x2="152" y2="360"/>
+              <line x1="224" y1="60" x2="224" y2="360"/>
+              <line x1="296" y1="60" x2="296" y2="360"/>
+              <line x1="368" y1="60" x2="368" y2="360"/>
               <line x1="440" y1="60" x2="440" y2="360"/>
 
-              <line x1="80" y1="60"  x2="440" y2="60"/>
-              <line x1="80" y1="135" x2="440" y2="135"/>
-              <line x1="80" y1="210" x2="440" y2="210"/>
-              <line x1="80" y1="285" x2="440" y2="285"/>
+              <line x1="80" y1="60" x2="440" y2="60"/>
+              <line x1="80" y1="120" x2="440" y2="120"/>
+              <line x1="80" y1="180" x2="440" y2="180"/>
+              <line x1="80" y1="240" x2="440" y2="240"/>
+              <line x1="80" y1="300" x2="440" y2="300"/>
               <line x1="80" y1="360" x2="440" y2="360"/>
             </g>
 
@@ -806,16 +802,22 @@
               <line x1="80" y1="360" x2="80" y2="60"/>
             </g>
 
-            <!-- zone labels -->
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700">
-              <text x="104" y="92" fill="#ff9aa5">Manually Stabilized</text>
-              <text x="281" y="92" fill="#8fe0ad">Managed Stability</text>
-              <text x="100" y="242" fill="#ffd76b">Exposed Operations</text>
-              <text x="280" y="242" fill="#8fb9ff">Volatility Pressure</text>
+            <!-- threshold emphasis at 60 -->
+            <g stroke="rgba(255,255,255,0.22)" stroke-width="2.25">
+              <line x1="296" y1="60" x2="296" y2="360"/>
+              <line x1="80" y1="180" x2="440" y2="180"/>
             </g>
 
-            <!-- path to optimized zone -->
-            <path d="M250 300 L415 98"
+            <!-- zone labels -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700">
+              <text x="98" y="92" fill="#ff9aa5">Manually Stabilized</text>
+              <text x="312" y="92" fill="#8fe0ad">Managed Stability</text>
+              <text x="99" y="233" fill="#ffd76b">Exposed Operations</text>
+              <text x="312" y="233" fill="#8fb9ff">Volatility Pressure</text>
+            </g>
+
+            <!-- path -->
+            <path d="M238 300 L410 98"
                   stroke="rgba(255,255,255,0.22)"
                   stroke-width="2.5"
                   stroke-dasharray="6 8"
@@ -823,51 +825,49 @@
                   marker-end="url(#arrowHead)"/>
 
             <!-- optimized label -->
-            <text x="382" y="84"
+            <text x="383" y="84"
                   font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
                   font-size="10.5"
                   font-weight="800"
-                  fill="rgba(255,255,255,0.92)">
+                  fill="rgba(255,255,255,0.94)">
               Optimized
             </text>
-            <text x="379" y="96"
+            <text x="380" y="96"
                   font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
                   font-size="10.5"
                   font-weight="800"
-                  fill="rgba(255,255,255,0.92)">
+                  fill="rgba(255,255,255,0.94)">
               Stability
             </text>
-            <text x="383" y="108"
+            <text x="382" y="108"
                   font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
                   font-size="8.5"
                   font-weight="700"
-                  fill="rgba(255,255,255,0.70)">
+                  fill="rgba(255,255,255,0.72)">
               80+ / 80+
             </text>
 
             <!-- axis labels -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.78)">
-              <text x="222" y="400">WSI (Workforce Stability Index) →</text>
+              <text x="214" y="400">WSI (Workforce Stability Index) →</text>
               <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
             </g>
 
-            <!-- main edge labels -->
+            <!-- axis number labels -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
-              <text x="76" y="380">0</text>
-              <text x="428" y="380">100</text>
-              <text x="56" y="66">100</text>
-              <text x="60" y="368">0</text>
-            </g>
+              <text x="77" y="378">0</text>
+              <text x="146" y="378">20</text>
+              <text x="218" y="378">40</text>
+              <text x="290" y="378">60</text>
+              <text x="362" y="378">80</text>
+              <text x="428" y="378">100</text>
 
-            <!-- internal tick labels -->
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="10" fill="rgba(255,255,255,0.38)">
-              <text x="164" y="380">25</text>
-              <text x="254" y="380">50</text>
-              <text x="344" y="380">75</text>
-
-              <text x="61" y="289">25</text>
-              <text x="61" y="214">50</text>
-              <text x="61" y="139">75</text>
+              <text x="48" y="364">0</text>
+              <text x="42" y="304">20</text>
+              <text x="42" y="244">40</text>
+              <text x="42" y="184">60</text>
+              <text x="42" y="124">80</text>
+              <text x="36" y="66">100</text>
             </g>
 
             <g id="stabilityTrailLayer"></g>
@@ -876,12 +876,8 @@
 
           <div class="zone-legend">
             <div style="margin-bottom:12px;">
-              <div style="font-weight:700; color:rgba(255,255,255,0.9);">
-                Stability Zones
-              </div>
-              <div style="font-size:11px; opacity:0.7;">
-                How to interpret the map
-              </div>
+              <div style="font-weight:700; color:rgba(255,255,255,0.9);">Stability Zones</div>
+              <div style="font-size:11px; opacity:0.7;">How to interpret the map</div>
             </div>
 
             <div class="grid">
@@ -909,7 +905,8 @@
           <ul class="tool-list">
             <li><strong>WSI increases to the right</strong> as workforce resilience, coverage reliability, and pipeline health improve.</li>
             <li><strong>VI increases upward</strong> as operational volatility becomes more controlled and manageable.</li>
-            <li><strong>Stability Delta</strong> is the movement from one point in time to the next: <code>ΔWSI</code> and <code>ΔVI</code>.</li>
+            <li><strong>60 / 60 is the threshold</strong> for entry into Managed Stability.</li>
+            <li><strong>80 / 80 marks Optimized Stability</strong> — a higher-order operating state, not just adequate control.</li>
           </ul>
 
           <div class="mini-roi">
@@ -1078,15 +1075,13 @@
         text.textContent = "Saved VI + WSI point loaded";
         savedStateBox.style.display = "block";
         savedStateBox.innerHTML =
-          `<strong>Real calculator point plotted.</strong><br/>` +
-          `${savedData.label || "Community"} is now being shown from the shared VOL Health storage object.`;
+          `<strong>Real calculator point plotted.</strong><br/>${savedData.label || "Community"} is now being shown from the shared VOL Health storage object.`;
       }else{
         dot.classList.remove("ready");
         text.textContent = "Partial data detected";
         savedStateBox.style.display = "block";
         savedStateBox.innerHTML =
-          `<strong>Shared data exists, but the map still needs both scores.</strong><br/>` +
-          `Run both VI and WSI to replace the default example point.`;
+          `<strong>Shared data exists, but the map still needs both scores.</strong><br/>Run both VI and WSI to replace the default example point.`;
       }
     }
 
@@ -1153,11 +1148,10 @@
       const title = document.createElementNS(ns, 'title');
       title.textContent = `Current Score | WSI: ${safeWSI} | VI: ${safeVI}`;
       circle.appendChild(title);
-
       group.appendChild(circle);
 
       const text = document.createElementNS(ns, 'text');
-      text.setAttribute('x', Math.min(x + 12, 405));
+      text.setAttribute('x', Math.min(x + 12, 406));
       text.setAttribute('y', Math.max(y - 12, 76));
       text.setAttribute('font-family', 'system-ui, -apple-system, Segoe UI, Roboto, Arial');
       text.setAttribute('font-size', '12');
@@ -1168,7 +1162,7 @@
 
       stabilityMap.dynamicLayer.appendChild(group);
 
-      const point = {
+      return {
         label,
         source,
         vi: safeVI,
@@ -1183,8 +1177,6 @@
         y,
         color
       };
-
-      return point;
     }
 
     function normalizeSavedPoint(saved){
@@ -1223,7 +1215,7 @@
         updateSnapshot(point, false);
         updateReadout(point);
         updateStatus(saved, false);
-      } else {
+      }else{
         plotDefaultPoint();
       }
     }
