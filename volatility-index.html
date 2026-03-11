@@ -116,7 +116,15 @@ textarea::placeholder{color:#5e648b;}
 
 .hint{font-size:12px;color:var(--muted);margin-top:4px}
 
-.btn{
+.btn-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+
+.btn,
+.btn-link{
   border:none;
   background:var(--brand-blue);
   color:#fff;
@@ -129,15 +137,31 @@ textarea::placeholder{color:#5e648b;}
   letter-spacing:0.6px;
   box-shadow:0 10px 26px rgba(2,12,54,0.7);
   transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.12s ease;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
-.btn:hover{
+.btn:hover,
+.btn-link:hover{
   filter:brightness(1.06);
   transform:translateY(-1px);
   box-shadow:0 14px 36px rgba(2,12,54,0.85);
 }
-.btn.secondary{
+.btn.secondary,
+.btn-link.secondary{
   background:#30364f;
-  margin-left:8px;
+  box-shadow:none;
+}
+.btn.green,
+.btn-link.green{
+  background:linear-gradient(90deg,var(--brand-green),#34c08a);
+}
+.btn.ghost,
+.btn-link.ghost{
+  background:transparent;
+  border:1px solid #33406f;
+  color:#dce5ff;
   box-shadow:none;
 }
 
@@ -252,6 +276,44 @@ textarea::placeholder{color:#5e648b;}
   color:#d5daf5;
 }
 
+.nav-note{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:rgba(11,17,35,0.75);
+  border:1px solid #273154;
+  color:#d8def8;
+  font-size:12.5px;
+  line-height:1.5;
+}
+
+.top-nav{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:14px;
+}
+
+.status-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(10,14,31,0.92);
+  border:1px solid #283053;
+  color:#d8def8;
+  font-size:12px;
+  font-weight:700;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#5c668f;
+}
+.dot.active{background:#34c08a;}
+
 footer{
   text-align:center;
   font-size:12px;
@@ -306,12 +368,24 @@ footer{
   .result-pill{
     min-width:140px;
   }
+
+  .top-nav{
+    justify-content:center;
+  }
 }
 </style>
 </head>
 
 <body>
 <div class="shell">
+
+  <div class="top-nav">
+    <div class="status-chip" id="mapStatusChip">
+      <span class="dot" id="mapStatusDot"></span>
+      <span id="mapStatusText">Map point not complete yet</span>
+    </div>
+  </div>
+
   <header>
     <h1><span>VOL Health™</span> Volatility Index</h1>
     <p>
@@ -327,6 +401,21 @@ footer{
   </div>
 
   <div class="container">
+
+    <div class="card">
+      <div class="btn-row" style="justify-content:space-between;align-items:flex-start;">
+        <div>
+          <h2 style="margin-bottom:6px;">Navigation</h2>
+          <p class="small" style="margin:0;">
+            Run VI here, move directly to WSI, then return to the platform map once both scores are saved.
+          </p>
+        </div>
+        <div class="btn-row">
+          <a class="btn-link ghost" href="index.html">Return to Platform</a>
+          <a class="btn-link secondary" href="wsi.html">Go to WSI</a>
+        </div>
+      </div>
+    </div>
 
     <div class="card">
       <h2>1. Select Mode</h2>
@@ -746,7 +835,6 @@ footer{
         </div>
         <div class="totals-line" id="sum_q10"></div>
       </div>
-
     </div>
 
     <div class="card">
@@ -754,8 +842,11 @@ footer{
       <p class="small">
         Click Calculate to see your VOL Health stability score, projected stability gain, and illustrative annual economics.
       </p>
-      <button class="btn" id="calcBtn">Calculate VOL Health Score</button>
-      <button class="btn secondary" id="resetBtn" type="button">Reset</button>
+      <div class="btn-row">
+        <button class="btn" id="calcBtn" type="button">Calculate VOL Health Score</button>
+        <button class="btn secondary" id="resetBtn" type="button">Reset</button>
+        <a class="btn-link ghost" href="index.html">Return to Platform</a>
+      </div>
     </div>
 
     <div class="card" id="resultsCard" style="display:none;">
@@ -807,6 +898,15 @@ footer{
         <div class="pill-header">Rate &amp; Model Narrative</div>
         <div id="rateNarrative" class="small" style="font-size:13px;">—</div>
       </div>
+
+      <div class="nav-note">
+        VI has now been saved to localStorage. To complete the Stability Map point, run the Workforce Stability Index next.
+      </div>
+
+      <div class="btn-row" style="margin-top:14px;">
+        <a class="btn-link green" href="wsi.html">Go to WSI</a>
+        <a class="btn-link secondary" href="index.html">Return to Platform</a>
+      </div>
     </div>
 
     <div class="card" id="followupCard" style="display:none;">
@@ -829,11 +929,15 @@ footer{
 
 <script>
 const MAP_STORAGE_KEY = "volHealthMapData";
-const WEIGHTS = { q1:12, q2:10, q3:14, q4:12, q5:10, q6:12, q7:8, q8:10, q9:6, q10:10 };
+
+const WEIGHTS = {
+  q1:12, q2:10, q3:14, q4:12, q5:10,
+  q6:12, q7:8, q8:10, q9:6, q10:10
+};
 
 function getMode(){
-  const el=document.querySelector('input[name="mode"]:checked');
-  return el?el.value:"single";
+  const el = document.querySelector('input[name="mode"]:checked');
+  return el ? el.value : "single";
 }
 
 function riskFromAnswer(val){
@@ -853,8 +957,8 @@ function classify(stabilityScore){
 }
 
 function usageImpactPct(val){
-  if(val==="conservative") return 0.35;
-  if(val==="aggressive") return 0.65;
+  if(val === "conservative") return 0.35;
+  if(val === "aggressive") return 0.65;
   return 0.50;
 }
 
@@ -863,36 +967,17 @@ function intVal(id){
   return isNaN(v) ? 0 : v;
 }
 
-function sumPortfolioRow(qKey){
-  const low=intVal(`p_${qKey}_low`);
-  const med=intVal(`p_${qKey}_med`);
-  const high=intVal(`p_${qKey}_high`);
-  const unk=intVal(`p_${qKey}_unk`);
-  return {low,med,high,unk,total: low+med+high+unk};
+function safeNumber(value){
+  const num = Number(value);
+  return Number.isFinite(num) ? num : null;
 }
 
-function updateRowSums(){
-  const N = intVal("portfolioN");
-  for(let i=1;i<=10;i++){
-    const qKey="q"+i;
-    const s = sumPortfolioRow(qKey);
-    const el = document.getElementById("sum_"+qKey);
-    if(!el) continue;
-
-    if(s.total===0){
-      el.innerHTML = `<span class="small">Total entered: 0 (optional)</span>`;
-      continue;
-    }
-
-    if(N>0){
-      if(s.total===N){
-        el.innerHTML = `<span class="ok">Total entered: ${s.total} (matches portfolio size)</span>`;
-      }else{
-        el.innerHTML = `<span class="warn">Total entered: ${s.total} (does not match portfolio size ${N})</span>`;
-      }
-    }else{
-      el.innerHTML = `<span class="small">Total entered: ${s.total}</span>`;
-    }
+function readMapData(){
+  try{
+    const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+    return parsed && typeof parsed === "object" ? parsed : {};
+  }catch(err){
+    return {};
   }
 }
 
@@ -908,27 +993,83 @@ function getFallbackEntityLabel(){
     : `${communityTypeText} Community`;
 }
 
-function saveVOLHealthMapData(partial){
-  let existing = {};
-  try{
-    existing = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}") || {};
-  }catch(e){
-    existing = {};
-  }
+function buildLabel(existing){
+  const explicit = getExplicitEntityName();
+  if(explicit) return explicit;
+  if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
+  return getFallbackEntityLabel();
+}
 
+function saveVOLHealthMapData(partial){
+  const existing = readMapData();
   const merged = {
     ...existing,
     ...partial,
+    label: buildLabel(existing),
+    state: (document.getElementById("state")?.value || existing.state || "").trim(),
+    communityType: document.getElementById("communityType")?.value || existing.communityType || "al_mc",
+    mode: getMode(),
     updatedAt: new Date().toISOString()
   };
 
-  if (!merged.label) {
-    merged.label = partial.fallbackLabel || existing.label || "Community";
-  }
-
-  delete merged.fallbackLabel;
-
   localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+  updateMapStatusChip();
+  return merged;
+}
+
+function updateMapStatusChip(){
+  const data = readMapData();
+  const hasVI = Number.isFinite(Number(data.vi));
+  const hasWSI = Number.isFinite(Number(data.wsi));
+  const dot = document.getElementById("mapStatusDot");
+  const text = document.getElementById("mapStatusText");
+
+  if(hasVI && hasWSI){
+    dot.classList.add("active");
+    text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
+  }else if(hasVI){
+    dot.classList.remove("active");
+    text.textContent = `VI saved • WSI still needed for map point`;
+  }else if(hasWSI){
+    dot.classList.remove("active");
+    text.textContent = `WSI saved • VI still needed for map point`;
+  }else{
+    dot.classList.remove("active");
+    text.textContent = "Map point not complete yet";
+  }
+}
+
+function sumPortfolioRow(qKey){
+  const low = intVal(`p_${qKey}_low`);
+  const med = intVal(`p_${qKey}_med`);
+  const high = intVal(`p_${qKey}_high`);
+  const unk = intVal(`p_${qKey}_unk`);
+  return {low, med, high, unk, total: low + med + high + unk};
+}
+
+function updateRowSums(){
+  const N = intVal("portfolioN");
+  for(let i = 1; i <= 10; i++){
+    const qKey = "q" + i;
+    const s = sumPortfolioRow(qKey);
+    const el = document.getElementById("sum_" + qKey);
+    if(!el) continue;
+
+    if(s.total === 0){
+      el.innerHTML = `<span class="small">Total entered: 0 (optional)</span>`;
+      continue;
+    }
+
+    if(N > 0){
+      if(s.total === N){
+        el.innerHTML = `<span class="ok">Total entered: ${s.total} (matches portfolio size)</span>`;
+      }else{
+        el.innerHTML = `<span class="warn">Total entered: ${s.total} (does not match portfolio size ${N})</span>`;
+      }
+    }else{
+      el.innerHTML = `<span class="small">Total entered: ${s.total}</span>`;
+    }
+  }
 }
 
 [
@@ -943,182 +1084,167 @@ function saveVOLHealthMapData(partial){
   "p_q8_low","p_q8_med","p_q8_high","p_q8_unk",
   "p_q9_low","p_q9_med","p_q9_high","p_q9_unk",
   "p_q10_low","p_q10_med","p_q10_high","p_q10_unk"
-].forEach(id=>{
-  const el=document.getElementById(id);
+].forEach(id => {
+  const el = document.getElementById(id);
   if(el) el.addEventListener("input", updateRowSums);
 });
 
-document.querySelectorAll('input[name="mode"]').forEach(r=>{
-  r.addEventListener("change", ()=>{
-    const mode=getMode();
-    document.getElementById("singleSection").style.display = mode==="single" ? "block" : "none";
-    document.getElementById("portfolioSection").style.display = mode==="portfolio" ? "block" : "none";
+document.querySelectorAll('input[name="mode"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    const mode = getMode();
+    document.getElementById("singleSection").style.display = mode === "single" ? "block" : "none";
+    document.getElementById("portfolioSection").style.display = mode === "portfolio" ? "block" : "none";
 
     document.getElementById("riskLabel").textContent =
-      mode==="single"
+      mode === "single"
         ? "Baseline VOL Health Stability (Current State)"
         : "Average VOL Health Stability per Community (Portfolio)";
 
     document.getElementById("modeSummary").textContent =
-      mode==="single"
+      mode === "single"
         ? "In Single Community Mode, the VOL Health Volatility Index reflects one building’s volatility, overtime, PBJ exposure, and leadership strain. It is directional, not a survey or audit."
         : "In Portfolio Mode, the VOL Health Volatility Index reflects an average per-community risk/stability profile based on how many communities fit each answer option for each factor.";
 
-    if(mode==="portfolio") updateRowSums();
+    if(mode === "portfolio") updateRowSums();
   });
 });
 
-document.getElementById("calcBtn").addEventListener("click", ()=>{
-  const mode=getMode();
-  const communityType=document.getElementById("communityType").value;
-  const state=document.getElementById("state").value || "N/A";
+document.getElementById("calcBtn").addEventListener("click", () => {
+  const mode = getMode();
+  const communityType = document.getElementById("communityType").value;
+  const state = (document.getElementById("state").value || "N/A").trim();
 
-  let weights={...WEIGHTS};
-  if(communityType==="al_mc") weights.q10 = 0;
+  let weights = {...WEIGHTS};
+  if(communityType === "al_mc") weights.q10 = 0;
 
-  let riskScore100=0, finalRiskScore=0;
-  let stabilityPre=0, impactScore=0, finalScore=0;
-  let baselineLow=0, baselineHigh=0, stabilizedLow=0, stabilizedHigh=0;
-  let netImpact=0, directAnnual=0, hasRates=false;
-  let usedN=1;
-  let shiftsMonth=0, hoursMonth=0;
+  let riskScore100 = 0;
+  let finalRiskScore = 0;
+  let stabilityPre = 0;
+  let impactScore = 0;
+  let finalScore = 0;
+  let baselineLow = 0;
+  let baselineHigh = 0;
+  let stabilizedLow = 0;
+  let stabilizedHigh = 0;
+  let usedN = 1;
 
-  if(mode==="single"){
-    let weightedRiskSum=0, weightTotal=0;
+  if(mode === "single"){
+    let weightedRiskSum = 0;
+    let weightTotal = 0;
 
-    for(let i=1;i<=10;i++){
-      const key="q"+i;
-      const w=weights[key];
-      if(w===0) continue;
-      const ans=document.getElementById(key).value;
-      const r=riskFromAnswer(ans);
-      weightedRiskSum += (r*10) * w;
+    for(let i = 1; i <= 10; i++){
+      const key = "q" + i;
+      const w = weights[key];
+      if(w === 0) continue;
+      const ans = document.getElementById(key).value;
+      const r = riskFromAnswer(ans);
+      weightedRiskSum += (r * 10) * w;
       weightTotal += w;
     }
 
-    const riskScore0to10 = weightTotal===0 ? 0 : (weightedRiskSum/weightTotal);
-    riskScore100 = Math.round(riskScore0to10*10);
+    const riskScore0to10 = weightTotal === 0 ? 0 : (weightedRiskSum / weightTotal);
+    riskScore100 = Math.round(riskScore0to10 * 10);
 
-    const usage=document.getElementById("usageLevel").value;
-    const impactPct=usageImpactPct(usage);
+    const usage = document.getElementById("usageLevel").value;
+    const impactPct = usageImpactPct(usage);
 
     impactScore = Math.round(riskScore100 * impactPct);
     finalRiskScore = Math.max(0, riskScore100 - impactScore);
 
-    baselineLow = Math.round(riskScore100*3000/1000)*1000;
-    baselineHigh = Math.round(riskScore100*6000/1000)*1000;
-    stabilizedLow = Math.round(impactScore*3000/1000)*1000;
-    stabilizedHigh = Math.round(impactScore*6000/1000)*1000;
-
-    const compareRate = parseFloat(document.getElementById("compareRate").value);
-    const staffRate   = parseFloat(document.getElementById("staffRate").value);
-    shiftsMonth       = parseFloat(document.getElementById("shiftsMonth").value);
-    hoursMonth        = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN;
-
-    hasRates =
-      !isNaN(compareRate) && compareRate > 0 &&
-      !isNaN(staffRate)   && staffRate   > 0 &&
-      !isNaN(hoursMonth)  && hoursMonth  > 0;
-
-    const stabilizedMid = (stabilizedLow + stabilizedHigh)/2;
-    if(hasRates){
-      directAnnual = (compareRate - staffRate) * hoursMonth * 12;
-      netImpact = stabilizedMid + directAnnual;
-    }else{
-      netImpact = stabilizedMid;
-    }
-    usedN=1;
-
+    baselineLow = Math.round(riskScore100 * 3000 / 1000) * 1000;
+    baselineHigh = Math.round(riskScore100 * 6000 / 1000) * 1000;
+    stabilizedLow = Math.round(impactScore * 3000 / 1000) * 1000;
+    stabilizedHigh = Math.round(impactScore * 6000 / 1000) * 1000;
+    usedN = 1;
   }else{
-    let weightedRiskSum=0, weightTotal=0;
-    let totalNsum=0, qCount=0;
+    let weightedRiskSum = 0;
+    let weightTotal = 0;
+    let totalNsum = 0;
+    let qCount = 0;
 
-    for(let i=1;i<=10;i++){
-      const key="q"+i;
-      const w=weights[key];
-      if(w===0) continue;
+    for(let i = 1; i <= 10; i++){
+      const key = "q" + i;
+      const w = weights[key];
+      if(w === 0) continue;
 
-      const s=sumPortfolioRow(key);
-      if(s.total===0) continue;
+      const s = sumPortfolioRow(key);
+      if(s.total === 0) continue;
 
-      const r = (0.2*s.low + 0.5*s.med + 0.8*s.high + 1.0*s.unk) / s.total;
-      weightedRiskSum += (r*10) * w;
+      const r = (0.2 * s.low + 0.5 * s.med + 0.8 * s.high + 1.0 * s.unk) / s.total;
+      weightedRiskSum += (r * 10) * w;
       weightTotal += w;
 
       totalNsum += s.total;
       qCount++;
     }
 
-    const riskScore0to10 = weightTotal===0 ? 0 : (weightedRiskSum/weightTotal);
-    riskScore100 = Math.round(riskScore0to10*10);
+    const riskScore0to10 = weightTotal === 0 ? 0 : (weightedRiskSum / weightTotal);
+    riskScore100 = Math.round(riskScore0to10 * 10);
 
-    const usage=document.getElementById("usageLevelPortfolio").value;
-    const impactPct=usageImpactPct(usage);
+    const usage = document.getElementById("usageLevelPortfolio").value;
+    const impactPct = usageImpactPct(usage);
 
-    impactScore    = Math.round(riskScore100 * impactPct);
+    impactScore = Math.round(riskScore100 * impactPct);
     finalRiskScore = Math.max(0, riskScore100 - impactScore);
 
-    usedN = qCount>0 ? Math.round(totalNsum/qCount) : 1;
+    usedN = qCount > 0 ? Math.round(totalNsum / qCount) : 1;
 
-    const perLow     = Math.round(riskScore100*3000/1000)*1000;
-    const perHigh    = Math.round(riskScore100*6000/1000)*1000;
-    const perStabLow = Math.round(impactScore*3000/1000)*1000;
-    const perStabHigh= Math.round(impactScore*6000/1000)*1000;
+    const perLow = Math.round(riskScore100 * 3000 / 1000) * 1000;
+    const perHigh = Math.round(riskScore100 * 6000 / 1000) * 1000;
+    const perStabLow = Math.round(impactScore * 3000 / 1000) * 1000;
+    const perStabHigh = Math.round(impactScore * 6000 / 1000) * 1000;
 
-    baselineLow   = perLow * usedN;
-    baselineHigh  = perHigh * usedN;
+    baselineLow = perLow * usedN;
+    baselineHigh = perHigh * usedN;
     stabilizedLow = perStabLow * usedN;
-    stabilizedHigh= perStabHigh * usedN;
-
-    netImpact = (stabilizedLow + stabilizedHigh)/2;
-    hasRates=false;
+    stabilizedHigh = perStabHigh * usedN;
   }
 
   stabilityPre = Math.max(0, Math.min(100, 100 - riskScore100));
-  finalScore   = Math.max(0, Math.min(100, 100 - finalRiskScore));
+  finalScore = Math.max(0, Math.min(100, 100 - finalRiskScore));
 
-  document.getElementById("riskScoreLabel").textContent   = `${stabilityPre} / 100`;
+  document.getElementById("riskScoreLabel").textContent = `${stabilityPre} / 100`;
   document.getElementById("impactScoreLabel").textContent = `${impactScore} pts`;
-  document.getElementById("finalScoreLabel").textContent  = `${finalScore} / 100`;
+  document.getElementById("finalScoreLabel").textContent = `${finalScore} / 100`;
 
-  const b=classify(stabilityPre);
-  const badge=document.getElementById("riskBadge");
-  badge.textContent=b.label;
-  badge.className=`badge ${b.cls}`;
+  const badgeData = classify(stabilityPre);
+  const badge = document.getElementById("riskBadge");
+  badge.textContent = badgeData.label;
+  badge.className = `badge ${badgeData.cls}`;
 
-  const baselineText = mode==="single"
+  const baselineText = mode === "single"
     ? `Annual economics currently influenced by staffing volatility: <span>$${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}</span>`
     : `Portfolio annual economics currently influenced by staffing volatility (≈${usedN} communities): <span>$${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}</span>`;
 
-  const stabText = mode==="single"
+  const stabText = mode === "single"
     ? `Illustrative economics a VOL Health model (powered by StaffHealth + Accushield Verified) could help stabilize: <b>$${stabilizedLow.toLocaleString()}–$${stabilizedHigh.toLocaleString()}</b>`
     : `Illustrative economics a VOL Health model (powered by StaffHealth + Accushield Verified) could help stabilize (portfolio): <b>$${stabilizedLow.toLocaleString()}–$${stabilizedHigh.toLocaleString()}</b>`;
 
   let extra = "";
-  if(mode==="single"){
+  if(mode === "single"){
     const compareRate = parseFloat(document.getElementById("compareRate").value);
-    const staffRate   = parseFloat(document.getElementById("staffRate").value);
-    const shiftsMonthLocal = parseFloat(document.getElementById("shiftsMonth").value);
-    const hoursMonthLocal  = !isNaN(shiftsMonthLocal) && shiftsMonthLocal > 0 ? shiftsMonthLocal * 8 : NaN;
+    const staffRate = parseFloat(document.getElementById("staffRate").value);
+    const shiftsMonth = parseFloat(document.getElementById("shiftsMonth").value);
+    const hoursMonth = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN;
 
-    const hasRatesLocal =
+    const hasRates =
       !isNaN(compareRate) && compareRate > 0 &&
-      !isNaN(staffRate)   && staffRate   > 0 &&
-      !isNaN(hoursMonthLocal)  && hoursMonthLocal  > 0;
+      !isNaN(staffRate) && staffRate > 0 &&
+      !isNaN(hoursMonth) && hoursMonth > 0;
 
-    if(hasRatesLocal){
-      const directAnnualLocal = (compareRate - staffRate) * hoursMonthLocal * 12;
-      const stabilizedMidLocal = (stabilizedLow + stabilizedHigh)/2;
-      const netImpactLocal = stabilizedMidLocal + directAnnualLocal;
+    if(hasRates){
+      const directAnnual = (compareRate - staffRate) * hoursMonth * 12;
+      const stabilizedMid = (stabilizedLow + stabilizedHigh) / 2;
+      const netImpact = stabilizedMid + directAnnual;
 
-      const directLabel = directAnnualLocal >= 0 ? "Estimated direct annual savings from rate:" : "Estimated direct annual premium from rate:";
-      const netLabel    = netImpactLocal   >= 0 ? "Directional annual net benefit (rate + stability):" : "Directional annual net cost (rate + stability):";
+      const directLabel = directAnnual >= 0 ? "Estimated direct annual savings from rate:" : "Estimated direct annual premium from rate:";
+      const netLabel = netImpact >= 0 ? "Directional annual net benefit (rate + stability):" : "Directional annual net cost (rate + stability):";
 
       extra = `<div class="small" style="margin-top:8px;">
-<b>${directLabel}</b> $${Math.abs(directAnnualLocal).toLocaleString()}<br/>
-<b>${netLabel}</b> $${Math.abs(netImpactLocal).toLocaleString()}<br/>
-<span>Based on approximately ${shiftsMonthLocal.toLocaleString()} shifts/month ≈ ${hoursMonthLocal.toLocaleString()} hours/month (8 hrs/shift).</span>
-</div>`;
+        <b>${directLabel}</b> $${Math.abs(directAnnual).toLocaleString()}<br/>
+        <b>${netLabel}</b> $${Math.abs(netImpact).toLocaleString()}<br/>
+        <span>Based on approximately ${shiftsMonth.toLocaleString()} shifts/month ≈ ${hoursMonth.toLocaleString()} hours/month (8 hrs/shift).</span>
+      </div>`;
     }else{
       extra = `<div class="small" style="margin-top:8px;">Rate fields were left blank, so this view focuses on volatility and risk rather than hourly pricing.</div>`;
     }
@@ -1129,51 +1255,51 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   document.getElementById("valueSummary").innerHTML =
     `<div class="big-impact">${baselineText}</div><div>${stabText}</div>${extra}`;
 
-  let profile="";
+  let profile = "";
   if(stabilityPre < 40){
-    profile = (mode==="single")
+    profile = (mode === "single")
       ? "Low stability today: volatility, OT, PBJ, and leadership drag are likely creating hidden cost every week. A verified elasticity layer can materially reduce downside risk."
       : "Portfolio trends toward lower stability on average. Multiple buildings likely carry meaningful volatility, OT, and PBJ risk that can be de-risked with a structured elasticity model.";
   }else if(stabilityPre < 70){
-    profile = (mode==="single")
+    profile = (mode === "single")
       ? "Mixed stability: operations work, but leadership and PBJ are absorbing real strain. A targeted elasticity layer on weekends and pain shifts can relieve pressure and protect survey readiness."
       : "Moderate stability across the portfolio: most buildings function, but leadership capacity and PBJ confidence are at risk if anything shifts. Targeted elasticity deployment across the right cohort can move the average measurably.";
   }else{
-    profile = (mode==="single")
+    profile = (mode === "single")
       ? "Higher stability today: the building is relatively steady, but there is still real upside in protecting this position as census, acuity, and PBJ expectations keep shifting."
       : "Higher stability on average: portfolio is relatively steady, but protecting this position while shoring up the weaker buildings can unlock meaningful upside and reduce downside surprises.";
   }
   document.getElementById("profileSummary").textContent = profile;
 
-  let rateNarr="";
-  if(mode==="portfolio"){
+  let rateNarr = "";
+  if(mode === "portfolio"){
     rateNarr = "This run focuses on volatility and stability at the portfolio level. In follow-up, we can layer in rate cohorts (agency vs OT vs blended) to show how the model behaves financially by building cluster. Core message: volatility and compliance exposure often cost more than the rate line.";
   }else{
     const compareRate = parseFloat(document.getElementById("compareRate").value);
-    const staffRate   = parseFloat(document.getElementById("staffRate").value);
-    const shiftsMonthLocal = parseFloat(document.getElementById("shiftsMonth").value);
-    const hoursMonthLocal  = !isNaN(shiftsMonthLocal) && shiftsMonthLocal > 0 ? shiftsMonthLocal * 8 : NaN;
-    const hasRatesLocal =
+    const staffRate = parseFloat(document.getElementById("staffRate").value);
+    const shiftsMonth = parseFloat(document.getElementById("shiftsMonth").value);
+    const hoursMonth = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN;
+    const hasRates =
       !isNaN(compareRate) && compareRate > 0 &&
-      !isNaN(staffRate)   && staffRate   > 0 &&
-      !isNaN(hoursMonthLocal)  && hoursMonthLocal  > 0;
+      !isNaN(staffRate) && staffRate > 0 &&
+      !isNaN(hoursMonth) && hoursMonth > 0;
 
-    if(!hasRatesLocal){
+    if(!hasRates){
       rateNarr = "No rate inputs were provided, so this run is a pure volatility/stability view. Add rate + shifts to compare direct economics alongside the stability benefit.";
     }else{
-      const directAnnualLocal = (compareRate - staffRate) * hoursMonthLocal * 12;
-      const stabilizedMidLocal = (stabilizedLow + stabilizedHigh)/2;
-      const netImpactLocal = stabilizedMidLocal + directAnnualLocal;
+      const directAnnual = (compareRate - staffRate) * hoursMonth * 12;
+      const stabilizedMid = (stabilizedLow + stabilizedHigh) / 2;
+      const netImpact = stabilizedMid + directAnnual;
 
       const premium = staffRate > compareRate + 1;
-      const parity  = Math.abs(staffRate-compareRate) <= 1;
+      const parity = Math.abs(staffRate - compareRate) <= 1;
       const cheaper = staffRate < compareRate - 1;
 
-      if(cheaper && netImpactLocal>=0){
+      if(cheaper && netImpact >= 0){
         rateNarr = "Rate and stability both work in your favor. StaffHealth improves hourly economics and strengthens stability within the VOL Health model — strong pilot profile.";
-      }else if(parity && netImpactLocal>=0){
+      }else if(parity && netImpact >= 0){
         rateNarr = "Rate parity shifts the conversation to volatility: the upside lives in PBJ, survey readiness, leadership time, and reduced OT churn.";
-      }else if(premium && netImpactLocal>=0){
+      }else if(premium && netImpact >= 0){
         rateNarr = "Even with a rate premium, the estimated stability benefit outweighs it — trading a known small cost for a larger reduction in volatility and downside risk.";
       }else{
         rateNarr = "On these specific inputs the financial signal is weak. Worth revisiting if hours mix, comparison rate, or volatility picture changes.";
@@ -1182,10 +1308,10 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   }
   document.getElementById("rateNarrative").textContent = rateNarr;
 
-  let copy =
+  let copyText =
 `VOL Health™ Volatility Index – Results
 
-Mode: ${mode==="single" ? "Single Community" : "Portfolio"}
+Mode: ${mode === "single" ? "Single Community" : "Portfolio"}
 Community / Portfolio Name: ${getExplicitEntityName() || getFallbackEntityLabel()}
 Community Type: ${communityType.toUpperCase()}
 State/Region: ${state}
@@ -1196,77 +1322,75 @@ Stabilized VOL Health Score (Post-Elasticity): ${finalScore} / 100
 
 Annual economics influenced by staffing volatility: $${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}
 Illustrative economics a VOL Health model (powered by StaffHealth + Accushield Verified) could help stabilize: $${stabilizedLow.toLocaleString()}–$${stabilizedHigh.toLocaleString()}
-
 `;
 
-  if(mode==="portfolio"){
-    copy += `Approx. portfolio size used (avg of filled questions): ${usedN}\n`;
+  if(mode === "portfolio"){
+    copyText += `\nApprox. portfolio size used (avg of filled questions): ${usedN}\n`;
   }
 
-  document.getElementById("resultsText").value = copy;
+  document.getElementById("resultsText").value = copyText;
 
-  const explicitLabel = getExplicitEntityName();
   saveVOLHealthMapData({
-    ...(explicitLabel ? { label: explicitLabel } : {}),
-    fallbackLabel: getFallbackEntityLabel(),
-    mode,
-    state,
-    communityType,
-    vi: stabilityPre,
-    viCurrent: stabilityPre,
-    viProjected: finalScore,
-    viImpact: impactScore,
-    viUpdated: new Date().toISOString().slice(0, 10),
-    source: "vi"
+    vi: safeNumber(stabilityPre),
+    viCurrent: safeNumber(stabilityPre),
+    viProjected: safeNumber(finalScore),
+    viImpact: safeNumber(impactScore),
+    viMode: mode,
+    viSource: "volatility-index",
+    viUpdated: new Date().toISOString()
   });
 
-  document.getElementById("resultsCard").style.display="block";
-  document.getElementById("followupCard").style.display="block";
+  document.getElementById("resultsCard").style.display = "block";
+  document.getElementById("followupCard").style.display = "block";
   document.getElementById("resultsCard").scrollIntoView({behavior:"smooth"});
 });
 
-document.getElementById("resetBtn").addEventListener("click", ()=>{
-  for(let i=1;i<=10;i++){
-    const s=document.getElementById("q"+i);
-    if(s) s.selectedIndex=0;
+document.getElementById("resetBtn").addEventListener("click", () => {
+  for(let i = 1; i <= 10; i++){
+    const s = document.getElementById("q" + i);
+    if(s) s.selectedIndex = 0;
   }
-  document.getElementById("usageLevel").value="moderate";
-  ["compareRate","staffRate","shiftsMonth","state","entityName"].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.value="";
+
+  document.getElementById("usageLevel").value = "moderate";
+  ["compareRate","staffRate","shiftsMonth","state","entityName"].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
   });
 
   document.getElementById("communityType").value = "al_mc";
 
-  document.getElementById("portfolioN").value="";
-  document.getElementById("usageLevelPortfolio").value="moderate";
-  for(let i=1;i<=10;i++){
-    ["low","med","high","unk"].forEach(b=>{
-      const el=document.getElementById(`p_q${i}_${b}`);
-      if(el) el.value="";
+  document.getElementById("portfolioN").value = "";
+  document.getElementById("usageLevelPortfolio").value = "moderate";
+
+  for(let i = 1; i <= 10; i++){
+    ["low","med","high","unk"].forEach(bucket => {
+      const el = document.getElementById(`p_q${i}_${bucket}`);
+      if(el) el.value = "";
     });
-    const sumEl=document.getElementById("sum_q"+i);
-    if(sumEl) sumEl.textContent="";
+    const sumEl = document.getElementById("sum_q" + i);
+    if(sumEl) sumEl.textContent = "";
   }
 
-  document.getElementById("resultsCard").style.display="none";
-  document.getElementById("followupCard").style.display="none";
+  document.getElementById("resultsCard").style.display = "none";
+  document.getElementById("followupCard").style.display = "none";
 });
 
 document.getElementById("copyBtn").addEventListener("click", function(){
-  const ta=document.getElementById("resultsText");
+  const ta = document.getElementById("resultsText");
   ta.select();
-  ta.setSelectionRange(0,99999);
+  ta.setSelectionRange(0, 99999);
+
   try{
     document.execCommand("copy");
-    this.textContent="Copied!";
-    setTimeout(()=>this.textContent="Copy Results",1200);
-  }catch(e){
+    this.textContent = "Copied!";
+    setTimeout(() => this.textContent = "Copy Results", 1200);
+  }catch(err){
     alert("Copy failed. Please select and copy manually.");
   }
 });
 
 updateRowSums();
+updateMapStatusChip();
 </script>
 </body>
 </html>
