@@ -443,90 +443,111 @@
       <div class="map-grid">
         <div class="map-box">
           <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
-            <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#0d1224"/>
-                <stop offset="100%" stop-color="#141a33"/>
-              </linearGradient>
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1224"/>
+      <stop offset="100%" stop-color="#141a33"/>
+    </linearGradient>
 
-              <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
+    <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
 
-              <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.55)"/>
-              </marker>
-            </defs>
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.55)"/>
+    </marker>
+  </defs>
 
-            <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
+  <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
 
-            <rect x="260" y="60" width="180" height="120" rx="14" fill="rgba(46,139,87,0.08)"/>
+  <!-- Quadrant backgrounds -->
+  <rect x="80"  y="60"  width="180" height="150" fill="rgba(230,57,70,0.10)"/>
+  <rect x="260" y="60"  width="180" height="150" fill="rgba(46,139,87,0.10)"/>
+  <rect x="80"  y="210" width="180" height="150" fill="rgba(242,183,5,0.10)"/>
+  <rect x="260" y="210" width="180" height="150" fill="rgba(31,87,184,0.10)"/>
 
-            <g stroke="rgba(255,255,255,0.10)" stroke-width="1">
-              <line x1="80" y1="60" x2="80" y2="360"/>
-              <line x1="170" y1="60" x2="170" y2="360"/>
-              <line x1="260" y1="60" x2="260" y2="360"/>
-              <line x1="350" y1="60" x2="350" y2="360"/>
-              <line x1="440" y1="60" x2="440" y2="360"/>
+  <!-- Target zone overlay inside upper-right quadrant -->
+  <rect x="350" y="60" width="90" height="75" rx="12" fill="rgba(46,139,87,0.18)" stroke="rgba(255,255,255,0.14)"/>
 
-              <line x1="80" y1="60" x2="440" y2="60"/>
-              <line x1="80" y1="120" x2="440" y2="120"/>
-              <line x1="80" y1="180" x2="440" y2="180"/>
-              <line x1="80" y1="240" x2="440" y2="240"/>
-              <line x1="80" y1="300" x2="440" y2="300"/>
-              <line x1="80" y1="360" x2="440" y2="360"/>
-            </g>
+  <!-- 4 x 4 grid = 16 total boxes -->
+  <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+    <!-- Vertical -->
+    <line x1="80"  y1="60" x2="80"  y2="360"/>
+    <line x1="170" y1="60" x2="170" y2="360"/>
+    <line x1="260" y1="60" x2="260" y2="360"/>
+    <line x1="350" y1="60" x2="350" y2="360"/>
+    <line x1="440" y1="60" x2="440" y2="360"/>
 
-            <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
-              <line x1="80" y1="360" x2="440" y2="360"/>
-              <line x1="80" y1="360" x2="80" y2="60"/>
-            </g>
+    <!-- Horizontal -->
+    <line x1="80" y1="60"  x2="440" y2="60"/>
+    <line x1="80" y1="135" x2="440" y2="135"/>
+    <line x1="80" y1="210" x2="440" y2="210"/>
+    <line x1="80" y1="285" x2="440" y2="285"/>
+    <line x1="80" y1="360" x2="440" y2="360"/>
+  </g>
 
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="rgba(255,255,255,0.85)">
-              <text x="95" y="90">Acute Volatility</text>
-              <text x="292" y="90">Operational Stability</text>
-              <text x="95" y="210">Structural Instability</text>
-              <text x="292" y="210">Managed Volatility</text>
-            </g>
+  <!-- Main axes -->
+  <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
+    <line x1="80" y1="360" x2="440" y2="360"/>
+    <line x1="80" y1="360" x2="80" y2="60"/>
+  </g>
 
-            <path d="M250 300 L430 110"
-                  stroke="rgba(255,255,255,0.22)"
-                  stroke-width="2.5"
-                  stroke-dasharray="6 8"
-                  stroke-linecap="round"
-                  marker-end="url(#arrowHead)"/>
+  <!-- Quadrant labels -->
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700">
+    <text x="105" y="92" fill="#ff9aa5">Acute Volatility</text>
+    <text x="282" y="92" fill="#8fe0ad">Operational Stability</text>
+    <text x="102" y="242" fill="#ffd76b">Structural Instability</text>
+    <text x="282" y="242" fill="#8fb9ff">Managed Volatility</text>
+  </g>
 
-            <text x="438" y="112" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.62)">Target</text>
+  <!-- Target arrow -->
+  <path d="M250 300 L418 105"
+        stroke="rgba(255,255,255,0.22)"
+        stroke-width="2.5"
+        stroke-dasharray="6 8"
+        stroke-linecap="round"
+        marker-end="url(#arrowHead)"/>
 
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.75)">
-              <text x="222" y="400">WSI (Workforce Stability Index) →</text>
-              <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
-            </g>
+  <text x="365" y="84"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="11"
+        font-weight="700"
+        fill="rgba(255,255,255,0.72)">
+    Target Zone
+  </text>
 
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
-              <text x="76" y="380">0</text>
-              <text x="428" y="380">100</text>
-              <text x="56" y="66">100</text>
-              <text x="60" y="368">0</text>
-            </g>
+  <!-- Axis titles -->
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.78)">
+    <text x="222" y="400">WSI (Workforce Stability Index) →</text>
+    <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
+  </g>
 
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="10" fill="rgba(255,255,255,0.38)">
-              <text x="164" y="380">25</text>
-              <text x="254" y="380">50</text>
-              <text x="344" y="380">75</text>
+  <!-- Axis labels -->
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
+    <text x="76" y="380">0</text>
+    <text x="428" y="380">100</text>
+    <text x="56" y="66">100</text>
+    <text x="60" y="368">0</text>
+  </g>
 
-              <text x="61" y="304">25</text>
-              <text x="61" y="244">50</text>
-              <text x="61" y="184">75</text>
-            </g>
+  <!-- Quarter-step labels -->
+  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="10" fill="rgba(255,255,255,0.38)">
+    <text x="164" y="380">25</text>
+    <text x="254" y="380">50</text>
+    <text x="344" y="380">75</text>
 
-            <g id="stabilityTrailLayer"></g>
-            <g id="stabilityDynamicLayer"></g>
-          </svg>
+    <text x="61" y="289">25</text>
+    <text x="61" y="214">50</text>
+    <text x="61" y="139">75</text>
+  </g>
+
+  <g id="stabilityTrailLayer"></g>
+  <g id="stabilityDynamicLayer"></g>
+</svg>
         </div>
 
         <div class="map-box">
