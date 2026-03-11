@@ -21,6 +21,7 @@
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
+
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -32,7 +33,12 @@
     }
 
     a{ color:inherit; text-decoration:none; }
-    .wrap{ max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 18px 40px;
+    }
 
     .brand{
       display:flex;
@@ -55,7 +61,13 @@
       filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
     }
 
-    .nav{ display:flex; gap:18px; flex-wrap:wrap; justify-content:flex-end; }
+    .nav{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
     .nav a{
       font-size:12px;
       letter-spacing:0.12em;
@@ -66,6 +78,7 @@
       border:1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.03);
     }
+
     .nav a:hover{ background: rgba(255,255,255,0.06); }
 
     .card{
@@ -93,7 +106,13 @@
       background: rgba(255,255,255,0.04);
       color:#fff;
     }
-    .btn:hover{ transform:translateY(-1px); filter:brightness(1.05); background: rgba(255,255,255,0.06); }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.05);
+      background: rgba(255,255,255,0.06);
+    }
+
     .btn-vi{ background:var(--brand-blue); color:#fff; }
     .btn-wsi{ background:var(--brand-green); color:#fff; }
     .btn-shai{
@@ -102,7 +121,19 @@
       border-color: rgba(255,255,255,0.16);
     }
 
-    .hero{ padding:26px; display:grid; grid-template-columns: 1.15fr 0.85fr; gap:18px; }
+    .btn-reset{
+      background: transparent;
+      color:#d7defa;
+      border:1px solid rgba(255,255,255,0.14);
+    }
+
+    .hero{
+      padding:26px;
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:18px;
+    }
+
     .pill{
       display:inline-flex;
       align-items:center;
@@ -119,14 +150,49 @@
       margin-bottom:14px;
     }
 
-    .hero h2{ margin:0 0 12px; font-size:44px; line-height:1.03; letter-spacing:-0.02em; }
-    .hero p{ margin:0; max-width:70ch; color:rgba(255,255,255,0.80); line-height:1.6; font-size:14.5px; }
-    .hero p + p{ margin-top:10px; }
-    .hero h2 .kicker{ display:block; margin-top:8px; font-size:0.74em; opacity:0.92; }
-    .tm{ font-size:0.55em; vertical-align:super; margin-left:1px; opacity:0.9; }
-    .hero .signal{ margin-top:10px; color:rgba(232,236,255,0.88); font-weight:700; }
+    .hero h2{
+      margin:0 0 12px;
+      font-size:44px;
+      line-height:1.03;
+      letter-spacing:-0.02em;
+    }
 
-    .hero-cta{ margin-top:16px; display:flex; flex-wrap:wrap; gap:10px; }
+    .hero p{
+      margin:0;
+      max-width:70ch;
+      color:rgba(255,255,255,0.80);
+      line-height:1.6;
+      font-size:14.5px;
+    }
+
+    .hero p + p{ margin-top:10px; }
+
+    .hero h2 .kicker{
+      display:block;
+      margin-top:8px;
+      font-size:0.74em;
+      opacity:0.92;
+    }
+
+    .tm{
+      font-size:0.55em;
+      vertical-align:super;
+      margin-left:1px;
+      opacity:0.9;
+    }
+
+    .hero .signal{
+      margin-top:10px;
+      color:rgba(232,236,255,0.88);
+      font-weight:700;
+    }
+
+    .hero-cta{
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
 
     .powered-by{
       margin-top:14px;
@@ -139,6 +205,7 @@
       font-size:11px;
       font-weight:900;
     }
+
     .powered-by img{
       height:32px;
       width:auto;
@@ -153,13 +220,48 @@
       border:1px solid rgba(255,255,255,0.10);
       background:rgba(0,0,0,0.18);
     }
-    .snapshot h3{ margin:0 0 8px; font-size:15px; }
+
+    .snapshot h3{
+      margin:0 0 8px;
+      font-size:15px;
+    }
+
     .snapshot .sub{
       color:rgba(255,255,255,0.70);
       font-size:12.5px;
       line-height:1.45;
       margin-bottom:14px;
     }
+
+    .status-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.82);
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:12px;
+    }
+
+    .status-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#65729e;
+      box-shadow:0 0 0 4px rgba(255,255,255,0.03);
+    }
+
+    .status-dot.ready{
+      background:#34c08a;
+      box-shadow:0 0 10px rgba(52,192,138,0.75);
+    }
+
     .bar{
       height:16px;
       border-radius:999px;
@@ -167,6 +269,7 @@
       position:relative;
       overflow:hidden;
     }
+
     .bar::after{
       content:"";
       position:absolute;
@@ -177,6 +280,7 @@
       background:rgba(255,255,255,0.9);
       border-radius:2px;
     }
+
     .bar-labels{
       display:flex;
       justify-content:space-between;
@@ -185,13 +289,20 @@
       color:rgba(255,255,255,0.70);
     }
 
-    .metrics{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+    .metrics{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+
     .metric{
       border:1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.03);
       border-radius:16px;
       padding:12px;
     }
+
     .metric .label{
       color:rgba(255,255,255,0.65);
       font-size:11px;
@@ -199,7 +310,13 @@
       letter-spacing:0.10em;
       font-weight:900;
     }
-    .metric .value{ font-size:18px; font-weight:900; margin-top:6px; }
+
+    .metric .value{
+      font-size:18px;
+      font-weight:900;
+      margin-top:6px;
+    }
+
     .metric .note{
       color:rgba(255,255,255,0.70);
       font-size:12px;
@@ -208,7 +325,12 @@
     }
 
     .section{ margin-top:22px; }
-    .section-head h2{ margin:0; font-size:22px; }
+
+    .section-head h2{
+      margin:0;
+      font-size:22px;
+    }
+
     .section-head p{
       margin:6px 0 0;
       color:rgba(255,255,255,0.76);
@@ -217,7 +339,13 @@
     }
 
     .chooser{ padding:18px; }
-    .accordion{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
+
+    .accordion{
+      margin-top:14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
 
     .acc-item{
       border:1px solid rgba(255,255,255,0.10);
@@ -237,8 +365,17 @@
       outline:none;
     }
 
-    .acc-title{ font-size:18px; font-weight:900; margin:0; }
-    .acc-sub{ margin:4px 0 0; color:rgba(255,255,255,0.75); font-size:12.5px; }
+    .acc-title{
+      font-size:18px;
+      font-weight:900;
+      margin:0;
+    }
+
+    .acc-sub{
+      margin:4px 0 0;
+      color:rgba(255,255,255,0.75);
+      font-size:12.5px;
+    }
 
     .acc-toggle{
       width:38px;
@@ -275,15 +412,33 @@
       align-items:start;
     }
 
-    .acc-text{ color:rgba(255,255,255,0.80); font-size:13px; line-height:1.55; }
-    .acc-list{ margin:10px 0 0; padding-left:18px; color:rgba(255,255,255,0.78); }
+    .acc-text{
+      color:rgba(255,255,255,0.80);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .acc-list{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:rgba(255,255,255,0.78);
+    }
+
     .acc-list li{ margin:6px 0; }
-    .acc-actions{ display:flex; flex-direction:column; gap:10px; align-items:flex-start; justify-content:flex-start; }
+
+    .acc-actions{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:flex-start;
+    }
 
     .acc-item.open .acc-body{ max-height:520px; }
     .acc-item.open .acc-toggle span{ transform:rotate(90deg); }
 
     .map-card{ padding:18px; }
+
     .map-grid{
       display:grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -318,10 +473,12 @@
       font-size:13px;
       line-height:1.55;
     }
+
     .tool-list li{ margin:8px 0; }
 
     .mini-roi,
-    .zone-legend{
+    .zone-legend,
+    .saved-state{
       margin-top:12px;
       border:1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.03);
@@ -343,6 +500,16 @@
       line-height:1.35;
     }
 
+    .saved-state{
+      font-size:12.5px;
+      color:rgba(255,255,255,0.82);
+      line-height:1.5;
+    }
+
+    .saved-state strong{
+      color:#fff;
+    }
+
     .map-readout{
       margin-top:12px;
       border:1px solid rgba(255,255,255,0.10);
@@ -350,6 +517,7 @@
       border-radius:16px;
       padding:12px;
     }
+
     .map-readout h4{
       margin:0 0 10px;
       font-size:13px;
@@ -365,6 +533,7 @@
       font-size:13px;
       color:rgba(255,255,255,0.84);
     }
+
     .readout-grid strong{ color:#fff; }
 
     .map-actions{
@@ -394,6 +563,7 @@
       .readout-grid,
       .mini-roi .grid,
       .zone-legend .grid{ grid-template-columns:1fr; }
+      .metrics{ grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -439,10 +609,17 @@
       </div>
 
       <aside class="snapshot">
+        <div class="status-chip">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Default example active</span>
+        </div>
+
         <h3 id="snapshotTitle">System Default Snapshot</h3>
         <div class="sub" id="snapshotSub">Illustrative default example shown until both VI and WSI calculator results are available.</div>
+
         <div class="bar" aria-hidden="true"></div>
         <div class="bar-labels"><span>Lower stability</span><span>Higher stability</span></div>
+
         <div class="metrics">
           <div class="metric">
             <div class="label">VI (Volatility Index)</div>
@@ -454,6 +631,11 @@
             <div class="value" id="snapshotWSI">48 / 100</div>
             <div class="note">Current workforce stability reading.</div>
           </div>
+        </div>
+
+        <div class="saved-state" id="savedStateBox" style="display:none;">
+          <strong>Saved map state detected.</strong><br/>
+          Latest shared object is ready to plot when both scores are available.
         </div>
       </aside>
     </section>
@@ -706,13 +888,17 @@
               <div><strong>WSI:</strong> <span id="mapWSI">48</span></div>
               <div><strong>VI Updated:</strong> <span id="mapVIUpdated">—</span></div>
               <div><strong>WSI Updated:</strong> <span id="mapWSIUpdated">—</span></div>
+              <div><strong>Mode:</strong> <span id="mapMode">—</span></div>
+              <div><strong>Community Type:</strong> <span id="mapCommunityType">—</span></div>
+              <div><strong>State:</strong> <span id="mapState">—</span></div>
+              <div><strong>Updated At:</strong> <span id="mapUpdatedAt">—</span></div>
               <div><strong>X coordinate:</strong> <span id="mapX">252.8</span></div>
               <div><strong>Y coordinate:</strong> <span id="mapY">174.0</span></div>
             </div>
           </div>
 
           <div class="map-actions">
-            <button class="btn btn-shai" id="resetMapBtn" type="button">Reset to Default Example</button>
+            <button class="btn btn-reset" id="resetMapBtn" type="button">Reset to Default Example</button>
             <a class="btn btn-vi" href="volatility-index.html">Update VI →</a>
             <a class="btn btn-wsi" href="wsi.html">Update WSI →</a>
           </div>
@@ -749,6 +935,10 @@
         wsi: 48,
         viUpdated: "—",
         wsiUpdated: "—",
+        updatedAt: "—",
+        mode: "—",
+        communityType: "—",
+        state: "—",
         color: "#1f57b8"
       }
     };
@@ -781,6 +971,10 @@
       return Math.max(min, Math.min(max, value));
     }
 
+    function isFiniteNumber(value){
+      return Number.isFinite(Number(value));
+    }
+
     function initStabilityMap(){
       stabilityMap.svg = document.getElementById('stabilityMapSvg');
       stabilityMap.dynamicLayer = document.getElementById('stabilityDynamicLayer');
@@ -804,23 +998,76 @@
       if(existing) existing.remove();
     }
 
-    function updateSnapshot(point){
+    function readMapData(){
+      try{
+        const raw = localStorage.getItem(MAP_STORAGE_KEY);
+        if(!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : null;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function hasValidSavedScores(data){
+      if(!data) return false;
+      return isFiniteNumber(data.vi) && isFiniteNumber(data.wsi);
+    }
+
+    function updateStatus(savedData, usingDefault){
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+      const savedStateBox = document.getElementById("savedStateBox");
+
+      if(usingDefault){
+        dot.classList.remove("ready");
+        text.textContent = "Default example active";
+        savedStateBox.style.display = "none";
+        return;
+      }
+
+      const hasVI = isFiniteNumber(savedData?.vi);
+      const hasWSI = isFiniteNumber(savedData?.wsi);
+
+      if(hasVI && hasWSI){
+        dot.classList.add("ready");
+        text.textContent = "Saved VI + WSI point loaded";
+        savedStateBox.style.display = "block";
+        savedStateBox.innerHTML =
+          `<strong>Real calculator point plotted.</strong><br/>` +
+          `${savedData.label || "Community"} is now being shown from the shared VOL Health storage object.`;
+      }else{
+        dot.classList.remove("ready");
+        text.textContent = "Partial data detected";
+        savedStateBox.style.display = "block";
+        savedStateBox.innerHTML =
+          `<strong>Shared data exists, but the map still needs both scores.</strong><br/>` +
+          `Run both VI and WSI to replace the default example point.`;
+      }
+    }
+
+    function updateSnapshot(point, usingDefault){
       document.getElementById("snapshotTitle").textContent = `${point.label} Snapshot`;
       document.getElementById("snapshotSub").textContent =
-        point.source === "Default example"
+        usingDefault
           ? "Illustrative default example shown until both VI and WSI calculator results are available."
           : "Current Stability Map point based on the latest saved VI and WSI calculator outputs.";
+
       document.getElementById("snapshotVI").textContent = `${point.vi} / 100`;
       document.getElementById("snapshotWSI").textContent = `${point.wsi} / 100`;
     }
 
     function updateReadout(point){
-      document.getElementById("mapLabel").textContent = point.label;
-      document.getElementById("mapSource").textContent = point.source;
+      document.getElementById("mapLabel").textContent = point.label || "—";
+      document.getElementById("mapSource").textContent = point.source || "—";
       document.getElementById("mapVI").textContent = point.vi;
       document.getElementById("mapWSI").textContent = point.wsi;
       document.getElementById("mapVIUpdated").textContent = point.viUpdated || "—";
       document.getElementById("mapWSIUpdated").textContent = point.wsiUpdated || "—";
+      document.getElementById("mapMode").textContent = point.mode || "—";
+      document.getElementById("mapCommunityType").textContent = point.communityType || "—";
+      document.getElementById("mapState").textContent = point.state || "—";
+      document.getElementById("mapUpdatedAt").textContent = point.updatedAt || "—";
       document.getElementById("mapX").textContent = point.x.toFixed(1);
       document.getElementById("mapY").textContent = point.y.toFixed(1);
     }
@@ -840,6 +1087,10 @@
       const color = options.color || "#1f57b8";
       const viUpdated = options.viUpdated || "—";
       const wsiUpdated = options.wsiUpdated || "—";
+      const updatedAt = options.updatedAt || "—";
+      const mode = options.mode || "—";
+      const communityType = options.communityType || "—";
+      const state = options.state || "—";
 
       clearCurrentMapPoint();
 
@@ -853,6 +1104,7 @@
       circle.setAttribute('fill', color);
       circle.setAttribute('stroke', '#ffffff');
       circle.setAttribute('stroke-width', '2');
+      circle.setAttribute('filter', 'url(#dotGlow)');
 
       const title = document.createElementNS(ns, 'title');
       title.textContent = `${label} | WSI: ${safeWSI} | VI: ${safeVI}`;
@@ -879,60 +1131,55 @@
         wsi: safeWSI,
         viUpdated,
         wsiUpdated,
+        updatedAt,
+        mode,
+        communityType,
+        state,
         x,
         y,
         color
       };
 
-      updateSnapshot(point);
-      updateReadout(point);
       return point;
     }
 
-    function loadSavedMapData(){
-      try{
-        const raw = localStorage.getItem(MAP_STORAGE_KEY);
-        if(!raw) return null;
-        const parsed = JSON.parse(raw);
-        return parsed && typeof parsed === 'object' ? parsed : null;
-      }catch(e){
-        return null;
-      }
-    }
-
-    function hasValidSavedScores(data){
-      if(!data) return false;
-      const hasVI = typeof data.vi === "number" && !isNaN(data.vi);
-      const hasWSI = typeof data.wsi === "number" && !isNaN(data.wsi);
-      return hasVI && hasWSI;
+    function normalizeSavedPoint(saved){
+      return {
+        label: saved.label || "Community",
+        source: "Saved VI + WSI calculator data",
+        vi: clamp(saved.vi, 0, 100),
+        wsi: clamp(saved.wsi, 0, 100),
+        viUpdated: saved.viUpdated || saved.updatedAt || "—",
+        wsiUpdated: saved.wsiUpdated || saved.updatedAt || "—",
+        updatedAt: saved.updatedAt || "—",
+        mode: saved.mode || saved.viMode || saved.wsiMode || "—",
+        communityType: saved.communityType || "—",
+        state: saved.state || "—",
+        color: "#1f57b8"
+      };
     }
 
     function plotDefaultPoint(){
-      plotPoint(
+      const point = plotPoint(
         stabilityMap.defaultPoint.wsi,
         stabilityMap.defaultPoint.vi,
-        {
-          label: stabilityMap.defaultPoint.label,
-          source: stabilityMap.defaultPoint.source,
-          viUpdated: stabilityMap.defaultPoint.viUpdated,
-          wsiUpdated: stabilityMap.defaultPoint.wsiUpdated,
-          color: stabilityMap.defaultPoint.color
-        }
+        stabilityMap.defaultPoint
       );
+      updateSnapshot(point, true);
+      updateReadout(point);
+      updateStatus(null, true);
     }
 
     function plotSavedOrDefault(){
-      const saved = loadSavedMapData();
+      const saved = readMapData();
 
       if(hasValidSavedScores(saved)){
-        plotPoint(saved.wsi, saved.vi, {
-          label: saved.label || "Community",
-          source: "Saved VI + WSI calculator data",
-          viUpdated: saved.viUpdated || saved.updatedAt || "—",
-          wsiUpdated: saved.wsiUpdated || saved.updatedAt || "—",
-          color: "#1f57b8"
-        });
-      } else {
+        const pointData = normalizeSavedPoint(saved);
+        const point = plotPoint(pointData.wsi, pointData.vi, pointData);
+        updateSnapshot(point, false);
+        updateReadout(point);
+        updateStatus(saved, false);
+      }else{
         plotDefaultPoint();
       }
     }
