@@ -458,121 +458,172 @@
       </div>
 
       <div class="map-grid">
-        <div class="map-box">
-          <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
-  <defs>
-    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0d1224"/>
-      <stop offset="100%" stop-color="#141a33"/>
-    </linearGradient>
 
-    <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
+  <!-- LEFT COLUMN -->
+  <div class="map-box">
+    <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
+      <defs>
+        <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0d1224"/>
+          <stop offset="100%" stop-color="#141a33"/>
+        </linearGradient>
 
-    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.55)"/>
-    </marker>
-  </defs>
+        <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
 
-  <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
+        <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.55)"/>
+        </marker>
+      </defs>
 
-  <!-- Quadrant backgrounds -->
-  <rect x="80"  y="60"  width="180" height="150" fill="rgba(230,57,70,0.10)"/>
-  <rect x="260" y="60"  width="180" height="150" fill="rgba(46,139,87,0.10)"/>
-  <rect x="80"  y="210" width="180" height="150" fill="rgba(242,183,5,0.10)"/>
-  <rect x="260" y="210" width="180" height="150" fill="rgba(31,87,184,0.10)"/>
+      <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
 
-  <!-- Target zone overlay inside upper-right quadrant -->
-  <rect x="350" y="60" width="90" height="75" rx="12" fill="rgba(46,139,87,0.18)" stroke="rgba(255,255,255,0.14)"/>
+      <rect x="80"  y="60"  width="180" height="150" fill="rgba(230,57,70,0.10)"/>
+      <rect x="260" y="60"  width="180" height="150" fill="rgba(46,139,87,0.10)"/>
+      <rect x="80"  y="210" width="180" height="150" fill="rgba(242,183,5,0.10)"/>
+      <rect x="260" y="210" width="180" height="150" fill="rgba(31,87,184,0.10)"/>
 
-  <!-- 4 x 4 grid = 16 total boxes -->
-  <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
-    <!-- Vertical -->
-    <line x1="80"  y1="60" x2="80"  y2="360"/>
-    <line x1="170" y1="60" x2="170" y2="360"/>
-    <line x1="260" y1="60" x2="260" y2="360"/>
-    <line x1="350" y1="60" x2="350" y2="360"/>
-    <line x1="440" y1="60" x2="440" y2="360"/>
+      <rect x="350" y="60" width="90" height="75" rx="12" fill="rgba(46,139,87,0.18)" stroke="rgba(255,255,255,0.14)"/>
 
-    <!-- Horizontal -->
-    <line x1="80" y1="60"  x2="440" y2="60"/>
-    <line x1="80" y1="135" x2="440" y2="135"/>
-    <line x1="80" y1="210" x2="440" y2="210"/>
-    <line x1="80" y1="285" x2="440" y2="285"/>
-    <line x1="80" y1="360" x2="440" y2="360"/>
-  </g>
+      <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+        <line x1="80"  y1="60" x2="80"  y2="360"/>
+        <line x1="170" y1="60" x2="170" y2="360"/>
+        <line x1="260" y1="60" x2="260" y2="360"/>
+        <line x1="350" y1="60" x2="350" y2="360"/>
+        <line x1="440" y1="60" x2="440" y2="360"/>
 
-  <!-- Main axes -->
-  <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
-    <line x1="80" y1="360" x2="440" y2="360"/>
-    <line x1="80" y1="360" x2="80" y2="60"/>
-  </g>
+        <line x1="80" y1="60"  x2="440" y2="60"/>
+        <line x1="80" y1="135" x2="440" y2="135"/>
+        <line x1="80" y1="210" x2="440" y2="210"/>
+        <line x1="80" y1="285" x2="440" y2="285"/>
+        <line x1="80" y1="360" x2="440" y2="360"/>
+      </g>
 
-  <!-- Quadrant labels -->
-  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700">
-    <text x="105" y="92" fill="#ff9aa5">Acute Volatility</text>
-    <text x="282" y="92" fill="#8fe0ad">Operational Stability</text>
-    <text x="102" y="242" fill="#ffd76b">Structural Instability</text>
-    <text x="282" y="242" fill="#8fb9ff">Managed Volatility</text>
-  </g>
+      <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
+        <line x1="80" y1="360" x2="440" y2="360"/>
+        <line x1="80" y1="360" x2="80" y2="60"/>
+      </g>
 
-  <!-- Target arrow -->
-  <path d="M250 300 L418 105"
-        stroke="rgba(255,255,255,0.22)"
-        stroke-width="2.5"
-        stroke-dasharray="6 8"
-        stroke-linecap="round"
-        marker-end="url(#arrowHead)"/>
+      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700">
+        <text x="105" y="92" fill="#ff9aa5">Acute Volatility</text>
+        <text x="282" y="92" fill="#8fe0ad">Operational Stability</text>
+        <text x="102" y="242" fill="#ffd76b">Structural Instability</text>
+        <text x="282" y="242" fill="#8fb9ff">Managed Volatility</text>
+      </g>
 
-  <text x="365" y="84"
-        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
-        font-size="11"
-        font-weight="700"
-        fill="rgba(255,255,255,0.72)">
-    Target Zone
-  </text>
+      <path d="M250 300 L418 105"
+            stroke="rgba(255,255,255,0.22)"
+            stroke-width="2.5"
+            stroke-dasharray="6 8"
+            stroke-linecap="round"
+            marker-end="url(#arrowHead)"/>
 
-  <!-- Axis titles -->
-  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.78)">
-    <text x="222" y="400">WSI (Workforce Stability Index) →</text>
-    <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
-  </g>
+      <text x="365" y="84"
+            font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+            font-size="11"
+            font-weight="700"
+            fill="rgba(255,255,255,0.72)">
+        Target Zone
+      </text>
 
-  <!-- Axis labels -->
-  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
-    <text x="76" y="380">0</text>
-    <text x="428" y="380">100</text>
-    <text x="56" y="66">100</text>
-    <text x="60" y="368">0</text>
-  </g>
+      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.78)">
+        <text x="222" y="400">WSI (Workforce Stability Index) →</text>
+        <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
+      </g>
 
-  <!-- Quarter-step labels -->
-  <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="10" fill="rgba(255,255,255,0.38)">
-    <text x="164" y="380">25</text>
-    <text x="254" y="380">50</text>
-    <text x="344" y="380">75</text>
+      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
+        <text x="76" y="380">0</text>
+        <text x="428" y="380">100</text>
+        <text x="56" y="66">100</text>
+        <text x="60" y="368">0</text>
+      </g>
 
-    <text x="61" y="289">25</text>
-    <text x="61" y="214">50</text>
-    <text x="61" y="139">75</text>
-  </g>
+      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="10" fill="rgba(255,255,255,0.38)">
+        <text x="164" y="380">25</text>
+        <text x="254" y="380">50</text>
+        <text x="344" y="380">75</text>
 
-  <g id="stabilityTrailLayer"></g>
-  <g id="stabilityDynamicLayer"></g>
-</svg>
+        <text x="61" y="289">25</text>
+        <text x="61" y="214">50</text>
+        <text x="61" y="139">75</text>
+      </g>
 
-    <div style="margin-bottom:12px;">
-  <div style="font-weight:700; color:rgba(255,255,255,0.9);">
-    Stability Zones
+      <g id="stabilityTrailLayer"></g>
+      <g id="stabilityDynamicLayer"></g>
+    </svg>
+
+    <div class="zone-legend">
+      <div style="margin-bottom:12px;">
+        <div style="font-weight:700; color:rgba(255,255,255,0.9);">
+          Stability Zones
+        </div>
+        <div style="font-size:11px; opacity:0.7;">
+          How to interpret the map
+        </div>
+      </div>
+
+      <div class="grid">
+        <div><strong style="color:#ff9aa5;">Acute Volatility</strong></div>
+        <div>instability is active and compounding</div>
+
+        <div><strong style="color:#8fe0ad;">Operational Stability</strong></div>
+        <div>strong workforce and controlled operations</div>
+
+        <div><strong style="color:#ffd76b;">Structural Instability</strong></div>
+        <div>fragile workforce foundation beneath the surface</div>
+
+        <div><strong style="color:#8fb9ff;">Managed Volatility</strong></div>
+        <div>pressure is present, but being contained</div>
+      </div>
+    </div>
   </div>
-  <div style="font-size:11px; opacity:0.7;">
-    How to interpret the map
+
+  <!-- RIGHT COLUMN -->
+  <div class="map-box">
+    <h3 style="margin:0 0 8px; font-size:18px;">How communities move north-east</h3>
+    <ul class="tool-list">
+      <li><strong>WSI increases to the right</strong> as workforce resilience, coverage reliability, and pipeline health improve.</li>
+      <li><strong>VI increases upward</strong> as operational volatility becomes more controlled and manageable.</li>
+      <li><strong>Stability Delta</strong> is the movement from one point in time to the next: <code>ΔWSI</code> and <code>ΔVI</code>.</li>
+    </ul>
+
+    <div class="mini-roi">
+      <div style="margin-bottom:10px; color:rgba(255,255,255,0.78); font-size:13px;">
+        Illustrative Stability Improvement Example
+      </div>
+      <div class="grid">
+        <div><strong>VI:</strong> 49 → 72</div><div><strong>+23</strong> volatility control</div>
+        <div><strong>WSI:</strong> 41 → 63</div><div><strong>+22</strong> workforce stability</div>
+        <div><strong>OT:</strong> $312k → $204k</div><div><strong>$108k</strong> cost reduction</div>
+      </div>
+    </div>
+
+    <div class="map-readout">
+      <h4>Current plotted point</h4>
+      <div class="readout-grid">
+        <div><strong>Label:</strong> <span id="mapLabel">System Default</span></div>
+        <div><strong>Source:</strong> <span id="mapSource">Default example</span></div>
+        <div><strong>VI:</strong> <span id="mapVI">62</span></div>
+        <div><strong>WSI:</strong> <span id="mapWSI">48</span></div>
+        <div><strong>VI Updated:</strong> <span id="mapVIUpdated">—</span></div>
+        <div><strong>WSI Updated:</strong> <span id="mapWSIUpdated">—</span></div>
+        <div><strong>X coordinate:</strong> <span id="mapX">252.8</span></div>
+        <div><strong>Y coordinate:</strong> <span id="mapY">174.0</span></div>
+      </div>
+    </div>
+
+    <div class="map-actions">
+      <button class="btn btn-shai" id="resetMapBtn" type="button">Reset to Default Example</button>
+      <a class="btn btn-vi" href="volatility-index.html">Update VI →</a>
+      <a class="btn btn-wsi" href="wsi.html">Update WSI →</a>
+    </div>
   </div>
+
 </div>
 
       <div class="grid">
