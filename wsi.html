@@ -41,6 +41,36 @@
       overflow:hidden;
     }
 
+    .page-top{
+      display:flex;
+      justify-content:flex-end;
+      padding:16px 18px 0;
+    }
+
+    .status-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(10,14,31,0.92);
+      border:1px solid #283053;
+      color:#d8def8;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#5c668f;
+    }
+
+    .dot.active{
+      background:#34c08a;
+    }
+
     .shsi-header{
       width:100%;
     }
@@ -116,6 +146,11 @@
       color:#f5f6ff;
     }
 
+    h4{
+      font-size:0.95rem;
+      color:#f5f6ff;
+    }
+
     p{
       margin:4px 0;
       line-height:1.5;
@@ -169,6 +204,7 @@
       font-size:0.84rem;
       margin-bottom:3px;
       color:#e3e6ff;
+      gap:8px;
     }
 
     .field small{
@@ -243,6 +279,7 @@
       padding:4px 6px;
       border-bottom:1px solid #242944;
       text-align:left;
+      vertical-align:top;
     }
 
     .dist-table th{
@@ -291,6 +328,7 @@
       align-items:baseline;
       gap:8px;
       margin-top:4px;
+      flex-wrap:wrap;
     }
 
     .score-number{
@@ -361,12 +399,6 @@
       font-size:1rem;
     }
 
-    .scenario-card h4{
-      margin:0 0 6px;
-      font-size:0.95rem;
-      color:#f5f6ff;
-    }
-
     table{
       width:100%;
       border-collapse:collapse;
@@ -395,6 +427,70 @@
     .delta-negative{
       color:#ff9ba8;
       font-weight:600;
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn,
+    .btn-link{
+      border:none;
+      background:var(--brand-blue);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.6px;
+      box-shadow:0 10px 26px rgba(2,12,54,0.7);
+      transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.12s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .btn:hover,
+    .btn-link:hover{
+      filter:brightness(1.06);
+      transform:translateY(-1px);
+      box-shadow:0 14px 36px rgba(2,12,54,0.85);
+    }
+
+    .btn.secondary,
+    .btn-link.secondary{
+      background:#30364f;
+      box-shadow:none;
+    }
+
+    .btn.green,
+    .btn-link.green{
+      background:linear-gradient(90deg,var(--brand-green),#34c08a);
+    }
+
+    .btn.ghost,
+    .btn-link.ghost{
+      background:transparent;
+      border:1px solid #33406f;
+      color:#dce5ff;
+      box-shadow:none;
+    }
+
+    .nav-note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(11,17,35,0.75);
+      border:1px solid #273154;
+      color:#d8def8;
+      font-size:12.5px;
+      line-height:1.5;
     }
 
     .footer-note{
@@ -431,11 +527,23 @@
       .card{
         padding:14px 12px 16px;
       }
+      .page-top{
+        justify-content:center;
+        padding:14px 14px 0;
+      }
     }
   </style>
 </head>
 <body class="mode-single">
   <div class="shell">
+
+    <div class="page-top">
+      <div class="status-chip" id="mapStatusChip">
+        <span class="dot" id="mapStatusDot"></span>
+        <span id="mapStatusText">Map point not complete yet</span>
+      </div>
+    </div>
+
     <div class="shsi-header">
       <div class="shsi-hero">
         <div class="shsi-title">
@@ -453,19 +561,22 @@
     </div>
 
     <div class="page">
-      <h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
-      <p class="subtitle" id="snapshotSubtitle">
-        Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength
-        roll up into a single Workforce Stability Index and economic view.
-      </p>
 
       <div class="card mode-card">
-        <h3>1. Select Mode</h3>
-        <p style="font-size:0.82rem;">
-          Use <strong>Single Community Mode</strong> for ED / building-level discussions.
-          Use <strong>Portfolio Mode</strong> for VP Ops / portfolio roll-ups using distributions of communities across risk bands.
-        </p>
-        <div class="mode-options">
+        <div class="btn-row" style="justify-content:space-between;align-items:flex-start;">
+          <div>
+            <h3>1. Navigation &amp; Mode</h3>
+            <p style="font-size:0.82rem;">
+              Run WSI here, save it to the shared map object, and then return to the platform map once both VI and WSI are present.
+            </p>
+          </div>
+          <div class="btn-row">
+            <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link ghost" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+
+        <div class="mode-options" style="margin-top:14px;">
           <label>
             <input type="radio" name="mode" value="single" checked />
             Single Community Mode (ED / building-level)
@@ -489,6 +600,12 @@
           averages and rolls them into a single WSI score and economic view.
         </p>
       </div>
+
+      <h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
+      <p class="subtitle" id="snapshotSubtitle">
+        Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength
+        roll up into a single Workforce Stability Index and economic view.
+      </p>
 
       <div class="grid single-only">
         <div class="card">
@@ -613,7 +730,7 @@
 
       <div class="grid portfolio-only">
         <div class="card">
-          <h3>2. Portfolio Context & Staffing Volatility</h3>
+          <h3>2. Portfolio Context &amp; Staffing Volatility</h3>
           <p style="font-size:0.8rem;">
             Enter how many communities fall into each band. The tool converts this into portfolio-wide average values.
           </p>
@@ -855,6 +972,15 @@
             </div>
           </div>
 
+          <div class="nav-note">
+            Once WSI is saved, the platform page can plot the real Stability Map point when VI is also present.
+          </div>
+
+          <div class="btn-row" style="margin-top:8px;">
+            <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link green" href="index.html">Return to Platform</a>
+          </div>
+
           <p class="note">
             Dollar figures are modeled estimates to frame the economic story. Assumptions
             (e.g., max volatility impact, stabilizable percentage) can be tuned with your PE / finance partners.
@@ -940,6 +1066,20 @@
       return checked ? checked.value : "single";
     }
 
+    function safeNumber(value){
+      const num = Number(value);
+      return Number.isFinite(num) ? num : null;
+    }
+
+    function readMapData(){
+      try{
+        const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+        return parsed && typeof parsed === "object" ? parsed : {};
+      }catch(err){
+        return {};
+      }
+    }
+
     function getExplicitEntityName() {
       return (document.getElementById("entityName")?.value || "").trim();
     }
@@ -949,27 +1089,49 @@
       return mode === "portfolio" ? "WSI Portfolio" : "WSI Community";
     }
 
+    function buildLabel(existing){
+      const explicit = getExplicitEntityName();
+      if(explicit) return explicit;
+      if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
+      return getFallbackEntityLabel();
+    }
+
     function saveVOLHealthMapData(partial){
-      let existing = {};
-      try{
-        existing = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}") || {};
-      }catch(e){
-        existing = {};
-      }
+      const existing = readMapData();
 
       const merged = {
         ...existing,
         ...partial,
+        label: buildLabel(existing),
+        mode: getMode(),
         updatedAt: new Date().toISOString()
       };
 
-      if (!merged.label) {
-        merged.label = partial.fallbackLabel || existing.label || "Community";
-      }
-
-      delete merged.fallbackLabel;
-
       localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+      updateMapStatusChip();
+      return merged;
+    }
+
+    function updateMapStatusChip(){
+      const data = readMapData();
+      const hasVI = Number.isFinite(Number(data.vi));
+      const hasWSI = Number.isFinite(Number(data.wsi));
+      const dot = document.getElementById("mapStatusDot");
+      const text = document.getElementById("mapStatusText");
+
+      if(hasVI && hasWSI){
+        dot.classList.add("active");
+        text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
+      }else if(hasVI){
+        dot.classList.remove("active");
+        text.textContent = `VI saved • WSI still needed for map point`;
+      }else if(hasWSI){
+        dot.classList.remove("active");
+        text.textContent = `WSI saved • VI still needed for map point`;
+      }else{
+        dot.classList.remove("active");
+        text.textContent = "Map point not complete yet";
+      }
     }
 
     function updateModeUI() {
@@ -1023,114 +1185,88 @@
           timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
           recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
         };
-      } else {
-        const openShiftsAvg = weightedAverage(
+      }
+
+      return {
+        openShifts: weightedAverage(
           document.getElementById("openShiftsLow").value,
           document.getElementById("openShiftsMid").value,
           document.getElementById("openShiftsHigh").value,
           3, 8, 20
-        );
-
-        const percentPRNAvg = weightedAverage(
+        ),
+        percentPRN: weightedAverage(
           document.getElementById("percentPRNLow").value,
           document.getElementById("percentPRNMid").value,
           document.getElementById("percentPRNHigh").value,
           15, 38, 65
-        );
-
-        const callOffsAvg = weightedAverage(
+        ),
+        callOffs: weightedAverage(
           document.getElementById("callOffsLow").value,
           document.getElementById("callOffsMid").value,
           document.getElementById("callOffsHigh").value,
           1, 4, 7
-        );
-
-        const otHoursAvg = weightedAverage(
+        ),
+        otHours: weightedAverage(
           document.getElementById("otHoursLow").value,
           document.getElementById("otHoursMid").value,
           document.getElementById("otHoursHigh").value,
           60, 180, 350
-        );
-
-        const otPremiumAvg = weightedAverage(
+        ),
+        otPremium: weightedAverage(
           document.getElementById("otPremiumLow").value,
           document.getElementById("otPremiumMid").value,
           document.getElementById("otPremiumHigh").value,
           15, 38, 65
-        );
-
-        const agencyPremiumAvg = weightedAverage(
+        ),
+        agencyPremium: weightedAverage(
           document.getElementById("agencyPremiumLow").value,
           document.getElementById("agencyPremiumMid").value,
           document.getElementById("agencyPremiumHigh").value,
           10, 30, 55
-        );
-
-        const pbjRiskAvg = weightedAverage(
+        ),
+        pbjRisk: weightedAverage(
           document.getElementById("pbjRiskLow").value,
           document.getElementById("pbjRiskMid").value,
           document.getElementById("pbjRiskHigh").value,
           1.5, 5.5, 9
-        );
-
-        const surveyCitationsAvg = weightedAverage(
+        ),
+        surveyCitations: weightedAverage(
           document.getElementById("surveyCitationsLow").value,
           document.getElementById("surveyCitationsMid").value,
           document.getElementById("surveyCitationsHigh").value,
           0, 1.5, 4
-        );
-
-        const leaderTurnoverAvg = weightedAverage(
+        ),
+        leaderTurnover: weightedAverage(
           document.getElementById("leaderTurnoverLow").value,
           document.getElementById("leaderTurnoverMid").value,
           document.getElementById("leaderTurnoverHigh").value,
           0.5, 2.5, 5
-        );
-
-        const turnoverRateAvg = weightedAverage(
+        ),
+        turnoverRate: weightedAverage(
           document.getElementById("turnoverRateLow").value,
           document.getElementById("turnoverRateMid").value,
           document.getElementById("turnoverRateHigh").value,
           20, 45, 75
-        );
-
-        const vacanciesAvg = weightedAverage(
+        ),
+        vacancies: weightedAverage(
           document.getElementById("vacanciesLow").value,
           document.getElementById("vacanciesMid").value,
           document.getElementById("vacanciesHigh").value,
           0.5, 3, 6
-        );
-
-        const timeToFillAvg = weightedAverage(
+        ),
+        timeToFill: weightedAverage(
           document.getElementById("timeToFillLow").value,
           document.getElementById("timeToFillMid").value,
           document.getElementById("timeToFillHigh").value,
           15, 45, 90
-        );
-
-        const recruitSpendAvg = weightedAverage(
+        ),
+        recruitSpend: weightedAverage(
           document.getElementById("recruitSpendLow").value,
           document.getElementById("recruitSpendMid").value,
           document.getElementById("recruitSpendHigh").value,
           2500, 10000, 20000
-        );
-
-        return {
-          openShifts: openShiftsAvg,
-          percentPRN: percentPRNAvg,
-          callOffs: callOffsAvg,
-          otHours: otHoursAvg,
-          otPremium: otPremiumAvg,
-          agencyPremium: agencyPremiumAvg,
-          pbjRisk: pbjRiskAvg,
-          surveyCitations: surveyCitationsAvg,
-          leaderTurnover: leaderTurnoverAvg,
-          turnoverRate: turnoverRateAvg,
-          vacancies: vacanciesAvg,
-          timeToFill: timeToFillAvg,
-          recruitSpend: recruitSpendAvg
-        };
-      }
+        )
+      };
     }
 
     function updatePortfolioTotals() {
@@ -1143,6 +1279,7 @@
         const sum = low + mid + high;
         const span = document.getElementById(totalSpanId);
         if (!span) return;
+
         span.textContent = size > 0 ? `${sum} / ${size}` : `${sum} / 0`;
 
         if (size === 0) {
@@ -1151,7 +1288,7 @@
           span.style.color = "#f2b705";
         } else if (sum === size) {
           span.style.color = "#7ce9b4";
-        } else if (sum > size) {
+        } else {
           span.style.color = "#ff9ba8";
         }
       }
@@ -1174,7 +1311,7 @@
       handleRow("recruitSpendLow", "recruitSpendMid", "recruitSpendHigh", "totalRecruitSpend");
     }
 
-    function updateSHSI() {
+    function updateWSI() {
       const inputs = getInputs();
 
       const openShifts = clamp(inputs.openShifts, 0, 50);
@@ -1207,7 +1344,7 @@
         ((turnoverRate / 100) + (vacancies / 20) + (timeToFill / 120) + (recruitSpend / 50000)) / 4 * 25;
 
       const totalRisk = volScore + finScore + opScore + workforceScore;
-      const shsiScore = Math.round(100 - totalRisk);
+      const wsiScore = Math.round(100 - totalRisk);
 
       const annualVolatilityCost = (totalRisk / 100) * 2000000;
       const stabilizableUpside = annualVolatilityCost * 0.4;
@@ -1215,13 +1352,13 @@
 
       const scoreEl = document.getElementById("shsiScore");
       const tagEl = document.getElementById("scoreTag");
-      scoreEl.textContent = isNaN(shsiScore) ? "–" : shsiScore;
+      scoreEl.textContent = isNaN(wsiScore) ? "–" : wsiScore;
 
       tagEl.classList.remove("high-risk","moderate-risk","stable");
-      if (shsiScore <= 50) {
+      if (wsiScore <= 50) {
         tagEl.textContent = "High Risk";
         tagEl.classList.add("high-risk");
-      } else if (shsiScore <= 75) {
+      } else if (wsiScore <= 75) {
         tagEl.textContent = "Moderate Risk";
         tagEl.classList.add("moderate-risk");
       } else {
@@ -1235,15 +1372,15 @@
 
       const improvedWorkforceScore = workforceScore * 0.7;
       const improvedTotalRisk = volScore + finScore + opScore + improvedWorkforceScore;
-      const improvedShsi = Math.round(100 - improvedTotalRisk);
+      const improvedWsi = Math.round(100 - improvedTotalRisk);
 
       const improvedVolCost = (improvedTotalRisk / 100) * 2000000;
       const improvedWorkforceDrag = (improvedWorkforceScore / 25) * 1000000;
 
-      document.getElementById("currentShsiCell").textContent = isNaN(shsiScore) ? "–" : shsiScore;
-      document.getElementById("withSourcingShsiCell").textContent = isNaN(improvedShsi) ? "–" : improvedShsi;
+      document.getElementById("currentShsiCell").textContent = isNaN(wsiScore) ? "–" : wsiScore;
+      document.getElementById("withSourcingShsiCell").textContent = isNaN(improvedWsi) ? "–" : improvedWsi;
 
-      const deltaShsi = improvedShsi - shsiScore;
+      const deltaShsi = improvedWsi - wsiScore;
       document.getElementById("deltaShsiCell").textContent =
         isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
       document.getElementById("deltaShsiCell").className =
@@ -1251,6 +1388,7 @@
 
       document.getElementById("currentVolCostCell").textContent = formatCurrency(annualVolatilityCost);
       document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improvedVolCost);
+
       const deltaVol = improvedVolCost - annualVolatilityCost;
       const deltaVolText = isNaN(deltaVol)
         ? "–"
@@ -1261,6 +1399,7 @@
 
       document.getElementById("currentWorkforceCell").textContent = formatCurrency(workforceDragCost);
       document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improvedWorkforceDrag);
+
       const deltaWork = improvedWorkforceDrag - workforceDragCost;
       const deltaWorkText = isNaN(deltaWork)
         ? "–"
@@ -1269,16 +1408,16 @@
       document.getElementById("deltaWorkforceCell").className =
         deltaWork <= 0 ? "delta-positive" : "delta-negative";
 
-      const explicitLabel = getExplicitEntityName();
       saveVOLHealthMapData({
-        ...(explicitLabel ? { label: explicitLabel } : {}),
-        fallbackLabel: getFallbackEntityLabel(),
-        mode: getMode(),
-        wsi: shsiScore,
-        wsiCurrent: shsiScore,
-        wsiWithSourcing: improvedShsi,
-        wsiUpdated: new Date().toISOString().slice(0, 10),
-        source: "wsi"
+        wsi: safeNumber(wsiScore),
+        wsiCurrent: safeNumber(wsiScore),
+        wsiWithSourcing: safeNumber(improvedWsi),
+        wsiVolatilityCost: safeNumber(Math.round(annualVolatilityCost)),
+        wsiStabilizableUpside: safeNumber(Math.round(stabilizableUpside)),
+        wsiWorkforceDragCost: safeNumber(Math.round(workforceDragCost)),
+        wsiMode: getMode(),
+        wsiSource: "wsi",
+        wsiUpdated: new Date().toISOString()
       });
 
       updatePortfolioTotals();
@@ -1288,7 +1427,7 @@
       const numericInputs = document.querySelectorAll("input[type='number']");
       numericInputs.forEach(input => {
         input.addEventListener("input", function () {
-          updateSHSI();
+          updateWSI();
           updatePortfolioTotals();
         });
       });
@@ -1296,7 +1435,7 @@
       const textInputs = document.querySelectorAll("input[type='text']");
       textInputs.forEach(input => {
         input.addEventListener("input", function () {
-          updateSHSI();
+          updateWSI();
         });
       });
 
@@ -1304,14 +1443,15 @@
       modeInputs.forEach(input => {
         input.addEventListener("change", function () {
           updateModeUI();
-          updateSHSI();
+          updateWSI();
           updatePortfolioTotals();
         });
       });
 
       updateModeUI();
-      updateSHSI();
       updatePortfolioTotals();
+      updateWSI();
+      updateMapStatusChip();
     });
   </script>
 </body>
