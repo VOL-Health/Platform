@@ -1150,7 +1150,7 @@
       const x = scoreToMapX(safeWSI);
       const y = scoreToMapY(safeVI);
 
-      const label = options.label || "Current Score";
+      const label = options.label || "Current Position";
       const source = options.source || "Saved calculator data";
       const color = options.color || "#1f57b8";
       const viUpdated = options.viUpdated || "—";
@@ -1178,7 +1178,7 @@
         star.setAttribute('filter', 'url(#pointGlow)');
 
         const title = document.createElementNS(ns, 'title');
-        title.textContent = `Current Score | WSI: ${safeWSI} | VI: ${safeVI} | Optimized Stability`;
+        title.textContent = `Current Position | WSI: ${safeWSI} | VI: ${safeVI} | Optimized Stability`;
         star.appendChild(title);
 
         group.appendChild(star);
@@ -1193,7 +1193,7 @@
         circle.setAttribute('filter', 'url(#pointGlow)');
 
         const title = document.createElementNS(ns, 'title');
-        title.textContent = `Current Score | WSI: ${safeWSI} | VI: ${safeVI}`;
+        title.textContent = `Current Position | WSI: ${safeWSI} | VI: ${safeVI}`;
         circle.appendChild(title);
 
         group.appendChild(circle);
@@ -1209,7 +1209,7 @@
       text.setAttribute('font-size', '12');
       text.setAttribute('font-weight', '800');
       text.setAttribute('fill', 'rgba(255,255,255,0.95)');
-      text.textContent = "Current Score";
+      text.textContent = "Current Position";
       group.appendChild(text);
 
       stabilityMap.dynamicLayer.appendChild(group);
@@ -1233,7 +1233,7 @@
 
     function normalizeSavedPoint(saved){
       return {
-        label: saved.label || "Current Score",
+        label: saved.label || "Current Position",
         source: "Saved VI + WSI calculator data",
         vi: clamp(saved.vi, 0, 100),
         wsi: clamp(saved.wsi, 0, 100),
