@@ -6,12 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
 :root{
-  /* Shared brand colors (match landing page) */
-  --brand-blue:#1f57b8;        /* StaffHealth blue */
-  --brand-green:#2e8b57;       /* Accushield Verified green */
+  --brand-blue:#1f57b8;
+  --brand-green:#2e8b57;
   --brand-yellow:#f2b705;
-
-  /* Core theme (copied from landing page) */
   --dark:#050814;
   --bg:#050816;
   --card:#0d1224;
@@ -20,37 +17,28 @@
   --danger:#df4759;
 }
 
-/* Global base */
 *{
   box-sizing:border-box;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-/* Outer page background (match landing page body) */
 body{
   margin:0;
   min-height:100vh;
   padding:24px 12px 32px;
-  background:#1b1f2f;           /* same as landing page body */
+  background:#1b1f2f;
   color:#f5f6ff;
 }
 
-/* Inner “card shell” (match landing page .page gradient) */
 .shell{
   max-width:1080px;
   margin:0 auto;
   padding:24px 24px 36px;
   border-radius:26px;
-  background:radial-gradient(
-    circle at top,
-    #1a2338 0%,
-    #111829 55%,
-    #0c1220 100%
-  );
+  background:radial-gradient(circle at top,#1a2338 0%,#111829 55%,#0c1220 100%);
   box-shadow:0 22px 80px rgba(0,0,0,0.7);
 }
 
-/* Header */
 header{
   text-align:center;
   padding:6px 15px 12px;
@@ -70,7 +58,6 @@ header p{
   color:#c4cae8;
 }
 
-/* Green hero bar (keep, but use brand green) */
 .hero-strip{
   background:linear-gradient(90deg,var(--brand-green),#34c08a);
   color:#ffffff;
@@ -86,7 +73,6 @@ header p{
   border-radius:999px;
 }
 
-/* Generic layout / card styles */
 .container{max-width:1030px;margin:20px auto 0;padding:0 15px}
 
 .card{
@@ -130,7 +116,6 @@ textarea::placeholder{color:#5e648b;}
 
 .hint{font-size:12px;color:var(--muted);margin-top:4px}
 
-/* Buttons – match landing page CTA feel */
 .btn{
   border:none;
   background:var(--brand-blue);
@@ -156,7 +141,6 @@ textarea::placeholder{color:#5e648b;}
   box-shadow:none;
 }
 
-/* Mode toggle */
 .mode-toggle{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
 .mode-toggle label{
   font-weight:600;
@@ -169,7 +153,6 @@ textarea::placeholder{color:#5e648b;}
 }
 .mode-toggle input{accent-color:var(--brand-green);}
 
-/* Question “pill” containers (portfolio) */
 .pill{
   border:1px solid var(--border);
   border-radius:14px;
@@ -207,7 +190,6 @@ textarea::placeholder{color:#5e648b;}
 .warn{color:#ff9ba8;font-weight:700}
 .ok{color:#7ce9b4;font-weight:700}
 
-/* RESULTS – styled like landing hero snapshot card */
 .results-banner{
   background:radial-gradient(circle at top,#1c2245 0,#0b1020 50%,#050814 100%);
   color:#fff;
@@ -220,7 +202,6 @@ textarea::placeholder{color:#5e648b;}
 .results-banner h3{margin:0 0 10px;font-size:18px}
 .results-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 
-/* Inner result pills – lined up with hero metric pills */
 .result-pill{
   flex:1 1 180px;
   min-width:180px;
@@ -250,9 +231,9 @@ textarea::placeholder{color:#5e648b;}
   font-size:11px;
   font-weight:800;
 }
-.b-low{background:#d4f5d4;color:#176b2c}      /* green */
-.b-med{background:#fff2c6;color:#8a5b00}     /* yellow */
-.b-high{background:#ffd3d3;color:#a10000}    /* red */
+.b-low{background:#d4f5d4;color:#176b2c}
+.b-med{background:#fff2c6;color:#8a5b00}
+.b-high{background:#ffd3d3;color:#a10000}
 
 .pill-header{
   font-weight:900;
@@ -265,14 +246,12 @@ textarea::placeholder{color:#5e648b;}
 .big-impact{font-size:15px;font-weight:900;margin-bottom:4px}
 .big-impact span{font-weight:950}
 
-/* Text in results cards */
 #valueSummary,
 #profileSummary,
 #rateNarrative{
   color:#d5daf5;
 }
 
-/* Footer */
 footer{
   text-align:center;
   font-size:12px;
@@ -280,7 +259,6 @@ footer{
   padding:20px 10px 0;
 }
 
-/* Small footnote under shell */
 .footnote{
   text-align:center;
   font-size:11px;
@@ -289,9 +267,6 @@ footer{
   opacity:0.78;
 }
 
-/* ===========================
-   Mobile tuning (≤ 600px)
-   =========================== */
 @media (max-width:600px){
   body{
     padding:16px 6px 24px;
@@ -360,7 +335,7 @@ footer{
         <label><input type="radio" name="mode" value="portfolio"> Portfolio Mode (VP Ops / portfolio roll-up)</label>
       </div>
       <div class="hint" style="margin-top:8px;">
-        Portfolio Mode lets executives estimate how many communities sit in each answer option for each question — 
+        Portfolio Mode lets executives estimate how many communities sit in each answer option for each question —
         no need to run 20 buildings one-by-one.
       </div>
     </div>
@@ -382,14 +357,18 @@ footer{
           <input id="state" type="text" placeholder="TX, GA, FL, etc." />
           <div class="hint">Optional context for follow-up discussion.</div>
         </div>
+        <div>
+          <label for="entityName">Community / portfolio name (optional)</label>
+          <input id="entityName" type="text" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
+          <div class="hint">Used as the label on the Stability Map.</div>
+        </div>
       </div>
     </div>
 
-    <!-- SINGLE MODE -->
     <div class="card" id="singleSection">
       <h2>3. Single Community Risk Profile</h2>
       <p class="small" style="margin-bottom:12px;">
-        Choose the option that best fits today. If you’re not sure, select <b>Unknown / Not sure</b> — 
+        Choose the option that best fits today. If you’re not sure, select <b>Unknown / Not sure</b> —
         lack of visibility is itself a risk.
       </p>
 
@@ -435,7 +414,6 @@ footer{
           </select>
         </div>
 
-        <!-- Q5 is now PBJ -->
         <div>
           <label for="q5">PBJ accuracy &amp; Five-Star staffing confidence</label>
           <select id="q5">
@@ -486,7 +464,6 @@ footer{
           </select>
         </div>
 
-        <!-- Q10 is now PDPM + clarifier -->
         <div>
           <label for="q10">Reimbursement &amp; documentation (for SNF/PDPM beds)</label>
           <select id="q10">
@@ -528,8 +505,7 @@ footer{
             <input id="staffRate" type="number" step="0.01" placeholder="e.g., 27.00" />
           </div>
           <div>
-            <label for="shiftsMonth"
-                   title="For this prototype, 1 shift = 8 hours (typical AL/MC staffing pattern).">
+            <label for="shiftsMonth" title="For this prototype, 1 shift = 8 hours (typical AL/MC staffing pattern).">
               Estimated shifts per month through StaffHealth (8 hrs = standard shift)
             </label>
             <input id="shiftsMonth" type="number" step="1" placeholder="e.g., 12 (weekends + pain shifts)" />
@@ -538,7 +514,6 @@ footer{
       </div>
     </div>
 
-    <!-- PORTFOLIO MODE -->
     <div class="card" id="portfolioSection" style="display:none;">
       <h2>3. Portfolio Risk Profile (All Communities)</h2>
       <p class="small" style="margin-bottom:10px;">
@@ -562,7 +537,6 @@ footer{
         </div>
       </div>
 
-      <!-- Question blocks (portfolio) -->
       <div class="pill" data-q="q1">
         <h3>1) Census stability &amp; move-in / move-out patterns</h3>
         <div class="opt-row">
@@ -647,7 +621,6 @@ footer{
         <div class="totals-line" id="sum_q4"></div>
       </div>
 
-      <!-- Q5 is now PBJ in portfolio -->
       <div class="pill" data-q="q5" style="margin-top:12px;">
         <h3>5) PBJ accuracy &amp; Five-Star staffing confidence</h3>
         <div class="opt-row">
@@ -753,7 +726,6 @@ footer{
         <div class="totals-line" id="sum_q9"></div>
       </div>
 
-      <!-- Q10 is now PDPM in portfolio -->
       <div class="pill" data-q="q10" style="margin-top:12px;">
         <h3>10) Reimbursement &amp; documentation (for SNF/PDPM beds)</h3>
         <div class="opt-row">
@@ -794,7 +766,6 @@ footer{
             <div class="result-label" id="riskLabel">Baseline VOL Health Stability (Current State)</div>
             <div class="result-value" id="riskScoreLabel">0 / 100</div>
             <div id="riskBadge" class="badge"></div>
-
             <div class="small" style="color:#bfbfbf; margin-top:4px;">
               Higher is better — directional stability signal across Volatility, Operations &amp; Labor.
             </div>
@@ -857,6 +828,7 @@ footer{
 </div>
 
 <script>
+const MAP_STORAGE_KEY = "volHealthMapData";
 const WEIGHTS = { q1:12, q2:10, q3:14, q4:12, q5:10, q6:12, q7:8, q8:10, q9:6, q10:10 };
 
 function getMode(){
@@ -874,7 +846,6 @@ function riskFromAnswer(val){
   }
 }
 
-// classify based on STABILITY (higher = better)
 function classify(stabilityScore){
   if(stabilityScore < 40) return {label:"Low Stability (High Volatility)", cls:"b-high"};
   if(stabilityScore < 70) return {label:"Mixed Stability", cls:"b-med"};
@@ -884,7 +855,7 @@ function classify(stabilityScore){
 function usageImpactPct(val){
   if(val==="conservative") return 0.35;
   if(val==="aggressive") return 0.65;
-  return 0.50; // moderate default
+  return 0.50;
 }
 
 function intVal(id){
@@ -925,7 +896,41 @@ function updateRowSums(){
   }
 }
 
-// Live sum updates in portfolio mode
+function getExplicitEntityName(){
+  return (document.getElementById("entityName")?.value || "").trim();
+}
+
+function getFallbackEntityLabel(){
+  const mode = getMode();
+  const communityTypeText = document.getElementById("communityType")?.selectedOptions?.[0]?.text || "Community";
+  return mode === "portfolio"
+    ? `${communityTypeText} Portfolio`
+    : `${communityTypeText} Community`;
+}
+
+function saveVOLHealthMapData(partial){
+  let existing = {};
+  try{
+    existing = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}") || {};
+  }catch(e){
+    existing = {};
+  }
+
+  const merged = {
+    ...existing,
+    ...partial,
+    updatedAt: new Date().toISOString()
+  };
+
+  if (!merged.label) {
+    merged.label = partial.fallbackLabel || existing.label || "Community";
+  }
+
+  delete merged.fallbackLabel;
+
+  localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+}
+
 [
   "portfolioN",
   "p_q1_low","p_q1_med","p_q1_high","p_q1_unk",
@@ -943,7 +948,6 @@ function updateRowSums(){
   if(el) el.addEventListener("input", updateRowSums);
 });
 
-// Toggle behavior
 document.querySelectorAll('input[name="mode"]').forEach(r=>{
   r.addEventListener("change", ()=>{
     const mode=getMode();
@@ -970,7 +974,6 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   const state=document.getElementById("state").value || "N/A";
 
   let weights={...WEIGHTS};
-  // AL/MC: PDPM layer (now q10) is not relevant, so we zero its weight
   if(communityType==="al_mc") weights.q10 = 0;
 
   let riskScore100=0, finalRiskScore=0;
@@ -988,32 +991,29 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
       const w=weights[key];
       if(w===0) continue;
       const ans=document.getElementById(key).value;
-      const r=riskFromAnswer(ans); // 0–1 risk
-      weightedRiskSum += (r*10) * w; // 0–10 scaled
+      const r=riskFromAnswer(ans);
+      weightedRiskSum += (r*10) * w;
       weightTotal += w;
     }
 
     const riskScore0to10 = weightTotal===0 ? 0 : (weightedRiskSum/weightTotal);
-    riskScore100 = Math.round(riskScore0to10*10);   // 0–100 risk (higher=worse)
+    riskScore100 = Math.round(riskScore0to10*10);
 
     const usage=document.getElementById("usageLevel").value;
     const impactPct=usageImpactPct(usage);
 
-    // Impact is based on RISK, not stability.
-    impactScore = Math.round(riskScore100 * impactPct);   // risk points removed = stability points gained
+    impactScore = Math.round(riskScore100 * impactPct);
     finalRiskScore = Math.max(0, riskScore100 - impactScore);
 
-    // Econ ranges still scale off risk (volatility)
     baselineLow = Math.round(riskScore100*3000/1000)*1000;
     baselineHigh = Math.round(riskScore100*6000/1000)*1000;
     stabilizedLow = Math.round(impactScore*3000/1000)*1000;
     stabilizedHigh = Math.round(impactScore*6000/1000)*1000;
 
-    // Optional rates (shift-based input → hours)
     const compareRate = parseFloat(document.getElementById("compareRate").value);
     const staffRate   = parseFloat(document.getElementById("staffRate").value);
     shiftsMonth       = parseFloat(document.getElementById("shiftsMonth").value);
-    hoursMonth        = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN; // 8-hr standard shift
+    hoursMonth        = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN;
 
     hasRates =
       !isNaN(compareRate) && compareRate > 0 &&
@@ -1022,7 +1022,7 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
 
     const stabilizedMid = (stabilizedLow + stabilizedHigh)/2;
     if(hasRates){
-      directAnnual = (compareRate - staffRate) * hoursMonth * 12; // + = savings
+      directAnnual = (compareRate - staffRate) * hoursMonth * 12;
       netImpact = stabilizedMid + directAnnual;
     }else{
       netImpact = stabilizedMid;
@@ -1030,7 +1030,6 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
     usedN=1;
 
   }else{
-    // PORTFOLIO MODE — counts next to each option
     let weightedRiskSum=0, weightTotal=0;
     let totalNsum=0, qCount=0;
 
@@ -1042,7 +1041,7 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
       const s=sumPortfolioRow(key);
       if(s.total===0) continue;
 
-      const r = (0.2*s.low + 0.5*s.med + 0.8*s.high + 1.0*s.unk) / s.total; // 0–1 risk
+      const r = (0.2*s.low + 0.5*s.med + 0.8*s.high + 1.0*s.unk) / s.total;
       weightedRiskSum += (r*10) * w;
       weightTotal += w;
 
@@ -1051,18 +1050,16 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
     }
 
     const riskScore0to10 = weightTotal===0 ? 0 : (weightedRiskSum/weightTotal);
-    riskScore100 = Math.round(riskScore0to10*10); // 0–100 risk
+    riskScore100 = Math.round(riskScore0to10*10);
 
     const usage=document.getElementById("usageLevelPortfolio").value;
     const impactPct=usageImpactPct(usage);
 
-    impactScore    = Math.round(riskScore100 * impactPct);   // risk points removed per building
+    impactScore    = Math.round(riskScore100 * impactPct);
     finalRiskScore = Math.max(0, riskScore100 - impactScore);
 
-    // Estimate N as average across questions that were filled
     usedN = qCount>0 ? Math.round(totalNsum/qCount) : 1;
 
-    // Econ ranges per building, then scale by N
     const perLow     = Math.round(riskScore100*3000/1000)*1000;
     const perHigh    = Math.round(riskScore100*6000/1000)*1000;
     const perStabLow = Math.round(impactScore*3000/1000)*1000;
@@ -1077,11 +1074,9 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
     hasRates=false;
   }
 
-  // Convert risk-based scores into stability (HIGH = good)
   stabilityPre = Math.max(0, Math.min(100, 100 - riskScore100));
   finalScore   = Math.max(0, Math.min(100, 100 - finalRiskScore));
 
-  // Render results
   document.getElementById("riskScoreLabel").textContent   = `${stabilityPre} / 100`;
   document.getElementById("impactScoreLabel").textContent = `${impactScore} pts`;
   document.getElementById("finalScoreLabel").textContent  = `${finalScore} / 100`;
@@ -1091,7 +1086,6 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   badge.textContent=b.label;
   badge.className=`badge ${b.cls}`;
 
-  // Money summary (use already-computed baselineLow/High, stabilizedLow/High)
   const baselineText = mode==="single"
     ? `Annual economics currently influenced by staffing volatility: <span>$${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}</span>`
     : `Portfolio annual economics currently influenced by staffing volatility (≈${usedN} communities): <span>$${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}</span>`;
@@ -1135,7 +1129,6 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   document.getElementById("valueSummary").innerHTML =
     `<div class="big-impact">${baselineText}</div><div>${stabText}</div>${extra}`;
 
-  // Profile narrative
   let profile="";
   if(stabilityPre < 40){
     profile = (mode==="single")
@@ -1152,7 +1145,6 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   }
   document.getElementById("profileSummary").textContent = profile;
 
-  // Rate narrative
   let rateNarr="";
   if(mode==="portfolio"){
     rateNarr = "This run focuses on volatility and stability at the portfolio level. In follow-up, we can layer in rate cohorts (agency vs OT vs blended) to show how the model behaves financially by building cluster. Core message: volatility and compliance exposure often cost more than the rate line.";
@@ -1190,11 +1182,11 @@ document.getElementById("calcBtn").addEventListener("click", ()=>{
   }
   document.getElementById("rateNarrative").textContent = rateNarr;
 
-  // Copy block
   let copy =
 `VOL Health™ Volatility Index – Results
 
 Mode: ${mode==="single" ? "Single Community" : "Portfolio"}
+Community / Portfolio Name: ${getExplicitEntityName() || getFallbackEntityLabel()}
 Community Type: ${communityType.toUpperCase()}
 State/Region: ${state}
 
@@ -1213,24 +1205,39 @@ Illustrative economics a VOL Health model (powered by StaffHealth + Accushield V
 
   document.getElementById("resultsText").value = copy;
 
+  const explicitLabel = getExplicitEntityName();
+  saveVOLHealthMapData({
+    ...(explicitLabel ? { label: explicitLabel } : {}),
+    fallbackLabel: getFallbackEntityLabel(),
+    mode,
+    state,
+    communityType,
+    vi: stabilityPre,
+    viCurrent: stabilityPre,
+    viProjected: finalScore,
+    viImpact: impactScore,
+    viUpdated: new Date().toISOString().slice(0, 10),
+    source: "vi"
+  });
+
   document.getElementById("resultsCard").style.display="block";
   document.getElementById("followupCard").style.display="block";
   document.getElementById("resultsCard").scrollIntoView({behavior:"smooth"});
 });
 
 document.getElementById("resetBtn").addEventListener("click", ()=>{
-  // single resets
   for(let i=1;i<=10;i++){
     const s=document.getElementById("q"+i);
     if(s) s.selectedIndex=0;
   }
   document.getElementById("usageLevel").value="moderate";
-  ["compareRate","staffRate","shiftsMonth","state"].forEach(id=>{
+  ["compareRate","staffRate","shiftsMonth","state","entityName"].forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.value="";
   });
 
-  // portfolio resets
+  document.getElementById("communityType").value = "al_mc";
+
   document.getElementById("portfolioN").value="";
   document.getElementById("usageLevelPortfolio").value="moderate";
   for(let i=1;i<=10;i++){
@@ -1259,7 +1266,6 @@ document.getElementById("copyBtn").addEventListener("click", function(){
   }
 });
 
-// initialize sums if they switch modes quickly
 updateRowSums();
 </script>
 </body>
