@@ -6,11 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      /* Shared brand colors (match VOL Health) */
       --brand-blue:#1f57b8;
       --brand-green:#2e8b57;
       --brand-yellow:#f2b705;
-
       --dark:#050814;
       --bg:#050816;
       --card:#0d1224;
@@ -33,7 +31,6 @@
       padding:24px 12px 40px;
     }
 
-    /* Outer shell (match VOL Health .page / .shell look) */
     .shell{
       max-width:1100px;
       margin:0 auto;
@@ -44,7 +41,6 @@
       overflow:hidden;
     }
 
-    /* === Header / hero strip adapted to dark theme === */
     .shsi-header{
       width:100%;
     }
@@ -65,9 +61,9 @@
     }
 
     .shsi-title-brand{
-  color:var(--brand-blue); /* make VOL HEALTH blue everywhere */
-  margin-right:4px;
-}
+      color:var(--brand-blue);
+      margin-right:4px;
+    }
 
     .shsi-title-main{
       color:#ffffff;
@@ -96,7 +92,6 @@
       border-bottom:1px solid rgba(36,41,68,0.9);
     }
 
-    /* === Main inner page === */
     .page{
       padding:18px 18px 32px;
     }
@@ -135,7 +130,6 @@
       font-size:0.9rem;
     }
 
-    /* Cards & grids (dark theme) */
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -183,7 +177,8 @@
       margin-left:6px;
     }
 
-    input[type="number"]{
+    input[type="number"],
+    input[type="text"]{
       width:100%;
       padding:6px 7px;
       border-radius:8px;
@@ -195,13 +190,13 @@
       color:#f5f6ff;
     }
 
-    input[type="number"]:focus{
+    input[type="number"]:focus,
+    input[type="text"]:focus{
       outline:none;
       border-color:var(--brand-blue);
       box-shadow:0 0 0 2px rgba(31,87,184,0.45);
     }
 
-    /* Mode card */
     .mode-card{
       margin-bottom:16px;
     }
@@ -230,13 +225,11 @@
       margin-top:6px;
     }
 
-    /* Mode-driven visibility */
     .single-only{display:block;}
     .portfolio-only{display:none;}
     body.mode-portfolio .single-only{display:none;}
     body.mode-portfolio .portfolio-only{display:block;}
 
-    /* Portfolio tables */
     .dist-table{
       width:100%;
       border-collapse:collapse;
@@ -280,7 +273,6 @@
       min-width:80px;
     }
 
-    /* Summary layout */
     .summary-grid{
       display:grid;
       grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
@@ -364,7 +356,6 @@
       color:#e3e6ff;
     }
 
-    /* Scenario card */
     .scenario-card h2{
       margin:0 0 8px;
       font-size:1rem;
@@ -445,7 +436,6 @@
 </head>
 <body class="mode-single">
   <div class="shell">
-    <!-- Shared header -->
     <div class="shsi-header">
       <div class="shsi-hero">
         <div class="shsi-title">
@@ -462,7 +452,6 @@
       </div>
     </div>
 
-    <!-- Main WSI content -->
     <div class="page">
       <h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
       <p class="subtitle" id="snapshotSubtitle">
@@ -470,7 +459,6 @@
         roll up into a single Workforce Stability Index and economic view.
       </p>
 
-      <!-- 1. Select Mode -->
       <div class="card mode-card">
         <h3>1. Select Mode</h3>
         <p style="font-size:0.82rem;">
@@ -487,15 +475,22 @@
             Portfolio Mode (VP Ops / portfolio roll-up)
           </label>
         </div>
+
+        <div class="field" style="margin-top:12px;">
+          <label>
+            <span>Community / portfolio name (optional)</span>
+            <small>Used on Stability Map</small>
+          </label>
+          <input type="text" id="entityName" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
+        </div>
+
         <p class="note">
           In Portfolio Mode, you enter how many communities fall into each risk band for every metric. The tool calculates portfolio-wide
           averages and rolls them into a single WSI score and economic view.
         </p>
       </div>
 
-      <!-- SINGLE COMMUNITY INPUT GRID -->
       <div class="grid single-only">
-        <!-- Dimension 1: Staffing Volatility -->
         <div class="card">
           <h3>2. Staffing Volatility</h3>
           <p>
@@ -524,7 +519,6 @@
           </div>
         </div>
 
-        <!-- Dimension 2: Financial Exposure -->
         <div class="card">
           <h3>3. Financial Exposure</h3>
           <p>
@@ -553,7 +547,6 @@
           </div>
         </div>
 
-        <!-- Dimension 3: Operational & Compliance Risk -->
         <div class="card">
           <h3>4. Operational &amp; Compliance Risk</h3>
           <p>
@@ -582,7 +575,6 @@
           </div>
         </div>
 
-        <!-- Dimension 4: Workforce Stability (Pipeline) -->
         <div class="card">
           <h3>5. Workforce Stability (Pipeline)</h3>
           <p>
@@ -619,9 +611,7 @@
         </div>
       </div>
 
-      <!-- PORTFOLIO DISTRIBUTION INPUTS -->
       <div class="grid portfolio-only">
-        <!-- Portfolio context + staffing volatility dist -->
         <div class="card">
           <h3>2. Portfolio Context & Staffing Volatility</h3>
           <p style="font-size:0.8rem;">
@@ -680,7 +670,6 @@
           </table>
         </div>
 
-        <!-- Financial exposure dist -->
         <div class="card">
           <h3>3. Financial Exposure (Portfolio)</h3>
           <table class="dist-table">
@@ -728,7 +717,6 @@
           </table>
         </div>
 
-        <!-- Operational & compliance dist -->
         <div class="card">
           <h3>4. Operational &amp; Compliance Risk (Portfolio)</h3>
           <table class="dist-table">
@@ -776,7 +764,6 @@
           </table>
         </div>
 
-        <!-- Workforce stability dist -->
         <div class="card">
           <h3>5. Workforce Stability (Pipeline) — Portfolio</h3>
           <table class="dist-table">
@@ -838,7 +825,6 @@
         </div>
       </div>
 
-      <!-- SUMMARY / OUTPUT -->
       <div class="summary-grid">
         <div class="card summary-main">
           <h2>Stability Index &amp; Economics</h2>
@@ -934,6 +920,8 @@
   </div>
 
   <script>
+    const MAP_STORAGE_KEY = "volHealthMapData";
+
     function clamp(value, min, max) {
       value = Number(value);
       if (isNaN(value)) return min;
@@ -950,6 +938,38 @@
     function getMode() {
       const checked = document.querySelector("input[name='mode']:checked");
       return checked ? checked.value : "single";
+    }
+
+    function getExplicitEntityName() {
+      return (document.getElementById("entityName")?.value || "").trim();
+    }
+
+    function getFallbackEntityLabel() {
+      const mode = getMode();
+      return mode === "portfolio" ? "WSI Portfolio" : "WSI Community";
+    }
+
+    function saveVOLHealthMapData(partial){
+      let existing = {};
+      try{
+        existing = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}") || {};
+      }catch(e){
+        existing = {};
+      }
+
+      const merged = {
+        ...existing,
+        ...partial,
+        updatedAt: new Date().toISOString()
+      };
+
+      if (!merged.label) {
+        merged.label = partial.fallbackLabel || existing.label || "Community";
+      }
+
+      delete merged.fallbackLabel;
+
+      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
     }
 
     function updateModeUI() {
@@ -975,7 +995,6 @@
       }
     }
 
-    // Helper to compute weighted average from bands
     function weightedAverage(lowCount, midCount, highCount, lowRep, midRep, highRep) {
       const cLow = Number(lowCount) || 0;
       const cMid = Number(midCount) || 0;
@@ -989,7 +1008,6 @@
       const mode = getMode();
 
       if (mode === "single") {
-        // Single community: read direct numeric values
         return {
           openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
           percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
@@ -1006,101 +1024,95 @@
           recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
         };
       } else {
-        // Portfolio: compute weighted averages from distributions
-
-        // Staffing volatility bands
         const openShiftsAvg = weightedAverage(
           document.getElementById("openShiftsLow").value,
           document.getElementById("openShiftsMid").value,
           document.getElementById("openShiftsHigh").value,
-          3, 8, 20   // reps for 0–5, 6–10, 11+
+          3, 8, 20
         );
 
         const percentPRNAvg = weightedAverage(
           document.getElementById("percentPRNLow").value,
           document.getElementById("percentPRNMid").value,
           document.getElementById("percentPRNHigh").value,
-          15, 38, 65   // reps for 0–25, 26–50, 51+
+          15, 38, 65
         );
 
         const callOffsAvg = weightedAverage(
           document.getElementById("callOffsLow").value,
           document.getElementById("callOffsMid").value,
           document.getElementById("callOffsHigh").value,
-          1, 4, 7     // reps for 0–2, 3–5, 6+
+          1, 4, 7
         );
 
-        // Financial exposure bands
         const otHoursAvg = weightedAverage(
           document.getElementById("otHoursLow").value,
           document.getElementById("otHoursMid").value,
           document.getElementById("otHoursHigh").value,
-          60, 180, 350   // 0–100, 101–250, 251+
+          60, 180, 350
         );
 
         const otPremiumAvg = weightedAverage(
           document.getElementById("otPremiumLow").value,
           document.getElementById("otPremiumMid").value,
           document.getElementById("otPremiumHigh").value,
-          15, 38, 65     // 0–25, 26–50, 51+
+          15, 38, 65
         );
 
         const agencyPremiumAvg = weightedAverage(
           document.getElementById("agencyPremiumLow").value,
           document.getElementById("agencyPremiumMid").value,
           document.getElementById("agencyPremiumHigh").value,
-          10, 30, 55     // 0–20, 21–40, 41+
+          10, 30, 55
         );
 
-        // Operational & compliance bands
         const pbjRiskAvg = weightedAverage(
           document.getElementById("pbjRiskLow").value,
           document.getElementById("pbjRiskMid").value,
           document.getElementById("pbjRiskHigh").value,
-          1.5, 5.5, 9    // 0–3, 4–7, 8–10
+          1.5, 5.5, 9
         );
 
         const surveyCitationsAvg = weightedAverage(
           document.getElementById("surveyCitationsLow").value,
           document.getElementById("surveyCitationsMid").value,
           document.getElementById("surveyCitationsHigh").value,
-          0, 1.5, 4      // 0, 1–2, 3+
+          0, 1.5, 4
         );
 
         const leaderTurnoverAvg = weightedAverage(
           document.getElementById("leaderTurnoverLow").value,
           document.getElementById("leaderTurnoverMid").value,
           document.getElementById("leaderTurnoverHigh").value,
-          0.5, 2.5, 5    // 0–1, 2–3, 4+
+          0.5, 2.5, 5
         );
 
-        // Workforce stability bands
         const turnoverRateAvg = weightedAverage(
           document.getElementById("turnoverRateLow").value,
           document.getElementById("turnoverRateMid").value,
           document.getElementById("turnoverRateHigh").value,
-          20, 45, 75     // 0–30, 31–60, 61+
+          20, 45, 75
         );
 
         const vacanciesAvg = weightedAverage(
           document.getElementById("vacanciesLow").value,
           document.getElementById("vacanciesMid").value,
           document.getElementById("vacanciesHigh").value,
-          0.5, 3, 6      // 0–1, 2–4, 5+
+          0.5, 3, 6
         );
 
         const timeToFillAvg = weightedAverage(
           document.getElementById("timeToFillLow").value,
           document.getElementById("timeToFillMid").value,
           document.getElementById("timeToFillHigh").value,
-          15, 45, 90     // 0–30, 31–60, 61+
+          15, 45, 90
         );
 
         const recruitSpendAvg = weightedAverage(
           document.getElementById("recruitSpendLow").value,
           document.getElementById("recruitSpendMid").value,
           document.getElementById("recruitSpendHigh").value,
-          2500, 10000, 20000   // 0–5k, 5–15k, 15k+
+          2500, 10000, 20000
         );
 
         return {
@@ -1182,7 +1194,6 @@
       const timeToFill = clamp(inputs.timeToFill, 0, 120);
       const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
 
-      // Normalize each dimension to a 0–25 risk slice
       const volScore =
         ((openShifts / 50) + (percentPRN / 100) + (callOffs / 20)) / 3 * 25;
 
@@ -1198,12 +1209,10 @@
       const totalRisk = volScore + finScore + opScore + workforceScore;
       const shsiScore = Math.round(100 - totalRisk);
 
-      // Economics
       const annualVolatilityCost = (totalRisk / 100) * 2000000;
       const stabilizableUpside = annualVolatilityCost * 0.4;
       const workforceDragCost = (workforceScore / 25) * 1000000;
 
-      // Update summary UI
       const scoreEl = document.getElementById("shsiScore");
       const tagEl = document.getElementById("scoreTag");
       scoreEl.textContent = isNaN(shsiScore) ? "–" : shsiScore;
@@ -1224,7 +1233,6 @@
       document.getElementById("stabilizableUpside").textContent = formatCurrency(stabilizableUpside);
       document.getElementById("workforceDrag").textContent = formatCurrency(workforceDragCost);
 
-      // Candidate sourcing scenario
       const improvedWorkforceScore = workforceScore * 0.7;
       const improvedTotalRisk = volScore + finScore + opScore + improvedWorkforceScore;
       const improvedShsi = Math.round(100 - improvedTotalRisk);
@@ -1261,17 +1269,34 @@
       document.getElementById("deltaWorkforceCell").className =
         deltaWork <= 0 ? "delta-positive" : "delta-negative";
 
-      // Update portfolio totals if in portfolio mode
+      const explicitLabel = getExplicitEntityName();
+      saveVOLHealthMapData({
+        ...(explicitLabel ? { label: explicitLabel } : {}),
+        fallbackLabel: getFallbackEntityLabel(),
+        mode: getMode(),
+        wsi: shsiScore,
+        wsiCurrent: shsiScore,
+        wsiWithSourcing: improvedShsi,
+        wsiUpdated: new Date().toISOString().slice(0, 10),
+        source: "wsi"
+      });
+
       updatePortfolioTotals();
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      // Attach change listeners
       const numericInputs = document.querySelectorAll("input[type='number']");
       numericInputs.forEach(input => {
         input.addEventListener("input", function () {
           updateSHSI();
           updatePortfolioTotals();
+        });
+      });
+
+      const textInputs = document.querySelectorAll("input[type='text']");
+      textInputs.forEach(input => {
+        input.addEventListener("input", function () {
+          updateSHSI();
         });
       });
 
