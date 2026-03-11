@@ -1199,19 +1199,6 @@
         group.appendChild(circle);
       }
 
-      const labelPos = chooseLabelPosition(x, y);
-
-      const text = document.createElementNS(ns, 'text');
-      text.setAttribute('x', labelPos.x);
-      text.setAttribute('y', labelPos.y);
-      text.setAttribute('text-anchor', labelPos.anchor);
-      text.setAttribute('font-family', 'system-ui, -apple-system, Segoe UI, Roboto, Arial');
-      text.setAttribute('font-size', '12');
-      text.setAttribute('font-weight', '800');
-      text.setAttribute('fill', 'rgba(255,255,255,0.95)');
-      text.textContent = "Current Position";
-      group.appendChild(text);
-
       stabilityMap.dynamicLayer.appendChild(group);
 
       return {
