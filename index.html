@@ -214,7 +214,8 @@
       padding:18px;
       border-radius:18px;
       border:1px solid rgba(255,255,255,0.10);
-      background:rgba(0,0,0,0.18);
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
     .snapshot h3{
@@ -261,9 +262,10 @@
     .bar{
       height:16px;
       border-radius:999px;
-      background:linear-gradient(90deg, #2e8b57 0%, #f2b705 50%, #d6452d 100%);
+      background:linear-gradient(90deg, #e63946 0%, #f2b705 45%, #1f57b8 70%, #2e8b57 100%);
       position:relative;
       overflow:hidden;
+      box-shadow:inset 0 1px 2px rgba(255,255,255,0.08);
     }
 
     .bar::after{
@@ -297,6 +299,7 @@
       background:rgba(255,255,255,0.03);
       border-radius:16px;
       padding:12px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .metric .label{
@@ -326,9 +329,10 @@
     .map-readout{
       margin-top:12px;
       border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.03);
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       border-radius:16px;
       padding:12px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .saved-state{
@@ -351,6 +355,7 @@
       color:rgba(255,255,255,0.76);
       font-size:13.5px;
       line-height:1.55;
+      max-width:78ch;
     }
 
     .chooser{ padding:18px; }
@@ -476,10 +481,8 @@
       height:auto;
       display:block;
       box-shadow:inset 0 0 40px rgba(0,0,0,0.35);
+      border-radius:16px;
     }
-
-    .map-box svg line { opacity:0.25; }
-    .map-box svg text { letter-spacing:.02em; }
 
     .tool-list{
       margin:10px 0 0;
@@ -494,10 +497,11 @@
     .mini-roi .grid,
     .zone-legend .grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:8px 12px;
+      grid-template-columns:40% 60%;
+      gap:6px 10px;
       color:#d0d4ef;
       font-size:13px;
+      align-items:start;
     }
 
     .zone-legend .grid div{
@@ -528,10 +532,6 @@
       flex-wrap:wrap;
       gap:10px;
       margin-top:12px;
-    }
-
-    #stabilityDynamicLayer circle{
-      filter:drop-shadow(0 0 8px rgba(255,255,255,0.55));
     }
 
     footer{
@@ -605,7 +605,7 @@
         <div class="sub" id="snapshotSub">Illustrative default example shown until both VI and WSI calculator results are available.</div>
 
         <div class="bar" aria-hidden="true"></div>
-        <div class="bar-labels"><span>Lower stability</span><span>Higher stability</span></div>
+        <div class="bar-labels"><span>More exposed</span><span>More stable</span></div>
 
         <div class="metrics">
           <div class="metric">
@@ -634,7 +634,6 @@
       </div>
 
       <div class="accordion">
-
         <div class="acc-item" id="acc-vi">
           <div class="acc-header" onclick="toggleAcc('acc-vi')" role="button" tabindex="0" aria-expanded="false">
             <div>
@@ -710,7 +709,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </section>
 
@@ -718,35 +716,34 @@
       <div class="section-head">
         <h2>VOL Health Stability Map</h2>
         <p>
-          Because it is rarely measured, endemic volatility is almost never intentionally managed. This threshold-based map shows where a community sits today — and the path toward managed and optimized stability.
+          Endemic volatility is a constant operational pressure in senior living. Because it is rarely measured, it is almost never intentionally managed.
         </p>
       </div>
 
       <div class="map-grid">
-
         <div class="map-box">
           <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
             <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stop-color="#0d1224"/>
                 <stop offset="100%" stop-color="#141a33"/>
               </linearGradient>
 
               <linearGradient id="optimizedFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="rgba(143,224,173,0.36)"/>
-                <stop offset="100%" stop-color="rgba(46,139,87,0.60)"/>
+                <stop offset="0%" stop-color="rgba(165,255,165,0.55)"/>
+                <stop offset="100%" stop-color="rgba(104,212,94,0.88)"/>
               </linearGradient>
 
-              <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
+              <filter id="optimizedGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="7" result="blur"/>
                 <feMerge>
                   <feMergeNode in="blur"/>
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
 
-              <filter id="optimizedGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="8" result="blur"/>
+              <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
                 <feMerge>
                   <feMergeNode in="blur"/>
                   <feMergeNode in="SourceGraphic"/>
@@ -754,32 +751,32 @@
               </filter>
 
               <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.55)"/>
+                <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.48)"/>
               </marker>
             </defs>
 
-            <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
+            <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
 
-            <!-- threshold-based 5x5 zones -->
-            <!-- Exposed Operations: 0-60 / 0-60 -->
-            <rect x="80" y="180" width="216" height="180" fill="rgba(242,183,5,0.10)"/>
+            <!-- Threshold-based 5x5 zones -->
+            <!-- Exposed Operations -->
+            <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
 
-            <!-- Manually Stabilized: 0-60 / 60-100 -->
-            <rect x="80" y="60" width="216" height="120" fill="rgba(230,57,70,0.10)"/>
+            <!-- Manually Stabilized -->
+            <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
 
-            <!-- Volatility Pressure: 60-100 / 0-60 -->
-            <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.10)"/>
+            <!-- Volatility Pressure -->
+            <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
 
-            <!-- Managed Stability: 60-100 / 60-100 -->
-            <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.10)"/>
+            <!-- Managed Stability -->
+            <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
 
-            <!-- Optimized Stability: 80-100 / 80-100 -->
+            <!-- Optimized Stability -->
             <rect x="368" y="60" width="72" height="60" rx="14"
-                  fill="url(#optimizedFill)"
-                  stroke="rgba(255,255,255,0.24)"
-                  filter="url(#optimizedGlow)"/>
+              fill="url(#optimizedFill)"
+              stroke="rgba(255,255,255,0.24)"
+              filter="url(#optimizedGlow)"/>
 
-            <!-- 5x5 grid lines -->
+            <!-- Grid -->
             <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
               <line x1="80" y1="60" x2="80" y2="360"/>
               <line x1="152" y1="60" x2="152" y2="360"/>
@@ -796,64 +793,47 @@
               <line x1="80" y1="360" x2="440" y2="360"/>
             </g>
 
-            <!-- axes -->
+            <!-- Axes -->
             <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
               <line x1="80" y1="360" x2="440" y2="360"/>
               <line x1="80" y1="360" x2="80" y2="60"/>
             </g>
 
-            <!-- threshold emphasis at 60 -->
-            <g stroke="rgba(255,255,255,0.22)" stroke-width="2.25">
+            <!-- Threshold lines at 60 -->
+            <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
               <line x1="296" y1="60" x2="296" y2="360"/>
               <line x1="80" y1="180" x2="440" y2="180"/>
             </g>
 
-            <!-- zone labels -->
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" font-weight="700">
-              <text x="98" y="92" fill="#ff9aa5">Manually Stabilized</text>
-              <text x="312" y="92" fill="#8fe0ad">Managed Stability</text>
-              <text x="99" y="233" fill="#ffd76b">Exposed Operations</text>
-              <text x="312" y="233" fill="#8fb9ff">Volatility Pressure</text>
+            <!-- Path to optimized -->
+            <path d="M242 302 L412 98"
+              stroke="rgba(255,255,255,0.24)"
+              stroke-width="2.5"
+              stroke-dasharray="6 8"
+              stroke-linecap="round"
+              marker-end="url(#arrowHead)"/>
+
+            <!-- Zone captions -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
+              <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
+              <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
+              <text x="94" y="206" fill="#ff525e" font-size="12.5">Exposed Operations</text>
+              <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
             </g>
 
-            <!-- path -->
-            <path d="M238 300 L410 98"
-                  stroke="rgba(255,255,255,0.22)"
-                  stroke-width="2.5"
-                  stroke-dasharray="6 8"
-                  stroke-linecap="round"
-                  marker-end="url(#arrowHead)"/>
+            <!-- Optimized caption -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="900" fill="rgba(16,54,22,0.92)">
+              <text x="379" y="85" font-size="11.5">Optimized</text>
+              <text x="378" y="98" font-size="11.5">Stability</text>
+            </g>
 
-            <!-- optimized label -->
-            <text x="383" y="84"
-                  font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                  font-size="10.5"
-                  font-weight="800"
-                  fill="rgba(255,255,255,0.94)">
-              Optimized
-            </text>
-            <text x="380" y="96"
-                  font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                  font-size="10.5"
-                  font-weight="800"
-                  fill="rgba(255,255,255,0.94)">
-              Stability
-            </text>
-            <text x="382" y="108"
-                  font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
-                  font-size="8.5"
-                  font-weight="700"
-                  fill="rgba(255,255,255,0.72)">
-              80+ / 80+
-            </text>
-
-            <!-- axis labels -->
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.78)">
+            <!-- Axis labels -->
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
               <text x="214" y="400">WSI (Workforce Stability Index) →</text>
               <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
             </g>
 
-            <!-- axis number labels -->
+            <!-- Number labels -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
               <text x="77" y="378">0</text>
               <text x="146" y="378">20</text>
@@ -881,16 +861,16 @@
             </div>
 
             <div class="grid">
-              <div><strong style="color:#ffd76b;">Exposed Operations</strong></div>
+              <div><strong style="color:#ff6b73;">Exposed Operations</strong></div>
               <div>System lacks the workforce and operational buffers needed to absorb volatility.</div>
 
-              <div><strong style="color:#ff9aa5;">Manually Stabilized</strong></div>
+              <div><strong style="color:#ffe74e;">Manually Stabilized</strong></div>
               <div>Operations appear stable, but stability depends heavily on leadership intervention and effort.</div>
 
-              <div><strong style="color:#8fb9ff;">Volatility Pressure</strong></div>
+              <div><strong style="color:#67b2ff;">Volatility Pressure</strong></div>
               <div>Workforce foundation exists, but operational volatility continues to create disruption.</div>
 
-              <div><strong style="color:#8fe0ad;">Managed Stability</strong></div>
+              <div><strong style="color:#8be39b;">Managed Stability</strong></div>
               <div>Workforce and operations are largely aligned and volatility is controlled.</div>
             </div>
 
@@ -906,7 +886,7 @@
             <li><strong>WSI increases to the right</strong> as workforce resilience, coverage reliability, and pipeline health improve.</li>
             <li><strong>VI increases upward</strong> as operational volatility becomes more controlled and manageable.</li>
             <li><strong>60 / 60 is the threshold</strong> for entry into Managed Stability.</li>
-            <li><strong>80 / 80 marks Optimized Stability</strong> — a higher-order operating state, not just adequate control.</li>
+            <li><strong>80 / 80 unlocks Optimized Stability</strong> — a stronger signal of durable operating control.</li>
           </ul>
 
           <div class="mini-roi">
@@ -944,7 +924,6 @@
             <a class="btn btn-wsi" href="wsi.html">Update WSI →</a>
           </div>
         </div>
-
       </div>
 
       <footer>
@@ -953,7 +932,6 @@
         VOL Health™ is a working name for an internal tool and does not represent a commercial product offering.
       </footer>
     </section>
-
   </div>
 
   <script>
@@ -969,6 +947,14 @@
         top: 60,
         bottom: 360
       },
+      // simple text collision keep-out areas
+      keepOutZones: [
+        { x1: 90,  y1: 146, x2: 245, y2: 168 }, // manually stabilized
+        { x1: 308, y1: 146, x2: 430, y2: 168 }, // managed stability
+        { x1: 90,  y1: 192, x2: 240, y2: 212 }, // exposed operations
+        { x1: 308, y1: 192, x2: 430, y2: 212 }, // volatility pressure
+        { x1: 372, y1: 70,  x2: 438, y2: 102 }  // optimized stability
+      ],
       defaultPoint: {
         label: "System Default",
         source: "Default example",
@@ -1067,10 +1053,7 @@
         return;
       }
 
-      const hasVI = isFiniteNumber(savedData?.vi);
-      const hasWSI = isFiniteNumber(savedData?.wsi);
-
-      if(hasVI && hasWSI){
+      if(hasValidSavedScores(savedData)){
         dot.classList.add("ready");
         text.textContent = "Saved VI + WSI point loaded";
         savedStateBox.style.display = "block";
@@ -1111,6 +1094,52 @@
       document.getElementById("mapY").textContent = point.y.toFixed(1);
     }
 
+    function rectsIntersect(a, b){
+      return !(a.x2 < b.x1 || a.x1 > b.x2 || a.y2 < b.y1 || a.y1 > b.y2);
+    }
+
+    function chooseLabelPosition(x, y){
+      const placements = [
+        { dx: 12,  dy: -12, anchor: "start" }, // upper right
+        { dx: -12, dy: -12, anchor: "end"   }, // upper left
+        { dx: 12,  dy: 18,  anchor: "start" }, // lower right
+        { dx: -12, dy: 18,  anchor: "end"   }  // lower left
+      ];
+
+      const labelWidth = 78;
+      const labelHeight = 18;
+      const chartLeft = 80;
+      const chartRight = 440;
+      const chartTop = 60;
+      const chartBottom = 360;
+
+      for(const p of placements){
+        const textX = x + p.dx;
+        const textY = y + p.dy;
+
+        const box = {
+          x1: p.anchor === "start" ? textX : textX - labelWidth,
+          y1: textY - 14,
+          x2: p.anchor === "start" ? textX + labelWidth : textX,
+          y2: textY + 4
+        };
+
+        const withinChart =
+          box.x1 >= chartLeft + 2 &&
+          box.x2 <= chartRight - 2 &&
+          box.y1 >= chartTop + 2 &&
+          box.y2 <= chartBottom - 2;
+
+        const overlapsZoneText = stabilityMap.keepOutZones.some(zone => rectsIntersect(box, zone));
+
+        if(withinChart && !overlapsZoneText){
+          return { x: textX, y: textY, anchor: p.anchor };
+        }
+      }
+
+      return { x: x + 12, y: y - 12, anchor: "start" };
+    }
+
     function plotPoint(wsi, vi, options = {}){
       if(!stabilityMap.svg || !stabilityMap.dynamicLayer) initStabilityMap();
 
@@ -1136,27 +1165,50 @@
       const group = document.createElementNS(ns, 'g');
       group.setAttribute('id', 'currentBuildingPoint');
 
-      const circle = document.createElementNS(ns, 'circle');
-      circle.setAttribute('cx', x);
-      circle.setAttribute('cy', y);
-      circle.setAttribute('r', 8);
-      circle.setAttribute('fill', color);
-      circle.setAttribute('stroke', '#ffffff');
-      circle.setAttribute('stroke-width', '2');
-      circle.setAttribute('filter', 'url(#dotGlow)');
+      const optimized = safeWSI >= 80 && safeVI >= 80;
 
-      const title = document.createElementNS(ns, 'title');
-      title.textContent = `Current Score | WSI: ${safeWSI} | VI: ${safeVI}`;
-      circle.appendChild(title);
-      group.appendChild(circle);
+      if(optimized){
+        const star = document.createElementNS(ns, 'polygon');
+        star.setAttribute('points',
+          `${x},${y-10} ${x+3.5},${y-3.5} ${x+10},${y-3.5} ${x+5},${y+1.5} ${x+7},${y+9} ${x},${y+5} ${x-7},${y+9} ${x-5},${y+1.5} ${x-10},${y-3.5} ${x-3.5},${y-3.5}`
+        );
+        star.setAttribute('fill', '#ffffff');
+        star.setAttribute('stroke', '#2e8b57');
+        star.setAttribute('stroke-width', '2.2');
+        star.setAttribute('filter', 'url(#pointGlow)');
+
+        const title = document.createElementNS(ns, 'title');
+        title.textContent = `Current Score | WSI: ${safeWSI} | VI: ${safeVI} | Optimized Stability`;
+        star.appendChild(title);
+
+        group.appendChild(star);
+      }else{
+        const circle = document.createElementNS(ns, 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', 8);
+        circle.setAttribute('fill', color);
+        circle.setAttribute('stroke', '#ffffff');
+        circle.setAttribute('stroke-width', '2');
+        circle.setAttribute('filter', 'url(#pointGlow)');
+
+        const title = document.createElementNS(ns, 'title');
+        title.textContent = `Current Score | WSI: ${safeWSI} | VI: ${safeVI}`;
+        circle.appendChild(title);
+
+        group.appendChild(circle);
+      }
+
+      const labelPos = chooseLabelPosition(x, y);
 
       const text = document.createElementNS(ns, 'text');
-      text.setAttribute('x', Math.min(x + 12, 406));
-      text.setAttribute('y', Math.max(y - 12, 76));
+      text.setAttribute('x', labelPos.x);
+      text.setAttribute('y', labelPos.y);
+      text.setAttribute('text-anchor', labelPos.anchor);
       text.setAttribute('font-family', 'system-ui, -apple-system, Segoe UI, Roboto, Arial');
       text.setAttribute('font-size', '12');
-      text.setAttribute('font-weight', '700');
-      text.setAttribute('fill', 'rgba(255,255,255,0.92)');
+      text.setAttribute('font-weight', '800');
+      text.setAttribute('fill', 'rgba(255,255,255,0.95)');
       text.textContent = "Current Score";
       group.appendChild(text);
 
@@ -1191,7 +1243,7 @@
         mode: saved.mode || saved.viMode || saved.wsiMode || "—",
         communityType: saved.communityType || "—",
         state: saved.state || "—",
-        color: "#1f57b8"
+        color: "#5aa8ff"
       };
     }
 
