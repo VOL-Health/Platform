@@ -9,6 +9,7 @@
       --brand-blue:#1f57b8;
       --brand-green:#2e8b57;
       --brand-yellow:#f2b705;
+      --brand-red:#e63946;
       --shai-gray:#6e758a;
       --shai-gray-dark:#545b70;
       --bg:#050816;
@@ -32,20 +33,20 @@
 
     a{ color:inherit; }
     .wrap{ max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-    /* Top bar */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     .topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  padding-bottom:12px;
-}
-    
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding-bottom:12px;
+    }
+
     .brand-logo{
       height:100px;
       width:auto;
@@ -69,7 +70,6 @@
     }
     .nav a:hover{ background: rgba(255,255,255,0.06); }
 
-    /* Cards */
     .card{
       background: linear-gradient(180deg, rgba(13,18,36,0.92), rgba(10,14,30,0.92));
       border:1px solid rgba(255,255,255,0.10);
@@ -77,7 +77,6 @@
       box-shadow: 0 28px 80px rgba(0,0,0,0.40);
     }
 
-    /* Buttons */
     .btn{
       display:inline-flex;
       align-items:center;
@@ -90,7 +89,7 @@
       text-transform:uppercase;
       letter-spacing:0.09em;
       text-decoration:none;
-      border:1px solid rgba(255,255,255,0.12);   /* restored (needed for btn-shai border to show) */
+      border:1px solid rgba(255,255,255,0.12);
       cursor:pointer;
       white-space:nowrap;
       transition:transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
@@ -107,7 +106,6 @@
     }
     .btn-shai:hover{ filter:brightness(1.12); }
 
-    /* Hero */
     .hero{ padding:26px; display:grid; grid-template-columns: 1.15fr 0.85fr; gap:18px; }
     .pill{
       display:inline-flex; align-items:center; gap:10px;
@@ -131,7 +129,6 @@
 
     .hero-cta{ margin-top:16px; display:flex; flex-wrap:wrap; gap:10px; }
 
-    /* Powered by row (matches your screenshot vibe) */
     .powered-by{
       margin-top:14px;
       display:flex;
@@ -169,12 +166,10 @@
     .metric .value{ font-size:18px; font-weight:900; margin-top:6px; }
     .metric .note{ color:rgba(255,255,255,0.70); font-size:12px; margin-top:4px; line-height:1.35; }
 
-    /* Sections */
     .section{ margin-top:22px; }
     .section-head h2{ margin:0; font-size:22px; }
     .section-head p{ margin:6px 0 0; color:rgba(255,255,255,0.76); font-size:13.5px; line-height:1.55; }
 
-    /* Accordion chooser */
     .chooser{ padding:18px; }
     .accordion{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
 
@@ -228,12 +223,9 @@
     .acc-item.open .acc-body{ max-height:520px; }
     .acc-item.open .acc-toggle span{ transform:rotate(90deg); }
 
-    /* Stability map */
     .map-card{ padding:18px; }
     .map-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; align-items:start; margin-top:14px; }
     .map-box{ padding:14px; border-radius:18px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.18); }
-
-    /* FIX: SVG sizing via CSS (no height="auto" attribute) */
     .map-box svg{ width:100%; height:auto; display:block; }
 
     .tool-list{ margin:10px 0 0; padding-left:18px; color:rgba(255,255,255,0.80); font-size:13px; line-height:1.55; }
@@ -248,6 +240,36 @@
     }
     .mini-roi .grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; color:#d0d4ef; font-size:13px; }
 
+    .map-readout{
+      margin-top:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      border-radius:16px;
+      padding:12px;
+    }
+    .map-readout h4{
+      margin:0 0 10px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:rgba(255,255,255,0.70);
+    }
+    .readout-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px 12px;
+      font-size:13px;
+      color:rgba(255,255,255,0.84);
+    }
+    .readout-grid strong{ color:#fff; }
+
+    .map-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+
     footer{ margin-top:22px; color:rgba(255,255,255,0.55); font-size:11.5px; line-height:1.55; }
 
     @media (max-width: 920px){
@@ -256,6 +278,7 @@
       .map-grid{ grid-template-columns: 1fr; }
       .hero h2{ font-size:36px; }
       .nav{ gap:10px; }
+      .readout-grid{ grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -263,9 +286,9 @@
   <div class="wrap">
 
     <div class="topbar">
-  <div class="brand">
-    <img class="brand-logo" src="vol-health-logo.png" alt="VOL Health logo" />
-  </div>
+      <div class="brand">
+        <img class="brand-logo" src="vol-health-logo.png" alt="VOL Health logo" />
+      </div>
 
       <nav class="nav" aria-label="Primary">
         <a href="#acc-vi">VI</a>
@@ -275,7 +298,6 @@
       </nav>
     </div>
 
-    <!-- HERO -->
     <section class="card hero" id="top">
       <div>
         <div class="pill">VOL HEALTH™ DIAGNOSTIC VIEWS FOR VOLATILITY &amp; WORKFORCE STABILITY</div>
@@ -295,7 +317,6 @@
           <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
         </div>
 
-        <!-- FIX: Powered by logo row now actually called + styled like your screenshot -->
         <div class="powered-by" aria-label="Powered by StaffHealth and Accushield Verified">
           <span>Powered by:</span>
           <img src="sh-av-logo.png" alt="StaffHealth + Accushield Verified" />
@@ -303,26 +324,25 @@
       </div>
 
       <aside class="snapshot">
-        <h3>Sample VOL Health™ Snapshot</h3>
-        <div class="sub">Illustrative view of a mixed-stability senior living community. Use the tools to tune the inputs to your reality.</div>
+        <h3 id="snapshotTitle">Sample VOL Health™ Snapshot</h3>
+        <div class="sub" id="snapshotSub">Illustrative view of a mixed-stability senior living community. Use the tools to tune the inputs to your reality.</div>
         <div class="bar" aria-hidden="true"></div>
-        <div class="bar-labels"><span>Low volatility</span><span>High volatility</span></div>
+        <div class="bar-labels"><span>Low stability</span><span>High stability</span></div>
         <div class="metrics">
           <div class="metric">
-            <div class="label">Stability score</div>
-            <div class="value">62 / 100</div>
-            <div class="note">Mixed stability – early warning zone.</div>
+            <div class="label">VI (Volatility Index)</div>
+            <div class="value" id="snapshotVI">62 / 100</div>
+            <div class="note" id="snapshotVINote">Current volatility control reading.</div>
           </div>
           <div class="metric">
-            <div class="label">Annual economics at stake</div>
-            <div class="value">$480k – $960k</div>
-            <div class="note">Illustrative range influenced by volatility.</div>
+            <div class="label">WSI (Workforce Stability Index)</div>
+            <div class="value" id="snapshotWSI">48 / 100</div>
+            <div class="note" id="snapshotWSINote">Current workforce stability reading.</div>
           </div>
         </div>
       </aside>
     </section>
 
-    <!-- CHOOSER -->
     <section class="section card chooser" id="chooser">
       <div class="section-head">
         <h2>Choose your VOL Health™ view</h2>
@@ -331,7 +351,6 @@
 
       <div class="accordion">
 
-        <!-- VI -->
         <div class="acc-item" id="acc-vi">
           <div class="acc-header" onclick="toggleAcc('acc-vi')" role="button" tabindex="0" aria-expanded="false">
             <div>
@@ -357,7 +376,6 @@
           </div>
         </div>
 
-        <!-- WSI -->
         <div class="acc-item" id="acc-wsi">
           <div class="acc-header" onclick="toggleAcc('acc-wsi')" role="button" tabindex="0" aria-expanded="false">
             <div>
@@ -383,7 +401,6 @@
           </div>
         </div>
 
-        <!-- SHAI -->
         <div class="acc-item" id="acc-shai">
           <div class="acc-header" onclick="toggleAcc('acc-shai')" role="button" tabindex="0" aria-expanded="false">
             <div>
@@ -413,21 +430,19 @@
       </div>
     </section>
 
-    <!-- STABILITY MAP -->
     <section class="section card map-card" id="stability-map">
       <div class="section-head">
         <h2>VOL Health Stability Map</h2>
         <p>
-          A portfolio-friendly view that plots each community by VI (volatility control)
-          and WSI (workforce stability). The goal is simple: move north-east over time
+          A portfolio-friendly view that plots each community by <strong>WSI on the horizontal axis</strong>
+          and <strong>VI on the vertical axis</strong>. The goal is simple: move north-east over time
           and measure the <strong>Stability Delta</strong>.
         </p>
       </div>
 
       <div class="map-grid">
         <div class="map-box">
-          <!-- FIX: removed height="auto" attribute -->
-          <svg viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
+          <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
             <defs>
               <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stop-color="#0d1224"/>
@@ -448,6 +463,7 @@
             </defs>
 
             <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.10)"/>
+
             <rect x="260" y="60" width="180" height="120" rx="14" fill="rgba(46,139,87,0.08)"/>
 
             <g stroke="rgba(255,255,255,0.10)" stroke-width="1">
@@ -472,9 +488,9 @@
 
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="14" fill="rgba(255,255,255,0.85)">
               <text x="95" y="90">Acute Volatility</text>
-              <text x="295" y="90">Operational Stability</text>
+              <text x="292" y="90">Operational Stability</text>
               <text x="95" y="210">Structural Instability</text>
-              <text x="295" y="210">Managed Volatility</text>
+              <text x="292" y="210">Managed Volatility</text>
             </g>
 
             <path d="M250 300 L430 110"
@@ -486,33 +502,39 @@
 
             <text x="438" y="112" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.62)">Target</text>
 
-            <g filter="url(#dotGlow)">
-              <circle cx="150" cy="320" r="7" fill="#e63946" stroke="white" stroke-width="1.5"/>
-              <circle cx="220" cy="260" r="7" fill="#f2b705" stroke="white" stroke-width="1.5"/>
-              <circle cx="320" cy="230" r="7" fill="#1f57b8" stroke="white" stroke-width="1.5"/>
-              <circle cx="400" cy="150" r="7" fill="#2e8b57" stroke="white" stroke-width="1.5"/>
-            </g>
-
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.75)">
-              <text x="250" y="400">VI (Volatility Control) →</text>
-              <text x="18" y="210" transform="rotate(-90 18 210)">WSI (Workforce Stability) →</text>
+              <text x="222" y="400">WSI (Workforce Stability Index) →</text>
+              <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
             </g>
 
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
-              <text x="72" y="380">0</text>
-              <text x="430" y="380">100</text>
+              <text x="76" y="380">0</text>
+              <text x="428" y="380">100</text>
               <text x="56" y="66">100</text>
               <text x="60" y="368">0</text>
             </g>
+
+            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="10" fill="rgba(255,255,255,0.38)">
+              <text x="164" y="380">25</text>
+              <text x="254" y="380">50</text>
+              <text x="344" y="380">75</text>
+
+              <text x="61" y="304">25</text>
+              <text x="61" y="244">50</text>
+              <text x="61" y="184">75</text>
+            </g>
+
+            <g id="stabilityTrailLayer"></g>
+            <g id="stabilityDynamicLayer"></g>
           </svg>
         </div>
 
         <div class="map-box">
           <h3 style="margin:0 0 8px; font-size:18px;">How communities move north-east</h3>
           <ul class="tool-list">
-            <li><strong>SHAI Buffer</strong> reduces near-term volatility by improving shift continuity and reliability.</li>
-            <li><strong>SHAI Workforce Engine</strong> identifies high-fit internal hires and pipeline actions.</li>
-            <li><strong>Stability Delta</strong> reports improvement over time: <code>ΔVI</code> and <code>ΔWSI</code>.</li>
+            <li><strong>WSI increases to the right</strong> as workforce resilience, coverage reliability, and pipeline health improve.</li>
+            <li><strong>VI increases upward</strong> as operational volatility becomes more controlled and manageable.</li>
+            <li><strong>Stability Delta</strong> is the movement from one point in time to the next: <code>ΔWSI</code> and <code>ΔVI</code>.</li>
           </ul>
 
           <div class="mini-roi">
@@ -524,6 +546,26 @@
               <div><strong>WSI:</strong> 41 → 63</div><div><strong>+22</strong> workforce stability</div>
               <div><strong>OT:</strong> $312k → $204k</div><div><strong>$108k</strong> cost reduction</div>
             </div>
+          </div>
+
+          <div class="map-readout">
+            <h4>Current plotted point</h4>
+            <div class="readout-grid">
+              <div><strong>Label:</strong> <span id="mapLabel">System Default</span></div>
+              <div><strong>Source:</strong> <span id="mapSource">Default example</span></div>
+              <div><strong>VI:</strong> <span id="mapVI">62</span></div>
+              <div><strong>WSI:</strong> <span id="mapWSI">48</span></div>
+              <div><strong>VI Updated:</strong> <span id="mapVIUpdated">—</span></div>
+              <div><strong>WSI Updated:</strong> <span id="mapWSIUpdated">—</span></div>
+              <div><strong>X coordinate:</strong> <span id="mapX">252.8</span></div>
+              <div><strong>Y coordinate:</strong> <span id="mapY">174.0</span></div>
+            </div>
+          </div>
+
+          <div class="map-actions">
+            <button class="btn btn-shai" id="resetMapBtn" type="button">Reset to Default Example</button>
+            <a class="btn btn-vi" href="volatility-index.html">Update VI →</a>
+            <a class="btn btn-wsi" href="wsi.html">Update WSI →</a>
           </div>
         </div>
       </div>
@@ -538,6 +580,30 @@
   </div>
 
   <script>
+    const MAP_STORAGE_KEY = "volHealthMapData";
+
+    const stabilityMap = {
+      svg: null,
+      dynamicLayer: null,
+      trailLayer: null,
+      chart: {
+        left: 80,
+        right: 440,
+        top: 60,
+        bottom: 360
+      },
+      defaultPoint: {
+        label: "System Default",
+        source: "Default example",
+        vi: 62,
+        wsi: 48,
+        viUpdated: "—",
+        wsiUpdated: "—",
+        color: "#1f57b8"
+      },
+      history: []
+    };
+
     function toggleAcc(id){
       const el = document.getElementById(id);
       if(!el) return;
@@ -557,6 +623,192 @@
         e.preventDefault();
         const parent = t.closest('.acc-item');
         if(parent) toggleAcc(parent.id);
+      }
+    });
+
+    function clamp(value, min, max){
+      value = Number(value);
+      if (isNaN(value)) return min;
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function initStabilityMap(){
+      stabilityMap.svg = document.getElementById('stabilityMapSvg');
+      stabilityMap.dynamicLayer = document.getElementById('stabilityDynamicLayer');
+      stabilityMap.trailLayer = document.getElementById('stabilityTrailLayer');
+    }
+
+    function scoreToMapX(wsi){
+      const safeWSI = clamp(wsi, 0, 100);
+      const { left, right } = stabilityMap.chart;
+      return left + (safeWSI / 100) * (right - left);
+    }
+
+    function scoreToMapY(vi){
+      const safeVI = clamp(vi, 0, 100);
+      const { top, bottom } = stabilityMap.chart;
+      return bottom - (safeVI / 100) * (bottom - top);
+    }
+
+    function clearCurrentMapPoint(){
+      const existing = document.getElementById('currentBuildingPoint');
+      if(existing) existing.remove();
+    }
+
+    function clearTrail(){
+      if(stabilityMap.trailLayer) stabilityMap.trailLayer.innerHTML = '';
+      stabilityMap.history = [];
+    }
+
+    function updateSnapshot(point){
+      document.getElementById("snapshotTitle").textContent = `${point.label} Snapshot`;
+      document.getElementById("snapshotSub").textContent =
+        point.source === "Default example"
+          ? "Illustrative default example shown until both VI and WSI calculator results are available."
+          : "Current Stability Map point based on the latest saved VI and WSI calculator outputs.";
+      document.getElementById("snapshotVI").textContent = `${point.vi} / 100`;
+      document.getElementById("snapshotWSI").textContent = `${point.wsi} / 100`;
+      document.getElementById("snapshotVINote").textContent = "Current volatility control reading.";
+      document.getElementById("snapshotWSINote").textContent = "Current workforce stability reading.";
+    }
+
+    function updateReadout(point){
+      document.getElementById("mapLabel").textContent = point.label;
+      document.getElementById("mapSource").textContent = point.source;
+      document.getElementById("mapVI").textContent = point.vi;
+      document.getElementById("mapWSI").textContent = point.wsi;
+      document.getElementById("mapVIUpdated").textContent = point.viUpdated || "—";
+      document.getElementById("mapWSIUpdated").textContent = point.wsiUpdated || "—";
+      document.getElementById("mapX").textContent = point.x.toFixed(1);
+      document.getElementById("mapY").textContent = point.y.toFixed(1);
+    }
+
+    function plotPoint(wsi, vi, options = {}){
+      if(!stabilityMap.svg || !stabilityMap.dynamicLayer) initStabilityMap();
+
+      const ns = 'http://www.w3.org/2000/svg';
+      const safeWSI = clamp(wsi, 0, 100);
+      const safeVI = clamp(vi, 0, 100);
+
+      const x = scoreToMapX(safeWSI);
+      const y = scoreToMapY(safeVI);
+
+      const label = options.label || "Community";
+      const source = options.source || "Saved calculator data";
+      const color = options.color || "#1f57b8";
+      const viUpdated = options.viUpdated || "—";
+      const wsiUpdated = options.wsiUpdated || "—";
+
+      clearCurrentMapPoint();
+
+      const group = document.createElementNS(ns, 'g');
+      group.setAttribute('id', 'currentBuildingPoint');
+
+      const circle = document.createElementNS(ns, 'circle');
+      circle.setAttribute('cx', x);
+      circle.setAttribute('cy', y);
+      circle.setAttribute('r', 8);
+      circle.setAttribute('fill', color);
+      circle.setAttribute('stroke', '#ffffff');
+      circle.setAttribute('stroke-width', '2');
+      circle.setAttribute('filter', 'url(#dotGlow)');
+
+      const title = document.createElementNS(ns, 'title');
+      title.textContent = `${label} | WSI: ${safeWSI} | VI: ${safeVI}`;
+      circle.appendChild(title);
+
+      group.appendChild(circle);
+
+      const text = document.createElementNS(ns, 'text');
+      text.setAttribute('x', Math.min(x + 12, 410));
+      text.setAttribute('y', Math.max(y - 12, 76));
+      text.setAttribute('font-family', 'system-ui, -apple-system, Segoe UI, Roboto, Arial');
+      text.setAttribute('font-size', '12');
+      text.setAttribute('font-weight', '700');
+      text.setAttribute('fill', 'rgba(255,255,255,0.90)');
+      text.textContent = label;
+      group.appendChild(text);
+
+      stabilityMap.dynamicLayer.appendChild(group);
+
+      const point = {
+        label,
+        source,
+        vi: safeVI,
+        wsi: safeWSI,
+        viUpdated,
+        wsiUpdated,
+        x,
+        y,
+        color
+      };
+
+      updateSnapshot(point);
+      updateReadout(point);
+      return point;
+    }
+
+    function loadSavedMapData(){
+      try{
+        const raw = localStorage.getItem(MAP_STORAGE_KEY);
+        if(!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : null;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function hasValidSavedScores(data){
+      if(!data) return false;
+      const hasVI = typeof data.vi === "number" && !isNaN(data.vi);
+      const hasWSI = typeof data.wsi === "number" && !isNaN(data.wsi);
+      return hasVI && hasWSI;
+    }
+
+    function plotDefaultPoint(){
+      clearTrail();
+      plotPoint(
+        stabilityMap.defaultPoint.wsi,
+        stabilityMap.defaultPoint.vi,
+        {
+          label: stabilityMap.defaultPoint.label,
+          source: stabilityMap.defaultPoint.source,
+          viUpdated: stabilityMap.defaultPoint.viUpdated,
+          wsiUpdated: stabilityMap.defaultPoint.wsiUpdated,
+          color: stabilityMap.defaultPoint.color
+        }
+      );
+    }
+
+    function plotSavedOrDefault(){
+      const saved = loadSavedMapData();
+
+      if(hasValidSavedScores(saved)){
+        plotPoint(saved.wsi, saved.vi, {
+          label: saved.label || "Community",
+          source: "Saved VI + WSI calculator data",
+          viUpdated: saved.viUpdated || saved.updatedAt || "—",
+          wsiUpdated: saved.wsiUpdated || saved.updatedAt || "—",
+          color: "#1f57b8"
+        });
+      } else {
+        plotDefaultPoint();
+      }
+    }
+
+    function resetMapToDefault(){
+      localStorage.removeItem(MAP_STORAGE_KEY);
+      plotDefaultPoint();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initStabilityMap();
+      plotSavedOrDefault();
+
+      const resetBtn = document.getElementById("resetMapBtn");
+      if(resetBtn){
+        resetBtn.addEventListener("click", resetMapToDefault);
       }
     });
   </script>
