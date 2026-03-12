@@ -214,7 +214,8 @@
     }
 
     input[type="number"],
-    input[type="text"]{
+    input[type="text"],
+    select{
       width:100%;
       padding:6px 7px;
       border-radius:8px;
@@ -227,7 +228,8 @@
     }
 
     input[type="number"]:focus,
-    input[type="text"]:focus{
+    input[type="text"]:focus,
+    select:focus{
       outline:none;
       border-color:var(--brand-blue);
       box-shadow:0 0 0 2px rgba(31,87,184,0.45);
@@ -641,6 +643,17 @@
             </label>
             <input type="number" id="callOffs" min="0" max="20" value="4" />
           </div>
+          <div class="field">
+            <label>
+              <span>When unexpected coverage gaps occur, how are they most often resolved?</span>
+            </label>
+            <select id="coverageResolution">
+              <option value="overtime">Existing staff stay late / pick up extra hours</option>
+              <option value="internal_float">Internal float / PRN staff usually absorb it</option>
+              <option value="external">External coverage is usually brought in</option>
+              <option value="unfilled">The gap sometimes remains open</option>
+            </select>
+          </div>
         </div>
 
         <div class="card">
@@ -773,7 +786,7 @@
               <tr>
                 <td>
                   % of shifts via agency/PRN
-                  <div class="dist-bands">0–25% • 26–50% • 51%+</div>
+                  <div class="dist-bands">0–15% • 16–30% • 31%+</div>
                 </td>
                 <td><input type="number" id="percentPRNLow" class="small-input" min="0" value="7" /></td>
                 <td><input type="number" id="percentPRNMid" class="small-input" min="0" value="8" /></td>
@@ -790,8 +803,21 @@
                 <td><input type="number" id="callOffsHigh" class="small-input" min="0" value="5" /></td>
                 <td class="total-cell"><span id="totalCallOffs">0 / 0</span></td>
               </tr>
+              <tr>
+                <td>
+                  Coverage resolution pattern
+                  <div class="dist-bands">OT / extra hours • internal float • external / unfilled</div>
+                </td>
+                <td><input type="number" id="coverageLow" class="small-input" min="0" value="7" /></td>
+                <td><input type="number" id="coverageMid" class="small-input" min="0" value="8" /></td>
+                <td><input type="number" id="coverageHigh" class="small-input" min="0" value="5" /></td>
+                <td class="total-cell"><span id="totalCoverage">0 / 0</span></td>
+              </tr>
             </tbody>
           </table>
+          <p class="note">
+            For portfolio mode, use low = mostly overtime / extra hours, mid = mostly internal float / PRN, high = mostly external coverage or sometimes unfilled.
+          </p>
         </div>
 
         <div class="card">
@@ -1003,7 +1029,7 @@
           <h2>Candidate Sourcing Scenario</h2>
           <p style="font-size:0.82rem;">
             Illustrative view of what happens if StaffHealth runs a focused candidate sourcing program
-            (e.g., reducing workforce-pipeline risk by ~30%).
+            that strengthens the core workforce and reduces downstream strain.
           </p>
 
           <h4>With Candidate Sourcing Activated</h4>
@@ -1038,8 +1064,8 @@
             </tbody>
           </table>
           <p class="note">
-            Assumes candidate sourcing improves pipeline health first, then secondarily reduces overtime, call-offs,
-            open shifts, and workforce strain over time.
+            Assumes candidate sourcing improves pipeline health first, then secondarily reduces open shifts, call-offs,
+            overtime, and overreliance on reactive coverage.
           </p>
         </div>
       </div>
@@ -1050,7 +1076,7 @@
       </p>
 
       <div class="attribution">
-        Prototype Model v0.4 — Concept and framework developed independently by Hudson Keel
+        Prototype Model v0.5 — Concept and framework developed independently by Hudson Keel
         for internal evaluation and strategic insight testing.
         Not a final or officially endorsed StaffHealth product.
       </div>
@@ -1186,6 +1212,7 @@
           openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
           percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
           callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
+          coverageResolution: document.getElementById("coverageResolution").value,
           otHours: clamp(document.getElementById("otHours").value, 0, 500),
           otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
           agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
@@ -1199,6 +1226,13 @@
         };
       }
 
+      const coverageProxy = weightedAverage(
+        document.getElementById("coverageLow").value,
+        document.getElementById("coverageMid").value,
+        document.getElementById("coverageHigh").value,
+        -0.35, 0.35, -0.10
+      );
+
       return {
         openShifts: weightedAverage(
           document.getElementById("openShiftsLow").value,
@@ -1210,7 +1244,7 @@
           document.getElementById("percentPRNLow").value,
           document.getElementById("percentPRNMid").value,
           document.getElementById("percentPRNHigh").value,
-          15, 38, 65
+          8, 22, 45
         ),
         callOffs: weightedAverage(
           document.getElementById("callOffsLow").value,
@@ -1218,6 +1252,7 @@
           document.getElementById("callOffsHigh").value,
           1, 4, 7
         ),
+        coverageResolution: coverageProxy,
         otHours: weightedAverage(
           document.getElementById("otHoursLow").value,
           document.getElementById("otHoursMid").value,
@@ -1308,6 +1343,7 @@
       handleRow("openShiftsLow", "openShiftsMid", "openShiftsHigh", "totalOpenShifts");
       handleRow("percentPRNLow", "percentPRNMid", "percentPRNHigh", "totalPercentPRN");
       handleRow("callOffsLow", "callOffsMid", "callOffsHigh", "totalCallOffs");
+      handleRow("coverageLow", "coverageMid", "coverageHigh", "totalCoverage");
 
       handleRow("otHoursLow", "otHoursMid", "otHoursHigh", "totalOtHours");
       handleRow("otPremiumLow", "otPremiumMid", "otPremiumHigh", "totalOtPremium");
@@ -1323,56 +1359,91 @@
       handleRow("recruitSpendLow", "recruitSpendMid", "recruitSpendHigh", "totalRecruitSpend");
     }
 
-    function getElasticityProfile(percentPRN, openShifts, callOffs, otHours) {
+    function getPrnZoneRisk(prn){
+      if (prn <= 4) return 0.82;
+      if (prn <= 15) return 0.10 + ((prn - 5) / 10) * 0.08;
+      if (prn <= 30) return 0.26 + ((prn - 16) / 14) * 0.20;
+      return Math.min(0.90, 0.48 + ((prn - 31) / 69) * 0.42);
+    }
+
+    function getCoverageMechanismModifier(resolution){
+      if (typeof resolution === "number") return resolution;
+
+      switch(resolution){
+        case "overtime":
+          return -0.35;
+        case "internal_float":
+          return 0.35;
+        case "external":
+          return 0.08;
+        case "unfilled":
+          return -0.55;
+        default:
+          return 0;
+      }
+    }
+
+    function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
       const prn = clamp(percentPRN, 0, 100);
       const open = clamp(openShifts, 0, 50);
       const calls = clamp(callOffs, 0, 20);
       const ot = clamp(otHours, 0, 500);
 
-      const optimalPRN = 10;
-      const prnDistance = Math.abs(prn - optimalPRN);
-      const prnRisk = clamp(prnDistance / 40, 0, 1);
-      const elasticityCapacity = 1 - prnRisk;
-
+      const prnRisk = getPrnZoneRisk(prn);
+      const prnCapacity = 1 - prnRisk;
       const overtimeStress = ot / 500;
       const gapStress = ((open / 50) + (calls / 20)) / 2;
+      const coverageModifier = getCoverageMechanismModifier(coverageResolution);
 
-      const rigidityPenalty = prn < 3 ? 0.18 : 0;
-      const overextensionPenalty = prn > 35 ? 0.12 : 0;
+      const hardRigidityPenalty = (prn <= 4) ? 0.28 : 0;
+      const lowPrnHighOtPenalty = (prn <= 4 && ot >= 80) ? 0.22 : 0;
+      const lowPrnGapPenalty = (prn <= 4 && (open >= 6 || calls >= 4)) ? 0.18 : 0;
+      const dependencyPenalty = (prn >= 31) ? 0.12 : 0;
+      const severeDependencyPenalty = (prn >= 45) ? 0.08 : 0;
 
       const elasticityBalanceRaw =
-        elasticityCapacity
-        - (0.55 * overtimeStress)
-        - (0.30 * gapStress)
-        - rigidityPenalty
-        - overextensionPenalty;
+        (prnCapacity * 0.55)
+        + coverageModifier
+        - (overtimeStress * 0.45)
+        - (gapStress * 0.35)
+        - hardRigidityPenalty
+        - lowPrnHighOtPenalty
+        - lowPrnGapPenalty
+        - dependencyPenalty
+        - severeDependencyPenalty;
 
       const elasticityBalance = clamp(elasticityBalanceRaw, -1, 1);
 
       let balanceLabel = "Neutral";
-      if (elasticityBalance >= 0.35) balanceLabel = "Healthy";
-      else if (elasticityBalance >= 0.05) balanceLabel = "Balanced";
+      if (elasticityBalance >= 0.25) balanceLabel = "Healthy";
+      else if (elasticityBalance >= 0.00) balanceLabel = "Balanced";
       else if (elasticityBalance >= -0.25) balanceLabel = "Tight";
       else balanceLabel = "Fragile";
 
       let archetype = "Balanced Elastic";
-      if (prn < 3 && ot > 120) {
+
+      if (coverageResolution === "unfilled" || (typeof coverageResolution === "number" && coverageModifier <= -0.45)) {
+        archetype = "Elasticity Failure";
+      } else if ((prn <= 4 && ot >= 80) || coverageResolution === "overtime") {
         archetype = "Rigid / Burnout Risk";
-      } else if (prn >= 20 && open <= 8 && calls <= 5) {
+      } else if (coverageResolution === "internal_float" && prn <= 15 && elasticityBalance >= 0) {
+        archetype = "Internally Elastic";
+      } else if (coverageResolution === "external" && prn >= 16) {
         archetype = "Agency-Stabilized";
-      } else if (ot > 180 && open <= 10) {
+      } else if (prn >= 31 && open <= 8 && calls <= 5) {
+        archetype = "Agency-Stabilized";
+      } else if (ot >= 180 && open <= 10) {
         archetype = "Burnout-Supported";
       } else if (open > 12 || calls > 6 || elasticityBalance < -0.35) {
         archetype = "Elasticity Failure";
-      } else if (elasticityBalance >= 0.25) {
-        archetype = "Balanced Elastic";
       }
 
-      const elasticityPenalty = Math.max(0, -elasticityBalance) * 8;
+      const elasticityPenalty = Math.max(0, -elasticityBalance) * 12;
 
       return {
         prnRisk,
-        elasticityCapacity,
+        prnCapacity,
+        coverageModifier,
         elasticityBalance,
         balanceLabel,
         archetype,
@@ -1380,39 +1451,43 @@
       };
     }
 
+    function getImprovedCoverageResolution(currentResolution) {
+      if (typeof currentResolution === "number") {
+        return currentResolution < 0 ? Math.min(currentResolution + 0.18, 0.18) : Math.min(currentResolution + 0.05, 0.35);
+      }
+
+      switch(currentResolution){
+        case "overtime":
+          return "internal_float";
+        case "unfilled":
+          return "external";
+        case "external":
+          return "external";
+        case "internal_float":
+        default:
+          return "internal_float";
+      }
+    }
+
     function getImprovedScenario(inputs) {
-      const turnoverRate = clamp(inputs.turnoverRate * 0.72, 0, 100);
-      const vacancies = clamp(inputs.vacancies * 0.70, 0, 20);
-      const timeToFill = clamp(inputs.timeToFill * 0.78, 0, 120);
-      const recruitSpend = clamp(inputs.recruitSpend * 0.82, 0, 50000);
-
-      const openShifts = clamp(inputs.openShifts * 0.82, 0, 50);
-      const callOffs = clamp(inputs.callOffs * 0.88, 0, 20);
-      const otHours = clamp(inputs.otHours * 0.82, 0, 500);
-      const otPremium = clamp(inputs.otPremium * 0.96, 0, 100);
-
-      // External coverage reliance often improves a bit, but not dramatically
-      const percentPRN = clamp(inputs.percentPRN * 0.94, 0, 100);
-      const agencyPremium = clamp(inputs.agencyPremium * 0.98, 0, 100);
-
-      const pbjRisk = clamp(inputs.pbjRisk * 0.90, 0, 10);
-      const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
-      const leaderTurnover = clamp(inputs.leaderTurnover * 0.95, 0, 10);
-
       return {
-        openShifts,
-        percentPRN,
-        callOffs,
-        otHours,
-        otPremium,
-        agencyPremium,
-        pbjRisk,
-        surveyCitations,
-        leaderTurnover,
-        turnoverRate,
-        vacancies,
-        timeToFill,
-        recruitSpend
+        openShifts: clamp(inputs.openShifts * 0.80, 0, 50),
+        percentPRN: clamp(inputs.percentPRN <= 4 ? inputs.percentPRN + 6 : inputs.percentPRN * 0.94, 0, 100),
+        callOffs: clamp(inputs.callOffs * 0.86, 0, 20),
+        coverageResolution: getImprovedCoverageResolution(inputs.coverageResolution),
+
+        otHours: clamp(inputs.otHours * 0.78, 0, 500),
+        otPremium: clamp(inputs.otPremium * 0.95, 0, 100),
+        agencyPremium: clamp(inputs.agencyPremium * 0.98, 0, 100),
+
+        pbjRisk: clamp(inputs.pbjRisk * 0.90, 0, 10),
+        surveyCitations: clamp(inputs.surveyCitations, 0, 10),
+        leaderTurnover: clamp(inputs.leaderTurnover * 0.95, 0, 10),
+
+        turnoverRate: clamp(inputs.turnoverRate * 0.72, 0, 100),
+        vacancies: clamp(inputs.vacancies * 0.70, 0, 20),
+        timeToFill: clamp(inputs.timeToFill * 0.78, 0, 120),
+        recruitSpend: clamp(inputs.recruitSpend * 0.82, 0, 50000)
       };
     }
 
@@ -1420,24 +1495,27 @@
       const openShifts = clamp(inputs.openShifts, 0, 50);
       const percentPRN = clamp(inputs.percentPRN, 0, 100);
       const callOffs = clamp(inputs.callOffs, 0, 20);
-
       const otHours = clamp(inputs.otHours, 0, 500);
       const otPremium = clamp(inputs.otPremium, 0, 100);
       const agencyPremium = clamp(inputs.agencyPremium, 0, 100);
-
       const pbjRisk = clamp(inputs.pbjRisk, 0, 10);
       const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
       const leaderTurnover = clamp(inputs.leaderTurnover, 0, 10);
-
       const turnoverRate = clamp(inputs.turnoverRate, 0, 100);
       const vacancies = clamp(inputs.vacancies, 0, 20);
       const timeToFill = clamp(inputs.timeToFill, 0, 120);
       const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
+      const coverageResolution = inputs.coverageResolution;
 
-      const elasticity = getElasticityProfile(percentPRN, openShifts, callOffs, otHours);
+      const elasticity = getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution);
 
       const volScore =
-        ((openShifts / 50) + elasticity.prnRisk + (callOffs / 20)) / 3 * 25;
+        (
+          (openShifts / 50) * 0.34 +
+          elasticity.prnRisk * 0.28 +
+          (callOffs / 20) * 0.20 +
+          Math.max(0, -elasticity.coverageModifier) * 0.18
+        ) * 25;
 
       const finScore =
         ((otHours / 500) + (otPremium / 100) + (agencyPremium / 100)) / 3 * 25;
@@ -1460,6 +1538,7 @@
         openShifts,
         percentPRN,
         callOffs,
+        coverageResolution,
         otHours,
         otPremium,
         agencyPremium,
@@ -1576,6 +1655,13 @@
       const textInputs = document.querySelectorAll("input[type='text']");
       textInputs.forEach(input => {
         input.addEventListener("input", function () {
+          updateWSI();
+        });
+      });
+
+      const selectInputs = document.querySelectorAll("select");
+      selectInputs.forEach(input => {
+        input.addEventListener("change", function () {
           updateWSI();
         });
       });
