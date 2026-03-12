@@ -50,13 +50,41 @@
       display:flex;
       align-items:center;
       gap:12px;
+      min-width:0;
     }
 
     .brand-logo{
-      height:100px;
-      width:auto;
       display:block;
-      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+      width:100%;
+      max-width:470px;
+      height:auto;
+      overflow:visible;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.30));
+    }
+
+    .brand-logo .main{
+      font-family:Inter,Manrope,"Segoe UI",Arial,sans-serif;
+      font-weight:800;
+      font-size:170px;
+      dominant-baseline:alphabetic;
+    }
+
+    .brand-logo .vol{
+      fill:#2C5FBE;
+      letter-spacing:-0.06em;
+    }
+
+    .brand-logo .health{
+      fill:#EEF2F7;
+      letter-spacing:-0.035em;
+    }
+
+    .brand-logo .sub{
+      font-family:Inter,Manrope,"Segoe UI",Arial,sans-serif;
+      font-weight:600;
+      font-size:36px;
+      fill:#D0D6E0;
+      letter-spacing:0.32em;
     }
 
     .nav{
@@ -542,6 +570,13 @@
     }
 
     @media (max-width:920px){
+      .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .brand-logo{
+        max-width:420px;
+      }
       .hero{ grid-template-columns:1fr; }
       .acc-inner{ grid-template-columns:1fr; }
       .map-grid{ grid-template-columns:1fr; }
@@ -552,14 +587,49 @@
       .zone-legend .grid{ grid-template-columns:1fr; }
       .metrics{ grid-template-columns:1fr; }
     }
+
+    @media (max-width:640px){
+      .brand-logo{
+        max-width:320px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
 
     <div class="topbar">
-      <div class="brand">
-        <img class="brand-logo" src="vol-health-logo.png" alt="VOL Health logo" />
+      <div class="brand" aria-label="VOL Health logo">
+        <svg class="brand-logo" viewBox="0 0 1700 360" role="img" aria-label="VOL Health">
+          <defs>
+            <linearGradient id="volBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2C5FBE"/>
+              <stop offset="100%" stop-color="#1f57b8"/>
+            </linearGradient>
+          </defs>
+
+          <text x="54" y="170"
+                font-family="Inter, Manrope, 'Segoe UI', Arial, sans-serif"
+                font-size="168"
+                font-weight="800"
+                letter-spacing="-10"
+                fill="url(#volBlue)">VOL</text>
+
+          <text x="488" y="170"
+                font-family="Inter, Manrope, 'Segoe UI', Arial, sans-serif"
+                font-size="168"
+                font-weight="800"
+                letter-spacing="-5"
+                fill="#EEF2F7">HEALTH</text>
+
+          <text x="850" y="268"
+                text-anchor="middle"
+                font-family="Inter, Manrope, 'Segoe UI', Arial, sans-serif"
+                font-size="34"
+                font-weight="600"
+                letter-spacing="11"
+                fill="#CBD2DE">STAFFHEALTH + ACCUSHIELD VERIFIED</text>
+        </svg>
       </div>
 
       <nav class="nav" aria-label="Primary">
@@ -757,26 +827,16 @@
 
             <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
 
-            <!-- Threshold-based 5x5 zones -->
-            <!-- Exposed Operations -->
             <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
-
-            <!-- Manually Stabilized -->
             <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
-
-            <!-- Volatility Pressure -->
             <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
-
-            <!-- Managed Stability -->
             <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
 
-            <!-- Optimized Stability -->
             <rect x="368" y="60" width="72" height="60" rx="14"
               fill="url(#optimizedFill)"
               stroke="rgba(255,255,255,0.24)"
               filter="url(#optimizedGlow)"/>
 
-            <!-- Grid -->
             <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
               <line x1="80" y1="60" x2="80" y2="360"/>
               <line x1="152" y1="60" x2="152" y2="360"/>
@@ -793,19 +853,16 @@
               <line x1="80" y1="360" x2="440" y2="360"/>
             </g>
 
-            <!-- Axes -->
             <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
               <line x1="80" y1="360" x2="440" y2="360"/>
               <line x1="80" y1="360" x2="80" y2="60"/>
             </g>
 
-            <!-- Threshold lines at 60 -->
             <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
               <line x1="296" y1="60" x2="296" y2="360"/>
               <line x1="80" y1="180" x2="440" y2="180"/>
             </g>
 
-            <!-- Path to optimized -->
             <path d="M242 302 L412 98"
               stroke="rgba(255,255,255,0.24)"
               stroke-width="2.5"
@@ -813,7 +870,6 @@
               stroke-linecap="round"
               marker-end="url(#arrowHead)"/>
 
-            <!-- Zone captions -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
               <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
               <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
@@ -821,19 +877,16 @@
               <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
             </g>
 
-            <!-- Optimized caption -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="900" fill="rgba(16,54,22,0.92)">
               <text x="379" y="85" font-size="11.5">Optimized</text>
               <text x="378" y="98" font-size="11.5">Stability</text>
             </g>
 
-            <!-- Axis labels -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
               <text x="214" y="400">WSI (Workforce Stability Index) →</text>
               <text x="18" y="230" transform="rotate(-90 18 230)">VI (Volatility Index) →</text>
             </g>
 
-            <!-- Number labels -->
             <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
               <text x="77" y="378">0</text>
               <text x="146" y="378">20</text>
@@ -947,14 +1000,6 @@
         top: 60,
         bottom: 360
       },
-      // simple text collision keep-out areas
-      keepOutZones: [
-        { x1: 90,  y1: 146, x2: 245, y2: 168 }, // manually stabilized
-        { x1: 308, y1: 146, x2: 430, y2: 168 }, // managed stability
-        { x1: 90,  y1: 192, x2: 240, y2: 212 }, // exposed operations
-        { x1: 308, y1: 192, x2: 430, y2: 212 }, // volatility pressure
-        { x1: 372, y1: 70,  x2: 438, y2: 102 }  // optimized stability
-      ],
       defaultPoint: {
         label: "System Default",
         source: "Default example",
@@ -1092,52 +1137,6 @@
       document.getElementById("mapUpdatedAt").textContent = point.updatedAt || "—";
       document.getElementById("mapX").textContent = point.x.toFixed(1);
       document.getElementById("mapY").textContent = point.y.toFixed(1);
-    }
-
-    function rectsIntersect(a, b){
-      return !(a.x2 < b.x1 || a.x1 > b.x2 || a.y2 < b.y1 || a.y1 > b.y2);
-    }
-
-    function chooseLabelPosition(x, y){
-      const placements = [
-        { dx: 12,  dy: -12, anchor: "start" }, // upper right
-        { dx: -12, dy: -12, anchor: "end"   }, // upper left
-        { dx: 12,  dy: 18,  anchor: "start" }, // lower right
-        { dx: -12, dy: 18,  anchor: "end"   }  // lower left
-      ];
-
-      const labelWidth = 78;
-      const labelHeight = 18;
-      const chartLeft = 80;
-      const chartRight = 440;
-      const chartTop = 60;
-      const chartBottom = 360;
-
-      for(const p of placements){
-        const textX = x + p.dx;
-        const textY = y + p.dy;
-
-        const box = {
-          x1: p.anchor === "start" ? textX : textX - labelWidth,
-          y1: textY - 14,
-          x2: p.anchor === "start" ? textX + labelWidth : textX,
-          y2: textY + 4
-        };
-
-        const withinChart =
-          box.x1 >= chartLeft + 2 &&
-          box.x2 <= chartRight - 2 &&
-          box.y1 >= chartTop + 2 &&
-          box.y2 <= chartBottom - 2;
-
-        const overlapsZoneText = stabilityMap.keepOutZones.some(zone => rectsIntersect(box, zone));
-
-        if(withinChart && !overlapsZoneText){
-          return { x: textX, y: textY, anchor: p.anchor };
-        }
-      }
-
-      return { x: x + 12, y: y - 12, anchor: "start" };
     }
 
     function plotPoint(wsi, vi, options = {}){
