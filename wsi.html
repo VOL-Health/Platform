@@ -403,6 +403,13 @@
       line-height:1.35;
     }
 
+    .elasticity-state{
+      font-weight:800;
+      font-size:1rem;
+      color:#f5f6ff;
+      margin-top:2px;
+    }
+
     .scenario-card h2{
       margin:0 0 8px;
       font-size:1rem;
@@ -560,7 +567,7 @@
           <span class="shsi-title-main">WORKFORCE STABILITY INDEX (WSI)</span>
         </div>
         <div class="shsi-tagline">
-          Directional diagnostic that scores staffing “health” across volatility, risk, and workforce stability —
+          Directional diagnostic that scores staffing health across volatility, risk, and workforce stability —
           designed for single communities or portfolios. This screen is the Workforce Stability (WSI) view.
         </div>
       </div>
@@ -601,7 +608,7 @@
             <span>Community / portfolio name (optional)</span>
             <small>Used on Stability Map</small>
           </label>
-          <input type="text" id="entityName" placeholder="EvenKeel, CrabApple, Portfolio A, etc." />
+          <input type="text" id="entityName" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
         </div>
 
         <p class="note">
@@ -645,12 +652,12 @@
           </div>
           <div class="field">
             <label>
-              <span>When unexpected coverage gaps occur, how are they most often resolved?</span>
+              <span>When coverage gaps occur, what most often happens?</span>
             </label>
             <select id="coverageResolution">
-              <option value="overtime">Existing staff stay late / pick up extra hours</option>
-              <option value="internal_float">Internal float / PRN staff usually absorb it</option>
-              <option value="external">External coverage is usually brought in</option>
+              <option value="overtime">Existing staff stay late or pick up extra hours</option>
+              <option value="internal_float">Internal float / PRN staff usually cover it</option>
+              <option value="external">External coverage is brought in</option>
               <option value="unfilled">The gap sometimes remains open</option>
             </select>
           </div>
@@ -748,233 +755,6 @@
         </div>
       </div>
 
-      <div class="grid portfolio-only">
-        <div class="card">
-          <h3>2. Portfolio Context &amp; Staffing Volatility</h3>
-          <p style="font-size:0.8rem;">
-            Enter how many communities fall into each band. The tool converts this into portfolio-wide average values.
-          </p>
-          <div class="field">
-            <label>
-              <span>Total communities in this portfolio</span>
-              <small>(for your reference)</small>
-            </label>
-            <input type="number" id="portfolioSize" min="1" max="200" value="20" />
-          </div>
-
-          <table class="dist-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  Open shifts / week
-                  <div class="dist-bands">0–5 • 6–10 • 11+</div>
-                </td>
-                <td><input type="number" id="openShiftsLow" class="small-input" min="0" value="6" /></td>
-                <td><input type="number" id="openShiftsMid" class="small-input" min="0" value="9" /></td>
-                <td><input type="number" id="openShiftsHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalOpenShifts">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  % of shifts via agency/PRN
-                  <div class="dist-bands">0–15% • 16–30% • 31%+</div>
-                </td>
-                <td><input type="number" id="percentPRNLow" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="percentPRNMid" class="small-input" min="0" value="8" /></td>
-                <td><input type="number" id="percentPRNHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalPercentPRN">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Last-minute call-offs / week
-                  <div class="dist-bands">0–2 • 3–5 • 6+</div>
-                </td>
-                <td><input type="number" id="callOffsLow" class="small-input" min="0" value="8" /></td>
-                <td><input type="number" id="callOffsMid" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="callOffsHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalCallOffs">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Coverage resolution pattern
-                  <div class="dist-bands">OT / extra hours • internal float • external / unfilled</div>
-                </td>
-                <td><input type="number" id="coverageLow" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="coverageMid" class="small-input" min="0" value="8" /></td>
-                <td><input type="number" id="coverageHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalCoverage">0 / 0</span></td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="note">
-            For portfolio mode, use low = mostly overtime / extra hours, mid = mostly internal float / PRN, high = mostly external coverage or sometimes unfilled.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>3. Financial Exposure (Portfolio)</h3>
-          <table class="dist-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  Monthly OT hours
-                  <div class="dist-bands">0–100 • 101–250 • 251+</div>
-                </td>
-                <td><input type="number" id="otHoursLow" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="otHoursMid" class="small-input" min="0" value="9" /></td>
-                <td><input type="number" id="otHoursHigh" class="small-input" min="0" value="4" /></td>
-                <td class="total-cell"><span id="totalOtHours">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  OT premium vs base
-                  <div class="dist-bands">0–25% • 26–50% • 51%+</div>
-                </td>
-                <td><input type="number" id="otPremiumLow" class="small-input" min="0" value="6" /></td>
-                <td><input type="number" id="otPremiumMid" class="small-input" min="0" value="9" /></td>
-                <td><input type="number" id="otPremiumHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalOtPremium">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Agency/PRN premium vs core staff
-                  <div class="dist-bands">0–20% • 21–40% • 41%+</div>
-                </td>
-                <td><input type="number" id="agencyPremiumLow" class="small-input" min="0" value="5" /></td>
-                <td><input type="number" id="agencyPremiumMid" class="small-input" min="0" value="10" /></td>
-                <td><input type="number" id="agencyPremiumHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalAgencyPremium">0 / 0</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <h3>4. Operational &amp; Compliance Risk (Portfolio)</h3>
-          <table class="dist-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  PBJ exposure / risk score
-                  <div class="dist-bands">0–3 • 4–7 • 8–10</div>
-                </td>
-                <td><input type="number" id="pbjRiskLow" class="small-input" min="0" value="8" /></td>
-                <td><input type="number" id="pbjRiskMid" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="pbjRiskHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalPbjRisk">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Staffing-related survey citations (12 mo)
-                  <div class="dist-bands">0 • 1–2 • 3+</div>
-                </td>
-                <td><input type="number" id="surveyCitationsLow" class="small-input" min="0" value="9" /></td>
-                <td><input type="number" id="surveyCitationsMid" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="surveyCitationsHigh" class="small-input" min="0" value="4" /></td>
-                <td class="total-cell"><span id="totalSurveyCitations">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Leadership turnover events (ED/DON/ADON, 12 mo)
-                  <div class="dist-bands">0–1 • 2–3 • 4+</div>
-                </td>
-                <td><input type="number" id="leaderTurnoverLow" class="small-input" min="0" value="10" /></td>
-                <td><input type="number" id="leaderTurnoverMid" class="small-input" min="0" value="6" /></td>
-                <td><input type="number" id="leaderTurnoverHigh" class="small-input" min="0" value="4" /></td>
-                <td class="total-cell"><span id="totalLeaderTurnover">0 / 0</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <h3>5. Workforce Stability (Pipeline) — Portfolio</h3>
-          <table class="dist-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  Annual clinical staff turnover rate
-                  <div class="dist-bands">0–30% • 31–60% • 61%+</div>
-                </td>
-                <td><input type="number" id="turnoverRateLow" class="small-input" min="0" value="5" /></td>
-                <td><input type="number" id="turnoverRateMid" class="small-input" min="0" value="9" /></td>
-                <td><input type="number" id="turnoverRateHigh" class="small-input" min="0" value="6" /></td>
-                <td class="total-cell"><span id="totalTurnoverRate">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Open clinical FTE vacancies
-                  <div class="dist-bands">0–1 • 2–4 • 5+</div>
-                </td>
-                <td><input type="number" id="vacanciesLow" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="vacanciesMid" class="small-input" min="0" value="8" /></td>
-                <td><input type="number" id="vacanciesHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalVacancies">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Average time-to-fill (RN/LVN/CNA)
-                  <div class="dist-bands">0–30 d • 31–60 d • 61+ d</div>
-                </td>
-                <td><input type="number" id="timeToFillLow" class="small-input" min="0" value="6" /></td>
-                <td><input type="number" id="timeToFillMid" class="small-input" min="0" value="9" /></td>
-                <td><input type="number" id="timeToFillHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalTimeToFill">0 / 0</span></td>
-              </tr>
-              <tr>
-                <td>
-                  Monthly external recruiting spend
-                  <div class="dist-bands">$0–$5k • $5,001–$15k • $15k+</div>
-                </td>
-                <td><input type="number" id="recruitSpendLow" class="small-input" min="0" value="8" /></td>
-                <td><input type="number" id="recruitSpendMid" class="small-input" min="0" value="7" /></td>
-                <td><input type="number" id="recruitSpendHigh" class="small-input" min="0" value="5" /></td>
-                <td class="total-cell"><span id="totalRecruitSpend">0 / 0</span></td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="note">
-            Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.
-          </p>
-        </div>
-      </div>
-
       <div class="summary-grid">
         <div class="card summary-main">
           <h2>Stability Index &amp; Economics</h2>
@@ -1004,9 +784,11 @@
               <div class="kpi-value" id="workforceDrag">$–</div>
             </div>
             <div class="kpi">
-              <div class="kpi-label">Elasticity Balance</div>
-              <div class="kpi-value" id="elasticityBalance">–</div>
-              <div class="kpi-subvalue" id="workforceArchetype">Calculating…</div>
+              <div class="kpi-label">Workforce Elasticity Health</div>
+              <div class="elasticity-state" id="elasticityState">Calculating…</div>
+              <div class="kpi-subvalue" id="elasticityScoreLine">Score: –</div>
+              <div class="kpi-subvalue" id="workforceArchetype">Archetype: –</div>
+              <div class="kpi-subvalue" id="archetypeMeaning">–</div>
             </div>
           </div>
 
@@ -1076,7 +858,7 @@
       </p>
 
       <div class="attribution">
-        Prototype Model v0.5 — Concept and framework developed independently by Hudson Keel
+        Prototype Model v0.6 — Concept and framework developed independently by Hudson Keel
         for internal evaluation and strategic insight testing.
         Not a final or officially endorsed StaffHealth product.
       </div>
@@ -1123,8 +905,7 @@
     }
 
     function getFallbackEntityLabel() {
-      const mode = getMode();
-      return mode === "portfolio" ? "WSI Portfolio" : "WSI Community";
+      return "WSI Community";
     }
 
     function buildLabel(existing){
@@ -1173,211 +954,52 @@
     }
 
     function updateModeUI() {
-      const mode = getMode();
       const titleEl = document.getElementById("snapshotTitle");
       const subtitleEl = document.getElementById("snapshotSubtitle");
       const bannerEl = document.getElementById("modeBanner");
 
-      if (mode === "portfolio") {
-        document.body.classList.remove("mode-single");
-        document.body.classList.add("mode-portfolio");
-        titleEl.textContent = "Portfolio Workforce Stability Snapshot";
-        subtitleEl.textContent =
-          "Use distributions across your portfolio (how many communities fall into each band) to see an overall Workforce Stability Index and portfolio-wide volatility and pipeline economics.";
-        bannerEl.textContent = "PORTFOLIO MODE — WORKFORCE STABILITY EDITION (WSI)";
-      } else {
-        document.body.classList.remove("mode-portfolio");
-        document.body.classList.add("mode-single");
-        titleEl.textContent = "Workforce Stability Snapshot";
-        subtitleEl.textContent =
-          "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
-        bannerEl.textContent = "SINGLE COMMUNITY MODE — WORKFORCE STABILITY EDITION (WSI)";
-      }
-    }
-
-    function weightedAverage(lowCount, midCount, highCount, lowRep, midRep, highRep) {
-      const cLow = Number(lowCount) || 0;
-      const cMid = Number(midCount) || 0;
-      const cHigh = Number(highCount) || 0;
-      const total = cLow + cMid + cHigh;
-      if (total === 0) return 0;
-      return (cLow * lowRep + cMid * midRep + cHigh * highRep) / total;
+      titleEl.textContent = "Workforce Stability Snapshot";
+      subtitleEl.textContent =
+        "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
+      bannerEl.textContent = "SINGLE COMMUNITY MODE — WORKFORCE STABILITY EDITION (WSI)";
     }
 
     function getInputs() {
-      const mode = getMode();
-
-      if (mode === "single") {
-        return {
-          openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
-          percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
-          callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
-          coverageResolution: document.getElementById("coverageResolution").value,
-          otHours: clamp(document.getElementById("otHours").value, 0, 500),
-          otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
-          agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
-          pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
-          surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
-          leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
-          turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
-          vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
-          timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
-          recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
-        };
-      }
-
-      const coverageProxy = weightedAverage(
-        document.getElementById("coverageLow").value,
-        document.getElementById("coverageMid").value,
-        document.getElementById("coverageHigh").value,
-        -0.35, 0.35, -0.10
-      );
-
       return {
-        openShifts: weightedAverage(
-          document.getElementById("openShiftsLow").value,
-          document.getElementById("openShiftsMid").value,
-          document.getElementById("openShiftsHigh").value,
-          3, 8, 20
-        ),
-        percentPRN: weightedAverage(
-          document.getElementById("percentPRNLow").value,
-          document.getElementById("percentPRNMid").value,
-          document.getElementById("percentPRNHigh").value,
-          8, 22, 45
-        ),
-        callOffs: weightedAverage(
-          document.getElementById("callOffsLow").value,
-          document.getElementById("callOffsMid").value,
-          document.getElementById("callOffsHigh").value,
-          1, 4, 7
-        ),
-        coverageResolution: coverageProxy,
-        otHours: weightedAverage(
-          document.getElementById("otHoursLow").value,
-          document.getElementById("otHoursMid").value,
-          document.getElementById("otHoursHigh").value,
-          60, 180, 350
-        ),
-        otPremium: weightedAverage(
-          document.getElementById("otPremiumLow").value,
-          document.getElementById("otPremiumMid").value,
-          document.getElementById("otPremiumHigh").value,
-          15, 38, 65
-        ),
-        agencyPremium: weightedAverage(
-          document.getElementById("agencyPremiumLow").value,
-          document.getElementById("agencyPremiumMid").value,
-          document.getElementById("agencyPremiumHigh").value,
-          10, 30, 55
-        ),
-        pbjRisk: weightedAverage(
-          document.getElementById("pbjRiskLow").value,
-          document.getElementById("pbjRiskMid").value,
-          document.getElementById("pbjRiskHigh").value,
-          1.5, 5.5, 9
-        ),
-        surveyCitations: weightedAverage(
-          document.getElementById("surveyCitationsLow").value,
-          document.getElementById("surveyCitationsMid").value,
-          document.getElementById("surveyCitationsHigh").value,
-          0, 1.5, 4
-        ),
-        leaderTurnover: weightedAverage(
-          document.getElementById("leaderTurnoverLow").value,
-          document.getElementById("leaderTurnoverMid").value,
-          document.getElementById("leaderTurnoverHigh").value,
-          0.5, 2.5, 5
-        ),
-        turnoverRate: weightedAverage(
-          document.getElementById("turnoverRateLow").value,
-          document.getElementById("turnoverRateMid").value,
-          document.getElementById("turnoverRateHigh").value,
-          20, 45, 75
-        ),
-        vacancies: weightedAverage(
-          document.getElementById("vacanciesLow").value,
-          document.getElementById("vacanciesMid").value,
-          document.getElementById("vacanciesHigh").value,
-          0.5, 3, 6
-        ),
-        timeToFill: weightedAverage(
-          document.getElementById("timeToFillLow").value,
-          document.getElementById("timeToFillMid").value,
-          document.getElementById("timeToFillHigh").value,
-          15, 45, 90
-        ),
-        recruitSpend: weightedAverage(
-          document.getElementById("recruitSpendLow").value,
-          document.getElementById("recruitSpendMid").value,
-          document.getElementById("recruitSpendHigh").value,
-          2500, 10000, 20000
-        )
+        openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
+        percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
+        callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
+        coverageResolution: document.getElementById("coverageResolution").value,
+        otHours: clamp(document.getElementById("otHours").value, 0, 500),
+        otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
+        agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
+        pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
+        surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
+        leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
+        turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
+        vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
+        timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
+        recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
       };
-    }
-
-    function updatePortfolioTotals() {
-      const size = Number(document.getElementById("portfolioSize")?.value) || 0;
-
-      function handleRow(lowId, midId, highId, totalSpanId) {
-        const low = Number(document.getElementById(lowId)?.value) || 0;
-        const mid = Number(document.getElementById(midId)?.value) || 0;
-        const high = Number(document.getElementById(highId)?.value) || 0;
-        const sum = low + mid + high;
-        const span = document.getElementById(totalSpanId);
-        if (!span) return;
-
-        span.textContent = size > 0 ? `${sum} / ${size}` : `${sum} / 0`;
-
-        if (size === 0) {
-          span.style.color = "#c4cae8";
-        } else if (sum < size) {
-          span.style.color = "#f2b705";
-        } else if (sum === size) {
-          span.style.color = "#7ce9b4";
-        } else {
-          span.style.color = "#ff9ba8";
-        }
-      }
-
-      handleRow("openShiftsLow", "openShiftsMid", "openShiftsHigh", "totalOpenShifts");
-      handleRow("percentPRNLow", "percentPRNMid", "percentPRNHigh", "totalPercentPRN");
-      handleRow("callOffsLow", "callOffsMid", "callOffsHigh", "totalCallOffs");
-      handleRow("coverageLow", "coverageMid", "coverageHigh", "totalCoverage");
-
-      handleRow("otHoursLow", "otHoursMid", "otHoursHigh", "totalOtHours");
-      handleRow("otPremiumLow", "otPremiumMid", "otPremiumHigh", "totalOtPremium");
-      handleRow("agencyPremiumLow", "agencyPremiumMid", "agencyPremiumHigh", "totalAgencyPremium");
-
-      handleRow("pbjRiskLow", "pbjRiskMid", "pbjRiskHigh", "totalPbjRisk");
-      handleRow("surveyCitationsLow", "surveyCitationsMid", "surveyCitationsHigh", "totalSurveyCitations");
-      handleRow("leaderTurnoverLow", "leaderTurnoverMid", "leaderTurnoverHigh", "totalLeaderTurnover");
-
-      handleRow("turnoverRateLow", "turnoverRateMid", "turnoverRateHigh", "totalTurnoverRate");
-      handleRow("vacanciesLow", "vacanciesMid", "vacanciesHigh", "totalVacancies");
-      handleRow("timeToFillLow", "timeToFillMid", "timeToFillHigh", "totalTimeToFill");
-      handleRow("recruitSpendLow", "recruitSpendMid", "recruitSpendHigh", "totalRecruitSpend");
     }
 
     function getPrnZoneRisk(prn){
       if (prn <= 4) return 0.82;
-      if (prn <= 15) return 0.10 + ((prn - 5) / 10) * 0.08;
-      if (prn <= 30) return 0.26 + ((prn - 16) / 14) * 0.20;
-      return Math.min(0.90, 0.48 + ((prn - 31) / 69) * 0.42);
+      if (prn <= 15) return 0.12;
+      if (prn <= 30) return 0.38;
+      return Math.min(0.90, 0.52 + ((prn - 31) / 69) * 0.30);
     }
 
     function getCoverageMechanismModifier(resolution){
-      if (typeof resolution === "number") return resolution;
-
       switch(resolution){
         case "overtime":
-          return -0.35;
+          return -0.38;
         case "internal_float":
-          return 0.35;
+          return 0.32;
         case "external":
-          return 0.08;
+          return 0.06;
         case "unfilled":
-          return -0.55;
+          return -0.58;
         default:
           return 0;
       }
@@ -1398,8 +1020,7 @@
       const hardRigidityPenalty = (prn <= 4) ? 0.28 : 0;
       const lowPrnHighOtPenalty = (prn <= 4 && ot >= 80) ? 0.22 : 0;
       const lowPrnGapPenalty = (prn <= 4 && (open >= 6 || calls >= 4)) ? 0.18 : 0;
-      const dependencyPenalty = (prn >= 31) ? 0.12 : 0;
-      const severeDependencyPenalty = (prn >= 45) ? 0.08 : 0;
+      const dependencyPenalty = (prn >= 31) ? 0.10 : 0;
 
       const elasticityBalanceRaw =
         (prnCapacity * 0.55)
@@ -1409,33 +1030,28 @@
         - hardRigidityPenalty
         - lowPrnHighOtPenalty
         - lowPrnGapPenalty
-        - dependencyPenalty
-        - severeDependencyPenalty;
+        - dependencyPenalty;
 
       const elasticityBalance = clamp(elasticityBalanceRaw, -1, 1);
 
-      let balanceLabel = "Neutral";
-      if (elasticityBalance >= 0.25) balanceLabel = "Healthy";
-      else if (elasticityBalance >= 0.00) balanceLabel = "Balanced";
-      else if (elasticityBalance >= -0.25) balanceLabel = "Tight";
-      else balanceLabel = "Fragile";
+      let healthState = "Balanced Elasticity";
+      if (elasticityBalance >= 0.25) healthState = "Healthy Elasticity";
+      else if (elasticityBalance >= 0.00) healthState = "Balanced Elasticity";
+      else if (elasticityBalance >= -0.25) healthState = "Tight Elasticity";
+      else healthState = "Fragile Elasticity";
 
       let archetype = "Balanced Elastic";
+      let meaning = "Operational pressure is absorbed through a healthy mix of internal flexibility and external support, keeping strain off core staff.";
 
-      if (coverageResolution === "unfilled" || (typeof coverageResolution === "number" && coverageModifier <= -0.45)) {
+      if (coverageResolution === "unfilled" || open > 12 || calls > 6 || elasticityBalance < -0.40) {
         archetype = "Elasticity Failure";
-      } else if ((prn <= 4 && ot >= 80) || coverageResolution === "overtime") {
-        archetype = "Rigid / Burnout Risk";
-      } else if (coverageResolution === "internal_float" && prn <= 15 && elasticityBalance >= 0) {
-        archetype = "Internally Elastic";
-      } else if (coverageResolution === "external" && prn >= 16) {
-        archetype = "Agency-Stabilized";
-      } else if (prn >= 31 && open <= 8 && calls <= 5) {
-        archetype = "Agency-Stabilized";
-      } else if (ot >= 180 && open <= 10) {
-        archetype = "Burnout-Supported";
-      } else if (open > 12 || calls > 6 || elasticityBalance < -0.35) {
-        archetype = "Elasticity Failure";
+        meaning = "Operational pressure exceeds the workforce system’s ability to absorb disruption, leading to open gaps and rising instability.";
+      } else if (coverageResolution === "external" || (prn >= 31 && open <= 8 && calls <= 5)) {
+        archetype = "Agency Stabilized";
+        meaning = "Operational pressure is absorbed through external coverage rather than staff stretch, maintaining stability at higher cost.";
+      } else if ((coverageResolution === "overtime") || (prn <= 4 && ot >= 80)) {
+        archetype = "Burnout Stabilized";
+        meaning = "Operational pressure is being absorbed by pushing extra workload onto existing staff through overtime and schedule stretch.";
       }
 
       const elasticityPenalty = Math.max(0, -elasticityBalance) * 12;
@@ -1445,17 +1061,14 @@
         prnCapacity,
         coverageModifier,
         elasticityBalance,
-        balanceLabel,
+        healthState,
         archetype,
+        meaning,
         elasticityPenalty
       };
     }
 
     function getImprovedCoverageResolution(currentResolution) {
-      if (typeof currentResolution === "number") {
-        return currentResolution < 0 ? Math.min(currentResolution + 0.18, 0.18) : Math.min(currentResolution + 0.05, 0.35);
-      }
-
       switch(currentResolution){
         case "overtime":
           return "internal_float";
@@ -1475,15 +1088,12 @@
         percentPRN: clamp(inputs.percentPRN <= 4 ? inputs.percentPRN + 6 : inputs.percentPRN * 0.94, 0, 100),
         callOffs: clamp(inputs.callOffs * 0.86, 0, 20),
         coverageResolution: getImprovedCoverageResolution(inputs.coverageResolution),
-
         otHours: clamp(inputs.otHours * 0.78, 0, 500),
         otPremium: clamp(inputs.otPremium * 0.95, 0, 100),
         agencyPremium: clamp(inputs.agencyPremium * 0.98, 0, 100),
-
         pbjRisk: clamp(inputs.pbjRisk * 0.90, 0, 10),
         surveyCitations: clamp(inputs.surveyCitations, 0, 10),
         leaderTurnover: clamp(inputs.leaderTurnover * 0.95, 0, 10),
-
         turnoverRate: clamp(inputs.turnoverRate * 0.72, 0, 100),
         vacancies: clamp(inputs.vacancies * 0.70, 0, 20),
         timeToFill: clamp(inputs.timeToFill * 0.78, 0, 120),
@@ -1505,9 +1115,14 @@
       const vacancies = clamp(inputs.vacancies, 0, 20);
       const timeToFill = clamp(inputs.timeToFill, 0, 120);
       const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
-      const coverageResolution = inputs.coverageResolution;
 
-      const elasticity = getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution);
+      const elasticity = getElasticityProfile(
+        percentPRN,
+        openShifts,
+        callOffs,
+        otHours,
+        inputs.coverageResolution
+      );
 
       const volScore =
         (
@@ -1535,25 +1150,7 @@
       const workforceDragCost = (workforceScore / 25) * 1000000;
 
       return {
-        openShifts,
-        percentPRN,
-        callOffs,
-        coverageResolution,
-        otHours,
-        otPremium,
-        agencyPremium,
-        pbjRisk,
-        surveyCitations,
-        leaderTurnover,
-        turnoverRate,
-        vacancies,
-        timeToFill,
-        recruitSpend,
         elasticity,
-        volScore,
-        finScore,
-        opScore,
-        workforceScore,
         totalRisk,
         wsiScore,
         annualVolatilityCost,
@@ -1565,8 +1162,7 @@
     function updateWSI() {
       const currentInputs = getInputs();
       const current = calculateWSIValues(currentInputs);
-      const improvedInputs = getImprovedScenario(currentInputs);
-      const improved = calculateWSIValues(improvedInputs);
+      const improved = calculateWSIValues(getImprovedScenario(currentInputs));
 
       const scoreEl = document.getElementById("shsiScore");
       const tagEl = document.getElementById("scoreTag");
@@ -1589,11 +1185,10 @@
       document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
 
       const elasticityPct = Math.round(current.elasticity.elasticityBalance * 100);
-      document.getElementById("elasticityBalance").textContent =
-        `${elasticityPct > 0 ? "+" : ""}${elasticityPct} (${current.elasticity.balanceLabel})`;
-
-      document.getElementById("workforceArchetype").textContent =
-        `Archetype: ${current.elasticity.archetype}`;
+      document.getElementById("elasticityState").textContent = current.elasticity.healthState;
+      document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
+      document.getElementById("workforceArchetype").textContent = `Archetype: ${current.elasticity.archetype}`;
+      document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
 
       document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
       document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
@@ -1639,44 +1234,25 @@
         wsiSource: "wsi",
         wsiUpdated: new Date().toISOString()
       });
-
-      updatePortfolioTotals();
     }
 
     document.addEventListener("DOMContentLoaded", function () {
       const numericInputs = document.querySelectorAll("input[type='number']");
       numericInputs.forEach(input => {
-        input.addEventListener("input", function () {
-          updateWSI();
-          updatePortfolioTotals();
-        });
+        input.addEventListener("input", updateWSI);
       });
 
       const textInputs = document.querySelectorAll("input[type='text']");
       textInputs.forEach(input => {
-        input.addEventListener("input", function () {
-          updateWSI();
-        });
+        input.addEventListener("input", updateWSI);
       });
 
       const selectInputs = document.querySelectorAll("select");
       selectInputs.forEach(input => {
-        input.addEventListener("change", function () {
-          updateWSI();
-        });
-      });
-
-      const modeInputs = document.querySelectorAll("input[name='mode']");
-      modeInputs.forEach(input => {
-        input.addEventListener("change", function () {
-          updateModeUI();
-          updateWSI();
-          updatePortfolioTotals();
-        });
+        input.addEventListener("change", updateWSI);
       });
 
       updateModeUI();
-      updatePortfolioTotals();
       updateWSI();
       updateMapStatusChip();
     });
