@@ -394,6 +394,13 @@
       color:#e3e6ff;
     }
 
+    .kpi-subvalue{
+      margin-top:4px;
+      font-size:0.78rem;
+      color:#c4cae8;
+      line-height:1.35;
+    }
+
     .scenario-card h2{
       margin:0 0 8px;
       font-size:1rem;
@@ -970,6 +977,11 @@
               <div class="kpi-label">Workforce Drag Cost (Pipeline Weakness)</div>
               <div class="kpi-value" id="workforceDrag">$–</div>
             </div>
+            <div class="kpi">
+              <div class="kpi-label">Elasticity Balance</div>
+              <div class="kpi-value" id="elasticityBalance">–</div>
+              <div class="kpi-subvalue" id="workforceArchetype">Calculating…</div>
+            </div>
           </div>
 
           <div class="nav-note">
@@ -1026,8 +1038,8 @@
             </tbody>
           </table>
           <p class="note">
-            Assumes a 30% improvement in workforce stability metrics through StaffHealth candidate sourcing
-            (complimentary when utilizing our platform for PRN coverage).
+            Assumes candidate sourcing improves pipeline health first, then secondarily reduces overtime, call-offs,
+            open shifts, and workforce strain over time.
           </p>
         </div>
       </div>
@@ -1311,9 +1323,100 @@
       handleRow("recruitSpendLow", "recruitSpendMid", "recruitSpendHigh", "totalRecruitSpend");
     }
 
-    function updateWSI() {
-      const inputs = getInputs();
+    function getElasticityProfile(percentPRN, openShifts, callOffs, otHours) {
+      const prn = clamp(percentPRN, 0, 100);
+      const open = clamp(openShifts, 0, 50);
+      const calls = clamp(callOffs, 0, 20);
+      const ot = clamp(otHours, 0, 500);
 
+      const optimalPRN = 10;
+      const prnDistance = Math.abs(prn - optimalPRN);
+      const prnRisk = clamp(prnDistance / 40, 0, 1);
+      const elasticityCapacity = 1 - prnRisk;
+
+      const overtimeStress = ot / 500;
+      const gapStress = ((open / 50) + (calls / 20)) / 2;
+
+      const rigidityPenalty = prn < 3 ? 0.18 : 0;
+      const overextensionPenalty = prn > 35 ? 0.12 : 0;
+
+      const elasticityBalanceRaw =
+        elasticityCapacity
+        - (0.55 * overtimeStress)
+        - (0.30 * gapStress)
+        - rigidityPenalty
+        - overextensionPenalty;
+
+      const elasticityBalance = clamp(elasticityBalanceRaw, -1, 1);
+
+      let balanceLabel = "Neutral";
+      if (elasticityBalance >= 0.35) balanceLabel = "Healthy";
+      else if (elasticityBalance >= 0.05) balanceLabel = "Balanced";
+      else if (elasticityBalance >= -0.25) balanceLabel = "Tight";
+      else balanceLabel = "Fragile";
+
+      let archetype = "Balanced Elastic";
+      if (prn < 3 && ot > 120) {
+        archetype = "Rigid / Burnout Risk";
+      } else if (prn >= 20 && open <= 8 && calls <= 5) {
+        archetype = "Agency-Stabilized";
+      } else if (ot > 180 && open <= 10) {
+        archetype = "Burnout-Supported";
+      } else if (open > 12 || calls > 6 || elasticityBalance < -0.35) {
+        archetype = "Elasticity Failure";
+      } else if (elasticityBalance >= 0.25) {
+        archetype = "Balanced Elastic";
+      }
+
+      const elasticityPenalty = Math.max(0, -elasticityBalance) * 8;
+
+      return {
+        prnRisk,
+        elasticityCapacity,
+        elasticityBalance,
+        balanceLabel,
+        archetype,
+        elasticityPenalty
+      };
+    }
+
+    function getImprovedScenario(inputs) {
+      const turnoverRate = clamp(inputs.turnoverRate * 0.72, 0, 100);
+      const vacancies = clamp(inputs.vacancies * 0.70, 0, 20);
+      const timeToFill = clamp(inputs.timeToFill * 0.78, 0, 120);
+      const recruitSpend = clamp(inputs.recruitSpend * 0.82, 0, 50000);
+
+      const openShifts = clamp(inputs.openShifts * 0.82, 0, 50);
+      const callOffs = clamp(inputs.callOffs * 0.88, 0, 20);
+      const otHours = clamp(inputs.otHours * 0.82, 0, 500);
+      const otPremium = clamp(inputs.otPremium * 0.96, 0, 100);
+
+      // External coverage reliance often improves a bit, but not dramatically
+      const percentPRN = clamp(inputs.percentPRN * 0.94, 0, 100);
+      const agencyPremium = clamp(inputs.agencyPremium * 0.98, 0, 100);
+
+      const pbjRisk = clamp(inputs.pbjRisk * 0.90, 0, 10);
+      const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
+      const leaderTurnover = clamp(inputs.leaderTurnover * 0.95, 0, 10);
+
+      return {
+        openShifts,
+        percentPRN,
+        callOffs,
+        otHours,
+        otPremium,
+        agencyPremium,
+        pbjRisk,
+        surveyCitations,
+        leaderTurnover,
+        turnoverRate,
+        vacancies,
+        timeToFill,
+        recruitSpend
+      };
+    }
+
+    function calculateWSIValues(inputs) {
       const openShifts = clamp(inputs.openShifts, 0, 50);
       const percentPRN = clamp(inputs.percentPRN, 0, 100);
       const callOffs = clamp(inputs.callOffs, 0, 20);
@@ -1331,8 +1434,10 @@
       const timeToFill = clamp(inputs.timeToFill, 0, 120);
       const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
 
+      const elasticity = getElasticityProfile(percentPRN, openShifts, callOffs, otHours);
+
       const volScore =
-        ((openShifts / 50) + (percentPRN / 100) + (callOffs / 20)) / 3 * 25;
+        ((openShifts / 50) + elasticity.prnRisk + (callOffs / 20)) / 3 * 25;
 
       const finScore =
         ((otHours / 500) + (otPremium / 100) + (agencyPremium / 100)) / 3 * 25;
@@ -1343,22 +1448,56 @@
       const workforceScore =
         ((turnoverRate / 100) + (vacancies / 20) + (timeToFill / 120) + (recruitSpend / 50000)) / 4 * 25;
 
-      const totalRisk = volScore + finScore + opScore + workforceScore;
+      const totalRiskBase = volScore + finScore + opScore + workforceScore;
+      const totalRisk = clamp(totalRiskBase + elasticity.elasticityPenalty, 0, 100);
       const wsiScore = Math.round(100 - totalRisk);
 
       const annualVolatilityCost = (totalRisk / 100) * 2000000;
       const stabilizableUpside = annualVolatilityCost * 0.4;
       const workforceDragCost = (workforceScore / 25) * 1000000;
 
+      return {
+        openShifts,
+        percentPRN,
+        callOffs,
+        otHours,
+        otPremium,
+        agencyPremium,
+        pbjRisk,
+        surveyCitations,
+        leaderTurnover,
+        turnoverRate,
+        vacancies,
+        timeToFill,
+        recruitSpend,
+        elasticity,
+        volScore,
+        finScore,
+        opScore,
+        workforceScore,
+        totalRisk,
+        wsiScore,
+        annualVolatilityCost,
+        stabilizableUpside,
+        workforceDragCost
+      };
+    }
+
+    function updateWSI() {
+      const currentInputs = getInputs();
+      const current = calculateWSIValues(currentInputs);
+      const improvedInputs = getImprovedScenario(currentInputs);
+      const improved = calculateWSIValues(improvedInputs);
+
       const scoreEl = document.getElementById("shsiScore");
       const tagEl = document.getElementById("scoreTag");
-      scoreEl.textContent = isNaN(wsiScore) ? "–" : wsiScore;
+      scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
 
       tagEl.classList.remove("high-risk","moderate-risk","stable");
-      if (wsiScore <= 50) {
+      if (current.wsiScore <= 50) {
         tagEl.textContent = "High Risk";
         tagEl.classList.add("high-risk");
-      } else if (wsiScore <= 75) {
+      } else if (current.wsiScore <= 75) {
         tagEl.textContent = "Moderate Risk";
         tagEl.classList.add("moderate-risk");
       } else {
@@ -1366,30 +1505,30 @@
         tagEl.classList.add("stable");
       }
 
-      document.getElementById("volCost").textContent = formatCurrency(annualVolatilityCost);
-      document.getElementById("stabilizableUpside").textContent = formatCurrency(stabilizableUpside);
-      document.getElementById("workforceDrag").textContent = formatCurrency(workforceDragCost);
+      document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
+      document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
+      document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
 
-      const improvedWorkforceScore = workforceScore * 0.7;
-      const improvedTotalRisk = volScore + finScore + opScore + improvedWorkforceScore;
-      const improvedWsi = Math.round(100 - improvedTotalRisk);
+      const elasticityPct = Math.round(current.elasticity.elasticityBalance * 100);
+      document.getElementById("elasticityBalance").textContent =
+        `${elasticityPct > 0 ? "+" : ""}${elasticityPct} (${current.elasticity.balanceLabel})`;
 
-      const improvedVolCost = (improvedTotalRisk / 100) * 2000000;
-      const improvedWorkforceDrag = (improvedWorkforceScore / 25) * 1000000;
+      document.getElementById("workforceArchetype").textContent =
+        `Archetype: ${current.elasticity.archetype}`;
 
-      document.getElementById("currentShsiCell").textContent = isNaN(wsiScore) ? "–" : wsiScore;
-      document.getElementById("withSourcingShsiCell").textContent = isNaN(improvedWsi) ? "–" : improvedWsi;
+      document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
+      document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
 
-      const deltaShsi = improvedWsi - wsiScore;
+      const deltaShsi = improved.wsiScore - current.wsiScore;
       document.getElementById("deltaShsiCell").textContent =
         isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
       document.getElementById("deltaShsiCell").className =
         deltaShsi >= 0 ? "delta-positive" : "delta-negative";
 
-      document.getElementById("currentVolCostCell").textContent = formatCurrency(annualVolatilityCost);
-      document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improvedVolCost);
+      document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
+      document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
 
-      const deltaVol = improvedVolCost - annualVolatilityCost;
+      const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
       const deltaVolText = isNaN(deltaVol)
         ? "–"
         : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
@@ -1397,10 +1536,10 @@
       document.getElementById("deltaVolCostCell").className =
         deltaVol <= 0 ? "delta-positive" : "delta-negative";
 
-      document.getElementById("currentWorkforceCell").textContent = formatCurrency(workforceDragCost);
-      document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improvedWorkforceDrag);
+      document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
+      document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
 
-      const deltaWork = improvedWorkforceDrag - workforceDragCost;
+      const deltaWork = improved.workforceDragCost - current.workforceDragCost;
       const deltaWorkText = isNaN(deltaWork)
         ? "–"
         : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
@@ -1409,12 +1548,14 @@
         deltaWork <= 0 ? "delta-positive" : "delta-negative";
 
       saveVOLHealthMapData({
-        wsi: safeNumber(wsiScore),
-        wsiCurrent: safeNumber(wsiScore),
-        wsiWithSourcing: safeNumber(improvedWsi),
-        wsiVolatilityCost: safeNumber(Math.round(annualVolatilityCost)),
-        wsiStabilizableUpside: safeNumber(Math.round(stabilizableUpside)),
-        wsiWorkforceDragCost: safeNumber(Math.round(workforceDragCost)),
+        wsi: safeNumber(current.wsiScore),
+        wsiCurrent: safeNumber(current.wsiScore),
+        wsiWithSourcing: safeNumber(improved.wsiScore),
+        wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
+        wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
+        wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
+        wsiElasticityBalance: safeNumber(Math.round(current.elasticity.elasticityBalance * 100)),
+        wsiArchetype: current.elasticity.archetype,
         wsiMode: getMode(),
         wsiSource: "wsi",
         wsiUpdated: new Date().toISOString()
