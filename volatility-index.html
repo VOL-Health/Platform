@@ -1,1396 +1,886 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>VOL Health™ Volatility Index</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<style>
-:root{
-  --brand-blue:#1f57b8;
-  --brand-green:#2e8b57;
-  --brand-yellow:#f2b705;
-  --dark:#050814;
-  --bg:#050816;
-  --card:#0d1224;
-  --muted:#9399b3;
-  --border:#242944;
-  --danger:#df4759;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOL Health | Volatility Intelligence</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-2: #0c1830;
+      --panel: rgba(11, 24, 48, 0.92);
+      --panel-2: rgba(15, 31, 59, 0.96);
+      --line: rgba(255,255,255,0.10);
+      --text: #eef4ff;
+      --muted: #9fb2d2;
+      --blue: #2c6cff;
+      --green: #35c67a;
+      --green-2: #28a862;
+      --amber: #f6b44b;
+      --red: #f06161;
+      --shadow: 0 14px 34px rgba(0,0,0,0.34);
+      --radius-xl: 20px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+    }
 
-*{
-  box-sizing:border-box;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  padding:24px 12px 32px;
-  background:#1b1f2f;
-  color:#f5f6ff;
-}
+    .wrap {
+      width: min(1280px, calc(100% - 28px));
+      margin: 22px auto 40px;
+    }
 
-.shell{
-  max-width:1080px;
-  margin:0 auto;
-  padding:24px 24px 36px;
-  border-radius:26px;
-  background:radial-gradient(circle at top,#1a2338 0%,#111829 55%,#0c1220 100%);
-  box-shadow:0 22px 80px rgba(0,0,0,0.7);
-}
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
 
-header{
-  text-align:center;
-  padding:6px 15px 12px;
-}
-header h1{
-  margin:0;
-  font-size:28px;
-  letter-spacing:1.2px;
-  text-transform:uppercase;
-}
-header h1 span{color:var(--brand-blue);}
-header p{
-  margin:10px auto 0;
-  max-width:820px;
-  line-height:1.55;
-  font-size:14.5px;
-  color:#c4cae8;
-}
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.02;
+      letter-spacing: 0.02em;
+      font-weight: 800;
+    }
 
-.hero-strip{
-  background:linear-gradient(90deg,var(--brand-green),#34c08a);
-  color:#ffffff;
-  padding:12px 16px;
-  text-align:center;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:0.8px;
-  font-size:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.55);
-  max-width:1030px;
-  margin:4px auto 12px;
-  border-radius:999px;
-}
+    .brand h1 .accent { color: var(--blue); }
 
-.container{max-width:1030px;margin:20px auto 0;padding:0 15px}
+    .brand p {
+      margin: 10px 0 0;
+      max-width: 920px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
 
-.card{
-  background:var(--card);
-  border-radius:16px;
-  padding:18px 18px 16px;
-  margin-bottom:16px;
-  box-shadow:0 14px 32px rgba(0,0,0,0.6);
-  border:1px solid var(--border);
-}
-.card h2{margin:0 0 10px;font-size:18px;}
-.small{font-size:12px;color:var(--muted);line-height:1.5}
+    .pill {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+      padding: 10px 14px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
 
-.grid{display:grid;gap:14px}
-@media(min-width:820px){.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    .green-band {
+      background: linear-gradient(90deg, var(--green-2), #49cc91);
+      color: #f7fff9;
+      border-radius: 999px;
+      text-align: center;
+      padding: 11px 18px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 12px;
+      box-shadow: var(--shadow);
+      margin: 14px 0 16px;
+    }
 
-label{
-  display:block;
-  font-size:13.5px;
-  font-weight:700;
-  margin-bottom:6px;
-  color:#e3e6ff;
-}
-input[type="text"],
-input[type="email"],
-input[type="number"],
-select,
-textarea{
-  width:100%;
-  padding:8px 10px;
-  border-radius:9px;
-  border:1px solid var(--border);
-  font-size:14px;
-  background:#050814;
-  color:#f5f6ff;
-}
-select{background:#050814;}
-textarea{min-height:100px;resize:vertical}
-input::placeholder,
-textarea::placeholder{color:#5e648b;}
+    .system-spine {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
 
-.hint{font-size:12px;color:var(--muted);margin-top:4px}
+    .spine-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
 
-.btn-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  align-items:center;
-}
+    .spine-card.active {
+      border-color: rgba(44,108,255,0.45);
+      background: linear-gradient(180deg, rgba(44,108,255,0.15), rgba(11,24,48,0.96));
+    }
 
-.btn,
-.btn-link{
-  border:none;
-  background:var(--brand-blue);
-  color:#fff;
-  padding:10px 16px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-  text-transform:uppercase;
-  letter-spacing:0.6px;
-  box-shadow:0 10px 26px rgba(2,12,54,0.7);
-  transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.12s ease;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-.btn:hover,
-.btn-link:hover{
-  filter:brightness(1.06);
-  transform:translateY(-1px);
-  box-shadow:0 14px 36px rgba(2,12,54,0.85);
-}
-.btn.secondary,
-.btn-link.secondary{
-  background:#30364f;
-  box-shadow:none;
-}
-.btn.green,
-.btn-link.green{
-  background:linear-gradient(90deg,var(--brand-green),#34c08a);
-}
-.btn.ghost,
-.btn-link.ghost{
-  background:transparent;
-  border:1px solid #33406f;
-  color:#dce5ff;
-  box-shadow:none;
-}
+    .spine-card .step {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
 
-.mode-toggle{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.mode-toggle label{
-  font-weight:600;
-  margin:0;
-  display:flex;
-  gap:8px;
-  align-items:center;
-  font-size:13px;
-  color:#e3e6ff;
-}
-.mode-toggle input{accent-color:var(--brand-green);}
+    .spine-card strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
 
-.pill{
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:14px;
-  background:#050814;
-}
-.pill h3{
-  margin:0 0 8px;
-  font-size:14px;
-  text-transform:uppercase;
-  letter-spacing:0.6px;
-  color:#d5daf5;
-}
-.opt-row{
-  display:grid;
-  grid-template-columns:1fr 160px;
-  gap:12px;
-  align-items:center;
-  padding:8px 0;
-  border-top:1px dashed #222842;
-}
-.opt-row:first-of-type{border-top:none}
-.opt-label{font-size:13px;line-height:1.35;color:#e3e6ff}
-.opt-input{display:flex;gap:8px;align-items:center;justify-content:flex-end}
-.opt-input span{font-size:12px;color:var(--muted);white-space:nowrap}
-.opt-input input{
-  width:110px;
-  text-align:right;
-  background:#050814;
-  color:#f5f6ff;
-  border:1px solid var(--border);
-  border-radius:8px;
-}
-.totals-line{margin-top:10px;font-size:12px;color:var(--muted)}
-.warn{color:#ff9ba8;font-weight:700}
-.ok{color:#7ce9b4;font-weight:700}
+    .spine-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
 
-.results-banner{
-  background:radial-gradient(circle at top,#1c2245 0,#0b1020 50%,#050814 100%);
-  color:#fff;
-  padding:16px;
-  border-radius:18px;
-  text-align:center;
-  border:1px solid rgba(72,86,155,0.8);
-  box-shadow:0 14px 40px rgba(2,5,20,0.9);
-}
-.results-banner h3{margin:0 0 10px;font-size:18px}
-.results-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .context {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 0.8fr 0.8fr auto;
+      gap: 12px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
 
-.result-pill{
-  flex:1 1 180px;
-  min-width:180px;
-  background:rgba(12,13,32,0.9);
-  border-radius:12px;
-  padding:12px 10px;
-  text-align:center;
-  border:1px solid #252b49;
-}
-.result-label{
-  font-size:11px;
-  text-transform:uppercase;
-  color:#bfbff3;
-  letter-spacing:0.6px;
-}
-.result-value{
-  margin-top:6px;
-  font-size:22px;
-  font-weight:900;
-  color:#e0ecff;
-}
-.badge{
-  display:inline-block;
-  margin-top:8px;
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:800;
-}
-.b-low{background:#d4f5d4;color:#176b2c}
-.b-med{background:#fff2c6;color:#8a5b00}
-.b-high{background:#ffd3d3;color:#a10000}
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 7px;
+    }
 
-.pill-header{
-  font-weight:900;
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:0.6px;
-  color:#e3e6ff;
-  margin-bottom:6px;
-}
-.big-impact{font-size:15px;font-weight:900;margin-bottom:4px}
-.big-impact span{font-weight:950}
+    .field input,
+    .field select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 13px;
+      font-size: 14px;
+      outline: none;
+    }
 
-#valueSummary,
-#profileSummary,
-#rateNarrative{
-  color:#d5daf5;
-}
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-.nav-note{
-  margin-top:12px;
-  padding:12px 14px;
-  border-radius:14px;
-  background:rgba(11,17,35,0.75);
-  border:1px solid #273154;
-  color:#d8def8;
-  font-size:12.5px;
-  line-height:1.5;
-}
+    .btn.primary {
+      background: linear-gradient(180deg, #2d6dff, #1553d8);
+      border-color: rgba(44,108,255,0.55);
+    }
 
-.top-nav{
-  display:flex;
-  justify-content:flex-end;
-  margin-bottom:14px;
-}
+    .main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) 380px;
+      gap: 16px;
+      align-items: start;
+    }
 
-.status-chip{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:999px;
-  background:rgba(10,14,31,0.92);
-  border:1px solid #283053;
-  color:#d8def8;
-  font-size:12px;
-  font-weight:700;
-}
+    .domains {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
 
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#5c668f;
-}
-.dot.active{background:#34c08a;}
+    .card {
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
 
-footer{
-  text-align:center;
-  font-size:12px;
-  color:#8b92b6;
-  padding:20px 10px 0;
-}
+    .domain-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
 
-.footnote{
-  text-align:center;
-  font-size:11px;
-  color:#777;
-  margin-top:8px;
-  opacity:0.78;
-}
+    .domain-head h3 {
+      margin: 0 0 5px;
+      font-size: 18px;
+    }
 
-@media (max-width:600px){
-  body{
-    padding:16px 6px 24px;
-  }
+    .domain-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
 
-  .shell{
-    padding:18px 14px 26px;
-    border-radius:22px;
-  }
+    .domain-score {
+      min-width: 70px;
+      text-align: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      padding: 10px 8px;
+    }
 
-  .hero-strip{
-    max-width:100%;
-    margin:4px 0 12px;
-    padding:10px 12px;
-    font-size:11px;
-  }
+    .domain-score strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1;
+      margin-bottom: 3px;
+    }
 
-  .container{
-    max-width:100%;
-    padding:0;
-    margin-top:16px;
-  }
+    .domain-score span {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
-  .card{
-    padding:14px 12px 14px;
-    margin-bottom:14px;
-  }
+    .driver {
+      padding: 14px 0 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
 
-  header h1{
-    font-size:22px;
-  }
+    .driver:first-of-type { border-top: none; padding-top: 0; }
 
-  header p{
-    font-size:13px;
-  }
+    .driver-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
 
-  .result-pill{
-    min-width:140px;
-  }
+    .driver-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0;
+    }
 
-  .top-nav{
-    justify-content:center;
-  }
-}
-</style>
+    .driver-desc {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .driver-value {
+      font-size: 13px;
+      color: var(--muted);
+      min-width: 56px;
+      text-align: right;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+    }
+
+    .scale {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .output {
+      position: sticky;
+      top: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .score-hero {
+      text-align: center;
+      padding: 22px 18px;
+    }
+
+    .score-hero .eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .score-hero .score {
+      font-size: 64px;
+      line-height: 0.95;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .score-hero .tier {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--line);
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .mini {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .mini .k {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .mini .v {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .summary h4,
+    .map-card h4 {
+      margin: 0 0 12px;
+      font-size: 16px;
+    }
+
+    .summary p,
+    .map-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0 0 12px;
+    }
+
+    .bullet-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bullet {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 11px 12px;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blue);
+      margin-top: 4px;
+      flex: 0 0 auto;
+    }
+
+    .map {
+      position: relative;
+      height: 220px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--line);
+      overflow: hidden;
+      margin: 10px 0 12px;
+    }
+
+    .map::before,
+    .map::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,0.10);
+    }
+
+    .map::before {
+      left: 50%; top: 0; bottom: 0; width: 1px;
+    }
+
+    .map::after {
+      top: 50%; left: 0; right: 0; height: 1px;
+    }
+
+    .axis-y,
+    .axis-x {
+      position: absolute;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .axis-y { left: 10px; top: 10px; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .axis-x { right: 10px; bottom: 8px; }
+
+    .plot-dot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--amber);
+      border: 2px solid rgba(255,255,255,0.85);
+      box-shadow: 0 0 0 8px rgba(246,180,75,0.12);
+      transform: translate(-50%, 50%);
+    }
+
+    .map-label {
+      position: absolute;
+      transform: translate(10px, 2px);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .footer-cta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 1120px) {
+      .main { grid-template-columns: 1fr; }
+      .output { position: static; }
+    }
+
+    @media (max-width: 920px) {
+      .context, .domains, .system-spine {
+        grid-template-columns: 1fr;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .green-band { border-radius: 18px; }
+    }
+  </style>
 </head>
-
 <body>
-<div class="shell">
-
-  <div class="top-nav">
-    <div class="status-chip" id="mapStatusChip">
-      <span class="dot" id="mapStatusDot"></span>
-      <span id="mapStatusText">Map point not complete yet</span>
-    </div>
-  </div>
-
-  <header>
-    <h1><span>VOL Health™</span> Volatility Index</h1>
-    <p>
-      StaffHealth + Accushield Verified = VOL Health™. Directional diagnostic that scores the
-      Trinity of Volatility, Operations &amp; Labor across 10 drivers — census, OT, PBJ,
-      survey exposure, reimbursement, reputation, and leadership bandwidth. Designed for a
-      single building or an entire portfolio.
-    </p>
-  </header>
-
-  <div class="hero-strip">
-    VOL HEALTH™ — Operational Stability Begins with Volatility Intelligence
-  </div>
-
-  <div class="container">
-
-    <div class="card">
-      <div class="btn-row" style="justify-content:space-between;align-items:flex-start;">
-        <div>
-          <h2 style="margin-bottom:6px;">Navigation</h2>
-          <p class="small" style="margin:0;">
-            Run VI here, move directly to WSI, then return to the platform map once both scores are saved.
-          </p>
-        </div>
-        <div class="btn-row">
-          <a class="btn-link ghost" href="index.html">Return to Platform</a>
-          <a class="btn-link secondary" href="wsi.html">Go to WSI</a>
-        </div>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <h1><span class="accent">VOL HEALTH™</span> VOLATILITY INTELLIGENCE</h1>
+        <p>Environmental instability detection for senior living operations. Four volatility domains measured across ten operational drivers to identify where instability is forming before workforce strain becomes visible.</p>
       </div>
+      <div class="pill">Prototype v1 | VI layer</div>
     </div>
 
-    <div class="card">
-      <h2>1. Select Mode</h2>
-      <div class="mode-toggle">
-        <label><input type="radio" name="mode" value="single" checked> Single Community Mode (ED / building-level)</label>
-        <label><input type="radio" name="mode" value="portfolio"> Portfolio Mode (VP Ops / portfolio roll-up)</label>
+    <div class="green-band">Operational Stability Begins With Volatility Intelligence</div>
+
+    <section class="system-spine">
+      <div class="spine-card active">
+        <div class="step">Step 1</div>
+        <strong>VI — Detect</strong>
+        <span>Identify environmental volatility forming inside the building or portfolio.</span>
       </div>
-      <div class="hint" style="margin-top:8px;">
-        Portfolio Mode lets executives estimate how many communities sit in each answer option for each question —
-        no need to run 20 buildings one-by-one.
+      <div class="spine-card">
+        <div class="step">Step 2</div>
+        <strong>WSI — Measure</strong>
+        <span>Test whether the workforce system can absorb the pressure.</span>
       </div>
-    </div>
-
-    <div class="card">
-      <h2>2. Snapshot</h2>
-      <div class="grid grid-2">
-        <div>
-          <label for="communityType">Primary Care Level (dominant)</label>
-          <select id="communityType">
-            <option value="al_mc" selected>Assisted Living / Memory Care</option>
-            <option value="snf">Skilled Nursing / Rehab (PDPM)</option>
-            <option value="mixed">Mixed Campus (AL/MC + SNF)</option>
-          </select>
-          <div class="hint">Used to tailor PDPM / reimbursement relevance.</div>
-        </div>
-        <div>
-          <label for="state">State / Region (optional)</label>
-          <input id="state" type="text" placeholder="TX, GA, FL, etc." />
-          <div class="hint">Optional context for follow-up discussion.</div>
-        </div>
-        <div>
-          <label for="entityName">Community / portfolio name (optional)</label>
-          <input id="entityName" type="text" placeholder="EvenKeel, CrabApple, Portfolio A, etc." />
-          <div class="hint">Used as the label on the Stability Map.</div>
-        </div>
+      <div class="spine-card">
+        <div class="step">Step 3</div>
+        <strong>SHAI — Align</strong>
+        <span>Recommend the right operational response before instability spreads.</span>
       </div>
-    </div>
+    </section>
 
-    <div class="card" id="singleSection">
-      <h2>3. Single Community Risk Profile</h2>
-      <p class="small" style="margin-bottom:12px;">
-        Choose the option that best fits today. If you’re not sure, select <b>Unknown / Not sure</b> —
-        lack of visibility is itself a risk.
-      </p>
-
-      <div class="grid grid-2">
-        <div>
-          <label for="q1">Census stability &amp; move-in / move-out patterns</label>
-          <select id="q1">
-            <option value="low">Generally stable, rarely delayed</option>
-            <option value="med">Some seasonal swings or occasional delays</option>
-            <option value="high">Frequent delays, hard to keep census steady</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q2">Acuity shifts &amp; ability to flex staffing</label>
-          <select id="q2">
-            <option value="low">Acuity fairly stable, model flexes well</option>
-            <option value="med">Occasional spikes strain the team</option>
-            <option value="high">Frequent acuity spikes; team constantly stretched</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q3">Labor model &amp; overtime / call-out pressure</label>
-          <select id="q3">
-            <option value="low">Low (0–20 OT hours/month; call-outs manageable)</option>
-            <option value="med">Moderate (20–60 OT hours/month or frequent scrambling)</option>
-            <option value="high">High (60+ OT hours/month; daily scrambling / heavy OT)</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-          <div class="hint">Overtime ranges are monthly, across roles.</div>
-        </div>
-
-        <div>
-          <label for="q4">Survey / regulatory comfort level</label>
-          <select id="q4">
-            <option value="low">Clean recent history, few staffing concerns</option>
-            <option value="med">Some tags or close calls tied to staffing</option>
-            <option value="high">Significant survey risk or recent citations</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q5">PBJ accuracy &amp; Five-Star staffing confidence</label>
-          <select id="q5">
-            <option value="low">PBJ clean; confident in staffing data</option>
-            <option value="med">Some corrections or PBJ-related anxiety</option>
-            <option value="high">Frequent corrections, dips, or staffing-star concerns</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q6">Liability exposure (falls, med errors, incidents)</label>
-          <select id="q6">
-            <option value="low">Incidents infrequent and well managed</option>
-            <option value="med">Moderate incident volume with some staffing link</option>
-            <option value="high">High incident volume or recent severe events</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q7">Reputation &amp; referral velocity</label>
-          <select id="q7">
-            <option value="low">Strong reviews and referral relationships</option>
-            <option value="med">Mixed reviews or stalled referrals</option>
-            <option value="high">Negative staffing-related reviews or referral pullback</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q8">Leadership bandwidth (ED/DON time spent on staffing)</label>
-          <select id="q8">
-            <option value="low">Staffing rarely hijacks leadership time</option>
-            <option value="med">Staffing issues consume weekly time blocks</option>
-            <option value="high">Leaders feel constantly pulled into staffing fires</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q9">Corporate standardization (partners &amp; credentialing)</label>
-          <select id="q9">
-            <option value="low">Single, well-aligned partner &amp; clear process</option>
-            <option value="med">Several partners with some variation</option>
-            <option value="high">Many partners; processes and quality vary widely</option>
-            <option value="unk">Unknown / Not sure</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="q10">Reimbursement &amp; documentation (for SNF/PDPM beds)</label>
-          <select id="q10">
-            <option value="low">Documentation strong; denials are rare</option>
-            <option value="med">Occasional denials or missed skilled minutes</option>
-            <option value="high">Frequent corrections, denials, or missed minutes</option>
-            <option value="unk">Unknown / Not sure / Not applicable</option>
-          </select>
-          <div class="hint">
-            This PDPM / reimbursement layer primarily applies to SNF / Rehab / Mixed campuses. For AL/MC-only buildings,
-            the model automatically dials down its impact under the hood.
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-top:16px;">
-        <label for="usageLevel">If you used StaffHealth as an elasticity layer, how broadly would you expect to use us?</label>
-        <select id="usageLevel" style="max-width:380px;">
-          <option value="conservative">Conservative (weekends, true pain points only)</option>
-          <option value="moderate" selected>Moderate (weekends + select dayparts)</option>
-          <option value="aggressive">Strategic (full elasticity model across the building)</option>
+    <section class="context">
+      <div class="field">
+        <label>Mode</label>
+        <select>
+          <option>Single Community</option>
+          <option>Portfolio View</option>
         </select>
-        <div class="hint">This adjusts the projected stability gain (risk reduction).</div>
       </div>
+      <div class="field">
+        <label>Community / Portfolio</label>
+        <input type="text" placeholder="Longleaf Bee Cave / Gulfside / Portfolio A" value="Community A" />
+      </div>
+      <div class="field">
+        <label>Snapshot Date</label>
+        <input type="date" value="2026-03-12" />
+      </div>
+      <div class="field">
+        <label>Assessor</label>
+        <input type="text" placeholder="Hudson Keel" value="Hudson Keel" />
+      </div>
+      <div style="display:flex;align-items:end;gap:10px;">
+        <button class="btn primary">Calculate VI</button>
+      </div>
+    </section>
 
-      <div style="margin-top:18px;">
-        <h3 style="margin:0 0 8px;font-size:15px;">Rate &amp; Shifts Snapshot (Optional)</h3>
-        <p class="small">
-          Add a simple comparison rate and estimated <b>StaffHealth shifts per month</b> if you want the tool to incorporate direct
-          rate economics. We’ll convert shifts × 8 hours behind the scenes. Leave blank to run a pure volatility/risk view.
-        </p>
-        <div class="grid grid-2">
-          <div>
-            <label for="compareRate">Comparison hourly / blended rate ($/hr)</label>
-            <input id="compareRate" type="number" step="0.01" placeholder="e.g., 28.00" />
+    <section class="main">
+      <div class="domains">
+        <article class="card domain" data-domain="resident">
+          <div class="domain-head">
+            <div>
+              <h3>Resident Demand Volatility</h3>
+              <p>Signals that resident demand and care intensity are becoming harder to predict.</p>
+            </div>
+            <div class="domain-score"><strong id="residentScore">63</strong><span>Domain</span></div>
           </div>
-          <div>
-            <label for="staffRate">StaffHealth proposed hourly / blended rate ($/hr)</label>
-            <input id="staffRate" type="number" step="0.01" placeholder="e.g., 27.00" />
+
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Census Volatility</p>
+                <p class="driver-desc">Unpredictable swings in occupancy, move-ins, or move-outs.</p>
+              </div>
+              <div class="driver-value"><span id="censusVal">7</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="7" data-driver="census" data-domain="resident" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
           </div>
-          <div>
-            <label for="shiftsMonth" title="For this prototype, 1 shift = 8 hours (typical AL/MC staffing pattern).">
-              Estimated shifts per month through StaffHealth (8 hrs = standard shift)
-            </label>
-            <input id="shiftsMonth" type="number" step="1" placeholder="e.g., 12 (weekends + pain shifts)" />
+
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Acuity Variability</p>
+                <p class="driver-desc">Resident care intensity shifting faster than operations can normalize.</p>
+              </div>
+              <div class="driver-value"><span id="acuityVal">6</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="6" data-driver="acuity" data-domain="resident" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
           </div>
-        </div>
-      </div>
-    </div>
+        </article>
 
-    <div class="card" id="portfolioSection" style="display:none;">
-      <h2>3. Portfolio Risk Profile (All Communities)</h2>
-      <p class="small" style="margin-bottom:10px;">
-        For each question, enter how many communities in your portfolio match each option. This creates a portfolio-level view without running the tool community-by-community.
-      </p>
+        <article class="card domain" data-domain="operations">
+          <div class="domain-head">
+            <div>
+              <h3>Operational System Strain</h3>
+              <p>Signals that internal building systems are losing consistency or leadership buffer.</p>
+            </div>
+            <div class="domain-score"><strong id="operationsScore">60</strong><span>Domain</span></div>
+          </div>
 
-      <div class="grid grid-2" style="margin-bottom:10px;">
-        <div>
-          <label for="portfolioN">Portfolio size (optional)</label>
-          <input id="portfolioN" type="number" min="0" placeholder="e.g., 18" />
-          <div class="hint">If provided, we’ll flag questions where your counts don’t sum to N (sanity check only).</div>
-        </div>
-        <div>
-          <label for="usageLevelPortfolio">Elasticity adoption level (portfolio)</label>
-          <select id="usageLevelPortfolio">
-            <option value="conservative">Conservative (weekends / true pain points)</option>
-            <option value="moderate" selected>Moderate (weekends + select dayparts)</option>
-            <option value="aggressive">Strategic (broad portfolio elasticity)</option>
-          </select>
-          <div class="hint">Adjusts projected risk reduction across the portfolio.</div>
-        </div>
-      </div>
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Leadership Bandwidth</p>
+                <p class="driver-desc">Leadership team capacity to absorb issues before they cascade.</p>
+              </div>
+              <div class="driver-value"><span id="leadershipVal">5</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="5" data-driver="leadership" data-domain="operations" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
 
-      <div class="pill" data-q="q1">
-        <h3>1) Census stability &amp; move-in / move-out patterns</h3>
-        <div class="opt-row">
-          <div class="opt-label">Generally stable, rarely delayed</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q1_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Some seasonal swings or occasional delays</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q1_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Frequent delays, hard to keep census steady</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q1_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q1_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q1"></div>
-      </div>
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Workflow Disruption</p>
+                <p class="driver-desc">Execution friction, daily fire-fighting, or process inconsistency.</p>
+              </div>
+              <div class="driver-value"><span id="workflowVal">6</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="6" data-driver="workflow" data-domain="operations" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
 
-      <div class="pill" data-q="q2" style="margin-top:12px;">
-        <h3>2) Acuity shifts &amp; ability to flex staffing</h3>
-        <div class="opt-row">
-          <div class="opt-label">Acuity fairly stable, model flexes well</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q2_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Occasional spikes strain the team</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q2_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Frequent acuity spikes; team constantly stretched</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q2_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q2_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q2"></div>
-      </div>
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Care Coordination Strain</p>
+                <p class="driver-desc">Cross-functional execution starting to feel harder than normal.</p>
+              </div>
+              <div class="driver-value"><span id="coordinationVal">7</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="7" data-driver="coordination" data-domain="operations" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
+        </article>
 
-      <div class="pill" data-q="q3" style="margin-top:12px;">
-        <h3>3) Labor model &amp; overtime / call-out pressure</h3>
-        <div class="opt-row">
-          <div class="opt-label">Low (0–20 OT hours/month; call-outs manageable)</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q3_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Moderate (20–60 OT hours/month or frequent scrambling)</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q3_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">High (60+ OT hours/month; daily scrambling / heavy OT)</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q3_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q3_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q3"></div>
-      </div>
+        <article class="card domain" data-domain="workforce">
+          <div class="domain-head">
+            <div>
+              <h3>Workforce Pressure Signals</h3>
+              <p>Early indicators that the workforce system is already feeling environmental pressure.</p>
+            </div>
+            <div class="domain-score"><strong id="workforceScore">67</strong><span>Domain</span></div>
+          </div>
 
-      <div class="pill" data-q="q4" style="margin-top:12px;">
-        <h3>4) Survey / regulatory comfort level</h3>
-        <div class="opt-row">
-          <div class="opt-label">Clean recent history, few staffing concerns</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q4_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Some tags or close calls tied to staffing</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q4_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Significant survey risk or recent citations</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q4_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q4_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q4"></div>
-      </div>
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Schedule Stress</p>
+                <p class="driver-desc">Coverage becoming harder to maintain without extra effort.</p>
+              </div>
+              <div class="driver-value"><span id="scheduleVal">7</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="7" data-driver="schedule" data-domain="workforce" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
 
-      <div class="pill" data-q="q5" style="margin-top:12px;">
-        <h3>5) PBJ accuracy &amp; Five-Star staffing confidence</h3>
-        <div class="opt-row">
-          <div class="opt-label">PBJ clean; confident in staffing data</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q5_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Some corrections or PBJ-related anxiety</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q5_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Frequent corrections, dips, or staffing-star concerns</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q5_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q5_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q5"></div>
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Coverage Fragility</p>
+                <p class="driver-desc">The system lacks buffer when routine disruptions appear.</p>
+              </div>
+              <div class="driver-value"><span id="coverageVal">6</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="6" data-driver="coverage" data-domain="workforce" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
+
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Overtime Pressure</p>
+                <p class="driver-desc">Internal schedule stretch increasing to keep operations moving.</p>
+              </div>
+              <div class="driver-value"><span id="overtimeVal">7</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="7" data-driver="overtime" data-domain="workforce" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
+        </article>
+
+        <article class="card domain" data-domain="external">
+          <div class="domain-head">
+            <div>
+              <h3>External Pressure Signals</h3>
+              <p>Outside forces that amplify instability and reduce operational room to maneuver.</p>
+            </div>
+            <div class="domain-score"><strong id="externalScore">55</strong><span>Domain</span></div>
+          </div>
+
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Survey Exposure</p>
+                <p class="driver-desc">Regulatory or survey-related pressure increasing local sensitivity.</p>
+              </div>
+              <div class="driver-value"><span id="surveyVal">5</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="5" data-driver="survey" data-domain="external" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
+
+          <div class="driver">
+            <div class="driver-row">
+              <div>
+                <p class="driver-title">Reimbursement Pressure</p>
+                <p class="driver-desc">Margin or reimbursement compression narrowing operational flexibility.</p>
+              </div>
+              <div class="driver-value"><span id="reimbursementVal">6</span>/10</div>
+            </div>
+            <input type="range" min="0" max="10" value="6" data-driver="reimbursement" data-domain="external" />
+            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+          </div>
+        </article>
       </div>
 
-      <div class="pill" data-q="q6" style="margin-top:12px;">
-        <h3>6) Liability exposure (falls, med errors, incidents)</h3>
-        <div class="opt-row">
-          <div class="opt-label">Incidents infrequent and well managed</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q6_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Moderate incident volume with some staffing link</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q6_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">High incident volume or recent severe events</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q6_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q6_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q6"></div>
-      </div>
+      <aside class="output">
+        <section class="card score-hero">
+          <div class="eyebrow">Volatility Index Score</div>
+          <p class="score" id="viScore">61</p>
+          <div class="tier" id="viTier">Rising Volatility</div>
 
-      <div class="pill" data-q="q7" style="margin-top:12px;">
-        <h3>7) Reputation &amp; referral velocity</h3>
-        <div class="opt-row">
-          <div class="opt-label">Strong reviews and referral relationships</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q7_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Mixed reviews or stalled referrals</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q7_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Negative staffing-related reviews or referral pullback</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q7_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q7_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q7"></div>
-      </div>
-
-      <div class="pill" data-q="q8" style="margin-top:12px;">
-        <h3>8) Leadership bandwidth (ED/DON time spent on staffing)</h3>
-        <div class="opt-row">
-          <div class="opt-label">Staffing rarely hijacks leadership time</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q8_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Staffing issues consume weekly time blocks</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q8_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Leaders feel constantly pulled into staffing fires</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q8_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q8_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q8"></div>
-      </div>
-
-      <div class="pill" data-q="q9" style="margin-top:12px;">
-        <h3>9) Corporate standardization (partners &amp; credentialing)</h3>
-        <div class="opt-row">
-          <div class="opt-label">Single, well-aligned partner &amp; clear process</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q9_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Several partners with some variation</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q9_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Many partners; processes and quality vary widely</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q9_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q9_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q9"></div>
-      </div>
-
-      <div class="pill" data-q="q10" style="margin-top:12px;">
-        <h3>10) Reimbursement &amp; documentation (for SNF/PDPM beds)</h3>
-        <div class="opt-row">
-          <div class="opt-label">Documentation strong; denials are rare</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q10_low"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Occasional denials or missed skilled minutes</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q10_med"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Frequent corrections, denials, or missed minutes</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q10_high"></div>
-        </div>
-        <div class="opt-row">
-          <div class="opt-label">Unknown / Not sure / Not applicable</div>
-          <div class="opt-input"><span># communities</span><input type="number" min="0" id="p_q10_unk"></div>
-        </div>
-        <div class="totals-line" id="sum_q10"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>4. Run the VOL Health Index</h2>
-      <p class="small">
-        Click Calculate to see your VOL Health stability score, projected stability gain, and illustrative annual economics.
-      </p>
-      <div class="btn-row">
-        <button class="btn" id="calcBtn" type="button">Calculate VOL Health Score</button>
-        <button class="btn secondary" id="resetBtn" type="button">Reset</button>
-        <a class="btn-link ghost" href="index.html">Return to Platform</a>
-      </div>
-    </div>
-
-    <div class="card" id="resultsCard" style="display:none;">
-      <div class="results-banner">
-        <h3>Your VOL Health Snapshot</h3>
-        <div class="results-row">
-          <div class="result-pill">
-            <div class="result-label" id="riskLabel">Baseline VOL Health Stability (Current State)</div>
-            <div class="result-value" id="riskScoreLabel">0 / 100</div>
-            <div id="riskBadge" class="badge"></div>
-            <div class="small" style="color:#bfbfbf; margin-top:4px;">
-              Higher is better — directional stability signal across Volatility, Operations &amp; Labor.
+          <div class="mini-grid">
+            <div class="mini">
+              <div class="k">Dominant Domain</div>
+              <div class="v" id="dominantDomain">Workforce Pressure</div>
+            </div>
+            <div class="mini">
+              <div class="k">Trajectory</div>
+              <div class="v" id="trajectory">Moderate → Rising</div>
+            </div>
+            <div class="mini">
+              <div class="k">Instability Pattern</div>
+              <div class="v" id="pattern">Coverage fragility + census volatility</div>
+            </div>
+            <div class="mini">
+              <div class="k">Next Step</div>
+              <div class="v">Run WSI</div>
             </div>
           </div>
-          <div class="result-pill">
-            <div class="result-label">Projected Stability Gain (Elasticity Impact)</div>
-            <div class="result-value" id="impactScoreLabel">0 pts</div>
-            <div class="small" style="color:#bfbfbf;">
-              How many stability points a VOL Health model powered by StaffHealth + Accushield Verified could realistically add.
-            </div>
+        </section>
+
+        <section class="card summary">
+          <h4>Diagnostic Summary</h4>
+          <p id="summaryText">This building is showing moderate but rising environmental volatility. Operational strain is present, with workforce pressure signals beginning to surface. Stability risk is still containable if workforce absorption is tested early.</p>
+          <div class="bullet-list" id="driverHighlights"></div>
+          <div class="footer-cta">
+            <button class="btn primary">Run WSI</button>
+            <button class="btn">Return to Platform</button>
           </div>
-          <div class="result-pill">
-            <div class="result-label">Stabilized VOL Health Score (Post-Elasticity)</div>
-            <div class="result-value" id="finalScoreLabel">0 / 100</div>
-            <div class="small" style="color:#bfbfbf;">
-              Higher is better — post-elasticity stability profile.
-            </div>
+        </section>
+
+        <section class="card map-card">
+          <h4>Instability Map Preview</h4>
+          <p>VI places the building on the environmental side of the platform. WSI will determine whether the workforce can absorb this pressure.</p>
+          <div class="map">
+            <div class="axis-y">Environment Volatility</div>
+            <div class="axis-x">Workforce Stability</div>
+            <div class="plot-dot" id="plotDot" style="left:61%; bottom:24%;"></div>
+            <div class="map-label" id="plotLabel" style="left:61%; bottom:24%;">Community A</div>
           </div>
-        </div>
-      </div>
-
-      <p class="small" id="modeSummary" style="margin-top:12px;">
-        In Single Community Mode, the VOL Health Volatility Index reflects one building’s volatility, overtime, PBJ exposure,
-        and leadership strain. It is directional, not a survey or audit.
-      </p>
-
-      <div class="grid grid-2" style="margin-top:12px;">
-        <div>
-          <div class="pill-header">Estimated Annual Economics at Stake (Illustrative)</div>
-          <div id="valueSummary">—</div>
-        </div>
-        <div>
-          <div class="pill-header">Quick Read on Staffing Health</div>
-          <div id="profileSummary" class="small" style="font-size:13px;">—</div>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <div class="pill-header">Rate &amp; Model Narrative</div>
-        <div id="rateNarrative" class="small" style="font-size:13px;">—</div>
-      </div>
-
-      <div class="nav-note">
-        VI has now been saved to localStorage. To complete the Stability Map point, run the Workforce Stability Index next.
-      </div>
-
-      <div class="btn-row" style="margin-top:14px;">
-        <a class="btn-link green" href="wsi.html">Go to WSI</a>
-        <a class="btn-link secondary" href="index.html">Return to Platform</a>
-      </div>
-    </div>
-
-    <div class="card" id="followupCard" style="display:none;">
-      <h2>5. Copyable Summary (Optional)</h2>
-      <p class="small">Copy results into an email, CRM note, or text.</p>
-      <label for="resultsText">Copyable VOL Health Summary</label>
-      <textarea id="resultsText"></textarea>
-      <button class="btn" type="button" id="copyBtn" style="margin-top:10px;">Copy Results</button>
-    </div>
-
-    <footer>StaffHealth + Accushield Verified — VOL Health™ Volatility Index — Prototype</footer>
+        </section>
+      </aside>
+    </section>
   </div>
-</div>
 
-<div class="footnote">
-  Prototype Model v0.5 — VOL Health framework developed independently by Hudson Keel
-  for internal evaluation and strategic insight testing.
-  Not a final or officially endorsed StaffHealth or Accushield Verified product.
-</div>
+  <script>
+    const sliders = [...document.querySelectorAll('input[type="range"]')];
+    const weights = {
+      census: 1.15,
+      acuity: 1.20,
+      leadership: 1.10,
+      workflow: 1.00,
+      coordination: 1.00,
+      schedule: 0.90,
+      coverage: 1.05,
+      overtime: 1.00,
+      survey: 0.80,
+      reimbursement: 0.80
+    };
 
-<script>
-const MAP_STORAGE_KEY = "volHealthMapData";
+    const driverNames = {
+      census: 'Census volatility',
+      acuity: 'Acuity variability',
+      leadership: 'Leadership bandwidth strain',
+      workflow: 'Workflow disruption',
+      coordination: 'Care coordination strain',
+      schedule: 'Schedule stress',
+      coverage: 'Coverage fragility',
+      overtime: 'Overtime pressure',
+      survey: 'Survey exposure',
+      reimbursement: 'Reimbursement pressure'
+    };
 
-const WEIGHTS = {
-  q1:12, q2:10, q3:14, q4:12, q5:10,
-  q6:12, q7:8, q8:10, q9:6, q10:10
-};
-
-function getMode(){
-  const el = document.querySelector('input[name="mode"]:checked');
-  return el ? el.value : "single";
-}
-
-function riskFromAnswer(val){
-  switch(val){
-    case "low": return 0.2;
-    case "med": return 0.5;
-    case "high": return 0.8;
-    case "unk": return 1.0;
-    default: return 0.5;
-  }
-}
-
-function classify(stabilityScore){
-  if(stabilityScore < 40) return {label:"Low Stability (High Volatility)", cls:"b-high"};
-  if(stabilityScore < 70) return {label:"Mixed Stability", cls:"b-med"};
-  return {label:"Higher Stability (Lower Volatility)", cls:"b-low"};
-}
-
-function usageImpactPct(val){
-  if(val === "conservative") return 0.35;
-  if(val === "aggressive") return 0.65;
-  return 0.50;
-}
-
-function intVal(id){
-  const v = parseInt((document.getElementById(id)?.value || "0"), 10);
-  return isNaN(v) ? 0 : v;
-}
-
-function safeNumber(value){
-  const num = Number(value);
-  return Number.isFinite(num) ? num : null;
-}
-
-function readMapData(){
-  try{
-    const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
-    return parsed && typeof parsed === "object" ? parsed : {};
-  }catch(err){
-    return {};
-  }
-}
-
-function getExplicitEntityName(){
-  return (document.getElementById("entityName")?.value || "").trim();
-}
-
-function getFallbackEntityLabel(){
-  const mode = getMode();
-  const communityTypeText = document.getElementById("communityType")?.selectedOptions?.[0]?.text || "Community";
-  return mode === "portfolio"
-    ? `${communityTypeText} Portfolio`
-    : `${communityTypeText} Community`;
-}
-
-function buildLabel(existing){
-  const explicit = getExplicitEntityName();
-  if(explicit) return explicit;
-  if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
-  return getFallbackEntityLabel();
-}
-
-function saveVOLHealthMapData(partial){
-  const existing = readMapData();
-  const merged = {
-    ...existing,
-    ...partial,
-    label: buildLabel(existing),
-    state: (document.getElementById("state")?.value || existing.state || "").trim(),
-    communityType: document.getElementById("communityType")?.value || existing.communityType || "al_mc",
-    mode: getMode(),
-    updatedAt: new Date().toISOString()
-  };
-
-  localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-  updateMapStatusChip();
-  return merged;
-}
-
-function updateMapStatusChip(){
-  const data = readMapData();
-  const hasVI = Number.isFinite(Number(data.vi));
-  const hasWSI = Number.isFinite(Number(data.wsi));
-  const dot = document.getElementById("mapStatusDot");
-  const text = document.getElementById("mapStatusText");
-
-  if(hasVI && hasWSI){
-    dot.classList.add("active");
-    text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
-  }else if(hasVI){
-    dot.classList.remove("active");
-    text.textContent = `VI saved • WSI still needed for map point`;
-  }else if(hasWSI){
-    dot.classList.remove("active");
-    text.textContent = `WSI saved • VI still needed for map point`;
-  }else{
-    dot.classList.remove("active");
-    text.textContent = "Map point not complete yet";
-  }
-}
-
-function sumPortfolioRow(qKey){
-  const low = intVal(`p_${qKey}_low`);
-  const med = intVal(`p_${qKey}_med`);
-  const high = intVal(`p_${qKey}_high`);
-  const unk = intVal(`p_${qKey}_unk`);
-  return {low, med, high, unk, total: low + med + high + unk};
-}
-
-function updateRowSums(){
-  const N = intVal("portfolioN");
-  for(let i = 1; i <= 10; i++){
-    const qKey = "q" + i;
-    const s = sumPortfolioRow(qKey);
-    const el = document.getElementById("sum_" + qKey);
-    if(!el) continue;
-
-    if(s.total === 0){
-      el.innerHTML = `<span class="small">Total entered: 0 (optional)</span>`;
-      continue;
+    function tierFor(score) {
+      if (score < 35) return 'Stable Environment';
+      if (score < 55) return 'Emerging Volatility';
+      if (score < 75) return 'Rising Volatility';
+      return 'Acute Volatility';
     }
 
-    if(N > 0){
-      if(s.total === N){
-        el.innerHTML = `<span class="ok">Total entered: ${s.total} (matches portfolio size)</span>`;
-      }else{
-        el.innerHTML = `<span class="warn">Total entered: ${s.total} (does not match portfolio size ${N})</span>`;
-      }
-    }else{
-      el.innerHTML = `<span class="small">Total entered: ${s.total}</span>`;
-    }
-  }
-}
-
-[
-  "portfolioN",
-  "p_q1_low","p_q1_med","p_q1_high","p_q1_unk",
-  "p_q2_low","p_q2_med","p_q2_high","p_q2_unk",
-  "p_q3_low","p_q3_med","p_q3_high","p_q3_unk",
-  "p_q4_low","p_q4_med","p_q4_high","p_q4_unk",
-  "p_q5_low","p_q5_med","p_q5_high","p_q5_unk",
-  "p_q6_low","p_q6_med","p_q6_high","p_q6_unk",
-  "p_q7_low","p_q7_med","p_q7_high","p_q7_unk",
-  "p_q8_low","p_q8_med","p_q8_high","p_q8_unk",
-  "p_q9_low","p_q9_med","p_q9_high","p_q9_unk",
-  "p_q10_low","p_q10_med","p_q10_high","p_q10_unk"
-].forEach(id => {
-  const el = document.getElementById(id);
-  if(el) el.addEventListener("input", updateRowSums);
-});
-
-document.querySelectorAll('input[name="mode"]').forEach(radio => {
-  radio.addEventListener("change", () => {
-    const mode = getMode();
-    document.getElementById("singleSection").style.display = mode === "single" ? "block" : "none";
-    document.getElementById("portfolioSection").style.display = mode === "portfolio" ? "block" : "none";
-
-    document.getElementById("riskLabel").textContent =
-      mode === "single"
-        ? "Baseline VOL Health Stability (Current State)"
-        : "Average VOL Health Stability per Community (Portfolio)";
-
-    document.getElementById("modeSummary").textContent =
-      mode === "single"
-        ? "In Single Community Mode, the VOL Health Volatility Index reflects one building’s volatility, overtime, PBJ exposure, and leadership strain. It is directional, not a survey or audit."
-        : "In Portfolio Mode, the VOL Health Volatility Index reflects an average per-community risk/stability profile based on how many communities fit each answer option for each factor.";
-
-    if(mode === "portfolio") updateRowSums();
-  });
-});
-
-document.getElementById("calcBtn").addEventListener("click", () => {
-  const mode = getMode();
-  const communityType = document.getElementById("communityType").value;
-  const state = (document.getElementById("state").value || "N/A").trim();
-
-  let weights = {...WEIGHTS};
-  if(communityType === "al_mc") weights.q10 = 0;
-
-  let riskScore100 = 0;
-  let finalRiskScore = 0;
-  let stabilityPre = 0;
-  let impactScore = 0;
-  let finalScore = 0;
-  let baselineLow = 0;
-  let baselineHigh = 0;
-  let stabilizedLow = 0;
-  let stabilizedHigh = 0;
-  let usedN = 1;
-
-  if(mode === "single"){
-    let weightedRiskSum = 0;
-    let weightTotal = 0;
-
-    for(let i = 1; i <= 10; i++){
-      const key = "q" + i;
-      const w = weights[key];
-      if(w === 0) continue;
-      const ans = document.getElementById(key).value;
-      const r = riskFromAnswer(ans);
-      weightedRiskSum += (r * 10) * w;
-      weightTotal += w;
+    function trajectoryFor(score) {
+      if (score < 35) return 'Stable';
+      if (score < 55) return 'Stable → Watch';
+      if (score < 75) return 'Moderate → Rising';
+      return 'Elevated → Acute';
     }
 
-    const riskScore0to10 = weightTotal === 0 ? 0 : (weightedRiskSum / weightTotal);
-    riskScore100 = Math.round(riskScore0to10 * 10);
-
-    const usage = document.getElementById("usageLevel").value;
-    const impactPct = usageImpactPct(usage);
-
-    impactScore = Math.round(riskScore100 * impactPct);
-    finalRiskScore = Math.max(0, riskScore100 - impactScore);
-
-    baselineLow = Math.round(riskScore100 * 3000 / 1000) * 1000;
-    baselineHigh = Math.round(riskScore100 * 6000 / 1000) * 1000;
-    stabilizedLow = Math.round(impactScore * 3000 / 1000) * 1000;
-    stabilizedHigh = Math.round(impactScore * 6000 / 1000) * 1000;
-    usedN = 1;
-  }else{
-    let weightedRiskSum = 0;
-    let weightTotal = 0;
-    let totalNsum = 0;
-    let qCount = 0;
-
-    for(let i = 1; i <= 10; i++){
-      const key = "q" + i;
-      const w = weights[key];
-      if(w === 0) continue;
-
-      const s = sumPortfolioRow(key);
-      if(s.total === 0) continue;
-
-      const r = (0.2 * s.low + 0.5 * s.med + 0.8 * s.high + 1.0 * s.unk) / s.total;
-      weightedRiskSum += (r * 10) * w;
-      weightTotal += w;
-
-      totalNsum += s.total;
-      qCount++;
+    function summaryFor(score, dominant) {
+      if (score < 35) return 'This building is currently operating in a relatively stable environment. Volatility signals are present but low, suggesting leadership can monitor conditions without immediate escalation.';
+      if (score < 55) return `This building is showing early volatility, led primarily by ${dominant.toLowerCase()}. Pressure is developing, but there is still room to intervene before instability spreads.`;
+      if (score < 75) return `This building is showing moderate but rising environmental volatility. ${dominant} is now the dominant pressure source, and workforce absorption should be tested before strain becomes visible in operations.`;
+      return `This building is operating inside acute volatility. ${dominant} is driving elevated instability, and immediate workforce testing plus targeted operational response is warranted.`;
     }
 
-    const riskScore0to10 = weightTotal === 0 ? 0 : (weightedRiskSum / weightTotal);
-    riskScore100 = Math.round(riskScore0to10 * 10);
-
-    const usage = document.getElementById("usageLevelPortfolio").value;
-    const impactPct = usageImpactPct(usage);
-
-    impactScore = Math.round(riskScore100 * impactPct);
-    finalRiskScore = Math.max(0, riskScore100 - impactScore);
-
-    usedN = qCount > 0 ? Math.round(totalNsum / qCount) : 1;
-
-    const perLow = Math.round(riskScore100 * 3000 / 1000) * 1000;
-    const perHigh = Math.round(riskScore100 * 6000 / 1000) * 1000;
-    const perStabLow = Math.round(impactScore * 3000 / 1000) * 1000;
-    const perStabHigh = Math.round(impactScore * 6000 / 1000) * 1000;
-
-    baselineLow = perLow * usedN;
-    baselineHigh = perHigh * usedN;
-    stabilizedLow = perStabLow * usedN;
-    stabilizedHigh = perStabHigh * usedN;
-  }
-
-  stabilityPre = Math.max(0, Math.min(100, 100 - riskScore100));
-  finalScore = Math.max(0, Math.min(100, 100 - finalRiskScore));
-
-  document.getElementById("riskScoreLabel").textContent = `${stabilityPre} / 100`;
-  document.getElementById("impactScoreLabel").textContent = `${impactScore} pts`;
-  document.getElementById("finalScoreLabel").textContent = `${finalScore} / 100`;
-
-  const badgeData = classify(stabilityPre);
-  const badge = document.getElementById("riskBadge");
-  badge.textContent = badgeData.label;
-  badge.className = `badge ${badgeData.cls}`;
-
-  const baselineText = mode === "single"
-    ? `Annual economics currently influenced by staffing volatility: <span>$${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}</span>`
-    : `Portfolio annual economics currently influenced by staffing volatility (≈${usedN} communities): <span>$${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}</span>`;
-
-  const stabText = mode === "single"
-    ? `Illustrative economics a VOL Health model (powered by StaffHealth + Accushield Verified) could help stabilize: <b>$${stabilizedLow.toLocaleString()}–$${stabilizedHigh.toLocaleString()}</b>`
-    : `Illustrative economics a VOL Health model (powered by StaffHealth + Accushield Verified) could help stabilize (portfolio): <b>$${stabilizedLow.toLocaleString()}–$${stabilizedHigh.toLocaleString()}</b>`;
-
-  let extra = "";
-  if(mode === "single"){
-    const compareRate = parseFloat(document.getElementById("compareRate").value);
-    const staffRate = parseFloat(document.getElementById("staffRate").value);
-    const shiftsMonth = parseFloat(document.getElementById("shiftsMonth").value);
-    const hoursMonth = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN;
-
-    const hasRates =
-      !isNaN(compareRate) && compareRate > 0 &&
-      !isNaN(staffRate) && staffRate > 0 &&
-      !isNaN(hoursMonth) && hoursMonth > 0;
-
-    if(hasRates){
-      const directAnnual = (compareRate - staffRate) * hoursMonth * 12;
-      const stabilizedMid = (stabilizedLow + stabilizedHigh) / 2;
-      const netImpact = stabilizedMid + directAnnual;
-
-      const directLabel = directAnnual >= 0 ? "Estimated direct annual savings from rate:" : "Estimated direct annual premium from rate:";
-      const netLabel = netImpact >= 0 ? "Directional annual net benefit (rate + stability):" : "Directional annual net cost (rate + stability):";
-
-      extra = `<div class="small" style="margin-top:8px;">
-        <b>${directLabel}</b> $${Math.abs(directAnnual).toLocaleString()}<br/>
-        <b>${netLabel}</b> $${Math.abs(netImpact).toLocaleString()}<br/>
-        <span>Based on approximately ${shiftsMonth.toLocaleString()} shifts/month ≈ ${hoursMonth.toLocaleString()} hours/month (8 hrs/shift).</span>
-      </div>`;
-    }else{
-      extra = `<div class="small" style="margin-top:8px;">Rate fields were left blank, so this view focuses on volatility and risk rather than hourly pricing.</div>`;
+    function domainTitle(domain) {
+      return {
+        resident: 'Resident Demand',
+        operations: 'Operational Systems',
+        workforce: 'Workforce Pressure',
+        external: 'External Pressure'
+      }[domain];
     }
-  }else{
-    extra = `<div class="small" style="margin-top:8px;">Portfolio Mode uses your distribution of communities across each option for each factor to compute an average risk/stability score per community and a portfolio roll-up.</div>`;
-  }
 
-  document.getElementById("valueSummary").innerHTML =
-    `<div class="big-impact">${baselineText}</div><div>${stabText}</div>${extra}`;
-
-  let profile = "";
-  if(stabilityPre < 40){
-    profile = (mode === "single")
-      ? "Low stability today: volatility, OT, PBJ, and leadership drag are likely creating hidden cost every week. A verified elasticity layer can materially reduce downside risk."
-      : "Portfolio trends toward lower stability on average. Multiple buildings likely carry meaningful volatility, OT, and PBJ risk that can be de-risked with a structured elasticity model.";
-  }else if(stabilityPre < 70){
-    profile = (mode === "single")
-      ? "Mixed stability: operations work, but leadership and PBJ are absorbing real strain. A targeted elasticity layer on weekends and pain shifts can relieve pressure and protect survey readiness."
-      : "Moderate stability across the portfolio: most buildings function, but leadership capacity and PBJ confidence are at risk if anything shifts. Targeted elasticity deployment across the right cohort can move the average measurably.";
-  }else{
-    profile = (mode === "single")
-      ? "Higher stability today: the building is relatively steady, but there is still real upside in protecting this position as census, acuity, and PBJ expectations keep shifting."
-      : "Higher stability on average: portfolio is relatively steady, but protecting this position while shoring up the weaker buildings can unlock meaningful upside and reduce downside surprises.";
-  }
-  document.getElementById("profileSummary").textContent = profile;
-
-  let rateNarr = "";
-  if(mode === "portfolio"){
-    rateNarr = "This run focuses on volatility and stability at the portfolio level. In follow-up, we can layer in rate cohorts (agency vs OT vs blended) to show how the model behaves financially by building cluster. Core message: volatility and compliance exposure often cost more than the rate line.";
-  }else{
-    const compareRate = parseFloat(document.getElementById("compareRate").value);
-    const staffRate = parseFloat(document.getElementById("staffRate").value);
-    const shiftsMonth = parseFloat(document.getElementById("shiftsMonth").value);
-    const hoursMonth = !isNaN(shiftsMonth) && shiftsMonth > 0 ? shiftsMonth * 8 : NaN;
-    const hasRates =
-      !isNaN(compareRate) && compareRate > 0 &&
-      !isNaN(staffRate) && staffRate > 0 &&
-      !isNaN(hoursMonth) && hoursMonth > 0;
-
-    if(!hasRates){
-      rateNarr = "No rate inputs were provided, so this run is a pure volatility/stability view. Add rate + shifts to compare direct economics alongside the stability benefit.";
-    }else{
-      const directAnnual = (compareRate - staffRate) * hoursMonth * 12;
-      const stabilizedMid = (stabilizedLow + stabilizedHigh) / 2;
-      const netImpact = stabilizedMid + directAnnual;
-
-      const premium = staffRate > compareRate + 1;
-      const parity = Math.abs(staffRate - compareRate) <= 1;
-      const cheaper = staffRate < compareRate - 1;
-
-      if(cheaper && netImpact >= 0){
-        rateNarr = "Rate and stability both work in your favor. StaffHealth improves hourly economics and strengthens stability within the VOL Health model — strong pilot profile.";
-      }else if(parity && netImpact >= 0){
-        rateNarr = "Rate parity shifts the conversation to volatility: the upside lives in PBJ, survey readiness, leadership time, and reduced OT churn.";
-      }else if(premium && netImpact >= 0){
-        rateNarr = "Even with a rate premium, the estimated stability benefit outweighs it — trading a known small cost for a larger reduction in volatility and downside risk.";
-      }else{
-        rateNarr = "On these specific inputs the financial signal is weak. Worth revisiting if hours mix, comparison rate, or volatility picture changes.";
-      }
+    function scoreColor(score) {
+      if (score < 35) return 'var(--green)';
+      if (score < 55) return 'var(--amber)';
+      if (score < 75) return '#f38b46';
+      return 'var(--red)';
     }
-  }
-  document.getElementById("rateNarrative").textContent = rateNarr;
 
-  let copyText =
-`VOL Health™ Volatility Index – Results
+    function update() {
+      const values = {};
+      sliders.forEach(s => {
+        values[s.dataset.driver] = Number(s.value);
+        const span = document.getElementById(`${s.dataset.driver}Val`);
+        if (span) span.textContent = s.value;
+      });
 
-Mode: ${mode === "single" ? "Single Community" : "Portfolio"}
-Community / Portfolio Name: ${getExplicitEntityName() || getFallbackEntityLabel()}
-Community Type: ${communityType.toUpperCase()}
-State/Region: ${state}
+      const domainMap = {
+        resident: ['census', 'acuity'],
+        operations: ['leadership', 'workflow', 'coordination'],
+        workforce: ['schedule', 'coverage', 'overtime'],
+        external: ['survey', 'reimbursement']
+      };
 
-VOL Health Stability Score (Current State): ${stabilityPre} / 100
-Projected Stability Gain (Elasticity Impact): ${impactScore} pts
-Stabilized VOL Health Score (Post-Elasticity): ${finalScore} / 100
+      const domainScores = {};
+      Object.entries(domainMap).forEach(([domain, drivers]) => {
+        const weighted = drivers.reduce((sum, d) => sum + values[d] * weights[d], 0);
+        const max = drivers.reduce((sum, d) => sum + 10 * weights[d], 0);
+        domainScores[domain] = Math.round((weighted / max) * 100);
+        document.getElementById(`${domain}Score`).textContent = domainScores[domain];
+      });
 
-Annual economics influenced by staffing volatility: $${baselineLow.toLocaleString()}–$${baselineHigh.toLocaleString()}
-Illustrative economics a VOL Health model (powered by StaffHealth + Accushield Verified) could help stabilize: $${stabilizedLow.toLocaleString()}–$${stabilizedHigh.toLocaleString()}
-`;
+      const totalWeighted = Object.keys(values).reduce((sum, d) => sum + values[d] * weights[d], 0);
+      const maxWeighted = Object.keys(values).reduce((sum, d) => sum + 10 * weights[d], 0);
+      const viScore = Math.round((totalWeighted / maxWeighted) * 100);
 
-  if(mode === "portfolio"){
-    copyText += `\nApprox. portfolio size used (avg of filled questions): ${usedN}\n`;
-  }
+      const dominant = Object.entries(domainScores).sort((a,b) => b[1]-a[1])[0][0];
+      const topDrivers = Object.entries(values)
+        .map(([k,v]) => ({ key:k, val: Math.round(v * weights[k] * 10) }))
+        .sort((a,b) => b.val - a.val)
+        .slice(0,3);
 
-  document.getElementById("resultsText").value = copyText;
+      document.getElementById('viScore').textContent = viScore;
+      document.getElementById('viTier').textContent = tierFor(viScore);
+      document.getElementById('dominantDomain').textContent = domainTitle(dominant);
+      document.getElementById('trajectory').textContent = trajectoryFor(viScore);
+      document.getElementById('pattern').textContent = `${driverNames[topDrivers[0].key]} + ${driverNames[topDrivers[1].key]}`;
+      document.getElementById('summaryText').textContent = summaryFor(viScore, domainTitle(dominant));
+      document.querySelector('.score-hero .score').style.color = scoreColor(viScore);
+      document.getElementById('viTier').style.borderColor = scoreColor(viScore);
+      document.getElementById('viTier').style.color = scoreColor(viScore);
 
-  saveVOLHealthMapData({
-    vi: safeNumber(stabilityPre),
-    viCurrent: safeNumber(stabilityPre),
-    viProjected: safeNumber(finalScore),
-    viImpact: safeNumber(impactScore),
-    viMode: mode,
-    viSource: "volatility-index",
-    viUpdated: new Date().toISOString()
-  });
+      const highlights = document.getElementById('driverHighlights');
+      highlights.innerHTML = '';
+      topDrivers.forEach(d => {
+        const row = document.createElement('div');
+        row.className = 'bullet';
+        row.innerHTML = `<div class="dot" style="background:${scoreColor(viScore)}"></div><div><strong>${driverNames[d.key]}</strong><br><span style="color:var(--muted)">High contribution to current volatility pattern.</span></div>`;
+        highlights.appendChild(row);
+      });
 
-  document.getElementById("resultsCard").style.display = "block";
-  document.getElementById("followupCard").style.display = "block";
-  document.getElementById("resultsCard").scrollIntoView({behavior:"smooth"});
-});
+      const dot = document.getElementById('plotDot');
+      const label = document.getElementById('plotLabel');
+      const x = Math.max(18, Math.min(82, 82 - (viScore * 0.42)));
+      const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
+      dot.style.left = `${x}%`;
+      dot.style.bottom = `${y}%`;
+      label.style.left = `${x}%`;
+      label.style.bottom = `${y}%`;
+      dot.style.background = scoreColor(viScore);
+      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
+    }
 
-document.getElementById("resetBtn").addEventListener("click", () => {
-  for(let i = 1; i <= 10; i++){
-    const s = document.getElementById("q" + i);
-    if(s) s.selectedIndex = 0;
-  }
-
-  document.getElementById("usageLevel").value = "moderate";
-  ["compareRate","staffRate","shiftsMonth","state","entityName"].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.value = "";
-  });
-
-  document.getElementById("communityType").value = "al_mc";
-
-  document.getElementById("portfolioN").value = "";
-  document.getElementById("usageLevelPortfolio").value = "moderate";
-
-  for(let i = 1; i <= 10; i++){
-    ["low","med","high","unk"].forEach(bucket => {
-      const el = document.getElementById(`p_q${i}_${bucket}`);
-      if(el) el.value = "";
-    });
-    const sumEl = document.getElementById("sum_q" + i);
-    if(sumEl) sumEl.textContent = "";
-  }
-
-  document.getElementById("resultsCard").style.display = "none";
-  document.getElementById("followupCard").style.display = "none";
-});
-
-document.getElementById("copyBtn").addEventListener("click", function(){
-  const ta = document.getElementById("resultsText");
-  ta.select();
-  ta.setSelectionRange(0, 99999);
-
-  try{
-    document.execCommand("copy");
-    this.textContent = "Copied!";
-    setTimeout(() => this.textContent = "Copy Results", 1200);
-  }catch(err){
-    alert("Copy failed. Please select and copy manually.");
-  }
-});
-
-updateRowSums();
-updateMapStatusChip();
-</script>
+    sliders.forEach(s => s.addEventListener('input', update));
+    update();
+  </script>
 </body>
 </html>
