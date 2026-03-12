@@ -39,12 +39,12 @@
     }
 
     .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-      padding-bottom:12px;
-    }
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:26px;
+  padding-bottom:14px;
+}
 
     .brand{
       display:flex;
@@ -97,7 +97,11 @@
   border-color:rgba(255,255,255,0.14);
   transform:translateY(-1px);
 }
-
+.nav-primary{
+  border-color:rgba(90,168,255,0.35);
+  background:rgba(31,87,184,0.18);
+  color:#ffffff;
+}
 .nav a:active{
   transform:translateY(0);
 }
@@ -598,11 +602,11 @@
       </div>
 
       <nav class="nav" aria-label="Primary">
-        <a href="#acc-vi">VI</a>
-        <a href="#acc-wsi">WSI</a>
-        <a href="#acc-shai">SHAI Stability Engine</a>
-        <a href="#stability-map">Stability Map</a>
-      </nav>
+  <a href="#acc-vi">VI</a>
+  <a href="#acc-wsi">WSI</a>
+  <a href="#acc-shai" class="nav-primary">SHAI Stability Engine</a>
+  <a href="#stability-map">Stability Map</a>
+</nav>
     </div>
 
     <section class="card hero" id="top">
