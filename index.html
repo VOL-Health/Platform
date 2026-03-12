@@ -56,35 +56,9 @@
     .brand-logo{
       display:block;
       width:100%;
-      max-width:470px;
+      max-width:300px;
       height:auto;
-      overflow:visible;
       filter:drop-shadow(0 10px 20px rgba(0,0,0,0.30));
-    }
-
-    .brand-logo .main{
-      font-family:Inter,Manrope,"Segoe UI",Arial,sans-serif;
-      font-weight:800;
-      font-size:170px;
-      dominant-baseline:alphabetic;
-    }
-
-    .brand-logo .vol{
-      fill:#2C5FBE;
-      letter-spacing:-0.06em;
-    }
-
-    .brand-logo .health{
-      fill:#EEF2F7;
-      letter-spacing:-0.035em;
-    }
-
-    .brand-logo .sub{
-      font-family:Inter,Manrope,"Segoe UI",Arial,sans-serif;
-      font-weight:600;
-      font-size:36px;
-      fill:#D0D6E0;
-      letter-spacing:0.32em;
     }
 
     .nav{
@@ -575,7 +549,7 @@
         align-items:flex-start;
       }
       .brand-logo{
-        max-width:420px;
+        max-width:260px;
       }
       .hero{ grid-template-columns:1fr; }
       .acc-inner{ grid-template-columns:1fr; }
@@ -590,7 +564,7 @@
 
     @media (max-width:640px){
       .brand-logo{
-        max-width:320px;
+        max-width:220px;
       }
     }
   </style>
@@ -600,36 +574,7 @@
 
     <div class="topbar">
       <div class="brand" aria-label="VOL Health logo">
-        <svg class="brand-logo" viewBox="0 0 1700 360" role="img" aria-label="VOL Health">
-          <defs>
-            <linearGradient id="volBlue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#2C5FBE"/>
-              <stop offset="100%" stop-color="#1f57b8"/>
-            </linearGradient>
-          </defs>
-
-          <text x="54" y="170"
-                font-family="Inter, Manrope, 'Segoe UI', Arial, sans-serif"
-                font-size="220"
-                font-weight="800"
-                letter-spacing="-10"
-                fill="url(#volBlue)">VOL</text>
-
-          <text x="560" y="170"
-                font-family="Inter, Manrope, 'Segoe UI', Arial, sans-serif"
-                font-size="220"
-                font-weight="800"
-                letter-spacing="-5"
-                fill="#EEF2F7">HEALTH</text>
-
-          <text x="765" y="240"
-                text-anchor="middle"
-                font-family="Inter, Manrope, 'Segoe UI', Arial, sans-serif"
-                font-size="42"
-                font-weight="600"
-                letter-spacing="15"
-                fill="#CBD2DE">STAFFHEALTH + ACCUSHIELD VERIFIED</text>
-        </svg>
+        <img class="brand-logo" src="vol-health-logo.png" alt="VOL Health logo" />
       </div>
 
       <nav class="nav" aria-label="Primary">
