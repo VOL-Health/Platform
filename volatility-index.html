@@ -752,8 +752,8 @@
           <p id="summaryText">This building is showing moderate but rising environmental volatility. Operational strain is present, with workforce pressure signals beginning to surface. Stability risk is still containable if workforce absorption is tested early.</p>
           <div class="bullet-list" id="driverHighlights"></div>
           <div class="footer-cta">
-            <button class="btn primary">Run WSI</button>
-            <button class="btn">Return to Platform</button>
+            <button class="btn primary" id="runWsiBtn" type="button">Run WSI</button>
+            <button class="btn" id="returnPlatformBtn" type="button">Return to Platform</button>
           </div>
         </section>
 
@@ -830,7 +830,7 @@
       if (score < 55) {
         return {
           label: 'Emerging',
-          text: 'Early volatility is beginning to create efficiency leakage and may start putting pressure on margin if it persists.'
+          text: 'Early volatility is beginning to create efficiency leakage and may start putting light pressure on margin if it persists.'
         };
       }
       if (score < 75) {
@@ -926,6 +926,31 @@
       label.style.bottom = `${y}%`;
       dot.style.background = scoreColor(viScore);
       dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
+    }
+
+    function navigateTo(candidates) {
+      for (const path of candidates) {
+        try {
+          window.location.href = path;
+          return;
+        } catch (e) {
+          // keep trying fallbacks
+        }
+      }
+    }
+
+    const runWsiBtn = document.getElementById('runWsiBtn');
+    if (runWsiBtn) {
+      runWsiBtn.addEventListener('click', () => {
+        navigateTo(['wsi.html', 'workforce-stability-index.html', 'workforce-stability.html', 'calculator.html#wsi']);
+      });
+    }
+
+    const returnPlatformBtn = document.getElementById('returnPlatformBtn');
+    if (returnPlatformBtn) {
+      returnPlatformBtn.addEventListener('click', () => {
+        navigateTo(['index.html', './', 'platform.html', 'calculator.html']);
+      });
     }
 
     sliders.forEach(s => s.addEventListener('input', update));
