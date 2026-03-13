@@ -360,7 +360,7 @@
     }
 
     .domain-score {
-      min-width: 70px;
+      min-width: 78px;
       text-align: center;
       border-radius: 14px;
       background: rgba(255,255,255,0.05);
@@ -595,31 +595,31 @@
       white-space: nowrap;
     }
 
-.prototype-note {
-  margin-top: 28px;
-  width: 100%;
-  max-width: none;
-  padding: 16px 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.03);
-  color: var(--muted, #9fb2d2);
-  font-size: 13px;
-  line-height: 1.55;
-}
+    .prototype-note {
+      margin-top: 28px;
+      width: 100%;
+      max-width: none;
+      padding: 16px 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      color: var(--muted, #9fb2d2);
+      font-size: 13px;
+      line-height: 1.55;
+    }
 
-.prototype-note strong {
-  color: var(--text, #eef4ff);
-  font-weight: 700;
-}
+    .prototype-note strong {
+      color: var(--text, #eef4ff);
+      font-weight: 700;
+    }
 
-.prototype-note .small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.9;
-}
-    
+    .prototype-note .small {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
     .footer-cta {
       display: flex;
       gap: 10px;
@@ -642,22 +642,17 @@
       }
       .green-band { border-radius: 18px; }
     }
-      /* Improve dropdown option visibility */
+
     select option {
-      background: #0f1f3b; /* dark background so text is visible */
+      background: #0f1f3b;
       color: #eef4ff;
     }
 
-    select option:hover {
-      background: #2c6cff;
-      color: #ffffff;
-    }
-
+    select option:hover,
     select option:checked {
       background: #2c6cff;
       color: #ffffff;
     }
-
   </style>
 </head>
 <body>
@@ -665,7 +660,7 @@
     <div class="topbar">
       <div class="brand">
         <h1><span class="accent">VOL HEALTH™</span> VOLATILITY INTELLIGENCE</h1>
-        <p>Environmental instability detection for senior living operations. Four volatility domains measured across ten operational drivers to identify where instability is forming before workforce strain becomes visible.</p>
+        <p>Environmental instability detection for senior living operations. Four volatility domains measured across ten operational drivers to identify where extra volatility is forming beyond the endemic baseline that all communities already carry.</p>
       </div>
       <div class="pill">Pv1 | VI Detect</div>
     </div>
@@ -676,7 +671,7 @@
       <div class="spine-card active">
         <div class="step">Step 1</div>
         <strong>VI — Detect</strong>
-        <span>Identify environmental volatility forming inside the building or portfolio.</span>
+        <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
       </div>
       <div class="spine-card">
         <div class="step">Step 2</div>
@@ -711,13 +706,13 @@
         <input type="text" placeholder="Hudson Keel" value="Hudson Keel" />
       </div>
       <div style="display:flex;align-items:end;gap:10px;">
-        <button class="btn primary" type="button">Calculate VI</button>
+        <button class="btn primary" type="button" id="calcBtn">Calculate VI</button>
       </div>
     </section>
 
     <section class="portfolio-panel hidden" id="portfolioPanel">
       <h3>Portfolio Context &amp; Volatility Signals</h3>
-      <p>Enter how many communities fall into each band. The tool converts this into portfolio-wide environmental volatility values across the same ten VI drivers.</p>
+      <p>Enter how many communities fall into each band. Low band now means no material extra volatility beyond endemic baseline. The tool converts this into portfolio-wide extra-volatility values across the same ten VI drivers.</p>
 
       <div class="portfolio-size-row">
         <div class="field">
@@ -726,7 +721,7 @@
         </div>
         <div class="field">
           <label>Scoring Method</label>
-          <input type="text" value="Low = 2 • Mid = 6 • High = 9" readonly />
+          <input type="text" value="Low = 0 • Mid = 5 • High = 10" readonly />
         </div>
       </div>
 
@@ -744,17 +739,17 @@
           </thead>
           <tbody>
             <tr>
-              <td class="metric-cell">Census volatility<span class="band-note">Low: stable census • Mid: moderate swings • High: material occupancy instability</span></td>
-              <td><input type="number" min="0" value="7" data-portfolio-driver="census" data-band="low" /></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="census" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="census" data-band="high" /></td>
+              <td class="metric-cell">Census volatility<span class="band-note">Low: endemic baseline only • Mid: moderate extra swings • High: material occupancy instability</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="census" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="census" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="census" data-band="high" /></td>
               <td class="row-total" id="total-census">20 / 20</td>
             </tr>
             <tr>
-              <td class="metric-cell">Acuity variability<span class="band-note">Low: care mix stable • Mid: intermittent shifts • High: frequent or major care intensity changes</span></td>
-              <td><input type="number" min="0" value="6" data-portfolio-driver="acuity" data-band="low" /></td>
-              <td><input type="number" min="0" value="9" data-portfolio-driver="acuity" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="acuity" data-band="high" /></td>
+              <td class="metric-cell">Acuity variability<span class="band-note">Low: endemic baseline only • Mid: intermittent shifts • High: frequent or major care intensity changes</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="acuity" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="acuity" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="acuity" data-band="high" /></td>
               <td class="row-total" id="total-acuity">20 / 20</td>
             </tr>
           </tbody>
@@ -775,24 +770,24 @@
           </thead>
           <tbody>
             <tr>
-              <td class="metric-cell">Leadership bandwidth strain<span class="band-note">Low: leadership has room • Mid: stretched • High: overloaded and reactive</span></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="leadership" data-band="low" /></td>
-              <td><input type="number" min="0" value="7" data-portfolio-driver="leadership" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="leadership" data-band="high" /></td>
+              <td class="metric-cell">Leadership bandwidth strain<span class="band-note">Low: leadership has normal room • Mid: stretched • High: overloaded and reactive</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="leadership" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="leadership" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="leadership" data-band="high" /></td>
               <td class="row-total" id="total-leadership">20 / 20</td>
             </tr>
             <tr>
               <td class="metric-cell">Workflow disruption<span class="band-note">Low: routines steady • Mid: inconsistent execution • High: constant fire-fighting</span></td>
-              <td><input type="number" min="0" value="7" data-portfolio-driver="workflow" data-band="low" /></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="workflow" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="workflow" data-band="high" /></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="workflow" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="workflow" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="workflow" data-band="high" /></td>
               <td class="row-total" id="total-workflow">20 / 20</td>
             </tr>
             <tr>
               <td class="metric-cell">Care coordination strain<span class="band-note">Low: teams synchronized • Mid: periodic friction • High: coordination breakdown risk</span></td>
-              <td><input type="number" min="0" value="6" data-portfolio-driver="coordination" data-band="low" /></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="coordination" data-band="mid" /></td>
-              <td><input type="number" min="0" value="6" data-portfolio-driver="coordination" data-band="high" /></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="coordination" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="coordination" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="coordination" data-band="high" /></td>
               <td class="row-total" id="total-coordination">20 / 20</td>
             </tr>
           </tbody>
@@ -800,7 +795,7 @@
       </div>
 
       <div class="portfolio-block">
-        <h4>Workforce Pressure Signals</h4>
+        <h4>Workforce Strain Signals</h4>
         <table class="portfolio-table">
           <thead>
             <tr>
@@ -813,24 +808,24 @@
           </thead>
           <tbody>
             <tr>
-              <td class="metric-cell">Schedule stress<span class="band-note">Low: coverage steady • Mid: occasional strain • High: recurring schedule instability</span></td>
-              <td><input type="number" min="0" value="7" data-portfolio-driver="schedule" data-band="low" /></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="schedule" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="schedule" data-band="high" /></td>
+              <td class="metric-cell">Schedule stress<span class="band-note">Low: endemic baseline only • Mid: occasional strain • High: recurring schedule instability</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="schedule" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="schedule" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="schedule" data-band="high" /></td>
               <td class="row-total" id="total-schedule">20 / 20</td>
             </tr>
             <tr>
-              <td class="metric-cell">Coverage fragility<span class="band-note">Low: good buffer • Mid: thin coverage • High: fragile daily coverage model</span></td>
-              <td><input type="number" min="0" value="6" data-portfolio-driver="coverage" data-band="low" /></td>
-              <td><input type="number" min="0" value="9" data-portfolio-driver="coverage" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="coverage" data-band="high" /></td>
+              <td class="metric-cell">Coverage fragility<span class="band-note">Low: adequate baseline buffer • Mid: thin coverage • High: fragile daily coverage model</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="coverage" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="coverage" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="coverage" data-band="high" /></td>
               <td class="row-total" id="total-coverage">20 / 20</td>
             </tr>
             <tr>
-              <td class="metric-cell">Overtime pressure<span class="band-note">Low: little internal stretch • Mid: moderate OT dependence • High: sustained schedule stretch</span></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="overtime" data-band="low" /></td>
-              <td><input type="number" min="0" value="7" data-portfolio-driver="overtime" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="overtime" data-band="high" /></td>
+              <td class="metric-cell">Overtime pressure<span class="band-note">Low: little extra stretch beyond endemic baseline • Mid: moderate OT dependence • High: sustained schedule stretch</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="overtime" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="overtime" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="overtime" data-band="high" /></td>
               <td class="row-total" id="total-overtime">20 / 20</td>
             </tr>
           </tbody>
@@ -851,42 +846,43 @@
           </thead>
           <tbody>
             <tr>
-              <td class="metric-cell">Survey exposure<span class="band-note">Low: limited exposure • Mid: moderate sensitivity • High: elevated regulatory pressure</span></td>
-              <td><input type="number" min="0" value="9" data-portfolio-driver="survey" data-band="low" /></td>
-              <td><input type="number" min="0" value="6" data-portfolio-driver="survey" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="survey" data-band="high" /></td>
+              <td class="metric-cell">Survey exposure<span class="band-note">Low: limited extra exposure • Mid: moderate sensitivity • High: elevated regulatory pressure</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="survey" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="survey" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="survey" data-band="high" /></td>
               <td class="row-total" id="total-survey">20 / 20</td>
             </tr>
             <tr>
-              <td class="metric-cell">Reimbursement pressure<span class="band-note">Low: normal margin room • Mid: constrained economics • High: meaningful reimbursement compression</span></td>
-              <td><input type="number" min="0" value="8" data-portfolio-driver="reimbursement" data-band="low" /></td>
-              <td><input type="number" min="0" value="7" data-portfolio-driver="reimbursement" data-band="mid" /></td>
-              <td><input type="number" min="0" value="5" data-portfolio-driver="reimbursement" data-band="high" /></td>
+              <td class="metric-cell">Reimbursement pressure<span class="band-note">Low: normal economics • Mid: constrained economics • High: meaningful reimbursement compression</span></td>
+              <td><input type="number" min="0" value="20" data-portfolio-driver="reimbursement" data-band="low" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="reimbursement" data-band="mid" /></td>
+              <td><input type="number" min="0" value="0" data-portfolio-driver="reimbursement" data-band="high" /></td>
               <td class="row-total" id="total-reimbursement">20 / 20</td>
             </tr>
           </tbody>
         </table>
       </div>
-          <div class="portfolio-summary">
+
+      <div class="portfolio-summary">
         <div class="mini">
-          <div class="k">Portfolio VI Score</div>
-          <div class="v" id="portfolioViScore">61</div>
+          <div class="k">Baseline Stability</div>
+          <div class="v" id="portfolioViScore">80</div>
         </div>
         <div class="mini">
           <div class="k">Portfolio Tier</div>
-          <div class="v" id="portfolioTier">Rising Volatility</div>
+          <div class="v" id="portfolioTier">High Natural Stability</div>
         </div>
         <div class="mini">
-          <div class="k">Primary Pressure</div>
-          <div class="v" id="portfolioDominant">Workforce Pressure Mix</div>
+          <div class="k">Primary Drag</div>
+          <div class="v" id="portfolioDominant">Resident Demand Mix</div>
         </div>
         <div class="mini">
           <div class="k">Margin Signal</div>
-          <div class="v" id="portfolioMargin">Elevated</div>
+          <div class="v" id="portfolioMargin">Contained</div>
         </div>
       </div>
 
-      <div class="portfolio-note" id="portfolioSummaryText">This portfolio view estimates how instability is distributed across the building base. It highlights where volatility is clustering so leadership can prioritize workforce absorption testing and operational focus.</div>
+      <div class="portfolio-note" id="portfolioSummaryText">This portfolio currently reflects a theoretical best-baseline state. Extra volatility entered here will reduce baseline stability and clarify where aligned support may create recoverable upside.</div>
 
       <div class="portfolio-actions">
         <button class="btn primary" id="portfolioRunWsiBtn" type="button">Run WSI</button>
@@ -902,31 +898,31 @@
               <h3>Resident Demand Volatility</h3>
               <p>Signals that resident demand and care intensity are becoming harder to predict.</p>
             </div>
-            <div class="domain-score"><strong id="residentScore">63</strong><span>Domain</span></div>
+            <div class="domain-score"><strong id="residentScore">80</strong><span>Baseline</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Census Volatility</p>
-                <p class="driver-desc">Unpredictable swings in occupancy, move-ins, or move-outs.</p>
+                <p class="driver-desc">Extra volatility beyond endemic baseline in occupancy, move-ins, or move-outs.</p>
               </div>
-              <div class="driver-value"><span id="censusVal">7</span>/10</div>
+              <div class="driver-value"><span id="censusVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="7" data-driver="census" data-domain="resident" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="census" data-domain="resident" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Acuity Variability</p>
-                <p class="driver-desc">Resident care intensity shifting faster than operations can normalize.</p>
+                <p class="driver-desc">Extra care-intensity instability above the normal endemic operating baseline.</p>
               </div>
-              <div class="driver-value"><span id="acuityVal">6</span>/10</div>
+              <div class="driver-value"><span id="acuityVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="6" data-driver="acuity" data-domain="resident" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="acuity" data-domain="resident" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
         </article>
 
@@ -936,89 +932,89 @@
               <h3>Operational System Strain</h3>
               <p>Signals that internal building systems are losing consistency or leadership buffer.</p>
             </div>
-            <div class="domain-score"><strong id="operationsScore">60</strong><span>Domain</span></div>
+            <div class="domain-score"><strong id="operationsScore">80</strong><span>Baseline</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Leadership Bandwidth</p>
-                <p class="driver-desc">Leadership team capacity to absorb issues before they cascade.</p>
+                <p class="driver-desc">Extra strain beyond the normal leadership burden senior living always carries.</p>
               </div>
-              <div class="driver-value"><span id="leadershipVal">5</span>/10</div>
+              <div class="driver-value"><span id="leadershipVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="5" data-driver="leadership" data-domain="operations" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="leadership" data-domain="operations" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Workflow Disruption</p>
-                <p class="driver-desc">Execution friction, daily fire-fighting, or process inconsistency.</p>
+                <p class="driver-desc">Execution friction beyond ordinary day-to-day variation.</p>
               </div>
-              <div class="driver-value"><span id="workflowVal">6</span>/10</div>
+              <div class="driver-value"><span id="workflowVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="6" data-driver="workflow" data-domain="operations" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="workflow" data-domain="operations" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Care Coordination Strain</p>
-                <p class="driver-desc">Cross-functional execution starting to feel harder than normal.</p>
+                <p class="driver-desc">Cross-functional strain beyond normal operating complexity.</p>
               </div>
-              <div class="driver-value"><span id="coordinationVal">7</span>/10</div>
+              <div class="driver-value"><span id="coordinationVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="7" data-driver="coordination" data-domain="operations" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="coordination" data-domain="operations" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
         </article>
 
         <article class="card domain" data-domain="workforce">
           <div class="domain-head">
             <div>
-              <h3>Workforce Pressure Signals</h3>
-              <p>Early indicators that the workforce system is already feeling environmental pressure.</p>
+              <h3>Workforce Strain Signals</h3>
+              <p>Early signals that the labor system is already feeling environmental pressure.</p>
             </div>
-            <div class="domain-score"><strong id="workforceScore">67</strong><span>Domain</span></div>
+            <div class="domain-score"><strong id="workforceScore">80</strong><span>Baseline</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Schedule Stress</p>
-                <p class="driver-desc">Coverage becoming harder to maintain without extra effort.</p>
+                <p class="driver-desc">Extra difficulty in maintaining coverage beyond the normal endemic baseline.</p>
               </div>
-              <div class="driver-value"><span id="scheduleVal">7</span>/10</div>
+              <div class="driver-value"><span id="scheduleVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="7" data-driver="schedule" data-domain="workforce" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="schedule" data-domain="workforce" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Coverage Fragility</p>
-                <p class="driver-desc">The system lacks buffer when routine disruptions appear.</p>
+                <p class="driver-desc">Loss of routine staffing buffer beyond normal operating conditions.</p>
               </div>
-              <div class="driver-value"><span id="coverageVal">6</span>/10</div>
+              <div class="driver-value"><span id="coverageVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="6" data-driver="coverage" data-domain="workforce" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="coverage" data-domain="workforce" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Overtime Pressure</p>
-                <p class="driver-desc">Internal schedule stretch increasing to keep operations moving.</p>
+                <p class="driver-desc">Internal stretch beyond the normal endemic staffing burden.</p>
               </div>
-              <div class="driver-value"><span id="overtimeVal">7</span>/10</div>
+              <div class="driver-value"><span id="overtimeVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="7" data-driver="overtime" data-domain="workforce" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="overtime" data-domain="workforce" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
         </article>
 
@@ -1028,69 +1024,69 @@
               <h3>External Pressure Signals</h3>
               <p>Outside forces that amplify instability and reduce operational room to maneuver.</p>
             </div>
-            <div class="domain-score"><strong id="externalScore">55</strong><span>Domain</span></div>
+            <div class="domain-score"><strong id="externalScore">80</strong><span>Baseline</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Survey Exposure</p>
-                <p class="driver-desc">Regulatory or survey-related pressure increasing local sensitivity.</p>
+                <p class="driver-desc">Extra regulatory pressure beyond what a healthy system normally expects.</p>
               </div>
-              <div class="driver-value"><span id="surveyVal">5</span>/10</div>
+              <div class="driver-value"><span id="surveyVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="5" data-driver="survey" data-domain="external" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="survey" data-domain="external" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
 
           <div class="driver">
             <div class="driver-row">
               <div>
                 <p class="driver-title">Reimbursement Pressure</p>
-                <p class="driver-desc">Margin or reimbursement compression narrowing operational flexibility.</p>
+                <p class="driver-desc">Economic compression beyond normal endemic variability.</p>
               </div>
-              <div class="driver-value"><span id="reimbursementVal">6</span>/10</div>
+              <div class="driver-value"><span id="reimbursementVal">0</span>/10</div>
             </div>
-            <input type="range" min="0" max="10" value="6" data-driver="reimbursement" data-domain="external" />
-            <div class="scale"><span>Low</span><span>Moderate</span><span>High</span></div>
+            <input type="range" min="0" max="10" value="0" data-driver="reimbursement" data-domain="external" />
+            <div class="scale"><span>Baseline only</span><span>Moderate extra</span><span>High extra</span></div>
           </div>
         </article>
       </div>
 
       <aside class="output">
         <section class="card score-hero">
-          <div class="eyebrow">Volatility Index Score</div>
-          <p class="score" id="viScore">61</p>
-          <div class="tier" id="viTier">Rising Volatility</div>
+          <div class="eyebrow">Baseline Stability Capacity</div>
+          <p class="score" id="viScore">80</p>
+          <div class="tier" id="viTier">High Natural Stability</div>
 
           <div class="mini-grid">
             <div class="mini">
-              <div class="k">Dominant Domain</div>
-              <div class="v" id="dominantDomain">Workforce Pressure</div>
+              <div class="k">Volatility Drag</div>
+              <div class="v" id="volatilityDrag">0 pts</div>
             </div>
             <div class="mini">
-              <div class="k">Trajectory</div>
-              <div class="v" id="trajectory">Moderate → Rising</div>
+              <div class="k">Projected Stability Gain</div>
+              <div class="v" id="projectedGain">8 pts</div>
             </div>
             <div class="mini">
-              <div class="k">Instability Pattern</div>
-              <div class="v" id="pattern">Coverage fragility + census volatility</div>
+              <div class="k">Primary Drag</div>
+              <div class="v" id="dominantDomain">Resident Demand</div>
             </div>
             <div class="mini">
-              <div class="k">Next Step</div>
-              <div class="v">Run WSI</div>
+              <div class="k">Stabilized Score</div>
+              <div class="v" id="stabilizedScore">88 / 100</div>
             </div>
             <div class="mini" style="grid-column: 1 / -1;">
               <div class="k">Margin Pressure Signal</div>
-              <div class="v" id="marginSignal">Elevated</div>
-              <div style="color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: 6px;" id="marginSignalText">Volatility at this level is likely creating noticeable pressure on labor efficiency, leadership bandwidth, and operating margin.</div>
+              <div class="v" id="marginSignal">Contained</div>
+              <div style="color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: 6px;" id="marginSignalText">This profile reflects only endemic baseline volatility. At this level, margin pressure should remain largely contained unless extra instability emerges.</div>
             </div>
           </div>
         </section>
 
         <section class="card summary">
           <h4>Diagnostic Summary</h4>
-          <p id="summaryText">This building is showing moderate but rising environmental volatility. Operational strain is present, with workforce pressure signals beginning to surface. Stability risk is still containable if workforce absorption is tested early.</p>
+          <p id="summaryText">This community is currently sitting at the theoretical best baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where additional pressure begins to erode stability.</p>
           <div class="bullet-list" id="driverHighlights"></div>
           <div class="footer-cta">
             <button class="btn primary" id="runWsiBtn" type="button">Run WSI</button>
@@ -1099,32 +1095,38 @@
         </section>
 
         <section class="card map-card">
-          <h4>Instability Map Preview</h4>
-          <p>VI places the building on the environmental side of the platform. WSI will determine whether the workforce can absorb this pressure.</p>
+          <h4>Stability Map Preview</h4>
+          <p>VI establishes the vertical starting state by estimating how much extra volatility is reducing baseline stability. WSI will later determine how much structural resilience exists to move the point east.</p>
           <div class="map">
-            <div class="axis-y">Environment Volatility</div>
+            <div class="axis-y">Baseline Stability</div>
             <div class="axis-x">Workforce Stability</div>
-            <div class="plot-dot" id="plotDot" style="left:61%; bottom:24%;"></div>
-            <div class="map-label" id="plotLabel" style="left:61%; bottom:24%;">Community A</div>
+            <div class="plot-dot" id="plotDot" style="left:34%; bottom:74%;"></div>
+            <div class="map-label" id="plotLabel" style="left:34%; bottom:74%;">Community A</div>
           </div>
         </section>
       </aside>
     </section>
+
     <div class="prototype-note">
-  <strong>Prototype concept for internal discussion and testing.</strong>
-  Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
-  <span class="small">
-    VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. It does not represent a finalized commercial product.
-  </span>
-</div>
+      <strong>Prototype concept for internal discussion and testing.</strong>
+      Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
+      <span class="small">
+        VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. It does not represent a finalized commercial product.
+      </span>
+    </div>
   </div>
 
   <script>
+    const ENDemic_BASELINE = 80;
+    const MAX_FINAL_STABILITY = 95;
+
     const sliders = [...document.querySelectorAll('input[type="range"]')];
     const portfolioInputs = [...document.querySelectorAll('[data-portfolio-driver]')];
     const modeSelect = document.getElementById('modeSelect');
     const portfolioPanel = document.getElementById('portfolioPanel');
     const singleViewMain = document.getElementById('singleViewMain');
+    const calcBtn = document.getElementById('calcBtn');
+
     const weights = {
       census: 1.15,
       acuity: 1.20,
@@ -1151,73 +1153,104 @@
       reimbursement: 'Reimbursement pressure'
     };
 
-    function tierFor(score) {
-      if (score < 35) return 'Stable Environment';
-      if (score < 55) return 'Emerging Volatility';
-      if (score < 75) return 'Rising Volatility';
-      return 'Acute Volatility';
+    function usageImpactPct(val) {
+      if (val === 'conservative') return 0.35;
+      if (val === 'aggressive') return 0.65;
+      return 0.50;
     }
 
-    function trajectoryFor(score) {
-      if (score < 35) return 'Stable';
-      if (score < 55) return 'Stable → Watch';
-      if (score < 75) return 'Moderate → Rising';
-      return 'Elevated → Acute';
+    function tierFor(stability) {
+      if (stability < 35) return 'Exposed Stability';
+      if (stability < 55) return 'Pressured Stability';
+      if (stability < 70) return 'Managed Stability';
+      return 'High Natural Stability';
     }
 
-    function summaryFor(score, dominant) {
-      if (score < 35) return 'This building is currently operating in a relatively stable environment. Volatility signals are present but low, suggesting leadership can monitor conditions without immediate escalation.';
-      if (score < 55) return `This building is showing early volatility, led primarily by ${dominant.toLowerCase()}. Pressure is developing, but there is still room to intervene before instability spreads.`;
-      if (score < 75) return `This building is showing moderate but rising environmental volatility. ${dominant} is now the dominant pressure source, and workforce absorption should be tested before strain becomes visible in operations.`;
-      return `This building is operating inside acute volatility. ${dominant} is driving elevated instability, and immediate workforce testing plus targeted operational response is warranted.`;
+    function scoreColor(stability) {
+      if (stability >= 70) return 'var(--green)';
+      if (stability >= 55) return 'var(--amber)';
+      if (stability >= 35) return '#f38b46';
+      return 'var(--red)';
     }
 
-    function marginSignalFor(score) {
-      if (score < 35) {
+    function marginSignalFor(drag) {
+      if (drag <= 5) {
         return {
           label: 'Contained',
-          text: 'Current volatility appears unlikely to create meaningful margin drag beyond normal operating variation.'
+          text: 'This profile reflects only endemic baseline volatility. At this level, margin pressure should remain largely contained unless extra instability emerges.'
         };
       }
-      if (score < 55) {
+      if (drag <= 20) {
         return {
-          label: 'Emerging',
-          text: 'Early volatility is beginning to create efficiency leakage and may start putting light pressure on margin if it persists.'
+          label: 'Building',
+          text: 'Extra volatility is beginning to consume operating room. Efficiency leakage and leadership drag may start becoming visible if this pressure persists.'
         };
       }
-      if (score < 75) {
+      if (drag <= 40) {
         return {
-          label: 'Elevated',
-          text: 'Volatility at this level is likely creating noticeable pressure on labor efficiency, leadership bandwidth, and operating margin.'
+          label: 'Meaningful',
+          text: 'Volatility drag at this level is likely pressuring labor efficiency, leadership bandwidth, and operating margin in a noticeable way.'
         };
       }
       return {
-        label: 'Acute',
-        text: 'Volatility at this level is likely producing material operational drag with meaningful risk to margin, labor efficiency, and stability.'
+        label: 'Severe',
+        text: 'Volatility drag at this level is likely producing material operational friction with meaningful risk to margin, consistency, and resident experience.'
       };
     }
 
-    function portfolioSummaryFor(score, dominant) {
-      if (score < 35) return `This portfolio appears broadly stable. ${dominant} is currently contained across most communities, suggesting limited immediate escalation risk.`;
-      if (score < 55) return `This portfolio is showing emerging instability. ${dominant} is beginning to widen across the building base and should be monitored before pressure concentrates in weaker communities.`;
-      if (score < 75) return `This portfolio is showing rising volatility. ${dominant} is now affecting enough communities to create meaningful portfolio-level pressure and should be paired with WSI to test workforce absorption.`;
-      return `This portfolio is showing acute instability. ${dominant} is broadly elevated across the portfolio, suggesting concentrated leadership, labor, and margin pressure that warrants immediate follow-through into WSI and response planning.`;
+    function summaryFor(stability, dominantDomain, drag, mode) {
+      if (drag === 0) {
+        return mode === 'Portfolio View'
+          ? 'This portfolio is currently sitting at the theoretical best baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where portfolio pressure begins to erode stability.'
+          : 'This community is currently sitting at the theoretical best baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where additional pressure begins to erode stability.';
+      }
+
+      if (stability < 35) {
+        return mode === 'Portfolio View'
+          ? `This portfolio is operating with exposed baseline stability. ${dominantDomain} is materially eroding operating capacity across the building base and should be paired quickly with WSI and targeted support alignment.`
+          : `This community is operating with exposed baseline stability. ${dominantDomain} is materially eroding the system’s ability to absorb volatility and should be paired quickly with WSI and targeted support alignment.`;
+      }
+
+      if (stability < 55) {
+        return mode === 'Portfolio View'
+          ? `This portfolio is operating with pressured baseline stability. ${dominantDomain} is consuming resilience across enough communities to create meaningful drag and justify selective intervention.`
+          : `This community is operating with pressured baseline stability. ${dominantDomain} is consuming meaningful resilience and narrowing leadership and workforce buffer.`;
+      }
+
+      if (stability < 70) {
+        return mode === 'Portfolio View'
+          ? `This portfolio remains functionally managed, but ${dominantDomain} is creating measurable drag. VI suggests the system is still absorbent, though not comfortably so.`
+          : `This community remains functionally managed, but ${dominantDomain} is creating measurable drag. VI suggests the operation is still absorbent, though not comfortably so.`;
+      }
+
+      return mode === 'Portfolio View'
+        ? `Baseline stability remains strong across the portfolio. ${dominantDomain} is still the leading source of extra volatility, but pressure is not yet materially degrading the operating system.`
+        : `Baseline stability remains strong. ${dominantDomain} is still the leading source of extra volatility, but pressure is not yet materially degrading the operating system.`;
+    }
+
+    function portfolioSummaryFor(stability, dominantDomain, drag) {
+      if (drag === 0) {
+        return 'This portfolio currently reflects a theoretical best-baseline state. Extra volatility entered here will reduce baseline stability and clarify where aligned support may create recoverable upside.';
+      }
+      if (stability < 35) {
+        return `This portfolio is operating with exposed baseline stability. ${dominantDomain} is driving material drag across the building base and should be paired with WSI quickly.`;
+      }
+      if (stability < 55) {
+        return `This portfolio is operating with pressured baseline stability. ${dominantDomain} is creating enough drag to narrow resilience across multiple communities.`;
+      }
+      if (stability < 70) {
+        return `This portfolio remains managed, but ${dominantDomain} is creating measurable drag. There is still real room for targeted support alignment before instability spreads wider.`;
+      }
+      return `This portfolio remains close to the best natural baseline state. ${dominantDomain} is still the leading source of extra volatility, but current pressure remains largely containable.`;
     }
 
     function domainTitle(domain) {
       return {
         resident: 'Resident Demand',
         operations: 'Operational Systems',
-        workforce: 'Workforce Pressure',
+        workforce: 'Workforce Strain',
         external: 'External Pressure'
       }[domain];
-    }
-
-    function scoreColor(score) {
-      if (score < 35) return 'var(--green)';
-      if (score < 55) return 'var(--amber)';
-      if (score < 75) return '#f38b46';
-      return 'var(--red)';
     }
 
     function portfolioDriverScore(driverKey, totalCommunities) {
@@ -1226,12 +1259,16 @@
       const high = Number(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="high"]`)?.value || 0);
       const rowTotal = low + mid + high;
       const totalCell = document.getElementById(`total-${driverKey}`);
+
       if (totalCell) {
         totalCell.textContent = `${rowTotal} / ${totalCommunities}`;
         totalCell.classList.toggle('bad', rowTotal !== totalCommunities);
       }
+
       if (!totalCommunities || totalCommunities <= 0) return 0;
-      return ((low * 2) + (mid * 6) + (high * 9)) / totalCommunities;
+
+      // Low = no meaningful extra volatility above endemic baseline
+      return ((low * 0) + (mid * 5) + (high * 10)) / totalCommunities;
     }
 
     function getValuesForMode() {
@@ -1242,8 +1279,6 @@
       if (portfolioMode) {
         Object.keys(weights).forEach(key => {
           values[key] = portfolioDriverScore(key, totalCommunities);
-          const span = document.getElementById(`${key}Val`);
-          if (span) span.textContent = values[key].toFixed(1);
         });
       } else {
         sliders.forEach(s => {
@@ -1252,6 +1287,7 @@
           if (span) span.textContent = s.value;
         });
       }
+
       return values;
     }
 
@@ -1259,11 +1295,10 @@
       const portfolioMode = modeSelect && modeSelect.value === 'Portfolio View';
       portfolioPanel.classList.toggle('hidden', !portfolioMode);
       singleViewMain.classList.toggle('hidden', portfolioMode);
-      document.getElementById('dominantDomain').textContent = portfolioMode ? 'Portfolio Blend' : document.getElementById('dominantDomain').textContent;
     }
 
-    function update() {
-      toggleModeUI();
+    function calculateMetrics() {
+      const mode = modeSelect?.value || 'Single Community';
       const values = getValuesForMode();
 
       const domainMap = {
@@ -1277,64 +1312,129 @@
       Object.entries(domainMap).forEach(([domain, drivers]) => {
         const weighted = drivers.reduce((sum, d) => sum + values[d] * weights[d], 0);
         const max = drivers.reduce((sum, d) => sum + 10 * weights[d], 0);
-        domainScores[domain] = Math.round((weighted / max) * 100);
-        document.getElementById(`${domain}Score`).textContent = domainScores[domain];
+        const domainExtra = max === 0 ? 0 : (weighted / max); // 0–1
+        domainScores[domain] = Math.max(0, Math.round(ENDemic_BASELINE - (domainExtra * ENDemic_BASELINE)));
       });
 
       const totalWeighted = Object.keys(values).reduce((sum, d) => sum + values[d] * weights[d], 0);
       const maxWeighted = Object.keys(values).reduce((sum, d) => sum + 10 * weights[d], 0);
-      const viScore = Math.round((totalWeighted / maxWeighted) * 100);
+      const extraVolNormalized = maxWeighted === 0 ? 0 : Math.round((totalWeighted / maxWeighted) * 100);
 
-      const dominant = Object.entries(domainScores).sort((a,b) => b[1]-a[1])[0][0];
+      const stabilityPre = Math.max(0, Math.round(ENDemic_BASELINE - ((extraVolNormalized / 100) * ENDemic_BASELINE)));
+      const volatilityDrag = ENDemic_BASELINE - stabilityPre;
+
+      const usage = mode === 'Portfolio View'
+        ? document.getElementById('usageLevelPortfolio')?.value || 'moderate'
+        : 'moderate';
+
+      const recoveryPct = usageImpactPct(usage);
+      const recoverableGap = MAX_FINAL_STABILITY - stabilityPre;
+      const impactScore = Math.round(recoverableGap * recoveryPct);
+      const finalScore = Math.min(MAX_FINAL_STABILITY, stabilityPre + impactScore);
+
+      const dominant = Object.entries(domainScores).sort((a,b) => a[1] - b[1])[0][0];
       const topDrivers = Object.entries(values)
         .map(([k,v]) => ({ key:k, val: Math.round(v * weights[k] * 10) }))
         .sort((a,b) => b.val - a.val)
         .slice(0,3);
 
-      document.getElementById('viScore').textContent = viScore;
-      document.getElementById('viTier').textContent = tierFor(viScore);
-      document.getElementById('dominantDomain').textContent = modeSelect && modeSelect.value === 'Portfolio View' ? `${domainTitle(dominant)} Mix` : domainTitle(dominant);
-      document.getElementById('trajectory').textContent = modeSelect && modeSelect.value === 'Portfolio View' ? `Portfolio average → ${trajectoryFor(viScore)}` : trajectoryFor(viScore);
-      document.getElementById('pattern').textContent = `${driverNames[topDrivers[0].key]} + ${driverNames[topDrivers[1].key]}`;
-      document.getElementById('summaryText').textContent = summaryFor(viScore, domainTitle(dominant));
-      const marginSignal = marginSignalFor(viScore);
+      return {
+        mode,
+        values,
+        domainScores,
+        stabilityPre,
+        volatilityDrag,
+        impactScore,
+        finalScore,
+        dominant,
+        topDrivers
+      };
+    }
+
+    function update() {
+      toggleModeUI();
+      const metrics = calculateMetrics();
+      const {
+        mode,
+        domainScores,
+        stabilityPre,
+        volatilityDrag,
+        impactScore,
+        finalScore,
+        dominant,
+        topDrivers
+      } = metrics;
+
+      document.getElementById('residentScore').textContent = domainScores.resident;
+      document.getElementById('operationsScore').textContent = domainScores.operations;
+      document.getElementById('workforceScore').textContent = domainScores.workforce;
+      document.getElementById('externalScore').textContent = domainScores.external;
+
+      document.getElementById('viScore').textContent = stabilityPre;
+      document.getElementById('viTier').textContent = tierFor(stabilityPre);
+      document.getElementById('volatilityDrag').textContent = `${volatilityDrag} pts`;
+      document.getElementById('projectedGain').textContent = `${impactScore} pts`;
+      document.getElementById('stabilizedScore').textContent = `${finalScore} / 100`;
+      document.getElementById('dominantDomain').textContent =
+        mode === 'Portfolio View' ? `${domainTitle(dominant)} Mix` : domainTitle(dominant);
+
+      const color = scoreColor(stabilityPre);
+      document.querySelector('.score-hero .score').style.color = color;
+      document.getElementById('viTier').style.borderColor = color;
+      document.getElementById('viTier').style.color = color;
+
+      const marginSignal = marginSignalFor(volatilityDrag);
       document.getElementById('marginSignal').textContent = marginSignal.label;
       document.getElementById('marginSignalText').textContent = marginSignal.text;
-      document.querySelector('.score-hero .score').style.color = scoreColor(viScore);
-      document.getElementById('viTier').style.borderColor = scoreColor(viScore);
-      document.getElementById('viTier').style.color = scoreColor(viScore);
+
+      document.getElementById('summaryText').textContent = summaryFor(
+        stabilityPre,
+        domainTitle(dominant),
+        volatilityDrag,
+        mode
+      );
 
       const portfolioScoreEl = document.getElementById('portfolioViScore');
       const portfolioTierEl = document.getElementById('portfolioTier');
       const portfolioDominantEl = document.getElementById('portfolioDominant');
       const portfolioMarginEl = document.getElementById('portfolioMargin');
       const portfolioSummaryEl = document.getElementById('portfolioSummaryText');
-      if (portfolioScoreEl) portfolioScoreEl.textContent = viScore;
-      if (portfolioTierEl) portfolioTierEl.textContent = tierFor(viScore);
+
+      if (portfolioScoreEl) portfolioScoreEl.textContent = stabilityPre;
+      if (portfolioTierEl) portfolioTierEl.textContent = tierFor(stabilityPre);
       if (portfolioDominantEl) portfolioDominantEl.textContent = `${domainTitle(dominant)} Mix`;
       if (portfolioMarginEl) portfolioMarginEl.textContent = marginSignal.label;
-      if (portfolioSummaryEl) portfolioSummaryEl.textContent = portfolioSummaryFor(viScore, domainTitle(dominant));
+      if (portfolioSummaryEl) portfolioSummaryEl.textContent = portfolioSummaryFor(stabilityPre, domainTitle(dominant), volatilityDrag);
 
       const highlights = document.getElementById('driverHighlights');
       highlights.innerHTML = '';
-      topDrivers.forEach(d => {
+
+      if (volatilityDrag === 0) {
         const row = document.createElement('div');
         row.className = 'bullet';
-        row.innerHTML = `<div class="dot" style="background:${scoreColor(viScore)}"></div><div><strong>${driverNames[d.key]}</strong><br><span style="color:var(--muted)">${modeSelect && modeSelect.value === 'Portfolio View' ? 'High contribution across the portfolio mix.' : 'High contribution to current volatility pattern.'}</span></div>`;
+        row.innerHTML = `<div class="dot" style="background:var(--green)"></div><div><strong>Theoretical best baseline state</strong><br><span style="color:var(--muted)">No material extra volatility has been entered yet. All current pressure is treated as endemic baseline only.</span></div>`;
         highlights.appendChild(row);
-      });
+      } else {
+        topDrivers.forEach(d => {
+          const row = document.createElement('div');
+          row.className = 'bullet';
+          row.innerHTML = `<div class="dot" style="background:${color}"></div><div><strong>${driverNames[d.key]}</strong><br><span style="color:var(--muted)">${mode === 'Portfolio View' ? 'High contribution across the portfolio mix.' : 'High contribution to current extra-volatility pattern.'}</span></div>`;
+          highlights.appendChild(row);
+        });
+      }
 
       const dot = document.getElementById('plotDot');
       const label = document.getElementById('plotLabel');
-      const x = 50;
-      const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
+      const x = 34;
+      const bottom = 18 + ((stabilityPre / MAX_FINAL_STABILITY) * 62);
+
       dot.style.left = `${x}%`;
-      dot.style.bottom = `${y}%`;
+      dot.style.bottom = `${bottom}%`;
       label.style.left = `${x}%`;
-      label.style.bottom = `${y}%`;
+      label.style.bottom = `${bottom}%`;
       label.textContent = document.getElementById('entityName')?.value || 'Community A';
-      dot.style.background = scoreColor(viScore);
-      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
+      dot.style.background = color;
+      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${color} 18%, transparent)`;
     }
 
     function navigateTo(candidates) {
@@ -1342,11 +1442,33 @@
         try {
           window.location.href = path;
           return;
-        } catch (e) {
-          // keep trying fallbacks
-        }
+        } catch (e) {}
       }
     }
+
+    function resetSingleDefaults() {
+      sliders.forEach(s => {
+        s.value = 0;
+        const span = document.getElementById(`${s.dataset.driver}Val`);
+        if (span) span.textContent = '0';
+      });
+    }
+
+    function resetPortfolioDefaults() {
+      const total = Number(document.getElementById('portfolioSize')?.value || 20);
+      Object.keys(weights).forEach(key => {
+        const low = document.querySelector(`[data-portfolio-driver="${key}"][data-band="low"]`);
+        const mid = document.querySelector(`[data-portfolio-driver="${key}"][data-band="mid"]`);
+        const high = document.querySelector(`[data-portfolio-driver="${key}"][data-band="high"]`);
+        if (low) low.value = total;
+        if (mid) mid.value = 0;
+        if (high) high.value = 0;
+      });
+    }
+
+    calcBtn?.addEventListener('click', () => {
+      update();
+    });
 
     const runWsiBtn = document.getElementById('runWsiBtn');
     if (runWsiBtn) {
@@ -1378,9 +1500,33 @@
 
     sliders.forEach(s => s.addEventListener('input', update));
     portfolioInputs.forEach(i => i.addEventListener('input', update));
-    document.getElementById('portfolioSize')?.addEventListener('input', update);
+    document.getElementById('portfolioSize')?.addEventListener('input', () => {
+      resetPortfolioDefaults();
+      updateRowSums();
+      update();
+    });
     modeSelect?.addEventListener('change', update);
     document.getElementById('entityName')?.addEventListener('input', update);
+
+    function updateRowSums() {
+      const totalCommunities = Number(document.getElementById('portfolioSize')?.value || 0);
+      Object.keys(weights).forEach(key => {
+        const low = Number(document.querySelector(`[data-portfolio-driver="${key}"][data-band="low"]`)?.value || 0);
+        const mid = Number(document.querySelector(`[data-portfolio-driver="${key}"][data-band="mid"]`)?.value || 0);
+        const high = Number(document.querySelector(`[data-portfolio-driver="${key}"][data-band="high"]`)?.value || 0);
+        const total = low + mid + high;
+        const totalCell = document.getElementById(`total-${key}`);
+        if (totalCell) {
+          totalCell.textContent = `${total} / ${totalCommunities}`;
+          totalCell.classList.toggle('bad', total !== totalCommunities);
+        }
+      });
+    }
+
+    // initialize true theoretical defaults
+    resetSingleDefaults();
+    resetPortfolioDefaults();
+    updateRowSums();
     update();
   </script>
 </body>
