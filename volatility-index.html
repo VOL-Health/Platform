@@ -655,6 +655,123 @@
       margin-top: 14px;
     }
 
+    .platform-header{
+      margin-bottom:18px;
+    }
+
+    .platform-header-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .platform-brand{
+      min-width:0;
+    }
+
+    .platform-logo-line{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      line-height:0.95;
+    }
+
+    .platform-logo-vol{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#2c6cff;
+      letter-spacing:0.02em;
+    }
+
+    .platform-logo-health{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#f3f6ff;
+      letter-spacing:0.02em;
+    }
+
+    .platform-brand-sub{
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.22em;
+      color:rgba(255,255,255,0.78);
+    }
+
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+      color:#ffffff;
+    }
+
+    .platform-page-intro{
+      padding:18px 20px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#f2f5ff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+
+    .page-title{
+      margin:0 0 8px;
+      font-size:clamp(30px, 4vw, 52px);
+      line-height:1.02;
+      font-weight:900;
+      letter-spacing:0.01em;
+    }
+
+    .page-subtitle{
+      margin:0;
+      max-width:960px;
+      color:rgba(255,255,255,0.82);
+      font-size:15px;
+      line-height:1.55;
+    }
+    
     @media (max-width: 1120px) {
       .main { grid-template-columns: 1fr; }
       .output { position: static; }
