@@ -175,27 +175,60 @@
       font-weight:900;
       margin-bottom:10px;
     }
-    .hero h2{ margin:0 0 8px; font-size:30px; line-height:1.1; }
-    .hero p{ margin:0; color:rgba(255,255,255,0.80); line-height:1.55; font-size:14px; }
-    .hero-meta{ margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; }
-    .meta-pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
-      color:rgba(255,255,255,0.78);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:0.04em;
-    }
-    .meta-pill strong{ color:#fff; }
+    .hero h2{
+  margin:0 0 10px;
+  font-size:30px;
+  line-height:1.1;
+  font-weight:800;
+  letter-spacing:-0.02em;
+  color:#ffffff;
+}
+
+.hero p{
+  margin:0;
+  color:rgba(255,255,255,0.86);
+  line-height:1.55;
+  font-size:14px;
+  max-width:980px;
+}
+
+.hero p + p{
+  margin-top:8px;
+}
+
+.hero-meta{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.meta-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.10);
+  background:rgba(0,0,0,0.18);
+  color:rgba(255,255,255,0.78);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:0.04em;
+}
+
+.meta-pill strong{
+  color:#ffffff;
+}
 
 .muted-note{
   font-size:13px;
-  color:rgba(255,255,255,0.55);
-  margin-top:6px;
-  line-height:1.4;
+  line-height:1.45;
+  color:rgba(255,255,255,0.58);
+}
+
+.tm{
+  font-size:0.62em;
+  vertical-align:super;
 }
     
     /* Tabs */
@@ -506,23 +539,23 @@
 </div>
 
     <section class="card hero">
-            <p class="section-pill">VOL HEALTH™ ACTIVATION LAYER</p>
-            <h2>SHAI™ turns stability insight into aligned action.</h2>
+  <p class="section-pill">VOL HEALTH™ ACTIVATION LAYER</p>
+  <h2>SHAI™ connects insight to action.</h2>
 
-          <p>
-          SHAI™ (Strategic HR Alignment Intelligence) is the strategic alignment layer within VOL Health that helps communities move north-east — reducing near-term volatility while strengthening long-term workforce stability.
-          </p>
+  <p>
+    SHAI<span class="tm">™</span>, short for <strong>Strategic HR Alignment Intelligence</strong>, is the Stability Engine that helps communities move north-east by reducing near-term volatility while strengthening long-term workforce stability.
+  </p>
 
-         <p class="muted-note">
-          The interface below is a directional preview of the experience. Live data integrations are not yet connected.
-        </p>
-       
-      <div class="hero-meta">
-        <div class="meta-pill">Community: <strong>Hudson Oaks Memory Care</strong></div>
-        <div class="meta-pill">Mode: <strong>Stability Active</strong></div>
-        <div class="meta-pill">View: <strong id="viewLabel">WFI (Operator)</strong></div>
-      </div>
-    </section>
+  <p class="muted-note">
+    The interface below is a directional preview of the experience. Live data integrations are not yet connected.
+  </p>
+
+  <div class="hero-meta">
+    <div class="meta-pill">Community: <strong>Hudson Oaks Memory Care</strong></div>
+    <div class="meta-pill">Mode: <strong>Stability Active</strong></div>
+    <div class="meta-pill">View: <strong id="viewLabel">WFI (Operator)</strong></div>
+  </div>
+</section>
 
     <section class="card tabs-card">
       <div class="tabs-bar">
