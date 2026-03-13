@@ -1547,11 +1547,11 @@
 
       const elasticityBalance = clamp(elasticityBalanceRaw, -1, 1);
 
-      let healthState = "Watchlist Elasticity";
-if (elasticityBalance >= 0.25) healthState = "Healthy Elasticity";
-else if (elasticityBalance >= 0.00) healthState = "Watchlist Elasticity";
-else if (elasticityBalance >= -0.35) healthState = "Burnout-Prone Elasticity";
-else healthState = "Failing Elasticity";
+            let healthState = "Agency Stabilized";
+      if (elasticityBalance >= 0.25) healthState = "Balanced Elastic";
+      else if (elasticityBalance >= 0.00) healthState = "Agency Stabilized";
+      else if (elasticityBalance >= -0.35) healthState = "Burnout Stabilized";
+      else healthState = "Elasticity Failure";
 
       let archetype = "Balanced Elastic";
       let meaning = "Operational pressure is absorbed through a healthy mix of internal flexibility and external support, keeping strain off core staff.";
