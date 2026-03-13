@@ -1232,7 +1232,9 @@
 
   <script>
   const MAP_STORAGE_KEY = "volHealthMapData";
-
+  const NATURAL_WSI_CAP = 80;
+  const MAX_WSI_STABILIZED = 95;
+    
   function clamp(value, min, max) {
     value = Number(value);
     if (isNaN(value)) return min;
