@@ -1686,6 +1686,14 @@
       (pipelineStrength * 0.30)
     );
 
+    let adjustedWsiScore = wsiScore;
+
+    if (openShifts >= 12) adjustedWsiScore -= 4;
+    if (otHours >= 180) adjustedWsiScore -= 4;
+    if (vacancies >= 5) adjustedWsiScore -= 4;
+
+    const finalWsiScore = clamp(adjustedWsiScore, 0, 100);
+    
     const annualVolatilityCost =
       ((100 - coverageResilience) * 12000) +
       ((100 - costControl) * 9000) +
