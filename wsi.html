@@ -1332,6 +1332,147 @@
   }
 }
 
+    function bandAverage(low, mid, high, total) {
+      total = clamp(total, 1, 500);
+      const rowTotal = low + mid + high;
+      return {
+        score: ((low * 2) + (mid * 6) + (high * 9)) / total,
+        rowTotal
+      };
+    }
+
+    function setRowTotal(id, rowTotal, total) {
+      const cell = document.getElementById(id);
+      if (!cell) return;
+      cell.textContent = `${rowTotal} / ${total}`;
+      cell.classList.toggle("bad", rowTotal !== total);
+    }
+
+    function portfolioInputsToSingleAverages() {
+      const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
+
+      const open = bandAverage(
+        clamp(document.getElementById("pfOpenLow").value, 0, total),
+        clamp(document.getElementById("pfOpenMid").value, 0, total),
+        clamp(document.getElementById("pfOpenHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOpenTotal", open.rowTotal, total);
+
+      const prn = bandAverage(
+        clamp(document.getElementById("pfPrnLow").value, 0, total),
+        clamp(document.getElementById("pfPrnMid").value, 0, total),
+        clamp(document.getElementById("pfPrnHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfPrnTotal", prn.rowTotal, total);
+
+      const call = bandAverage(
+        clamp(document.getElementById("pfCallLow").value, 0, total),
+        clamp(document.getElementById("pfCallMid").value, 0, total),
+        clamp(document.getElementById("pfCallHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfCallTotal", call.rowTotal, total);
+
+      const otHours = bandAverage(
+        clamp(document.getElementById("pfOtHoursLow").value, 0, total),
+        clamp(document.getElementById("pfOtHoursMid").value, 0, total),
+        clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
+
+      const otPrem = bandAverage(
+        clamp(document.getElementById("pfOtPremLow").value, 0, total),
+        clamp(document.getElementById("pfOtPremMid").value, 0, total),
+        clamp(document.getElementById("pfOtPremHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
+
+      const agencyPrem = bandAverage(
+        clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
+        clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
+        clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
+
+      const pbj = bandAverage(
+        clamp(document.getElementById("pfPbjLow").value, 0, total),
+        clamp(document.getElementById("pfPbjMid").value, 0, total),
+        clamp(document.getElementById("pfPbjHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfPbjTotal", pbj.rowTotal, total);
+
+      const survey = bandAverage(
+        clamp(document.getElementById("pfSurveyLow").value, 0, total),
+        clamp(document.getElementById("pfSurveyMid").value, 0, total),
+        clamp(document.getElementById("pfSurveyHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfSurveyTotal", survey.rowTotal, total);
+
+      const leader = bandAverage(
+        clamp(document.getElementById("pfLeaderLow").value, 0, total),
+        clamp(document.getElementById("pfLeaderMid").value, 0, total),
+        clamp(document.getElementById("pfLeaderHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfLeaderTotal", leader.rowTotal, total);
+
+      const turnover = bandAverage(
+        clamp(document.getElementById("pfTurnoverLow").value, 0, total),
+        clamp(document.getElementById("pfTurnoverMid").value, 0, total),
+        clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
+
+      const vacancies = bandAverage(
+        clamp(document.getElementById("pfVacLow").value, 0, total),
+        clamp(document.getElementById("pfVacMid").value, 0, total),
+        clamp(document.getElementById("pfVacHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfVacTotal", vacancies.rowTotal, total);
+
+      const ttf = bandAverage(
+        clamp(document.getElementById("pfTtfLow").value, 0, total),
+        clamp(document.getElementById("pfTtfMid").value, 0, total),
+        clamp(document.getElementById("pfTtfHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfTtfTotal", ttf.rowTotal, total);
+
+      const recruit = bandAverage(
+        clamp(document.getElementById("pfRecruitLow").value, 0, total),
+        clamp(document.getElementById("pfRecruitMid").value, 0, total),
+        clamp(document.getElementById("pfRecruitHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
+
+      return {
+        openShifts: Math.round(open.score / 10 * 50),
+        percentPRN: Math.round(prn.score * 10),
+        callOffs: Math.round(call.score / 10 * 20),
+        coverageResolution: prn.score >= 6.8 ? "external" : prn.score >= 4.8 ? "internal_float" : "overtime",
+        otHours: Math.round(otHours.score / 10 * 500),
+        otPremium: Math.round(otPrem.score * 10),
+        agencyPremium: Math.round(agencyPrem.score * 10),
+        pbjRisk: Math.round(pbj.score),
+        surveyCitations: Math.round(survey.score),
+        leaderTurnover: Math.round(leader.score),
+        turnoverRate: Math.round(turnover.score * 10),
+        vacancies: Math.round(vacancies.score / 10 * 20),
+        timeToFill: Math.round(ttf.score / 10 * 120),
+        recruitSpend: Math.round(recruit.score / 10 * 50000)
+      };
+    }
+    
     function getInputs() {
       return {
         openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
