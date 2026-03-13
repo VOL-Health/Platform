@@ -1139,13 +1139,13 @@
     function scoreToMapX(wsi){
   const safeWSI = clamp(wsi, 0, 100);
   const { left, right } = stabilityMap.chart;
-  return right - (safeWSI / 100) * (right - left);
+  return left + (safeWSI / 100) * (right - left);
 }
 
 function scoreToMapY(vi){
   const safeVI = clamp(vi, 0, 100);
   const { top, bottom } = stabilityMap.chart;
-  return top + (safeVI / 100) * (bottom - top);
+  return bottom - (safeVI / 100) * (bottom - top);
 }
 
     function clearCurrentMapPoint(){
