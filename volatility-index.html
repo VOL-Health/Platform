@@ -595,6 +595,31 @@
       white-space: nowrap;
     }
 
+.prototype-note {
+  margin-top: 28px;
+  width: 100%;
+  max-width: none;
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  color: var(--muted, #9fb2d2);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.prototype-note strong {
+  color: var(--text, #eef4ff);
+  font-weight: 700;
+}
+
+.prototype-note .small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+    
     .footer-cta {
       display: flex;
       gap: 10px;
@@ -1085,6 +1110,13 @@
         </section>
       </aside>
     </section>
+    <div class="prototype-note">
+  <strong>Prototype concept for internal discussion and testing.</strong>
+  Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
+  <span class="small">
+    VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. It does not represent a finalized commercial product.
+  </span>
+</div>
   </div>
 
   <script>
