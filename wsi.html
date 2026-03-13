@@ -516,7 +516,79 @@
       color:#ff9ba8;
     }
 
-    .platform-header{
+      
+    @media (max-width:720px){
+      .portfolio-top{
+        grid-template-columns:1fr;
+      }
+    }
+    
+.prototype-note {
+  margin-top: 28px;
+  width: 100%;
+  max-width: none;
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.03);
+  color: var(--muted, #9fb2d2);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.prototype-note strong {
+  color: var(--text, #eef4ff);
+  font-weight: 700;
+}
+
+.prototype-note .small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+    
+    .footer-note{
+      margin-top:20px;
+      font-size:0.78rem;
+      color:var(--muted);
+      max-width:860px;
+    }
+
+    .attribution{
+      text-align:center;
+      font-size:11px;
+      color:#686f97;
+      margin-top:10px;
+      opacity:0.8;
+    }
+
+    @media (max-width:720px){
+      body{
+        padding:18px 8px 32px;
+      }
+      .shell{
+        border-radius:22px;
+      }
+      .page{
+        padding:14px 14px 28px;
+      }
+      .summary-grid{
+        grid-template-columns:1fr;
+      }
+      h1{
+        font-size:1.4rem;
+      }
+      .card{
+        padding:14px 12px 16px;
+      }
+      .page-top{
+        justify-content:center;
+        padding:14px 14px 0;
+      }
+    }
+
+  .platform-header{
       margin-bottom:18px;
       padding:18px 18px 0;
     }
@@ -651,76 +723,6 @@
       }
     }
     
-    @media (max-width:720px){
-      .portfolio-top{
-        grid-template-columns:1fr;
-      }
-    }
-    
-.prototype-note {
-  margin-top: 28px;
-  width: 100%;
-  max-width: none;
-  padding: 16px 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.03);
-  color: var(--muted, #9fb2d2);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.prototype-note strong {
-  color: var(--text, #eef4ff);
-  font-weight: 700;
-}
-
-.prototype-note .small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.9;
-}
-    
-    .footer-note{
-      margin-top:20px;
-      font-size:0.78rem;
-      color:var(--muted);
-      max-width:860px;
-    }
-
-    .attribution{
-      text-align:center;
-      font-size:11px;
-      color:#686f97;
-      margin-top:10px;
-      opacity:0.8;
-    }
-
-    @media (max-width:720px){
-      body{
-        padding:18px 8px 32px;
-      }
-      .shell{
-        border-radius:22px;
-      }
-      .page{
-        padding:14px 14px 28px;
-      }
-      .summary-grid{
-        grid-template-columns:1fr;
-      }
-      h1{
-        font-size:1.4rem;
-      }
-      .card{
-        padding:14px 12px 16px;
-      }
-      .page-top{
-        justify-content:center;
-        padding:14px 14px 0;
-      }
-    }
   </style>
 </head>
 <body class="mode-single">
