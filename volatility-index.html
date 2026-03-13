@@ -917,15 +917,15 @@
       });
 
       const dot = document.getElementById('plotDot');
-      const label = document.getElementById('plotLabel');
-      const x = Math.max(18, Math.min(82, 82 - (viScore * 0.42)));
-      const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
-      dot.style.left = `${x}%`;
-      dot.style.bottom = `${y}%`;
-      label.style.left = `${x}%`;
-      label.style.bottom = `${y}%`;
-      dot.style.background = scoreColor(viScore);
-      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
+const label = document.getElementById('plotLabel');
+const x = 50;
+const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
+dot.style.left = `${x}%`;
+dot.style.bottom = `${y}%`;
+label.style.left = `${x}%`;
+label.style.bottom = `${y}%`;
+dot.style.background = scoreColor(viScore);
+dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
     }
 
     function navigateTo(candidates) {
