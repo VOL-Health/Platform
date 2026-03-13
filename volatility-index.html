@@ -1439,6 +1439,16 @@ function saveVIMapData(partial) {
       if (portfolioMarginEl) portfolioMarginEl.textContent = marginSignal.label;
       if (portfolioSummaryEl) portfolioSummaryEl.textContent = portfolioSummaryFor(stabilityPre, domainTitle(dominant), volatilityDrag);
 
+saveVIMapData({
+  vi: Number(stabilityPre),
+  viCurrent: Number(stabilityPre),
+  viStabilized: Number(finalScore),
+  viVolatilityDrag: Number(volatilityDrag),
+  viDominantDomain: domainTitle(dominant),
+  viSource: "vi",
+  viUpdated: new Date().toISOString()
+});
+      
       const highlights = document.getElementById('driverHighlights');
       highlights.innerHTML = '';
 
