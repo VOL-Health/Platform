@@ -739,6 +739,11 @@
               <div class="k">Next Step</div>
               <div class="v">Run WSI</div>
             </div>
+            <div class="mini" style="grid-column: 1 / -1;">
+              <div class="k">Margin Pressure Signal</div>
+              <div class="v" id="marginSignal">Elevated</div>
+              <div style="color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: 6px;" id="marginSignalText">Volatility at this level is likely creating noticeable pressure on labor efficiency, leadership bandwidth, and operating margin.</div>
+            </div>
           </div>
         </section>
 
@@ -815,6 +820,31 @@
       return `This building is operating inside acute volatility. ${dominant} is driving elevated instability, and immediate workforce testing plus targeted operational response is warranted.`;
     }
 
+    function marginSignalFor(score) {
+      if (score < 35) {
+        return {
+          label: 'Contained',
+          text: 'Current volatility appears unlikely to create meaningful margin drag beyond normal operating variation.'
+        };
+      }
+      if (score < 55) {
+        return {
+          label: 'Emerging',
+          text: 'Early volatility is beginning to create efficiency leakage and may start putting light pressure on margin if it persists.'
+        };
+      }
+      if (score < 75) {
+        return {
+          label: 'Elevated',
+          text: 'Volatility at this level is likely creating noticeable pressure on labor efficiency, leadership bandwidth, and operating margin.'
+        };
+      }
+      return {
+        label: 'Acute',
+        text: 'Volatility at this level is likely producing material operational drag with meaningful risk to margin, labor efficiency, and stability.'
+      };
+    }
+
     function domainTitle(domain) {
       return {
         resident: 'Resident Demand',
@@ -870,6 +900,9 @@
       document.getElementById('trajectory').textContent = trajectoryFor(viScore);
       document.getElementById('pattern').textContent = `${driverNames[topDrivers[0].key]} + ${driverNames[topDrivers[1].key]}`;
       document.getElementById('summaryText').textContent = summaryFor(viScore, domainTitle(dominant));
+      const marginSignal = marginSignalFor(viScore);
+      document.getElementById('marginSignal').textContent = marginSignal.label;
+      document.getElementById('marginSignalText').textContent = marginSignal.text;
       document.querySelector('.score-hero .score').style.color = scoreColor(viScore);
       document.getElementById('viTier').style.borderColor = scoreColor(viScore);
       document.getElementById('viTier').style.color = scoreColor(viScore);
@@ -884,15 +917,15 @@
       });
 
       const dot = document.getElementById('plotDot');
-const label = document.getElementById('plotLabel');
-const x = 50;
-const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
-dot.style.left = `${x}%`;
-dot.style.bottom = `${y}%`;
-label.style.left = `${x}%`;
-label.style.bottom = `${y}%`;
-dot.style.background = scoreColor(viScore);
-dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
+      const label = document.getElementById('plotLabel');
+      const x = Math.max(18, Math.min(82, 82 - (viScore * 0.42)));
+      const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
+      dot.style.left = `${x}%`;
+      dot.style.bottom = `${y}%`;
+      label.style.left = `${x}%`;
+      label.style.bottom = `${y}%`;
+      dot.style.background = scoreColor(viScore);
+      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
     }
 
     sliders.forEach(s => s.addEventListener('input', update));
