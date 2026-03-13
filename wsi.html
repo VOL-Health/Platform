@@ -1769,7 +1769,7 @@ return {
     const elasticityPct = current.elasticity.elasticityBalance;
     document.getElementById("elasticityState").textContent = current.elasticity.healthState;
     document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
-    document.getElementById("workforceArchetype").textContent = `Archetype: ${current.elasticity.archetype}`;
+    
     document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
 
     const portfolioScore = document.getElementById("portfolioWsiScore");
