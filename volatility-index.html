@@ -270,6 +270,38 @@
       color: var(--red);
     }
 
+    .portfolio-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .portfolio-note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .portfolio-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .portfolio-size-row,
+      .portfolio-summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .btn {
       appearance: none;
       border: 1px solid rgba(255,255,255,0.14);
@@ -563,31 +595,6 @@
       white-space: nowrap;
     }
 
-.prototype-note {
-  margin-top: 28px;
-  width: 100%;
-  max-width: none;
-  padding: 16px 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.03);
-  color: var(--muted, #9fb2d2);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.prototype-note strong {
-  color: var(--text, #eef4ff);
-  font-weight: 700;
-}
-
-.prototype-note .small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.9;
-}
-    
     .footer-cta {
       display: flex;
       gap: 10px;
@@ -835,6 +842,31 @@
           </tbody>
         </table>
       </div>
+          <div class="portfolio-summary">
+        <div class="mini">
+          <div class="k">Portfolio VI Score</div>
+          <div class="v" id="portfolioViScore">61</div>
+        </div>
+        <div class="mini">
+          <div class="k">Portfolio Tier</div>
+          <div class="v" id="portfolioTier">Rising Volatility</div>
+        </div>
+        <div class="mini">
+          <div class="k">Primary Pressure</div>
+          <div class="v" id="portfolioDominant">Workforce Pressure Mix</div>
+        </div>
+        <div class="mini">
+          <div class="k">Margin Signal</div>
+          <div class="v" id="portfolioMargin">Elevated</div>
+        </div>
+      </div>
+
+      <div class="portfolio-note" id="portfolioSummaryText">This portfolio view estimates how instability is distributed across the building base. It highlights where volatility is clustering so leadership can prioritize workforce absorption testing and operational focus.</div>
+
+      <div class="portfolio-actions">
+        <button class="btn primary" id="portfolioRunWsiBtn" type="button">Run WSI</button>
+        <button class="btn" id="portfolioReturnPlatformBtn" type="button">Return to Platform</button>
+      </div>
     </section>
 
     <section class="main" id="singleViewMain">
@@ -1053,13 +1085,6 @@
         </section>
       </aside>
     </section>
-    <div class="prototype-note">
-  <strong>Prototype concept for internal discussion and testing.</strong>
-  Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
-  <span class="small">
-    VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. It does not represent a finalized commercial product.
-  </span>
-</div>
   </div>
 
   <script>
@@ -1138,6 +1163,13 @@
         label: 'Acute',
         text: 'Volatility at this level is likely producing material operational drag with meaningful risk to margin, labor efficiency, and stability.'
       };
+    }
+
+    function portfolioSummaryFor(score, dominant) {
+      if (score < 35) return `This portfolio appears broadly stable. ${dominant} is currently contained across most communities, suggesting limited immediate escalation risk.`;
+      if (score < 55) return `This portfolio is showing emerging instability. ${dominant} is beginning to widen across the building base and should be monitored before pressure concentrates in weaker communities.`;
+      if (score < 75) return `This portfolio is showing rising volatility. ${dominant} is now affecting enough communities to create meaningful portfolio-level pressure and should be paired with WSI to test workforce absorption.`;
+      return `This portfolio is showing acute instability. ${dominant} is broadly elevated across the portfolio, suggesting concentrated leadership, labor, and margin pressure that warrants immediate follow-through into WSI and response planning.`;
     }
 
     function domainTitle(domain) {
@@ -1240,6 +1272,17 @@
       document.getElementById('viTier').style.borderColor = scoreColor(viScore);
       document.getElementById('viTier').style.color = scoreColor(viScore);
 
+      const portfolioScoreEl = document.getElementById('portfolioViScore');
+      const portfolioTierEl = document.getElementById('portfolioTier');
+      const portfolioDominantEl = document.getElementById('portfolioDominant');
+      const portfolioMarginEl = document.getElementById('portfolioMargin');
+      const portfolioSummaryEl = document.getElementById('portfolioSummaryText');
+      if (portfolioScoreEl) portfolioScoreEl.textContent = viScore;
+      if (portfolioTierEl) portfolioTierEl.textContent = tierFor(viScore);
+      if (portfolioDominantEl) portfolioDominantEl.textContent = `${domainTitle(dominant)} Mix`;
+      if (portfolioMarginEl) portfolioMarginEl.textContent = marginSignal.label;
+      if (portfolioSummaryEl) portfolioSummaryEl.textContent = portfolioSummaryFor(viScore, domainTitle(dominant));
+
       const highlights = document.getElementById('driverHighlights');
       highlights.innerHTML = '';
       topDrivers.forEach(d => {
@@ -1283,6 +1326,20 @@
     const returnPlatformBtn = document.getElementById('returnPlatformBtn');
     if (returnPlatformBtn) {
       returnPlatformBtn.addEventListener('click', () => {
+        navigateTo(['index.html', './', 'platform.html', 'calculator.html']);
+      });
+    }
+
+    const portfolioRunWsiBtn = document.getElementById('portfolioRunWsiBtn');
+    if (portfolioRunWsiBtn) {
+      portfolioRunWsiBtn.addEventListener('click', () => {
+        navigateTo(['wsi.html', 'workforce-stability-index.html', 'workforce-stability.html', 'calculator.html#wsi']);
+      });
+    }
+
+    const portfolioReturnPlatformBtn = document.getElementById('portfolioReturnPlatformBtn');
+    if (portfolioReturnPlatformBtn) {
+      portfolioReturnPlatformBtn.addEventListener('click', () => {
         navigateTo(['index.html', './', 'platform.html', 'calculator.html']);
       });
     }
