@@ -1231,605 +1231,625 @@
   </div>
 
   <script>
-    const MAP_STORAGE_KEY = "volHealthMapData";
+  const MAP_STORAGE_KEY = "volHealthMapData";
 
-    function clamp(value, min, max) {
-      value = Number(value);
-      if (isNaN(value)) return min;
-      return Math.min(Math.max(value, min), max);
-    }
-
-    function formatCurrency(amount) {
-      if (isNaN(amount)) return "$–";
-      const abs = Math.abs(amount);
-      const sign = amount < 0 ? "-" : "";
-      return sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
-    }
-
-    function getMode() {
-      const checked = document.querySelector("input[name='mode']:checked");
-      return checked ? checked.value : "single";
-    }
-
-    function safeNumber(value){
-      const num = Number(value);
-      return Number.isFinite(num) ? num : null;
-    }
-
-    function readMapData(){
-      try{
-        const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
-        return parsed && typeof parsed === "object" ? parsed : {};
-      }catch(err){
-        return {};
-      }
-    }
-
-    function getExplicitEntityName() {
-      return (document.getElementById("entityName")?.value || "").trim();
-    }
-
-    function getFallbackEntityLabel() {
-      return "WSI Community";
-    }
-
-    function buildLabel(existing){
-      const explicit = getExplicitEntityName();
-      if(explicit) return explicit;
-      if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
-      return getFallbackEntityLabel();
-    }
-
-    function saveVOLHealthMapData(partial){
-      const existing = readMapData();
-
-      const merged = {
-        ...existing,
-        ...partial,
-        label: buildLabel(existing),
-        mode: getMode(),
-        updatedAt: new Date().toISOString()
-      };
-
-      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-      updateMapStatusChip();
-      return merged;
-    }
-
-    function updateMapStatusChip(){
-      const data = readMapData();
-      const hasVI = Number.isFinite(Number(data.vi));
-      const hasWSI = Number.isFinite(Number(data.wsi));
-      const dot = document.getElementById("mapStatusDot");
-      const text = document.getElementById("mapStatusText");
-
-      if(hasVI && hasWSI){
-        dot.classList.add("active");
-        text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
-      }else if(hasVI){
-        dot.classList.remove("active");
-        text.textContent = `VI saved • WSI still needed for map point`;
-      }else if(hasWSI){
-        dot.classList.remove("active");
-        text.textContent = `WSI saved • VI still needed for map point`;
-      }else{
-        dot.classList.remove("active");
-        text.textContent = "Map point not complete yet";
-      }
-    }
-
-    function updateModeUI() {
-
-  const mode = getMode();
-
-  const titleEl = document.getElementById("snapshotTitle");
-  const subtitleEl = document.getElementById("snapshotSubtitle");
-  const bannerEl = document.getElementById("modeBanner");
-
-  if(mode === "portfolio"){
-
-    document.body.classList.add("mode-portfolio");
-
-    titleEl.textContent = "Workforce Stability Snapshot (Portfolio)";
-    subtitleEl.textContent =
-      "Enter how many communities fall into each workforce condition band. The model converts these distributions into portfolio-wide averages and a consolidated Workforce Stability Index.";
-
-    bannerEl.textContent =
-      "PORTFOLIO MODE — WORKFORCE STABILITY EDITION (WSI)";
-
-  } else {
-
-    document.body.classList.remove("mode-portfolio");
-
-    titleEl.textContent = "Workforce Stability Snapshot";
-    subtitleEl.textContent =
-      "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
-
-    bannerEl.textContent =
-      "SINGLE COMMUNITY MODE — WORKFORCE STABILITY EDITION (WSI)";
+  function clamp(value, min, max) {
+    value = Number(value);
+    if (isNaN(value)) return min;
+    return Math.min(Math.max(value, min), max);
   }
-}
 
-    function bandAverage(low, mid, high, total) {
-      total = clamp(total, 1, 500);
-      const rowTotal = low + mid + high;
-      return {
-        score: ((low * 2) + (mid * 6) + (high * 9)) / total,
-        rowTotal
-      };
+  function formatCurrency(amount) {
+    if (isNaN(amount)) return "$–";
+    const abs = Math.abs(amount);
+    const sign = amount < 0 ? "-" : "";
+    return sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
+  }
+
+  function getMode() {
+    const checked = document.querySelector("input[name='mode']:checked");
+    return checked ? checked.value : "single";
+  }
+
+  function safeNumber(value){
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  }
+
+  function readMapData(){
+    try{
+      const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+      return parsed && typeof parsed === "object" ? parsed : {};
+    }catch(err){
+      return {};
+    }
+  }
+
+  function getExplicitEntityName() {
+    return (document.getElementById("entityName")?.value || "").trim();
+  }
+
+  function getFallbackEntityLabel() {
+    return "WSI Community";
+  }
+
+  function buildLabel(existing){
+    const explicit = getExplicitEntityName();
+    if(explicit) return explicit;
+    if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
+    return getFallbackEntityLabel();
+  }
+
+  function saveVOLHealthMapData(partial){
+    const existing = readMapData();
+
+    const merged = {
+      ...existing,
+      ...partial,
+      label: buildLabel(existing),
+      mode: getMode(),
+      updatedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+    updateMapStatusChip();
+    return merged;
+  }
+
+  function updateMapStatusChip(){
+    const data = readMapData();
+    const hasVI = Number.isFinite(Number(data.vi));
+    const hasWSI = Number.isFinite(Number(data.wsi));
+    const dot = document.getElementById("mapStatusDot");
+    const text = document.getElementById("mapStatusText");
+
+    if(hasVI && hasWSI){
+      dot.classList.add("active");
+      text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
+    }else if(hasVI){
+      dot.classList.remove("active");
+      text.textContent = `VI saved • WSI still needed for map point`;
+    }else if(hasWSI){
+      dot.classList.remove("active");
+      text.textContent = `WSI saved • VI still needed for map point`;
+    }else{
+      dot.classList.remove("active");
+      text.textContent = "Map point not complete yet";
+    }
+  }
+
+  function updateModeUI() {
+    const mode = getMode();
+
+    const titleEl = document.getElementById("snapshotTitle");
+    const subtitleEl = document.getElementById("snapshotSubtitle");
+    const bannerEl = document.getElementById("modeBanner");
+
+    if(mode === "portfolio"){
+      document.body.classList.add("mode-portfolio");
+
+      titleEl.textContent = "Workforce Stability Snapshot (Portfolio)";
+      subtitleEl.textContent =
+        "Enter how many communities fall into each workforce condition band. The model converts these distributions into portfolio-wide averages and a consolidated Workforce Stability Index.";
+
+      bannerEl.textContent =
+        "PORTFOLIO MODE — WORKFORCE STABILITY EDITION (WSI)";
+    } else {
+      document.body.classList.remove("mode-portfolio");
+
+      titleEl.textContent = "Workforce Stability Snapshot";
+      subtitleEl.textContent =
+        "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
+
+      bannerEl.textContent =
+        "SINGLE COMMUNITY MODE — WORKFORCE STABILITY EDITION (WSI)";
+    }
+  }
+
+  function bandAverage(low, mid, high, total) {
+    total = clamp(total, 1, 500);
+    const rowTotal = low + mid + high;
+    return {
+      score: ((low * 2) + (mid * 6) + (high * 9)) / total,
+      rowTotal
+    };
+  }
+
+  function setRowTotal(id, rowTotal, total) {
+    const cell = document.getElementById(id);
+    if (!cell) return;
+    cell.textContent = `${rowTotal} / ${total}`;
+    cell.classList.toggle("bad", rowTotal !== total);
+  }
+
+  function portfolioInputsToSingleAverages() {
+    const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
+
+    const open = bandAverage(
+      clamp(document.getElementById("pfOpenLow").value, 0, total),
+      clamp(document.getElementById("pfOpenMid").value, 0, total),
+      clamp(document.getElementById("pfOpenHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfOpenTotal", open.rowTotal, total);
+
+    const prn = bandAverage(
+      clamp(document.getElementById("pfPrnLow").value, 0, total),
+      clamp(document.getElementById("pfPrnMid").value, 0, total),
+      clamp(document.getElementById("pfPrnHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfPrnTotal", prn.rowTotal, total);
+
+    const call = bandAverage(
+      clamp(document.getElementById("pfCallLow").value, 0, total),
+      clamp(document.getElementById("pfCallMid").value, 0, total),
+      clamp(document.getElementById("pfCallHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfCallTotal", call.rowTotal, total);
+
+    const otHours = bandAverage(
+      clamp(document.getElementById("pfOtHoursLow").value, 0, total),
+      clamp(document.getElementById("pfOtHoursMid").value, 0, total),
+      clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
+
+    const otPrem = bandAverage(
+      clamp(document.getElementById("pfOtPremLow").value, 0, total),
+      clamp(document.getElementById("pfOtPremMid").value, 0, total),
+      clamp(document.getElementById("pfOtPremHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
+
+    const agencyPrem = bandAverage(
+      clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
+      clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
+      clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
+
+    const pbj = bandAverage(
+      clamp(document.getElementById("pfPbjLow").value, 0, total),
+      clamp(document.getElementById("pfPbjMid").value, 0, total),
+      clamp(document.getElementById("pfPbjHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfPbjTotal", pbj.rowTotal, total);
+
+    const survey = bandAverage(
+      clamp(document.getElementById("pfSurveyLow").value, 0, total),
+      clamp(document.getElementById("pfSurveyMid").value, 0, total),
+      clamp(document.getElementById("pfSurveyHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfSurveyTotal", survey.rowTotal, total);
+
+    const leader = bandAverage(
+      clamp(document.getElementById("pfLeaderLow").value, 0, total),
+      clamp(document.getElementById("pfLeaderMid").value, 0, total),
+      clamp(document.getElementById("pfLeaderHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfLeaderTotal", leader.rowTotal, total);
+
+    const turnover = bandAverage(
+      clamp(document.getElementById("pfTurnoverLow").value, 0, total),
+      clamp(document.getElementById("pfTurnoverMid").value, 0, total),
+      clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
+
+    const vacancies = bandAverage(
+      clamp(document.getElementById("pfVacLow").value, 0, total),
+      clamp(document.getElementById("pfVacMid").value, 0, total),
+      clamp(document.getElementById("pfVacHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfVacTotal", vacancies.rowTotal, total);
+
+    const ttf = bandAverage(
+      clamp(document.getElementById("pfTtfLow").value, 0, total),
+      clamp(document.getElementById("pfTtfMid").value, 0, total),
+      clamp(document.getElementById("pfTtfHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfTtfTotal", ttf.rowTotal, total);
+
+    const recruit = bandAverage(
+      clamp(document.getElementById("pfRecruitLow").value, 0, total),
+      clamp(document.getElementById("pfRecruitMid").value, 0, total),
+      clamp(document.getElementById("pfRecruitHigh").value, 0, total),
+      total
+    );
+    setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
+
+    return {
+      openShifts: Math.round(open.score / 10 * 50),
+      percentPRN: Math.round(prn.score * 10),
+      callOffs: Math.round(call.score / 10 * 20),
+      coverageResolution: prn.score >= 6.8 ? "external" : prn.score >= 4.8 ? "internal_float" : "overtime",
+      otHours: Math.round(otHours.score / 10 * 500),
+      otPremium: Math.round(otPrem.score * 10),
+      agencyPremium: Math.round(agencyPrem.score * 10),
+      pbjRisk: Math.round(pbj.score),
+      surveyCitations: Math.round(survey.score),
+      leaderTurnover: Math.round(leader.score),
+      turnoverRate: Math.round(turnover.score * 10),
+      vacancies: Math.round(vacancies.score / 10 * 20),
+      timeToFill: Math.round(ttf.score / 10 * 120),
+      recruitSpend: Math.round(recruit.score / 10 * 50000)
+    };
+  }
+
+  function getInputs() {
+    if (getMode() === "portfolio") {
+      return portfolioInputsToSingleAverages();
     }
 
-    function setRowTotal(id, rowTotal, total) {
-      const cell = document.getElementById(id);
-      if (!cell) return;
-      cell.textContent = `${rowTotal} / ${total}`;
-      cell.classList.toggle("bad", rowTotal !== total);
+    return {
+      openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
+      percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
+      callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
+      coverageResolution: document.getElementById("coverageResolution").value,
+      otHours: clamp(document.getElementById("otHours").value, 0, 500),
+      otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
+      agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
+      pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
+      surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
+      leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
+      turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
+      vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
+      timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
+      recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
+    };
+  }
+
+  function inverseScore(value, maxValue) {
+    return clamp(100 - ((value / maxValue) * 100), 0, 100);
+  }
+
+  function getPrnMixScore(percentPRN) {
+    const prn = clamp(percentPRN, 0, 100);
+
+    if (prn <= 4) {
+      return 52 + (prn / 4) * 8;
+    }
+    if (prn <= 12) {
+      return 60 + ((prn - 4) / 8) * 24;
+    }
+    if (prn <= 25) {
+      return 84 + ((25 - prn) / 13) * 8;
+    }
+    if (prn <= 40) {
+      return 76 - ((prn - 25) / 15) * 16;
+    }
+    return clamp(60 - ((prn - 40) / 60) * 28, 25, 60);
+  }
+
+  function getCoverageResolutionScore(resolution) {
+    switch(resolution){
+      case "internal_float": return 92;
+      case "external": return 78;
+      case "overtime": return 56;
+      case "unfilled": return 24;
+      default: return 60;
+    }
+  }
+
+  function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
+    const prnMixScore = getPrnMixScore(percentPRN);
+    const resolutionScore = getCoverageResolutionScore(coverageResolution);
+    const openScore = inverseScore(openShifts, 50);
+    const callScore = inverseScore(callOffs, 20);
+    const otScore = inverseScore(otHours, 500);
+
+    const coverageResilience = clamp(
+      (openScore * 0.30) +
+      (callScore * 0.20) +
+      (prnMixScore * 0.25) +
+      (resolutionScore * 0.25),
+      0, 100
+    );
+
+    const elasticityBalance = Math.round(((coverageResilience - 50) / 50) * 100);
+
+    let healthState = "Agency Stabilized";
+    let archetype = "Agency Stabilized";
+    let meaning = "Operational pressure is being absorbed through external coverage, preserving continuity but often at higher cost.";
+
+    if (coverageResolution === "unfilled" || openShifts >= 12 || callOffs >= 6 || coverageResilience < 40) {
+      healthState = "Elasticity Failure";
+      archetype = "Elasticity Failure";
+      meaning = "The workforce system is no longer absorbing disruption reliably. Open gaps and instability are reaching the floor.";
+    } else if (coverageResolution === "overtime" || otHours >= 140 || (percentPRN <= 5 && openShifts >= 6)) {
+      healthState = "Burnout Stabilized";
+      archetype = "Burnout Stabilized";
+      meaning = "Stability is being protected mainly by stretching existing staff, increasing burnout risk and reducing long-term resilience.";
+    } else if (coverageResilience >= 78 && percentPRN >= 8 && percentPRN <= 28) {
+      healthState = "Balanced Elastic";
+      archetype = "Balanced Elastic";
+      meaning = "The workforce system is absorbing disruption through a healthy mix of internal flexibility and external support.";
     }
 
-    function portfolioInputsToSingleAverages() {
-      const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
+    return {
+      prnMixScore,
+      resolutionScore,
+      coverageResilience,
+      elasticityBalance,
+      healthState,
+      archetype,
+      meaning
+    };
+  }
 
-      const open = bandAverage(
-        clamp(document.getElementById("pfOpenLow").value, 0, total),
-        clamp(document.getElementById("pfOpenMid").value, 0, total),
-        clamp(document.getElementById("pfOpenHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfOpenTotal", open.rowTotal, total);
-
-      const prn = bandAverage(
-        clamp(document.getElementById("pfPrnLow").value, 0, total),
-        clamp(document.getElementById("pfPrnMid").value, 0, total),
-        clamp(document.getElementById("pfPrnHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfPrnTotal", prn.rowTotal, total);
-
-      const call = bandAverage(
-        clamp(document.getElementById("pfCallLow").value, 0, total),
-        clamp(document.getElementById("pfCallMid").value, 0, total),
-        clamp(document.getElementById("pfCallHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfCallTotal", call.rowTotal, total);
-
-      const otHours = bandAverage(
-        clamp(document.getElementById("pfOtHoursLow").value, 0, total),
-        clamp(document.getElementById("pfOtHoursMid").value, 0, total),
-        clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
-
-      const otPrem = bandAverage(
-        clamp(document.getElementById("pfOtPremLow").value, 0, total),
-        clamp(document.getElementById("pfOtPremMid").value, 0, total),
-        clamp(document.getElementById("pfOtPremHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
-
-      const agencyPrem = bandAverage(
-        clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
-        clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
-        clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
-
-      const pbj = bandAverage(
-        clamp(document.getElementById("pfPbjLow").value, 0, total),
-        clamp(document.getElementById("pfPbjMid").value, 0, total),
-        clamp(document.getElementById("pfPbjHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfPbjTotal", pbj.rowTotal, total);
-
-      const survey = bandAverage(
-        clamp(document.getElementById("pfSurveyLow").value, 0, total),
-        clamp(document.getElementById("pfSurveyMid").value, 0, total),
-        clamp(document.getElementById("pfSurveyHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfSurveyTotal", survey.rowTotal, total);
-
-      const leader = bandAverage(
-        clamp(document.getElementById("pfLeaderLow").value, 0, total),
-        clamp(document.getElementById("pfLeaderMid").value, 0, total),
-        clamp(document.getElementById("pfLeaderHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfLeaderTotal", leader.rowTotal, total);
-
-      const turnover = bandAverage(
-        clamp(document.getElementById("pfTurnoverLow").value, 0, total),
-        clamp(document.getElementById("pfTurnoverMid").value, 0, total),
-        clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
-
-      const vacancies = bandAverage(
-        clamp(document.getElementById("pfVacLow").value, 0, total),
-        clamp(document.getElementById("pfVacMid").value, 0, total),
-        clamp(document.getElementById("pfVacHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfVacTotal", vacancies.rowTotal, total);
-
-      const ttf = bandAverage(
-        clamp(document.getElementById("pfTtfLow").value, 0, total),
-        clamp(document.getElementById("pfTtfMid").value, 0, total),
-        clamp(document.getElementById("pfTtfHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfTtfTotal", ttf.rowTotal, total);
-
-      const recruit = bandAverage(
-        clamp(document.getElementById("pfRecruitLow").value, 0, total),
-        clamp(document.getElementById("pfRecruitMid").value, 0, total),
-        clamp(document.getElementById("pfRecruitHigh").value, 0, total),
-        total
-      );
-      setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
-
-      return {
-        openShifts: Math.round(open.score / 10 * 50),
-        percentPRN: Math.round(prn.score * 10),
-        callOffs: Math.round(call.score / 10 * 20),
-        coverageResolution: prn.score >= 6.8 ? "external" : prn.score >= 4.8 ? "internal_float" : "overtime",
-        otHours: Math.round(otHours.score / 10 * 500),
-        otPremium: Math.round(otPrem.score * 10),
-        agencyPremium: Math.round(agencyPrem.score * 10),
-        pbjRisk: Math.round(pbj.score),
-        surveyCitations: Math.round(survey.score),
-        leaderTurnover: Math.round(leader.score),
-        turnoverRate: Math.round(turnover.score * 10),
-        vacancies: Math.round(vacancies.score / 10 * 20),
-        timeToFill: Math.round(ttf.score / 10 * 120),
-        recruitSpend: Math.round(recruit.score / 10 * 50000)
-      };
+  function getImprovedCoverageResolution(currentResolution) {
+    switch(currentResolution){
+      case "overtime":
+        return "internal_float";
+      case "unfilled":
+        return "external";
+      case "external":
+        return "external";
+      case "internal_float":
+      default:
+        return "internal_float";
     }
-    
-        function getInputs() {
-      if (getMode() === "portfolio") {
-        return portfolioInputsToSingleAverages();
-      }
+  }
 
-      return {
-        openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
-        percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
-        callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
-        coverageResolution: document.getElementById("coverageResolution").value,
-        otHours: clamp(document.getElementById("otHours").value, 0, 500),
-        otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
-        agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
-        pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
-        surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
-        leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
-        turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
-        vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
-        timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
-        recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
-      };
+  function getImprovedScenario(inputs) {
+    return {
+      openShifts: clamp(inputs.openShifts * 0.78, 0, 50),
+      percentPRN: clamp(inputs.percentPRN <= 5 ? inputs.percentPRN + 6 : inputs.percentPRN * 0.94, 0, 100),
+      callOffs: clamp(inputs.callOffs * 0.82, 0, 20),
+      coverageResolution: getImprovedCoverageResolution(inputs.coverageResolution),
+      otHours: clamp(inputs.otHours * 0.74, 0, 500),
+      otPremium: clamp(inputs.otPremium * 0.94, 0, 100),
+      agencyPremium: clamp(inputs.agencyPremium * 0.97, 0, 100),
+      pbjRisk: clamp(inputs.pbjRisk * 0.88, 0, 10),
+      surveyCitations: clamp(inputs.surveyCitations * 0.95, 0, 10),
+      leaderTurnover: clamp(inputs.leaderTurnover * 0.92, 0, 10),
+      turnoverRate: clamp(inputs.turnoverRate * 0.72, 0, 100),
+      vacancies: clamp(inputs.vacancies * 0.68, 0, 20),
+      timeToFill: clamp(inputs.timeToFill * 0.76, 0, 120),
+      recruitSpend: clamp(inputs.recruitSpend * 0.84, 0, 50000)
+    };
+  }
+
+  function calculateWSIValues(inputs) {
+    const openShifts = clamp(inputs.openShifts, 0, 50);
+    const percentPRN = clamp(inputs.percentPRN, 0, 100);
+    const callOffs = clamp(inputs.callOffs, 0, 20);
+    const otHours = clamp(inputs.otHours, 0, 500);
+    const otPremium = clamp(inputs.otPremium, 0, 100);
+    const agencyPremium = clamp(inputs.agencyPremium, 0, 100);
+    const pbjRisk = clamp(inputs.pbjRisk, 0, 10);
+    const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
+    const leaderTurnover = clamp(inputs.leaderTurnover, 0, 10);
+    const turnoverRate = clamp(inputs.turnoverRate, 0, 100);
+    const vacancies = clamp(inputs.vacancies, 0, 20);
+    const timeToFill = clamp(inputs.timeToFill, 0, 120);
+    const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
+
+    const elasticity = getElasticityProfile(
+      percentPRN,
+      openShifts,
+      callOffs,
+      otHours,
+      inputs.coverageResolution
+    );
+
+    const coverageResilience = clamp(
+      (elasticity.coverageResilience * 0.70) +
+      (inverseScore(openShifts, 50) * 0.15) +
+      (inverseScore(callOffs, 20) * 0.15),
+      0, 100
+    );
+
+    const costControl = clamp(
+      (inverseScore(otHours, 500) * 0.45) +
+      (inverseScore(otPremium, 100) * 0.20) +
+      (inverseScore(agencyPremium, 100) * 0.20) +
+      (elasticity.prnMixScore * 0.15),
+      0, 100
+    );
+
+    const operationalReliability = clamp(
+      (inverseScore(pbjRisk, 10) * 0.40) +
+      (inverseScore(surveyCitations, 10) * 0.30) +
+      (inverseScore(leaderTurnover, 10) * 0.30),
+      0, 100
+    );
+
+    const pipelineStrength = clamp(
+      (inverseScore(turnoverRate, 100) * 0.35) +
+      (inverseScore(vacancies, 20) * 0.25) +
+      (inverseScore(timeToFill, 120) * 0.25) +
+      (inverseScore(recruitSpend, 50000) * 0.15),
+      0, 100
+    );
+
+    const wsiScore = Math.round(
+      (coverageResilience * 0.30) +
+      (costControl * 0.20) +
+      (operationalReliability * 0.20) +
+      (pipelineStrength * 0.30)
+    );
+
+    const annualVolatilityCost =
+      ((100 - coverageResilience) * 12000) +
+      ((100 - costControl) * 9000) +
+      ((100 - operationalReliability) * 7000);
+
+    const workforceDragCost =
+      (100 - pipelineStrength) * 12000;
+
+    const stabilizableUpside = Math.round(
+      annualVolatilityCost * Math.min(0.50, 0.22 + ((100 - wsiScore) / 100) * 0.38)
+    );
+
+    return {
+      elasticity,
+      coverageResilience,
+      costControl,
+      operationalReliability,
+      pipelineStrength,
+      wsiScore,
+      annualVolatilityCost,
+      stabilizableUpside,
+      workforceDragCost
+    };
+  }
+
+  function getScoreTagMeta(score){
+    if (score < 45) {
+      return { label: "Fragile", cls: "high-risk" };
     }
-
-    function getPrnZoneRisk(prn){
-      if (prn <= 4) return 0.82;
-      if (prn <= 15) return 0.12;
-      if (prn <= 30) return 0.38;
-      return Math.min(0.90, 0.52 + ((prn - 31) / 69) * 0.30);
+    if (score < 70) {
+      return { label: "Pressured", cls: "moderate-risk" };
     }
+    return { label: "Stable", cls: "stable" };
+  }
 
-    function getCoverageMechanismModifier(resolution){
-      switch(resolution){
-        case "overtime":
-          return -0.38;
-        case "internal_float":
-          return 0.32;
-        case "external":
-          return 0.06;
-        case "unfilled":
-          return -0.58;
-        default:
-          return 0;
-      }
-    }
+  function updateWSI() {
+    const currentInputs = getInputs();
+    const current = calculateWSIValues(currentInputs);
+    const improved = calculateWSIValues(getImprovedScenario(currentInputs));
 
-    function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
-      const prn = clamp(percentPRN, 0, 100);
-      const open = clamp(openShifts, 0, 50);
-      const calls = clamp(callOffs, 0, 20);
-      const ot = clamp(otHours, 0, 500);
+    const scoreEl = document.getElementById("shsiScore");
+    const tagEl = document.getElementById("scoreTag");
+    scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
 
-      const prnRisk = getPrnZoneRisk(prn);
-      const prnCapacity = 1 - prnRisk;
-      const overtimeStress = ot / 500;
-      const gapStress = ((open / 50) + (calls / 20)) / 2;
-      const coverageModifier = getCoverageMechanismModifier(coverageResolution);
+    const tagMeta = getScoreTagMeta(current.wsiScore);
+    tagEl.textContent = tagMeta.label;
+    tagEl.classList.remove("high-risk","moderate-risk","stable");
+    tagEl.classList.add(tagMeta.cls);
 
-      const hardRigidityPenalty = (prn <= 4) ? 0.28 : 0;
-      const lowPrnHighOtPenalty = (prn <= 4 && ot >= 80) ? 0.22 : 0;
-      const lowPrnGapPenalty = (prn <= 4 && (open >= 6 || calls >= 4)) ? 0.18 : 0;
-      const dependencyPenalty = (prn >= 31) ? 0.10 : 0;
+    document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
+    document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
+    document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
 
-      const elasticityBalanceRaw =
-        (prnCapacity * 0.55)
-        + coverageModifier
-        - (overtimeStress * 0.45)
-        - (gapStress * 0.35)
-        - hardRigidityPenalty
-        - lowPrnHighOtPenalty
-        - lowPrnGapPenalty
-        - dependencyPenalty;
+    const elasticityPct = current.elasticity.elasticityBalance;
+    document.getElementById("elasticityState").textContent = current.elasticity.healthState;
+    document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
+    document.getElementById("workforceArchetype").textContent = `Archetype: ${current.elasticity.archetype}`;
+    document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
 
-      const elasticityBalance = clamp(elasticityBalanceRaw, -1, 1);
+    const portfolioScore = document.getElementById("portfolioWsiScore");
+    const portfolioState = document.getElementById("portfolioElasticityState");
+    const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
+    const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
+    const portfolioNote = document.getElementById("portfolioSummaryNote");
 
-            let healthState = "Agency Stabilized";
-      if (elasticityBalance >= 0.25) healthState = "Balanced Elastic";
-      else if (elasticityBalance >= 0.00) healthState = "Agency Stabilized";
-      else if (elasticityBalance >= -0.35) healthState = "Burnout Stabilized";
-      else healthState = "Elasticity Failure";
+    let primaryConstraint = "Coverage Resilience";
+    const domainPairs = [
+      { name: "Coverage Resilience", score: current.coverageResilience },
+      { name: "Cost Control", score: current.costControl },
+      { name: "Operational Reliability", score: current.operationalReliability },
+      { name: "Pipeline Strength", score: current.pipelineStrength }
+    ].sort((a,b) => a.score - b.score);
+    primaryConstraint = domainPairs[0].name;
 
-      let archetype = "Balanced Elastic";
-      let meaning = "Operational pressure is absorbed through a healthy mix of internal flexibility and external support, keeping strain off core staff.";
+    let economicPressure = "Contained";
+    if (current.annualVolatilityCost >= 1800000) economicPressure = "Severe";
+    else if (current.annualVolatilityCost >= 1100000) economicPressure = "Elevated";
+    else if (current.annualVolatilityCost >= 550000) economicPressure = "Building";
 
-      if (coverageResolution === "unfilled" || open > 12 || calls > 6 || elasticityBalance < -0.40) {
-        archetype = "Elasticity Failure";
-        meaning = "Operational pressure exceeds the workforce system’s ability to absorb disruption, leading to open gaps and rising instability.";
-      } else if (coverageResolution === "external" || (prn >= 31 && open <= 8 && calls <= 5)) {
-        archetype = "Agency Stabilized";
-        meaning = "Operational pressure is absorbed through external coverage rather than staff stretch, maintaining stability at higher cost.";
-      } else if ((coverageResolution === "overtime") || (prn <= 4 && ot >= 80)) {
-        archetype = "Burnout Stabilized";
-        meaning = "Operational pressure is being absorbed by pushing extra workload onto existing staff through overtime and schedule stretch.";
-      }
+    if (portfolioScore) portfolioScore.textContent = current.wsiScore;
+    if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
+    if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
+    if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
 
-      const elasticityPenalty = Math.max(0, -elasticityBalance) * 12;
-
-      return {
-        prnRisk,
-        prnCapacity,
-        coverageModifier,
-        elasticityBalance,
-        healthState,
-        archetype,
-        meaning,
-        elasticityPenalty
-      };
+    if (portfolioNote) {
+      portfolioNote.textContent =
+        getMode() === "portfolio"
+          ? `This portfolio view suggests workforce stability is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
+          : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
     }
 
-    function getImprovedCoverageResolution(currentResolution) {
-      switch(currentResolution){
-        case "overtime":
-          return "internal_float";
-        case "unfilled":
-          return "external";
-        case "external":
-          return "external";
-        case "internal_float":
-        default:
-          return "internal_float";
-      }
-    }
+    document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
+    document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
 
-    function getImprovedScenario(inputs) {
-      return {
-        openShifts: clamp(inputs.openShifts * 0.80, 0, 50),
-        percentPRN: clamp(inputs.percentPRN <= 4 ? inputs.percentPRN + 6 : inputs.percentPRN * 0.94, 0, 100),
-        callOffs: clamp(inputs.callOffs * 0.86, 0, 20),
-        coverageResolution: getImprovedCoverageResolution(inputs.coverageResolution),
-        otHours: clamp(inputs.otHours * 0.78, 0, 500),
-        otPremium: clamp(inputs.otPremium * 0.95, 0, 100),
-        agencyPremium: clamp(inputs.agencyPremium * 0.98, 0, 100),
-        pbjRisk: clamp(inputs.pbjRisk * 0.90, 0, 10),
-        surveyCitations: clamp(inputs.surveyCitations, 0, 10),
-        leaderTurnover: clamp(inputs.leaderTurnover * 0.95, 0, 10),
-        turnoverRate: clamp(inputs.turnoverRate * 0.72, 0, 100),
-        vacancies: clamp(inputs.vacancies * 0.70, 0, 20),
-        timeToFill: clamp(inputs.timeToFill * 0.78, 0, 120),
-        recruitSpend: clamp(inputs.recruitSpend * 0.82, 0, 50000)
-      };
-    }
+    const deltaShsi = improved.wsiScore - current.wsiScore;
+    document.getElementById("deltaShsiCell").textContent =
+      isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
+    document.getElementById("deltaShsiCell").className =
+      deltaShsi >= 0 ? "delta-positive" : "delta-negative";
 
-    function calculateWSIValues(inputs) {
-      const openShifts = clamp(inputs.openShifts, 0, 50);
-      const percentPRN = clamp(inputs.percentPRN, 0, 100);
-      const callOffs = clamp(inputs.callOffs, 0, 20);
-      const otHours = clamp(inputs.otHours, 0, 500);
-      const otPremium = clamp(inputs.otPremium, 0, 100);
-      const agencyPremium = clamp(inputs.agencyPremium, 0, 100);
-      const pbjRisk = clamp(inputs.pbjRisk, 0, 10);
-      const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
-      const leaderTurnover = clamp(inputs.leaderTurnover, 0, 10);
-      const turnoverRate = clamp(inputs.turnoverRate, 0, 100);
-      const vacancies = clamp(inputs.vacancies, 0, 20);
-      const timeToFill = clamp(inputs.timeToFill, 0, 120);
-      const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
+    document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
+    document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
 
-      const elasticity = getElasticityProfile(
-        percentPRN,
-        openShifts,
-        callOffs,
-        otHours,
-        inputs.coverageResolution
-      );
+    const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
+    const deltaVolText = isNaN(deltaVol)
+      ? "–"
+      : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
+    document.getElementById("deltaVolCostCell").textContent = deltaVolText;
+    document.getElementById("deltaVolCostCell").className =
+      deltaVol <= 0 ? "delta-positive" : "delta-negative";
 
-      const volScore =
-        (
-          (openShifts / 50) * 0.34 +
-          elasticity.prnRisk * 0.28 +
-          (callOffs / 20) * 0.20 +
-          Math.max(0, -elasticity.coverageModifier) * 0.18
-        ) * 25;
+    document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
+    document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
 
-      const finScore =
-        ((otHours / 500) + (otPremium / 100) + (agencyPremium / 100)) / 3 * 25;
+    const deltaWork = improved.workforceDragCost - current.workforceDragCost;
+    const deltaWorkText = isNaN(deltaWork)
+      ? "–"
+      : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
+    document.getElementById("deltaWorkforceCell").textContent = deltaWorkText;
+    document.getElementById("deltaWorkforceCell").className =
+      deltaWork <= 0 ? "delta-positive" : "delta-negative";
 
-      const opScore =
-        ((pbjRisk / 10) + (surveyCitations / 10) + (leaderTurnover / 10)) / 3 * 25;
-
-      const workforceScore =
-        ((turnoverRate / 100) + (vacancies / 20) + (timeToFill / 120) + (recruitSpend / 50000)) / 4 * 25;
-
-      const totalRiskBase = volScore + finScore + opScore + workforceScore;
-      const totalRisk = clamp(totalRiskBase + elasticity.elasticityPenalty, 0, 100);
-      const wsiScore = Math.round(100 - totalRisk);
-
-      const annualVolatilityCost = (totalRisk / 100) * 2000000;
-      const stabilizableUpside = annualVolatilityCost * 0.4;
-      const workforceDragCost = (workforceScore / 25) * 1000000;
-
-      return {
-        elasticity,
-        totalRisk,
-        wsiScore,
-        annualVolatilityCost,
-        stabilizableUpside,
-        workforceDragCost
-      };
-    }
-
-    function updateWSI() {
-      const currentInputs = getInputs();
-      const current = calculateWSIValues(currentInputs);
-      const improved = calculateWSIValues(getImprovedScenario(currentInputs));
-
-      const scoreEl = document.getElementById("shsiScore");
-      const tagEl = document.getElementById("scoreTag");
-      scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
-
-      tagEl.classList.remove("high-risk","moderate-risk","stable");
-      if (current.wsiScore <= 50) {
-        tagEl.textContent = "High Risk";
-        tagEl.classList.add("high-risk");
-      } else if (current.wsiScore <= 75) {
-        tagEl.textContent = "Moderate Risk";
-        tagEl.classList.add("moderate-risk");
-      } else {
-        tagEl.textContent = "Relatively Stable";
-        tagEl.classList.add("stable");
-      }
-
-      document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
-      document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
-      document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
-
-      const elasticityPct = Math.round(current.elasticity.elasticityBalance * 100);
-      document.getElementById("elasticityState").textContent = current.elasticity.healthState;
-      document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
-      document.getElementById("workforceArchetype").textContent = `Archetype: ${current.elasticity.archetype}`;
-      document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
-
-            const portfolioScore = document.getElementById("portfolioWsiScore");
-      const portfolioState = document.getElementById("portfolioElasticityState");
-      const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
-      const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
-      const portfolioNote = document.getElementById("portfolioSummaryNote");
-
-      if (portfolioScore) portfolioScore.textContent = current.wsiScore;
-      if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
-
-      let primaryConstraint = "Staffing Volatility";
-      if (currentInputs.turnoverRate >= 55 || currentInputs.vacancies >= 4 || currentInputs.timeToFill >= 55) {
-        primaryConstraint = "Pipeline Weakness";
-      } else if (currentInputs.otHours >= 140 || currentInputs.percentPRN >= 35) {
-        primaryConstraint = "Premium Labor Dependence";
-      } else if (currentInputs.pbjRisk >= 6 || currentInputs.surveyCitations >= 2 || currentInputs.leaderTurnover >= 2) {
-        primaryConstraint = "Operational Risk";
-      }
-
-      let economicPressure = "Contained";
-      if (current.annualVolatilityCost >= 1400000) economicPressure = "Acute";
-      else if (current.annualVolatilityCost >= 900000) economicPressure = "Elevated";
-      else if (current.annualVolatilityCost >= 450000) economicPressure = "Emerging";
-
-      if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
-      if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
-
-      if (portfolioNote) {
-        portfolioNote.textContent =
-          getMode() === "portfolio"
-            ? `This portfolio view suggests workforce pressure is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
-            : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
-      }
-      
-      document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
-      document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
-
-      const deltaShsi = improved.wsiScore - current.wsiScore;
-      document.getElementById("deltaShsiCell").textContent =
-        isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
-      document.getElementById("deltaShsiCell").className =
-        deltaShsi >= 0 ? "delta-positive" : "delta-negative";
-
-      document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
-      document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
-
-      const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
-      const deltaVolText = isNaN(deltaVol)
-        ? "–"
-        : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
-      document.getElementById("deltaVolCostCell").textContent = deltaVolText;
-      document.getElementById("deltaVolCostCell").className =
-        deltaVol <= 0 ? "delta-positive" : "delta-negative";
-
-      document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
-      document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
-
-      const deltaWork = improved.workforceDragCost - current.workforceDragCost;
-      const deltaWorkText = isNaN(deltaWork)
-        ? "–"
-        : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
-      document.getElementById("deltaWorkforceCell").textContent = deltaWorkText;
-      document.getElementById("deltaWorkforceCell").className =
-        deltaWork <= 0 ? "delta-positive" : "delta-negative";
-
-      saveVOLHealthMapData({
-        wsi: safeNumber(current.wsiScore),
-        wsiCurrent: safeNumber(current.wsiScore),
-        wsiWithSourcing: safeNumber(improved.wsiScore),
-        wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
-        wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
-        wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
-        wsiElasticityBalance: safeNumber(Math.round(current.elasticity.elasticityBalance * 100)),
-        wsiArchetype: current.elasticity.archetype,
-        wsiMode: getMode(),
-        wsiSource: "wsi",
-        wsiUpdated: new Date().toISOString()
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-
-  const numericInputs = document.querySelectorAll("input[type='number']");
-  numericInputs.forEach(input => {
-    input.addEventListener("input", updateWSI);
-  });
-
-  const textInputs = document.querySelectorAll("input[type='text']");
-  textInputs.forEach(input => {
-    input.addEventListener("input", updateWSI);
-  });
-
-  const selectInputs = document.querySelectorAll("select");
-  selectInputs.forEach(input => {
-    input.addEventListener("change", updateWSI);
-  });
-
-  const modeInputs = document.querySelectorAll("input[name='mode']");
-  modeInputs.forEach(input => {
-    input.addEventListener("change", function () {
-      updateModeUI();
-      updateWSI();
+    saveVOLHealthMapData({
+      wsi: safeNumber(current.wsiScore),
+      wsiCurrent: safeNumber(current.wsiScore),
+      wsiWithSourcing: safeNumber(improved.wsiScore),
+      wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
+      wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
+      wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
+      wsiElasticityBalance: safeNumber(current.elasticity.elasticityBalance),
+      wsiArchetype: current.elasticity.archetype,
+      wsiCoverageResilience: safeNumber(Math.round(current.coverageResilience)),
+      wsiCostControl: safeNumber(Math.round(current.costControl)),
+      wsiOperationalReliability: safeNumber(Math.round(current.operationalReliability)),
+      wsiPipelineStrength: safeNumber(Math.round(current.pipelineStrength)),
+      wsiMode: getMode(),
+      wsiSource: "wsi",
+      wsiUpdated: new Date().toISOString()
     });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const numericInputs = document.querySelectorAll("input[type='number']");
+    numericInputs.forEach(input => {
+      input.addEventListener("input", updateWSI);
+    });
+
+    const textInputs = document.querySelectorAll("input[type='text']");
+    textInputs.forEach(input => {
+      input.addEventListener("input", updateWSI);
+    });
+
+    const selectInputs = document.querySelectorAll("select");
+    selectInputs.forEach(input => {
+      input.addEventListener("change", updateWSI);
+    });
+
+    const modeInputs = document.querySelectorAll("input[name='mode']");
+    modeInputs.forEach(input => {
+      input.addEventListener("change", function () {
+        updateModeUI();
+        updateWSI();
+      });
+    });
+
+    updateModeUI();
+    updateWSI();
+    updateMapStatusChip();
   });
-
-  updateModeUI();
-  updateWSI();
-  updateMapStatusChip();
-
-});
-  </script>
+</script>
 </body>
 </html>
