@@ -1783,25 +1783,35 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      const numericInputs = document.querySelectorAll("input[type='number']");
-      numericInputs.forEach(input => {
-        input.addEventListener("input", updateWSI);
-      });
 
-      const textInputs = document.querySelectorAll("input[type='text']");
-      textInputs.forEach(input => {
-        input.addEventListener("input", updateWSI);
-      });
+  const numericInputs = document.querySelectorAll("input[type='number']");
+  numericInputs.forEach(input => {
+    input.addEventListener("input", updateWSI);
+  });
 
-      const selectInputs = document.querySelectorAll("select");
-      selectInputs.forEach(input => {
-        input.addEventListener("change", updateWSI);
-      });
+  const textInputs = document.querySelectorAll("input[type='text']");
+  textInputs.forEach(input => {
+    input.addEventListener("input", updateWSI);
+  });
 
+  const selectInputs = document.querySelectorAll("select");
+  selectInputs.forEach(input => {
+    input.addEventListener("change", updateWSI);
+  });
+
+  const modeInputs = document.querySelectorAll("input[name='mode']");
+  modeInputs.forEach(input => {
+    input.addEventListener("change", function () {
       updateModeUI();
       updateWSI();
-      updateMapStatusChip();
     });
+  });
+
+  updateModeUI();
+  updateWSI();
+  updateMapStatusChip();
+
+});
   </script>
 </body>
 </html>
