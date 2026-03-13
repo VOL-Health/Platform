@@ -1707,16 +1707,17 @@
     );
 
     return {
-      elasticity,
-      coverageResilience,
-      costControl,
-      operationalReliability,
-      pipelineStrength,
-      wsiScore,
-      annualVolatilityCost,
-      stabilizableUpside,
-      workforceDragCost
-    };
+  elasticity,
+  coverageResilience,
+  costControl,
+  operationalReliability,
+  pipelineStrength,
+  wsiScore: finalWsiScore,
+  rawWsiScore: wsiScore,
+  annualVolatilityCost,
+  stabilizableUpside,
+  workforceDragCost
+};
   }
 
   function getScoreTagMeta(score){
