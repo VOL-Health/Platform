@@ -758,50 +758,58 @@
 
     <div class="page">
 
-      <div class="card mode-card">
-        <div class="btn-row" style="justify-content:space-between;align-items:flex-start;">
-          <div>
-            <h3>1. Navigation &amp; Mode</h3>
-            <p style="font-size:0.82rem;">
-              Run WSI here, save it to the shared map object, and then return to the platform map once both VI and WSI are present.
-            </p>
-          </div>
-          <div class="btn-row">
-            <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
-            <a class="btn-link ghost" href="index.html">Return to Platform</a>
-          </div>
-        </div>
+     <section class="system-spine">
+  <div class="spine-card">
+    <div class="step">Step 1</div>
+    <strong>VI — Detect</strong>
+    <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
+  </div>
+  <div class="spine-card active">
+    <div class="step">Step 2</div>
+    <strong>WSI — Measure</strong>
+    <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+  </div>
+  <div class="spine-card">
+    <div class="step">Step 3</div>
+    <strong>SHAI — Align</strong>
+    <span>Recommend the right operational response before instability spreads.</span>
+  </div>
+</section>
 
-        <div class="mode-options" style="margin-top:14px;">
-          <label>
-            <input type="radio" name="mode" value="single" checked />
-            Single Community Mode (ED / building-level)
-          </label>
-          <label>
-            <input type="radio" name="mode" value="portfolio" />
-            Portfolio Mode (VP Ops / portfolio roll-up)
-          </label>
-        </div>
+<section class="context-bar">
+  <div class="context-field context-mode">
+    <label>Mode</label>
+    <div class="mode-options inline-mode-options">
+      <label>
+        <input type="radio" name="mode" value="single" checked />
+        Single Community
+      </label>
+      <label>
+        <input type="radio" name="mode" value="portfolio" />
+        Portfolio View
+      </label>
+    </div>
+  </div>
 
-        <div class="field" style="margin-top:12px;">
-          <label>
-            <span>Community / portfolio name (optional)</span>
-            <small>Used on Stability Map</small>
-          </label>
-          <input type="text" id="entityName" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
-        </div>
+  <div class="context-field">
+    <label>Community / Portfolio</label>
+    <input type="text" id="entityName" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
+  </div>
 
-        <p class="note">
-          In Portfolio Mode, you enter how many communities fall into each risk band for every metric. The tool calculates portfolio-wide
-          averages and rolls them into a single WSI score and economic view.
-        </p>
-      </div>
+  <div class="context-field context-actions">
+    <label>Navigation</label>
+    <div class="btn-row">
+      <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
+      <a class="btn-link ghost" href="index.html">Return to Platform</a>
+    </div>
+  </div>
+</section>
 
-      <h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
-      <p class="subtitle" id="snapshotSubtitle">
-        Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength
-        roll up into a single Workforce Stability Index and economic view.
-      </p>
+<h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
+<p class="subtitle" id="snapshotSubtitle">
+  Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength
+  roll up into a single Workforce Stability Index and economic view.
+</p>
 
       <div class="grid single-only">
         <div class="card">
