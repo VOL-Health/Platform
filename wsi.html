@@ -1473,7 +1473,11 @@
       };
     }
     
-    function getInputs() {
+        function getInputs() {
+      if (getMode() === "portfolio") {
+        return portfolioInputsToSingleAverages();
+      }
+
       return {
         openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
         percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
