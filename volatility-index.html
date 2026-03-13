@@ -1153,6 +1153,39 @@
       reimbursement: 'Reimbursement pressure'
     };
 
+const MAP_STORAGE_KEY = "volHealthMapData";
+
+function readMapData() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch (err) {
+    return {};
+  }
+}
+
+function buildMapLabel(existing) {
+  const explicit = (document.getElementById("entityName")?.value || "").trim();
+  if (explicit) return explicit;
+  if (existing.label && String(existing.label).trim()) return String(existing.label).trim();
+  return "VI Community";
+}
+
+function saveVIMapData(partial) {
+  const existing = readMapData();
+
+  const merged = {
+    ...existing,
+    ...partial,
+    label: buildMapLabel(existing),
+    mode: modeSelect?.value || "Single Community",
+    updatedAt: new Date().toISOString()
+  };
+
+  localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+  return merged;
+}
+    
     function usageImpactPct(val) {
       if (val === 'conservative') return 0.35;
       if (val === 'aggressive') return 0.65;
