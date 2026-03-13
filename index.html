@@ -579,7 +579,8 @@
 .prototype-note{
   display:block;
   width:100%;
-  margin-top:22px;
+  max-width:100%;
+  margin:22px 0 0;
   padding:16px 18px;
   border:1px solid rgba(255,255,255,0.10);
   border-radius:16px;
@@ -587,7 +588,6 @@
   color:var(--muted, #9fb2d2);
   font-size:13px;
   line-height:1.55;
-  clear:both;
 }
 
 .prototype-note strong {
@@ -600,6 +600,13 @@
   margin-top: 6px;
   font-size: 12px;
   opacity: 0.9;
+}
+
+.map-layout{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  gap:22px;
 }
     
     footer{
