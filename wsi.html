@@ -1703,6 +1703,39 @@
       document.getElementById("workforceArchetype").textContent = `Archetype: ${current.elasticity.archetype}`;
       document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
 
+            const portfolioScore = document.getElementById("portfolioWsiScore");
+      const portfolioState = document.getElementById("portfolioElasticityState");
+      const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
+      const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
+      const portfolioNote = document.getElementById("portfolioSummaryNote");
+
+      if (portfolioScore) portfolioScore.textContent = current.wsiScore;
+      if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
+
+      let primaryConstraint = "Staffing Volatility";
+      if (currentInputs.turnoverRate >= 55 || currentInputs.vacancies >= 4 || currentInputs.timeToFill >= 55) {
+        primaryConstraint = "Pipeline Weakness";
+      } else if (currentInputs.otHours >= 140 || currentInputs.percentPRN >= 35) {
+        primaryConstraint = "Premium Labor Dependence";
+      } else if (currentInputs.pbjRisk >= 6 || currentInputs.surveyCitations >= 2 || currentInputs.leaderTurnover >= 2) {
+        primaryConstraint = "Operational Risk";
+      }
+
+      let economicPressure = "Contained";
+      if (current.annualVolatilityCost >= 1400000) economicPressure = "Acute";
+      else if (current.annualVolatilityCost >= 900000) economicPressure = "Elevated";
+      else if (current.annualVolatilityCost >= 450000) economicPressure = "Emerging";
+
+      if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
+      if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
+
+      if (portfolioNote) {
+        portfolioNote.textContent =
+          getMode() === "portfolio"
+            ? `This portfolio view suggests workforce pressure is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
+            : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
+      }
+      
       document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
       document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
 
