@@ -857,6 +857,254 @@
         </div>
       </div>
 
+      <div class="portfolio-section portfolio-only">
+        <div class="portfolio-card">
+          <h3>2. Portfolio Context &amp; Workforce Stability</h3>
+          <p>
+            Enter how many communities fall into each band. The tool converts these distributions into portfolio-wide average values for each WSI metric.
+          </p>
+
+          <div class="portfolio-top">
+            <div class="field">
+              <label>
+                <span>Total communities in this portfolio</span>
+                <small>for row validation</small>
+              </label>
+              <input type="number" id="portfolioCount" min="1" max="500" value="20" />
+            </div>
+            <div class="note" style="align-self:end;">
+              Low band = 2 • Mid band = 6 • High band = 9
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-card">
+          <h3>2. Portfolio Context &amp; Staffing Volatility</h3>
+          <table class="dist-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Low band</th>
+                <th>Mid band</th>
+                <th>High band</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Open shifts / week
+                  <span class="band-note">Low: 0–5 • Mid: 6–10 • High: 11+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfOpenLow" value="6" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfOpenMid" value="9" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfOpenHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfOpenTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  % of shifts via agency/PRN
+                  <span class="band-note">Low: 0–25% • Mid: 26–50% • High: 51%+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfPrnLow" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfPrnMid" value="8" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfPrnHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfPrnTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Last-minute call-offs / week
+                  <span class="band-note">Low: 0–2 • Mid: 3–5 • High: 6+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfCallLow" value="8" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfCallMid" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfCallHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfCallTotal">20 / 20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="portfolio-card">
+          <h3>3. Financial Exposure (Portfolio)</h3>
+          <table class="dist-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Low band</th>
+                <th>Mid band</th>
+                <th>High band</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Monthly OT hours
+                  <span class="band-note">Low: 0–100 • Mid: 101–250 • High: 251+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfOtHoursLow" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfOtHoursMid" value="9" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfOtHoursHigh" value="4" min="0" /></td>
+                <td class="total-cell" id="pfOtHoursTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  OT premium vs base
+                  <span class="band-note">Low: 0–25% • Mid: 26–50% • High: 51%+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfOtPremLow" value="6" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfOtPremMid" value="9" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfOtPremHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfOtPremTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Agency/PRN premium vs core staff
+                  <span class="band-note">Low: 0–20% • Mid: 21–40% • High: 41%+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfAgencyPremLow" value="5" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfAgencyPremMid" value="10" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfAgencyPremHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfAgencyPremTotal">20 / 20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="portfolio-card">
+          <h3>4. Operational &amp; Compliance Risk (Portfolio)</h3>
+          <table class="dist-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Low band</th>
+                <th>Mid band</th>
+                <th>High band</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  PBJ exposure / risk score
+                  <span class="band-note">Low: 0–3 • Mid: 4–7 • High: 8–10</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfPbjLow" value="8" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfPbjMid" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfPbjHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfPbjTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Staffing-related survey citations (12 mo)
+                  <span class="band-note">Low: 0 • Mid: 1–2 • High: 3+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfSurveyLow" value="9" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfSurveyMid" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfSurveyHigh" value="4" min="0" /></td>
+                <td class="total-cell" id="pfSurveyTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Leadership turnover events (ED/DON/ADON, 12 mo)
+                  <span class="band-note">Low: 0–1 • Mid: 2–3 • High: 4+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfLeaderLow" value="10" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfLeaderMid" value="6" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfLeaderHigh" value="4" min="0" /></td>
+                <td class="total-cell" id="pfLeaderTotal">20 / 20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="portfolio-card">
+          <h3>5. Workforce Stability (Pipeline) — Portfolio</h3>
+          <table class="dist-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Low band</th>
+                <th>Mid band</th>
+                <th>High band</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Annual clinical staff turnover rate
+                  <span class="band-note">Low: 0–30% • Mid: 31–60% • High: 61%+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfTurnoverLow" value="5" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfTurnoverMid" value="9" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfTurnoverHigh" value="6" min="0" /></td>
+                <td class="total-cell" id="pfTurnoverTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Open clinical FTE vacancies
+                  <span class="band-note">Low: 0–1 • Mid: 2–4 • High: 5+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfVacLow" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfVacMid" value="8" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfVacHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfVacTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Average time-to-fill (RN/LVN/CNA)
+                  <span class="band-note">Low: 0–30 d • Mid: 31–60 d • High: 61+ d</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfTtfLow" value="6" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfTtfMid" value="9" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfTtfHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfTtfTotal">20 / 20</td>
+              </tr>
+              <tr>
+                <td>
+                  Monthly external recruiting spend
+                  <span class="band-note">Low: $0–5k • Mid: $5,001–15k • High: $15k+</span>
+                </td>
+                <td><input class="small-input" type="number" id="pfRecruitLow" value="8" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfRecruitMid" value="7" min="0" /></td>
+                <td><input class="small-input" type="number" id="pfRecruitHigh" value="5" min="0" /></td>
+                <td class="total-cell" id="pfRecruitTotal">20 / 20</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="portfolio-summary">
+            <div class="kpi">
+              <div class="kpi-label">Portfolio WSI Score</div>
+              <div class="kpi-value" id="portfolioWsiScore">–</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Elasticity State</div>
+              <div class="kpi-value" id="portfolioElasticityState">–</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Primary Constraint</div>
+              <div class="kpi-value" id="portfolioPrimaryConstraint">–</div>
+            </div>
+            <div class="kpi">
+              <div class="kpi-label">Economic Pressure</div>
+              <div class="kpi-value" id="portfolioEconomicPressure">–</div>
+            </div>
+          </div>
+
+          <div class="nav-note" id="portfolioSummaryNote" style="margin-top:14px;">
+            Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.
+          </div>
+
+          <div class="portfolio-actions">
+            <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link green" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+      </div>
+      
       <div class="summary-grid">
         <div class="card summary-main">
           <h2>Stability Index &amp; Economics</h2>
