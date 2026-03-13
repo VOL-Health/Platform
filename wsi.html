@@ -1695,15 +1695,15 @@
     const finalWsiScore = clamp(adjustedWsiScore, 0, 100);
     
     const annualVolatilityCost =
-      ((100 - coverageResilience) * 12000) +
-      ((100 - costControl) * 9000) +
-      ((100 - operationalReliability) * 7000);
+  ((96 - finalWsiScore) / 96) * 2000000;
 
-    const workforceDragCost =
-      (100 - pipelineStrength) * 12000;
+const stabilizableUpside = Math.round(
+  annualVolatilityCost *
+  Math.min(0.50, 0.22 + ((96 - finalWsiScore) / 96) * 0.38)
+);
 
-    const stabilizableUpside = Math.round(
-      annualVolatilityCost * Math.min(0.50, 0.22 + ((100 - wsiScore) / 100) * 0.38)
+const workforceDragCost =
+  ((100 - pipelineStrength) / 100) * 1000000;
     );
 
     return {
