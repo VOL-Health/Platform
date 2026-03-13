@@ -1681,20 +1681,34 @@
       0, 100
     );
 
-       const wsiScore = Math.round(
-      (coverageResilience * 0.33) +
-      (costControl * 0.22) +
-      (operationalReliability * 0.15) +
-      (pipelineStrength * 0.30)
-    );
+   const rawWorkforceHealth = Math.round(
+  (coverageResilience * 0.33) +
+  (costControl * 0.22) +
+  (operationalReliability * 0.15) +
+  (pipelineStrength * 0.30)
+);
 
-    let adjustedWsiScore = wsiScore;
+// Convert raw workforce health into drag against the natural WSI cap
+const workforceDragPct = 100 - rawWorkforceHealth;
+let naturalWsiScore = Math.round(
+  NATURAL_WSI_CAP - ((workforceDragPct / 100) * NATURAL_WSI_CAP)
+);
 
-    if (openShifts >= 12) adjustedWsiScore -= 4;
-    if (otHours >= 180) adjustedWsiScore -= 4;
-    if (vacancies >= 5) adjustedWsiScore -= 4;
+// Extra penalties for acute strain
+if (openShifts >= 12) naturalWsiScore -= 4;
+if (otHours >= 180) naturalWsiScore -= 4;
+if (vacancies >= 5) naturalWsiScore -= 4;
 
-    const finalWsiScore = clamp(adjustedWsiScore, 0, 100);
+const finalWsiScore = clamp(naturalWsiScore, 0, NATURAL_WSI_CAP);
+
+// How much gap remains to a realistically stabilized state
+const recoverableGap = MAX_WSI_STABILIZED - finalWsiScore;
+const modeledRecoveryPct = 0.50; // candidate sourcing / aligned workforce action assumption
+const withSourcingWsiScore = clamp(
+  Math.round(finalWsiScore + (recoverableGap * modeledRecoveryPct)),
+  0,
+  MAX_WSI_STABILIZED
+);   
     
     const annualVolatilityCost =
   ((96 - finalWsiScore) / 96) * 2000000;
@@ -1707,14 +1721,15 @@ const stabilizableUpside = Math.round(
 const workforceDragCost =
   ((100 - pipelineStrength) / 100) * 1000000;
 
-    return {
+return {
   elasticity,
   coverageResilience,
   costControl,
   operationalReliability,
   pipelineStrength,
   wsiScore: finalWsiScore,
-  rawWsiScore: wsiScore,
+  rawWsiScore: rawWorkforceHealth,
+  withSourcingWsiScore,
   annualVolatilityCost,
   stabilizableUpside,
   workforceDragCost
