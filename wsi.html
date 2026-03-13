@@ -1644,18 +1644,23 @@
       inputs.coverageResolution
     );
 
+       const openShiftScore = inverseScore(openShifts, 50);
+    const callOffScore = inverseScore(callOffs, 20);
+    const otHourScore = inverseScore(otHours, 500);
+    const vacancyScore = inverseScore(vacancies, 20);
+
     const coverageResilience = clamp(
-      (elasticity.coverageResilience * 0.70) +
-      (inverseScore(openShifts, 50) * 0.15) +
-      (inverseScore(callOffs, 20) * 0.15),
+      (elasticity.coverageResilience * 0.58) +
+      (openShiftScore * 0.27) +
+      (callOffScore * 0.15),
       0, 100
     );
 
     const costControl = clamp(
-      (inverseScore(otHours, 500) * 0.45) +
-      (inverseScore(otPremium, 100) * 0.20) +
-      (inverseScore(agencyPremium, 100) * 0.20) +
-      (elasticity.prnMixScore * 0.15),
+      (otHourScore * 0.58) +
+      (inverseScore(otPremium, 100) * 0.16) +
+      (inverseScore(agencyPremium, 100) * 0.14) +
+      (elasticity.prnMixScore * 0.12),
       0, 100
     );
 
@@ -1667,17 +1672,17 @@
     );
 
     const pipelineStrength = clamp(
-      (inverseScore(turnoverRate, 100) * 0.35) +
-      (inverseScore(vacancies, 20) * 0.25) +
-      (inverseScore(timeToFill, 120) * 0.25) +
-      (inverseScore(recruitSpend, 50000) * 0.15),
+      (inverseScore(turnoverRate, 100) * 0.28) +
+      (vacancyScore * 0.36) +
+      (inverseScore(timeToFill, 120) * 0.24) +
+      (inverseScore(recruitSpend, 50000) * 0.12),
       0, 100
     );
 
-    const wsiScore = Math.round(
-      (coverageResilience * 0.30) +
-      (costControl * 0.20) +
-      (operationalReliability * 0.20) +
+       const wsiScore = Math.round(
+      (coverageResilience * 0.33) +
+      (costControl * 0.22) +
+      (operationalReliability * 0.15) +
       (pipelineStrength * 0.30)
     );
 
