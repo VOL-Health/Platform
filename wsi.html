@@ -1360,27 +1360,29 @@
     return merged;
   }
 
-  function updateMapStatusChip(){
-    const data = readMapData();
-    const hasVI = Number.isFinite(Number(data.vi));
-    const hasWSI = Number.isFinite(Number(data.wsi));
-    const dot = document.getElementById("mapStatusDot");
-    const text = document.getElementById("mapStatusText");
+ function updateMapStatusChip(){
+  const data = readMapData();
+  const hasVI = Number.isFinite(Number(data.vi));
+  const hasWSI = Number.isFinite(Number(data.wsi));
+  const dot = document.getElementById("mapStatusDot");
+  const text = document.getElementById("mapStatusText");
 
-    if(hasVI && hasWSI){
-      dot.classList.add("active");
-      text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
-    }else if(hasVI){
-      dot.classList.remove("active");
-      text.textContent = `VI saved • WSI still needed for map point`;
-    }else if(hasWSI){
-      dot.classList.remove("active");
-      text.textContent = `WSI saved • VI still needed for map point`;
-    }else{
-      dot.classList.remove("active");
-      text.textContent = "Map point not complete yet";
-    }
+  if (!dot || !text) return;
+
+  if(hasVI && hasWSI){
+    dot.classList.add("active");
+    text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
+  }else if(hasVI){
+    dot.classList.remove("active");
+    text.textContent = `VI saved • WSI still needed for map point`;
+  }else if(hasWSI){
+    dot.classList.remove("active");
+    text.textContent = `WSI saved • VI still needed for map point`;
+  }else{
+    dot.classList.remove("active");
+    text.textContent = "Map point not complete yet";
   }
+}
 
   function updateModeUI() {
     const mode = getMode();
