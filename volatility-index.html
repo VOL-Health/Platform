@@ -165,6 +165,111 @@
       outline: none;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
+    .portfolio-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .portfolio-panel h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+    }
+
+    .portfolio-panel p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .portfolio-size-row {
+      display: grid;
+      grid-template-columns: 1.2fr 220px;
+      gap: 14px;
+      align-items: end;
+      margin-bottom: 14px;
+    }
+
+    .portfolio-block {
+      margin-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 16px;
+    }
+
+    .portfolio-block:first-of-type {
+      margin-top: 0;
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .portfolio-block h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .portfolio-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .portfolio-table th,
+    .portfolio-table td {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .portfolio-table th {
+      color: var(--text);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .portfolio-table td.metric-cell {
+      min-width: 240px;
+    }
+
+    .band-note {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .portfolio-table input {
+      width: 100%;
+      min-width: 88px;
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      font-size: 13px;
+    }
+
+    .row-total {
+      font-weight: 800;
+      color: #7af2b5;
+      white-space: nowrap;
+    }
+
+    .row-total.bad {
+      color: var(--red);
+    }
+
     .btn {
       appearance: none;
       border: 1px solid rgba(255,255,255,0.14);
@@ -458,29 +563,6 @@
       white-space: nowrap;
     }
 
-.prototype-note {
-  margin-top: 22px;
-  padding: 16px 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.03);
-  color: var(--muted, #9fb2d2);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.prototype-note strong {
-  color: var(--text, #eef4ff);
-  font-weight: 700;
-}
-
-.prototype-note .small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.9;
-}
-    
     .footer-cta {
       display: flex;
       gap: 10px;
@@ -554,14 +636,14 @@
     <section class="context">
       <div class="field">
         <label>Mode</label>
-        <select>
+        <select id="modeSelect">
           <option>Single Community</option>
           <option>Portfolio View</option>
         </select>
       </div>
       <div class="field">
         <label>Community / Portfolio</label>
-        <input type="text" placeholder="Longleaf Bee Cave / Gulfside / Portfolio A" value="Community A" />
+        <input type="text" placeholder="Longleaf Bee Cave / Gulfside / Portfolio A" value="Community A" id="entityName" />
       </div>
       <div class="field">
         <label>Snapshot Date</label>
@@ -572,11 +654,165 @@
         <input type="text" placeholder="Hudson Keel" value="Hudson Keel" />
       </div>
       <div style="display:flex;align-items:end;gap:10px;">
-        <button class="btn primary">Calculate VI</button>
+        <button class="btn primary" type="button">Calculate VI</button>
       </div>
     </section>
 
-    <section class="main">
+    <section class="portfolio-panel hidden" id="portfolioPanel">
+      <h3>Portfolio Context &amp; Volatility Signals</h3>
+      <p>Enter how many communities fall into each band. The tool converts this into portfolio-wide environmental volatility values across the same ten VI drivers.</p>
+
+      <div class="portfolio-size-row">
+        <div class="field">
+          <label>Total communities in this portfolio</label>
+          <input type="number" min="1" step="1" value="20" id="portfolioSize" />
+        </div>
+        <div class="field">
+          <label>Scoring Method</label>
+          <input type="text" value="Low = 2 • Mid = 6 • High = 9" readonly />
+        </div>
+      </div>
+
+      <div class="portfolio-block">
+        <h4>Resident Demand Volatility</h4>
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Low band</th>
+              <th>Mid band</th>
+              <th>High band</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric-cell">Census volatility<span class="band-note">Low: stable census • Mid: moderate swings • High: material occupancy instability</span></td>
+              <td><input type="number" min="0" value="7" data-portfolio-driver="census" data-band="low" /></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="census" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="census" data-band="high" /></td>
+              <td class="row-total" id="total-census">20 / 20</td>
+            </tr>
+            <tr>
+              <td class="metric-cell">Acuity variability<span class="band-note">Low: care mix stable • Mid: intermittent shifts • High: frequent or major care intensity changes</span></td>
+              <td><input type="number" min="0" value="6" data-portfolio-driver="acuity" data-band="low" /></td>
+              <td><input type="number" min="0" value="9" data-portfolio-driver="acuity" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="acuity" data-band="high" /></td>
+              <td class="row-total" id="total-acuity">20 / 20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="portfolio-block">
+        <h4>Operational System Strain</h4>
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Low band</th>
+              <th>Mid band</th>
+              <th>High band</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric-cell">Leadership bandwidth strain<span class="band-note">Low: leadership has room • Mid: stretched • High: overloaded and reactive</span></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="leadership" data-band="low" /></td>
+              <td><input type="number" min="0" value="7" data-portfolio-driver="leadership" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="leadership" data-band="high" /></td>
+              <td class="row-total" id="total-leadership">20 / 20</td>
+            </tr>
+            <tr>
+              <td class="metric-cell">Workflow disruption<span class="band-note">Low: routines steady • Mid: inconsistent execution • High: constant fire-fighting</span></td>
+              <td><input type="number" min="0" value="7" data-portfolio-driver="workflow" data-band="low" /></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="workflow" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="workflow" data-band="high" /></td>
+              <td class="row-total" id="total-workflow">20 / 20</td>
+            </tr>
+            <tr>
+              <td class="metric-cell">Care coordination strain<span class="band-note">Low: teams synchronized • Mid: periodic friction • High: coordination breakdown risk</span></td>
+              <td><input type="number" min="0" value="6" data-portfolio-driver="coordination" data-band="low" /></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="coordination" data-band="mid" /></td>
+              <td><input type="number" min="0" value="6" data-portfolio-driver="coordination" data-band="high" /></td>
+              <td class="row-total" id="total-coordination">20 / 20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="portfolio-block">
+        <h4>Workforce Pressure Signals</h4>
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Low band</th>
+              <th>Mid band</th>
+              <th>High band</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric-cell">Schedule stress<span class="band-note">Low: coverage steady • Mid: occasional strain • High: recurring schedule instability</span></td>
+              <td><input type="number" min="0" value="7" data-portfolio-driver="schedule" data-band="low" /></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="schedule" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="schedule" data-band="high" /></td>
+              <td class="row-total" id="total-schedule">20 / 20</td>
+            </tr>
+            <tr>
+              <td class="metric-cell">Coverage fragility<span class="band-note">Low: good buffer • Mid: thin coverage • High: fragile daily coverage model</span></td>
+              <td><input type="number" min="0" value="6" data-portfolio-driver="coverage" data-band="low" /></td>
+              <td><input type="number" min="0" value="9" data-portfolio-driver="coverage" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="coverage" data-band="high" /></td>
+              <td class="row-total" id="total-coverage">20 / 20</td>
+            </tr>
+            <tr>
+              <td class="metric-cell">Overtime pressure<span class="band-note">Low: little internal stretch • Mid: moderate OT dependence • High: sustained schedule stretch</span></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="overtime" data-band="low" /></td>
+              <td><input type="number" min="0" value="7" data-portfolio-driver="overtime" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="overtime" data-band="high" /></td>
+              <td class="row-total" id="total-overtime">20 / 20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="portfolio-block">
+        <h4>External Pressure Signals</h4>
+        <table class="portfolio-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>Low band</th>
+              <th>Mid band</th>
+              <th>High band</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric-cell">Survey exposure<span class="band-note">Low: limited exposure • Mid: moderate sensitivity • High: elevated regulatory pressure</span></td>
+              <td><input type="number" min="0" value="9" data-portfolio-driver="survey" data-band="low" /></td>
+              <td><input type="number" min="0" value="6" data-portfolio-driver="survey" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="survey" data-band="high" /></td>
+              <td class="row-total" id="total-survey">20 / 20</td>
+            </tr>
+            <tr>
+              <td class="metric-cell">Reimbursement pressure<span class="band-note">Low: normal margin room • Mid: constrained economics • High: meaningful reimbursement compression</span></td>
+              <td><input type="number" min="0" value="8" data-portfolio-driver="reimbursement" data-band="low" /></td>
+              <td><input type="number" min="0" value="7" data-portfolio-driver="reimbursement" data-band="mid" /></td>
+              <td><input type="number" min="0" value="5" data-portfolio-driver="reimbursement" data-band="high" /></td>
+              <td class="row-total" id="total-reimbursement">20 / 20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="main" id="singleViewMain">
       <div class="domains">
         <article class="card domain" data-domain="resident">
           <div class="domain-head">
@@ -792,17 +1028,14 @@
         </section>
       </aside>
     </section>
-<div class="prototype-note">
-  <strong>Prototype concept for internal discussion and testing.</strong>
-  Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
-  <span class="small">
-    VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. It does not represent a finalized commercial product.
-  </span>
-</div>
   </div>
 
   <script>
     const sliders = [...document.querySelectorAll('input[type="range"]')];
+    const portfolioInputs = [...document.querySelectorAll('[data-portfolio-driver]')];
+    const modeSelect = document.getElementById('modeSelect');
+    const portfolioPanel = document.getElementById('portfolioPanel');
+    const singleViewMain = document.getElementById('singleViewMain');
     const weights = {
       census: 1.15,
       acuity: 1.20,
@@ -891,13 +1124,51 @@
       return 'var(--red)';
     }
 
-    function update() {
+    function portfolioDriverScore(driverKey, totalCommunities) {
+      const low = Number(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="low"]`)?.value || 0);
+      const mid = Number(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="mid"]`)?.value || 0);
+      const high = Number(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="high"]`)?.value || 0);
+      const rowTotal = low + mid + high;
+      const totalCell = document.getElementById(`total-${driverKey}`);
+      if (totalCell) {
+        totalCell.textContent = `${rowTotal} / ${totalCommunities}`;
+        totalCell.classList.toggle('bad', rowTotal !== totalCommunities);
+      }
+      if (!totalCommunities || totalCommunities <= 0) return 0;
+      return ((low * 2) + (mid * 6) + (high * 9)) / totalCommunities;
+    }
+
+    function getValuesForMode() {
       const values = {};
-      sliders.forEach(s => {
-        values[s.dataset.driver] = Number(s.value);
-        const span = document.getElementById(`${s.dataset.driver}Val`);
-        if (span) span.textContent = s.value;
-      });
+      const portfolioMode = modeSelect && modeSelect.value === 'Portfolio View';
+      const totalCommunities = Number(document.getElementById('portfolioSize')?.value || 0);
+
+      if (portfolioMode) {
+        Object.keys(weights).forEach(key => {
+          values[key] = portfolioDriverScore(key, totalCommunities);
+          const span = document.getElementById(`${key}Val`);
+          if (span) span.textContent = values[key].toFixed(1);
+        });
+      } else {
+        sliders.forEach(s => {
+          values[s.dataset.driver] = Number(s.value);
+          const span = document.getElementById(`${s.dataset.driver}Val`);
+          if (span) span.textContent = s.value;
+        });
+      }
+      return values;
+    }
+
+    function toggleModeUI() {
+      const portfolioMode = modeSelect && modeSelect.value === 'Portfolio View';
+      portfolioPanel.classList.toggle('hidden', !portfolioMode);
+      singleViewMain.classList.toggle('hidden', portfolioMode);
+      document.getElementById('dominantDomain').textContent = portfolioMode ? 'Portfolio Blend' : document.getElementById('dominantDomain').textContent;
+    }
+
+    function update() {
+      toggleModeUI();
+      const values = getValuesForMode();
 
       const domainMap = {
         resident: ['census', 'acuity'],
@@ -926,8 +1197,8 @@
 
       document.getElementById('viScore').textContent = viScore;
       document.getElementById('viTier').textContent = tierFor(viScore);
-      document.getElementById('dominantDomain').textContent = domainTitle(dominant);
-      document.getElementById('trajectory').textContent = trajectoryFor(viScore);
+      document.getElementById('dominantDomain').textContent = modeSelect && modeSelect.value === 'Portfolio View' ? `${domainTitle(dominant)} Mix` : domainTitle(dominant);
+      document.getElementById('trajectory').textContent = modeSelect && modeSelect.value === 'Portfolio View' ? `Portfolio average → ${trajectoryFor(viScore)}` : trajectoryFor(viScore);
       document.getElementById('pattern').textContent = `${driverNames[topDrivers[0].key]} + ${driverNames[topDrivers[1].key]}`;
       document.getElementById('summaryText').textContent = summaryFor(viScore, domainTitle(dominant));
       const marginSignal = marginSignalFor(viScore);
@@ -942,20 +1213,21 @@
       topDrivers.forEach(d => {
         const row = document.createElement('div');
         row.className = 'bullet';
-        row.innerHTML = `<div class="dot" style="background:${scoreColor(viScore)}"></div><div><strong>${driverNames[d.key]}</strong><br><span style="color:var(--muted)">High contribution to current volatility pattern.</span></div>`;
+        row.innerHTML = `<div class="dot" style="background:${scoreColor(viScore)}"></div><div><strong>${driverNames[d.key]}</strong><br><span style="color:var(--muted)">${modeSelect && modeSelect.value === 'Portfolio View' ? 'High contribution across the portfolio mix.' : 'High contribution to current volatility pattern.'}</span></div>`;
         highlights.appendChild(row);
       });
 
       const dot = document.getElementById('plotDot');
-const label = document.getElementById('plotLabel');
-const x = 50;
-const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
-dot.style.left = `${x}%`;
-dot.style.bottom = `${y}%`;
-label.style.left = `${x}%`;
-label.style.bottom = `${y}%`;
-dot.style.background = scoreColor(viScore);
-dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
+      const label = document.getElementById('plotLabel');
+      const x = 50;
+      const y = Math.max(18, Math.min(82, 18 + (viScore * 0.56)));
+      dot.style.left = `${x}%`;
+      dot.style.bottom = `${y}%`;
+      label.style.left = `${x}%`;
+      label.style.bottom = `${y}%`;
+      label.textContent = document.getElementById('entityName')?.value || 'Community A';
+      dot.style.background = scoreColor(viScore);
+      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, transparent)`;
     }
 
     function navigateTo(candidates) {
@@ -984,6 +1256,10 @@ dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${scoreColor(viScore)} 18%, 
     }
 
     sliders.forEach(s => s.addEventListener('input', update));
+    portfolioInputs.forEach(i => i.addEventListener('input', update));
+    document.getElementById('portfolioSize')?.addEventListener('input', update);
+    modeSelect?.addEventListener('change', update);
+    document.getElementById('entityName')?.addEventListener('input', update);
     update();
   </script>
 </body>
