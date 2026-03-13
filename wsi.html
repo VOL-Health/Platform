@@ -1389,7 +1389,6 @@
 
     const titleEl = document.getElementById("snapshotTitle");
     const subtitleEl = document.getElementById("snapshotSubtitle");
-    const bannerEl = document.getElementById("modeBanner");
 
     if(mode === "portfolio"){
       document.body.classList.add("mode-portfolio");
@@ -1398,17 +1397,12 @@
       subtitleEl.textContent =
         "Enter how many communities fall into each workforce condition band. The model converts these distributions into portfolio-wide averages and a consolidated Workforce Stability Index.";
 
-      bannerEl.textContent =
-        "PORTFOLIO MODE — WORKFORCE STABILITY EDITION (WSI)";
     } else {
       document.body.classList.remove("mode-portfolio");
 
       titleEl.textContent = "Workforce Stability Snapshot";
       subtitleEl.textContent =
         "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
-
-      bannerEl.textContent =
-        "SINGLE COMMUNITY MODE — WORKFORCE STABILITY EDITION (WSI)";
     }
   }
 
