@@ -2,130 +2,236 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>VOL Health™ – Workforce Stability Platform</title>
+  <title>VOL Health | Stability Platform</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --brand-blue:#1f57b8;
-      --brand-green:#2e8b57;
-      --brand-yellow:#f2b705;
-      --brand-red:#e63946;
-      --bg:#050816;
-      --card:#0d1224;
-      --muted:#9399b3;
-      --border:#242944;
-      --text:#e9ecff;
+      --bg:#07111f;
+      --bg-2:#0c1830;
+      --panel:rgba(13,18,36,0.96);
+      --panel-2:rgba(17,24,46,0.94);
+      --line:rgba(255,255,255,0.10);
+      --line-2:rgba(255,255,255,0.14);
+      --text:#eef4ff;
+      --muted:#9fb2d2;
+      --muted-2:rgba(255,255,255,0.72);
+      --blue:#2c6cff;
+      --blue-soft:rgba(44,108,255,0.16);
+      --green:#35c67a;
+      --green-soft:rgba(53,198,122,0.16);
+      --amber:#f6b44b;
+      --red:#f06161;
+      --shadow:0 14px 34px rgba(0,0,0,0.34);
+      --shadow-lg:0 24px 60px rgba(0,0,0,0.34);
+      --radius-xl:22px;
+      --radius-lg:20px;
+      --radius-md:16px;
+      --radius-sm:12px;
     }
-    
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    html,body{
+      min-height:100%;
+    }
 
     body{
       margin:0;
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(1200px 700px at 10% 10%, rgba(31,87,184,0.18), transparent 60%),
-        radial-gradient(1000px 700px at 80% 30%, rgba(46,139,87,0.14), transparent 60%),
-        linear-gradient(180deg, #050816 0%, #05060f 100%);
+      font-family:Inter, Arial, Helvetica, sans-serif;
       color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
     }
 
-    a{ color:inherit; text-decoration:none; }
-
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:26px 18px 40px;
+    a{
+      color:inherit;
+      text-decoration:none;
     }
 
-    .topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:24px;
-  padding-bottom:10px;
-}
+    .shell{
+      width:min(1280px, calc(100% - 28px));
+      margin:22px auto 40px;
+      padding:0 0 32px;
+    }
 
-    .brand{
+    .platform-header{
+      margin-bottom:6px;
+      padding:18px 14px 0;
+    }
+
+    .platform-header-top{
       display:flex;
-      align-items:center;
-      gap:12px;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .platform-brand{
       min-width:0;
     }
 
-.brand-logo{
-  display:block;
-  width:100%;
-  max-width:540px;
-  height:auto;
-  filter:drop-shadow(0 10px 20px rgba(0,0,0,0.30));
-}
+    .platform-logo-line{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      line-height:0.95;
+    }
 
-.nav{
-  display:inline-flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:6px;
-  padding:7px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.12);
-  background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.04),
-    0 12px 30px rgba(0,0,0,0.24);
-}
+    .platform-logo-vol{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:var(--blue);
+      letter-spacing:0.02em;
+    }
 
-.nav a{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  height:36px;
-  padding:0 15px;
-  border-radius:999px;
-  border:1px solid transparent;
-  background:transparent;
-  color:rgba(236,241,255,0.82);
-  font-size:10.5px;
-  font-weight:800;
-  letter-spacing:0.11em;
-  text-transform:uppercase;
-  white-space:nowrap;
-  transition:
-    background 0.14s ease,
-    border-color 0.14s ease,
-    color 0.14s ease,
-    transform 0.14s ease,
-    box-shadow 0.14s ease;
-}
+    .platform-logo-health{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#f3f6ff;
+      letter-spacing:0.02em;
+    }
 
-.nav a:hover{
-  background:rgba(255,255,255,0.08);
-  border-color:rgba(255,255,255,0.14);
-  color:#ffffff;
-  transform:translateY(-1px);
-}
-    
-.nav a.nav-primary{
-  background:rgba(255,255,255,0.06);
-  border-color:rgba(90,168,255,0.18);
-  color:#ffffff;
-}
-    
-.nav a:active{
-  transform:translateY(0);
-}
+    .platform-brand-sub{
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.22em;
+      color:rgba(255,255,255,0.78);
+    }
 
-.nav a:focus-visible{
-  outline:none;
-  border-color:rgba(90,168,255,0.45);
-  box-shadow:0 0 0 3px rgba(31,87,184,0.16);
-}
-    
-    .card{
-      background:linear-gradient(180deg, rgba(13,18,36,0.92), rgba(10,14,30,0.92));
-      border:1px solid rgba(255,255,255,0.10);
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
+    }
+
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+      color:#ffffff;
+    }
+
+    .platform-page-intro{
+      padding:16px 18px;
       border-radius:22px;
-      box-shadow:0 28px 80px rgba(0,0,0,0.40);
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      margin-bottom:8px;
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      margin-bottom:12px;
+    }
+
+    .page-title{
+      margin:0 0 8px;
+      font-size:clamp(28px, 4vw, 44px);
+      line-height:1.02;
+      font-weight:800;
+      letter-spacing:-0.02em;
+    }
+
+    .page-title .subline{
+      display:block;
+      margin-top:6px;
+      font-size:0.76em;
+      opacity:0.96;
+    }
+
+    .tm{
+      font-size:0.55em;
+      vertical-align:super;
+      margin-left:1px;
+      opacity:0.9;
+    }
+
+    .page-subtitle{
+      margin:0;
+      max-width:920px;
+      color:rgba(255,255,255,0.80);
+      font-size:14.5px;
+      line-height:1.6;
+    }
+
+    .page-subtitle + .page-subtitle{
+      margin-top:10px;
+    }
+
+    .page{
+      padding:8px 14px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
+      border-radius:22px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.18fr 0.82fr;
+      gap:16px;
+      margin:0 0 18px;
+    }
+
+    .card{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+    }
+
+    .subcard{
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border-radius:18px;
+      padding:14px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
     }
 
     .btn{
@@ -138,7 +244,7 @@
       font-size:12px;
       font-weight:900;
       text-transform:uppercase;
-      letter-spacing:0.09em;
+      letter-spacing:0.04em;
       border:1px solid rgba(255,255,255,0.12);
       cursor:pointer;
       white-space:nowrap;
@@ -153,87 +259,29 @@
       background:rgba(255,255,255,0.06);
     }
 
-    .btn-vi{ background:var(--brand-blue); }
-    .btn-wsi{ background:var(--brand-green); }
+    .btn-vi{
+      background:var(--blue);
+      border-color:rgba(255,255,255,0.10);
+    }
+
+    .btn-wsi{
+      background:var(--green-2);
+      border-color:rgba(255,255,255,0.10);
+    }
+
     .btn-shai{
       background:rgba(110,117,138,0.22);
       border-color:rgba(255,255,255,0.16);
     }
-    .btn-reset{
+
+    .btn-ghost{
       background:transparent;
       color:#d7defa;
       border:1px solid rgba(255,255,255,0.14);
     }
 
-    .hero{
-      padding:26px;
-      display:grid;
-      grid-template-columns:1.15fr 0.85fr;
-      gap:18px;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.03);
-      color:rgba(255,255,255,0.82);
-      font-size:12px;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      font-weight:900;
-      margin-bottom:14px;
-    }
-
-    .hero h2{
-      margin:0 0 12px;
-      font-size:44px;
-      line-height:1.03;
-      letter-spacing:-0.02em;
-    }
-
-    .hero h2 .kicker{
-      display:block;
-      margin-top:8px;
-      font-size:0.74em;
-      opacity:0.92;
-    }
-
-    .tm{
-      font-size:0.55em;
-      vertical-align:super;
-      margin-left:1px;
-      opacity:0.9;
-    }
-
-    .hero p{
-      margin:0;
-      max-width:70ch;
-      color:rgba(255,255,255,0.80);
-      line-height:1.6;
-      font-size:14.5px;
-    }
-
-    .hero p + p{ margin-top:10px; }
-
-    .hero .signal{
-      margin-top:10px;
-      color:rgba(232,236,255,0.88);
-      font-weight:700;
-    }
-
-    .hero-cta{
-      margin-top:16px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
     .powered-by{
-      margin-top:14px;
+      margin-top:16px;
       display:flex;
       align-items:center;
       gap:10px;
@@ -242,6 +290,7 @@
       text-transform:uppercase;
       font-size:11px;
       font-weight:900;
+      flex-wrap:wrap;
     }
 
     .powered-by img{
@@ -252,21 +301,14 @@
       filter:drop-shadow(0 10px 18px rgba(0,0,0,0.35));
     }
 
-    .snapshot{
-      padding:18px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,0.04);
-    }
-
-    .snapshot h3{
+    .snapshot-title{
       margin:0 0 8px;
-      font-size:15px;
+      font-size:16px;
+      font-weight:800;
     }
 
-    .snapshot .sub{
-      color:rgba(255,255,255,0.70);
+    .snapshot-sub{
+      color:rgba(255,255,255,0.72);
       font-size:12.5px;
       line-height:1.45;
       margin-bottom:14px;
@@ -341,7 +383,6 @@
       background:rgba(255,255,255,0.03);
       border-radius:16px;
       padding:12px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .metric .label{
@@ -374,7 +415,6 @@
       background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       border-radius:16px;
       padding:12px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .saved-state{
@@ -383,13 +423,19 @@
       line-height:1.5;
     }
 
-    .saved-state strong{ color:#fff; }
+    .saved-state strong{
+      color:#fff;
+    }
 
-    .section{ margin-top:22px; }
+    .section{
+      margin-top:20px;
+    }
 
     .section-head h2{
       margin:0;
-      font-size:22px;
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:-0.01em;
     }
 
     .section-head p{
@@ -400,7 +446,9 @@
       max-width:78ch;
     }
 
-    .chooser{ padding:18px; }
+    .chooser{
+      padding:18px;
+    }
 
     .accordion{
       margin-top:14px;
@@ -486,7 +534,9 @@
       color:rgba(255,255,255,0.78);
     }
 
-    .acc-list li{ margin:6px 0; }
+    .acc-list li{
+      margin:6px 0;
+    }
 
     .acc-actions{
       display:flex;
@@ -496,10 +546,24 @@
       justify-content:flex-start;
     }
 
-    .acc-item.open .acc-body{ max-height:520px; }
-    .acc-item.open .acc-toggle span{ transform:rotate(90deg); }
+    .acc-item.open .acc-body{
+      max-height:520px;
+    }
 
-    .map-card{ padding:18px; }
+    .acc-item.open .acc-toggle span{
+      transform:rotate(90deg);
+    }
+
+    .map-card{
+      padding:18px;
+    }
+
+    .map-layout{
+      display:flex;
+      flex-direction:column;
+      width:100%;
+      gap:22px;
+    }
 
     .map-grid{
       display:grid;
@@ -514,7 +578,6 @@
       border-radius:18px;
       border:1px solid rgba(255,255,255,0.10);
       background:rgba(0,0,0,0.18);
-      backdrop-filter:blur(6px);
       min-width:0;
     }
 
@@ -534,7 +597,9 @@
       line-height:1.55;
     }
 
-    .tool-list li{ margin:8px 0; }
+    .tool-list li{
+      margin:8px 0;
+    }
 
     .mini-roi .grid,
     .zone-legend .grid{
@@ -567,7 +632,9 @@
       color:rgba(255,255,255,0.84);
     }
 
-    .readout-grid strong{ color:#fff; }
+    .readout-grid strong{
+      color:#fff;
+    }
 
     .map-actions{
       display:flex;
@@ -576,39 +643,32 @@
       margin-top:12px;
     }
 
-.prototype-note{
-  display:block;
-  width:100%;
-  max-width:100%;
-  margin:22px 0 0;
-  padding:16px 18px;
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:16px;
-  background:rgba(255,255,255,0.03);
-  color:var(--muted, #9fb2d2);
-  font-size:13px;
-  line-height:1.55;
-}
+    .prototype-note{
+      display:block;
+      width:100%;
+      max-width:100%;
+      margin:22px 0 0;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
 
-.prototype-note strong {
-  color: var(--text, #eef4ff);
-  font-weight: 700;
-}
+    .prototype-note strong{
+      color:var(--text);
+      font-weight:700;
+    }
 
-.prototype-note .small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.9;
-}
+    .prototype-note .small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      opacity:0.9;
+    }
 
-.map-layout{
-  display:flex;
-  flex-direction:column;
-  width:100%;
-  gap:22px;
-}
-    
     footer{
       margin-top:22px;
       color:rgba(255,255,255,0.55);
@@ -616,458 +676,459 @@
       line-height:1.55;
     }
 
-   @media (max-width:920px){
-  .topbar{
-    flex-direction:column;
-    align-items:stretch;
-    gap:14px;
-    padding-bottom:12px;
-  }
+    @media (max-width:980px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
 
-  .brand{
-    width:100%;
-    justify-content:flex-start;
-  }
+      .platform-nav{
+        justify-content:flex-start;
+      }
 
-  .brand-logo{
-    width:100%;
-    max-width:420px;
-    height:auto;
-  }
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
 
-  .nav{
-    width:100%;
-    justify-content:center;
-    flex-wrap:wrap;
-    border-radius:20px;
-    padding:8px;
-    gap:8px;
-  }
+      .acc-inner{
+        grid-template-columns:1fr;
+      }
 
-  .nav a{
-    flex:0 0 auto;
-  }
+      .map-grid{
+        grid-template-columns:1fr;
+      }
 
-  .hero{
-    grid-template-columns:1fr;
-  }
+      .metrics{
+        grid-template-columns:1fr;
+      }
 
-  .acc-inner{
-    grid-template-columns:1fr;
-  }
+      .readout-grid,
+      .mini-roi .grid,
+      .zone-legend .grid{
+        grid-template-columns:1fr;
+      }
+    }
 
-  .map-grid{
-    grid-template-columns:1fr;
-  }
+    @media (max-width:640px){
+      .shell{
+        width:min(1280px, calc(100% - 20px));
+        margin:14px auto 28px;
+      }
 
-  .hero h2{
-    font-size:36px;
-  }
+      .platform-header{
+        padding:14px 10px 0;
+      }
 
-  .readout-grid,
-  .mini-roi .grid,
-  .zone-legend .grid{
-    grid-template-columns:1fr;
-  }
+      .page{
+        padding:8px 10px 24px;
+      }
 
-  .metrics{
-    grid-template-columns:1fr;
-  }
-}
+      .page-title{
+        font-size:clamp(24px, 7vw, 34px);
+      }
 
-@media (max-width:640px){
-  .wrap{
-    padding:18px 12px 30px;
-  }
-
-  .brand-logo{
-    max-width:100%;
-  }
-
-  .nav{
-    justify-content:flex-start;
-    align-items:stretch;
-    gap:8px;
-    border-radius:18px;
-  }
-
-  .nav a{
-    height:36px;
-    padding:0 12px;
-    font-size:10px;
-    letter-spacing:0.09em;
-  }
-
-  .nav a:first-child,
-  .nav a:nth-child(2){
-    min-width:52px;
-  }
-}
+      .nav-pill{
+        font-size:11px;
+        padding:9px 12px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="shell">
 
-    <div class="topbar">
-      <div class="brand" aria-label="VOL Health logo">
-        <img class="brand-logo" src="vol-health-logo.png" alt="VOL Health logo" />
+    <header class="platform-header">
+      <div class="platform-header-top">
+        <div class="platform-brand">
+          <div class="platform-logo-line">
+            <span class="platform-logo-vol">VOL</span>
+            <span class="platform-logo-health">HEALTH</span>
+          </div>
+          <div class="platform-brand-sub">STAFFHEALTH + ACCUSHIELD VERIFIED</div>
+        </div>
+
+        <nav class="platform-nav">
+          <a href="volatility-index.html" class="nav-pill">VI</a>
+          <a href="wsi.html" class="nav-pill">WSI</a>
+          <a href="shai.html" class="nav-pill">SHAI</a>
+          <a href="#stability-map" class="nav-pill active">Stability Map</a>
+          <a href="index.html" class="nav-pill">Platform Hub</a>
+        </nav>
       </div>
 
-      <nav class="nav" aria-label="Primary">
-  <a href="#acc-vi">VI</a>
-  <a href="#acc-wsi">WSI</a>
-  <a href="#acc-shai" class="nav-primary">SHAI Stability Engine</a>
-  <a href="#stability-map">Stability Map</a>
-</nav>
-    </div>
-
-    <section class="card hero" id="top">
-      <div>
-        <div class="pill">VOL HEALTH™ DIAGNOSTIC VIEWS FOR VOLATILITY &amp; WORKFORCE STABILITY</div>
-        <h2>One VOL Health<span class="tm">™</span> story.<br/>Two diagnostic views.<br/><span class="kicker">One Stability Engine.</span></h2>
-        <p>
+      <div class="platform-page-intro">
+        <div class="page-kicker">VOL HEALTH™ PLATFORM LAYER</div>
+        <h1 class="page-title">
+          One VOL Health<span class="tm">™</span> story.
+          <span class="subline">Two diagnostic views. One Stability Engine.</span>
+        </h1>
+        <p class="page-subtitle">
           VOL Health™ gives senior living operators a directional way to see <strong>where endemic volatility is stressing operations today</strong>
           and <strong>how stable their workforce pipeline really is</strong> — through a Volatility Index (VI) and a Workforce Stability Index (WSI).
         </p>
-        <p class="signal">
+        <p class="page-subtitle">
           Then activate the <strong>Stability Engine</strong> to move north-east — reducing volatility now while strengthening long-term workforce stability.
         </p>
-
-        <div class="hero-cta">
-          <a class="btn btn-vi" href="volatility-index.html">View Volatility Index →</a>
-          <a class="btn btn-wsi" href="wsi.html">View Workforce Stability Index →</a>
-          <a class="btn btn-shai" href="shai.html" target="_blank" rel="noopener">View SHAI →</a>
-          <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
-        </div>
-
-        <div class="powered-by" aria-label="Powered by StaffHealth and Accushield Verified">
-          <span>Powered by:</span>
-          <img src="sh-av-logo.png" alt="StaffHealth + Accushield Verified" />
-        </div>
       </div>
+    </header>
 
-      <aside class="snapshot">
-        <div class="status-chip">
-          <span class="status-dot" id="statusDot"></span>
-          <span id="statusText">Default example active</span>
-        </div>
+    <div class="page">
 
-        <h3 id="snapshotTitle">System Default Snapshot</h3>
-        <div class="sub" id="snapshotSub">Illustrative default example shown until both VI and WSI calculator results are available.</div>
-
-        <div class="bar" aria-hidden="true"></div>
-        <div class="bar-labels"><span>More exposed</span><span>More stable</span></div>
-
-        <div class="metrics">
-          <div class="metric">
-            <div class="label">VI (Volatility Index)</div>
-            <div class="value" id="snapshotVI">62 / 100</div>
-            <div class="note">Current volatility control reading.</div>
-          </div>
-          <div class="metric">
-            <div class="label">WSI (Workforce Stability Index)</div>
-            <div class="value" id="snapshotWSI">48 / 100</div>
-            <div class="note">Current workforce stability reading.</div>
-          </div>
-        </div>
-
-        <div class="saved-state" id="savedStateBox" style="display:none;">
-          <strong>Saved map state detected.</strong><br/>
-          Latest shared object is ready to plot when both scores are available.
-        </div>
-      </aside>
-    </section>
-
-    <section class="section card chooser" id="chooser">
-      <div class="section-head">
-        <h2>Choose your VOL Health™ view</h2>
-        <p>Use VOL Health as a single framework, then pick the lens that fits the conversation: volatility today, or workforce stability over time.</p>
-      </div>
-
-      <div class="accordion">
-        <div class="acc-item" id="acc-vi">
-          <div class="acc-header" onclick="toggleAcc('acc-vi')" role="button" tabindex="0" aria-expanded="false">
-            <div>
-              <div class="acc-title">VOL Health™ Volatility Index (VI)</div>
-              <div class="acc-sub">Directional diagnostic for volatility, operations, and labor strain.</div>
+      <section class="hero-grid">
+        <div class="card">
+          <div class="subcard">
+            <div class="page-kicker" style="margin-bottom:10px;">VOL HEALTH™ NAVIGATION LAYER</div>
+            <h2 class="snapshot-title" style="font-size:20px; margin-bottom:10px;">Choose your VOL Health™ view</h2>
+            <div class="snapshot-sub" style="font-size:13.5px;">
+              Use VOL Health as a single framework, then pick the lens that fits the conversation:
+              volatility today, workforce stability over time, or the action layer that aligns response.
             </div>
-            <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
-          </div>
-          <div class="acc-body" aria-hidden="true">
-            <div class="acc-inner">
-              <div class="acc-text">
-                Directional diagnostic that scores the Trinity of Volatility, Operations &amp; Labor across ten drivers — census, OT, PBJ exposure, survey risk, reimbursement, reputation, leadership bandwidth, and more.
-                <ul class="acc-list">
-                  <li><strong>Why VI:</strong> Make endemic volatility visible in one stability score and economic range.</li>
-                  <li><strong>How it works:</strong> Ten inputs roll into a 0–100 stability score and shows directional annual economics.</li>
-                  <li><strong>Details:</strong> Calibrated for PBJ, OT, survey risk, and portfolio views.</li>
-                </ul>
-              </div>
-              <div class="acc-actions">
-                <a class="btn btn-vi" href="volatility-index.html">View Volatility Index →</a>
-              </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-vi" href="volatility-index.html">View Volatility Index →</a>
+              <a class="btn btn-wsi" href="wsi.html">View Workforce Stability Index →</a>
+              <a class="btn btn-shai" href="shai.html" target="_blank" rel="noopener">View SHAI →</a>
+              <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
+            </div>
+
+            <div class="powered-by" aria-label="Powered by StaffHealth and Accushield Verified">
+              <span>Powered by:</span>
+              <img src="sh-av-logo.png" alt="StaffHealth + Accushield Verified" />
             </div>
           </div>
         </div>
 
-        <div class="acc-item" id="acc-wsi">
-          <div class="acc-header" onclick="toggleAcc('acc-wsi')" role="button" tabindex="0" aria-expanded="false">
-            <div>
-              <div class="acc-title">Workforce Stability Index (WSI)</div>
-              <div class="acc-sub">Companion view focused on workforce pipeline stability and drag.</div>
-            </div>
-            <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
+        <aside class="card">
+          <div class="status-chip">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="statusText">Default example active</span>
           </div>
-          <div class="acc-body" aria-hidden="true">
-            <div class="acc-inner">
-              <div class="acc-text">
-                Scores staffing volatility, financial exposure, operational &amp; compliance risk, and workforce pipeline health into a single WSI score.
-                <ul class="acc-list">
-                  <li><strong>Why WSI:</strong> Quantify how unstable schedules, vacancies, and turnover drag operations and margin.</li>
-                  <li><strong>How it works:</strong> Mix of direct inputs or portfolio distributions roll up into a 0–100 WSI.</li>
-                  <li><strong>Details:</strong> Shows volatility cost, stabilizable upside, and workforce drag as dollar ranges.</li>
-                </ul>
-              </div>
-              <div class="acc-actions">
-                <a class="btn btn-wsi" href="wsi.html">View Workforce Stability Index →</a>
-              </div>
+
+          <h3 class="snapshot-title" id="snapshotTitle">System Default Snapshot</h3>
+          <div class="snapshot-sub" id="snapshotSub">Illustrative default example shown until both VI and WSI calculator results are available.</div>
+
+          <div class="bar" aria-hidden="true"></div>
+          <div class="bar-labels"><span>More exposed</span><span>More stable</span></div>
+
+          <div class="metrics">
+            <div class="metric">
+              <div class="label">VI (Volatility Index)</div>
+              <div class="value" id="snapshotVI">62 / 100</div>
+              <div class="note">Current volatility control reading.</div>
+            </div>
+            <div class="metric">
+              <div class="label">WSI (Workforce Stability Index)</div>
+              <div class="value" id="snapshotWSI">48 / 100</div>
+              <div class="note">Current workforce stability reading.</div>
             </div>
           </div>
+
+          <div class="saved-state" id="savedStateBox" style="display:none;">
+            <strong>Saved map state detected.</strong><br/>
+            Latest shared object is ready to plot when both scores are available.
+          </div>
+        </aside>
+      </section>
+
+      <section class="section card chooser" id="chooser">
+        <div class="section-head">
+          <h2>Choose your VOL Health™ view</h2>
+          <p>Use VOL Health as a unified operating framework, then open the lens that best fits the conversation: diagnostic volatility, workforce stability, or aligned action.</p>
         </div>
 
-        <div class="acc-item" id="acc-shai">
-          <div class="acc-header" onclick="toggleAcc('acc-shai')" role="button" tabindex="0" aria-expanded="false">
-            <div>
-              <div class="acc-title">SHAI™ Stability Engine</div>
-              <div class="acc-sub">Activation layer that reduces near-term volatility while strengthening long-term workforce stability.</div>
-            </div>
-            <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
-          </div>
-          <div class="acc-body" aria-hidden="true">
-            <div class="acc-inner">
-              <div class="acc-text">
-                SHAI connects insight to action:
-                <ul class="acc-list">
-                  <li><strong>SHAI Buffer:</strong> Improves operational continuity and reliability to reduce near-term volatility.</li>
-                  <li><strong>SHAI Workforce Engine:</strong> Identifies high-fit workforce considerations to optimize pipeline actions.</li>
-                  <li><strong>Stability Delta:</strong> Tracks improvement over time: <code>ΔVI</code> and <code>ΔWSI</code>.</li>
-                </ul>
+        <div class="accordion">
+          <div class="acc-item" id="acc-vi">
+            <div class="acc-header" onclick="toggleAcc('acc-vi')" role="button" tabindex="0" aria-expanded="false">
+              <div>
+                <div class="acc-title">VOL Health™ Volatility Index (VI)</div>
+                <div class="acc-sub">Directional diagnostic for volatility, operations, and labor strain.</div>
               </div>
-              <div class="acc-actions">
-                <a class="btn btn-shai" href="shai.html" target="_blank" rel="noopener">View SHAI →</a>
-                <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
+              <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
+            </div>
+            <div class="acc-body" aria-hidden="true">
+              <div class="acc-inner">
+                <div class="acc-text">
+                  Directional diagnostic that scores the Trinity of Volatility, Operations &amp; Labor across ten drivers — census, OT, PBJ exposure, survey risk, reimbursement, reputation, leadership bandwidth, and more.
+                  <ul class="acc-list">
+                    <li><strong>Why VI:</strong> Make endemic volatility visible in one stability score and economic range.</li>
+                    <li><strong>How it works:</strong> Ten inputs roll into a 0–100 stability score and show directional annual economics.</li>
+                    <li><strong>Details:</strong> Calibrated for PBJ, OT, survey risk, and portfolio views.</li>
+                  </ul>
+                </div>
+                <div class="acc-actions">
+                  <a class="btn btn-vi" href="volatility-index.html">View Volatility Index →</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="section card map-card" id="stability-map">
-      <div class="section-head">
-        <h2>VOL Health Stability Map</h2>
-        <p>
-          Endemic volatility is a constant operational pressure in senior living. Because it is rarely measured, it is almost never intentionally managed.
-        </p>
-      </div>
-
-      <div class="map-layout">
-      <div class="map-grid">
-        <div class="map-box">
-          <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
-            <defs>
-              <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#0d1224"/>
-                <stop offset="100%" stop-color="#141a33"/>
-              </linearGradient>
-
-              <linearGradient id="optimizedFill" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="rgba(165,255,165,0.55)"/>
-                <stop offset="100%" stop-color="rgba(104,212,94,0.88)"/>
-              </linearGradient>
-
-              <filter id="optimizedGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="7" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-
-              <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="4" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-
-              <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-                <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.48)"/>
-              </marker>
-            </defs>
-
-            <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
-
-            <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
-            <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
-            <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
-            <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
-
-            <rect x="368" y="60" width="72" height="60" rx="14"
-              fill="url(#optimizedFill)"
-              stroke="rgba(255,255,255,0.24)"
-              filter="url(#optimizedGlow)"/>
-
-            <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
-              <line x1="80" y1="60" x2="80" y2="360"/>
-              <line x1="152" y1="60" x2="152" y2="360"/>
-              <line x1="224" y1="60" x2="224" y2="360"/>
-              <line x1="296" y1="60" x2="296" y2="360"/>
-              <line x1="368" y1="60" x2="368" y2="360"/>
-              <line x1="440" y1="60" x2="440" y2="360"/>
-
-              <line x1="80" y1="60" x2="440" y2="60"/>
-              <line x1="80" y1="120" x2="440" y2="120"/>
-              <line x1="80" y1="180" x2="440" y2="180"/>
-              <line x1="80" y1="240" x2="440" y2="240"/>
-              <line x1="80" y1="300" x2="440" y2="300"/>
-              <line x1="80" y1="360" x2="440" y2="360"/>
-            </g>
-
-            <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
-              <line x1="80" y1="360" x2="440" y2="360"/>
-              <line x1="80" y1="360" x2="80" y2="60"/>
-            </g>
-
-            <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
-              <line x1="296" y1="60" x2="296" y2="360"/>
-              <line x1="80" y1="180" x2="440" y2="180"/>
-            </g>
-
-            <path d="M242 302 L412 98"
-              stroke="rgba(255,255,255,0.24)"
-              stroke-width="2.5"
-              stroke-dasharray="6 8"
-              stroke-linecap="round"
-              marker-end="url(#arrowHead)"/>
-
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
-              <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
-              <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
-              <text x="94" y="206" fill="#ff525e" font-size="12.5">Exposed Operations</text>
-              <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
-            </g>
-
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="900" fill="rgba(16,54,22,0.92)">
-              <text x="379" y="85" font-size="11.5">Optimized</text>
-              <text x="378" y="98" font-size="11.5">Stability</text>
-            </g>
-
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
-              <text x="214" y="400">WSI (Workforce Stability Index) →</text>
-              <text x="18" y="230" transform="rotate(-90 18 230)">VI (Baseline Stability) →</text>
-            </g>
-
-            <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
-  <text x="70" y="378">0</text>
-<text x="142" y="378">20</text>
-<text x="214" y="378">40</text>
-<text x="286" y="378">60</text>
-<text x="358" y="378">80</text>
-<text x="432" y="378">100</text>
-
-<text x="48" y="364">0</text>
-<text x="42" y="304">20</text>
-<text x="42" y="244">40</text>
-<text x="42" y="184">60</text>
-<text x="42" y="124">80</text>
-<text x="36" y="66">100</text>
-</g>
-
-            <g id="stabilityTrailLayer"></g>
-            <g id="stabilityDynamicLayer"></g>
-          </svg>
-
-          <div class="zone-legend">
-            <div style="margin-bottom:12px;">
-              <div style="font-weight:700; color:rgba(255,255,255,0.9);">Stability Zones</div>
-              <div style="font-size:11px; opacity:0.7;">How to interpret the map</div>
+          <div class="acc-item" id="acc-wsi">
+            <div class="acc-header" onclick="toggleAcc('acc-wsi')" role="button" tabindex="0" aria-expanded="false">
+              <div>
+                <div class="acc-title">Workforce Stability Index (WSI)</div>
+                <div class="acc-sub">Companion view focused on workforce pipeline stability and operational drag.</div>
+              </div>
+              <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
             </div>
-
-            <div class="grid">
-              <div><strong style="color:#ff6b73;">Exposed Operations</strong></div>
-              <div>System lacks the workforce and operational buffers needed to absorb volatility.</div>
-
-              <div><strong style="color:#ffe74e;">Manually Stabilized</strong></div>
-              <div>Operations appear stable, but stability depends heavily on leadership intervention and effort.</div>
-
-              <div><strong style="color:#67b2ff;">Volatility Pressure</strong></div>
-              <div>Workforce foundation exists, but operational volatility continues to create disruption.</div>
-
-              <div><strong style="color:#8be39b;">Managed Stability</strong></div>
-              <div>Workforce and operations are largely aligned and volatility is controlled.</div>
-            </div>
-
-            <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); font-size:12px; color:rgba(255,255,255,0.76); line-height:1.45;">
-              Most communities begin in <strong>Exposed Operations</strong> or <strong>Volatility Pressure</strong>. The goal is movement toward <strong>Managed</strong> and <strong>Optimized Stability</strong> over time.
-            </div>
-          </div>
-        </div>
-
-        <div class="map-box">
-          <h3 style="margin:0 0 8px; font-size:18px;">How communities move north-east</h3>
-          <ul class="tool-list">
-  <li><strong>Higher WSI scores move right</strong> as workforce stability, coverage resilience, and pipeline strength improve.</li>
-<li><strong>Higher VI scores move upward</strong> as extra volatility is reduced and baseline stability is preserved.</li>
-<li><strong>Crossing above 60 / 60</strong> signals entry into Managed Stability.</li>
-<li><strong>Reaching 80+ / 80+ with aligned support</strong> indicates Optimized Stability and stronger operating control.</li>
-</ul>
-
-          <div class="mini-roi">
-            <div style="margin-bottom:10px; color:rgba(255,255,255,0.78); font-size:13px;">
-              Illustrative Stability Improvement Example
-            </div>
-            <div class="grid">
-  <div><strong>VI:</strong> 49 → 72</div><div><strong>+23</strong> baseline stability</div>
-<div><strong>WSI:</strong> 41 → 63</div><div><strong>+22</strong> workforce stability</div>
-<div><strong>OT:</strong> $312k → $204k</div><div><strong>$108k</strong> cost reduction</div>
-</div>
-</div>
-            
-          <div class="map-readout">
-            <h4>Current plotted point</h4>
-            <div class="readout-grid">
-              <div><strong>Label:</strong> <span id="mapLabel">System Default</span></div>
-              <div><strong>Source:</strong> <span id="mapSource">Default example</span></div>
-              <div><strong>VI:</strong> <span id="mapVI">62</span></div>
-              <div><strong>WSI:</strong> <span id="mapWSI">48</span></div>
-              <div><strong>VI Updated:</strong> <span id="mapVIUpdated">—</span></div>
-              <div><strong>WSI Updated:</strong> <span id="mapWSIUpdated">—</span></div>
-              <div><strong>Mode:</strong> <span id="mapMode">—</span></div>
-              <div><strong>Community Type:</strong> <span id="mapCommunityType">—</span></div>
-              <div><strong>State:</strong> <span id="mapState">—</span></div>
-              <div><strong>Updated At:</strong> <span id="mapUpdatedAt">—</span></div>
-              <div><strong>X coordinate:</strong> <span id="mapX">252.8</span></div>
-              <div><strong>Y coordinate:</strong> <span id="mapY">174.0</span></div>
+            <div class="acc-body" aria-hidden="true">
+              <div class="acc-inner">
+                <div class="acc-text">
+                  Scores staffing volatility, financial exposure, operational &amp; compliance risk, and workforce pipeline health into a single WSI score.
+                  <ul class="acc-list">
+                    <li><strong>Why WSI:</strong> Quantify how unstable schedules, vacancies, and turnover drag operations and margin.</li>
+                    <li><strong>How it works:</strong> A mix of direct inputs or portfolio distributions roll up into a 0–100 WSI.</li>
+                    <li><strong>Details:</strong> Shows volatility cost, stabilizable upside, and workforce drag as dollar ranges.</li>
+                  </ul>
+                </div>
+                <div class="acc-actions">
+                  <a class="btn btn-wsi" href="wsi.html">View Workforce Stability Index →</a>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="map-actions">
-            <button class="btn btn-reset" id="resetMapBtn" type="button">Reset to Default Example</button>
-            <a class="btn btn-vi" href="volatility-index.html">Update VI →</a>
-            <a class="btn btn-wsi" href="wsi.html">Update WSI →</a>
+          <div class="acc-item" id="acc-shai">
+            <div class="acc-header" onclick="toggleAcc('acc-shai')" role="button" tabindex="0" aria-expanded="false">
+              <div>
+                <div class="acc-title">SHAI™ Stability Engine</div>
+                <div class="acc-sub">Activation layer that reduces near-term volatility while strengthening long-term workforce stability.</div>
+              </div>
+              <div class="acc-toggle" aria-hidden="true"><span>›</span></div>
+            </div>
+            <div class="acc-body" aria-hidden="true">
+              <div class="acc-inner">
+                <div class="acc-text">
+                  SHAI connects insight to action:
+                  <ul class="acc-list">
+                    <li><strong>SHAI Buffer:</strong> Improves operational continuity and reliability to reduce near-term volatility.</li>
+                    <li><strong>SHAI Workforce Engine:</strong> Identifies high-fit workforce considerations to optimize pipeline actions.</li>
+                    <li><strong>Stability Delta:</strong> Tracks improvement over time through directional change in VI and WSI.</li>
+                  </ul>
+                </div>
+                <div class="acc-actions">
+                  <a class="btn btn-shai" href="shai.html" target="_blank" rel="noopener">View SHAI →</a>
+                  <a class="btn btn-shai" href="#stability-map">View Stability Map →</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="prototype-note">
-  <strong>Internal concept model for strategy, portfolio conversations, and refinement.</strong>
-  Built independently by Hudson Keel to explore how senior living operators can better detect volatility, assess workforce stability, and align more intelligent operational responses.
-  <span class="small">
-    VOL Health™ is a working internal framework for evaluation and strategic insight testing. It is not a final or officially endorsed commercial product.
-  </span>
-</div>
+      <section class="section card map-card" id="stability-map">
+        <div class="section-head">
+          <h2>VOL Health Stability Map</h2>
+          <p>
+            Endemic volatility is a constant operational pressure in senior living. Because it is rarely measured, it is almost never intentionally managed.
+          </p>
+        </div>
+
+        <div class="map-layout">
+          <div class="map-grid">
+            <div class="map-box">
+              <svg id="stabilityMapSvg" viewBox="0 0 520 420" role="img" aria-label="VOL Health Stability Map">
+                <defs>
+                  <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#0d1224"/>
+                    <stop offset="100%" stop-color="#141a33"/>
+                  </linearGradient>
+
+                  <linearGradient id="optimizedFill" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="rgba(165,255,165,0.55)"/>
+                    <stop offset="100%" stop-color="rgba(104,212,94,0.88)"/>
+                  </linearGradient>
+
+                  <filter id="optimizedGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="7" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+
+                  <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+
+                  <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L9,3 z" fill="rgba(255,255,255,0.48)"/>
+                  </marker>
+                </defs>
+
+                <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
+
+                <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
+                <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
+                <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
+                <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
+
+                <rect x="368" y="60" width="72" height="60" rx="14"
+                  fill="url(#optimizedFill)"
+                  stroke="rgba(255,255,255,0.24)"
+                  filter="url(#optimizedGlow)"/>
+
+                <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+                  <line x1="80" y1="60" x2="80" y2="360"/>
+                  <line x1="152" y1="60" x2="152" y2="360"/>
+                  <line x1="224" y1="60" x2="224" y2="360"/>
+                  <line x1="296" y1="60" x2="296" y2="360"/>
+                  <line x1="368" y1="60" x2="368" y2="360"/>
+                  <line x1="440" y1="60" x2="440" y2="360"/>
+
+                  <line x1="80" y1="60" x2="440" y2="60"/>
+                  <line x1="80" y1="120" x2="440" y2="120"/>
+                  <line x1="80" y1="180" x2="440" y2="180"/>
+                  <line x1="80" y1="240" x2="440" y2="240"/>
+                  <line x1="80" y1="300" x2="440" y2="300"/>
+                  <line x1="80" y1="360" x2="440" y2="360"/>
+                </g>
+
+                <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
+                  <line x1="80" y1="360" x2="440" y2="360"/>
+                  <line x1="80" y1="360" x2="80" y2="60"/>
+                </g>
+
+                <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
+                  <line x1="296" y1="60" x2="296" y2="360"/>
+                  <line x1="80" y1="180" x2="440" y2="180"/>
+                </g>
+
+                <path d="M242 302 L412 98"
+                  stroke="rgba(255,255,255,0.24)"
+                  stroke-width="2.5"
+                  stroke-dasharray="6 8"
+                  stroke-linecap="round"
+                  marker-end="url(#arrowHead)"/>
+
+                <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
+                  <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
+                  <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
+                  <text x="94" y="206" fill="#ff525e" font-size="12.5">Exposed Operations</text>
+                  <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
+                </g>
+
+                <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="900" fill="rgba(16,54,22,0.92)">
+                  <text x="379" y="85" font-size="11.5">Optimized</text>
+                  <text x="378" y="98" font-size="11.5">Stability</text>
+                </g>
+
+                <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
+                  <text x="214" y="400">WSI (Workforce Stability Index) →</text>
+                  <text x="18" y="230" transform="rotate(-90 18 230)">VI (Baseline Stability) →</text>
+                </g>
+
+                <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
+                  <text x="70" y="378">0</text>
+                  <text x="142" y="378">20</text>
+                  <text x="214" y="378">40</text>
+                  <text x="286" y="378">60</text>
+                  <text x="358" y="378">80</text>
+                  <text x="432" y="378">100</text>
+
+                  <text x="48" y="364">0</text>
+                  <text x="42" y="304">20</text>
+                  <text x="42" y="244">40</text>
+                  <text x="42" y="184">60</text>
+                  <text x="42" y="124">80</text>
+                  <text x="36" y="66">100</text>
+                </g>
+
+                <g id="stabilityTrailLayer"></g>
+                <g id="stabilityDynamicLayer"></g>
+              </svg>
+
+              <div class="zone-legend">
+                <div style="margin-bottom:12px;">
+                  <div style="font-weight:700; color:rgba(255,255,255,0.9);">Stability Zones</div>
+                  <div style="font-size:11px; opacity:0.7;">How to interpret the map</div>
+                </div>
+
+                <div class="grid">
+                  <div><strong style="color:#ff6b73;">Exposed Operations</strong></div>
+                  <div>System lacks the workforce and operational buffers needed to absorb volatility.</div>
+
+                  <div><strong style="color:#ffe74e;">Manually Stabilized</strong></div>
+                  <div>Operations appear stable, but stability depends heavily on leadership intervention and effort.</div>
+
+                  <div><strong style="color:#67b2ff;">Volatility Pressure</strong></div>
+                  <div>Workforce foundation exists, but operational volatility continues to create disruption.</div>
+
+                  <div><strong style="color:#8be39b;">Managed Stability</strong></div>
+                  <div>Workforce and operations are largely aligned and volatility is controlled.</div>
+                </div>
+
+                <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); font-size:12px; color:rgba(255,255,255,0.76); line-height:1.45;">
+                  Most communities begin in <strong>Exposed Operations</strong> or <strong>Volatility Pressure</strong>. The goal is movement toward <strong>Managed</strong> and <strong>Optimized Stability</strong> over time.
+                </div>
+              </div>
+            </div>
+
+            <div class="map-box">
+              <h3 style="margin:0 0 8px; font-size:18px;">How communities move north-east</h3>
+              <ul class="tool-list">
+                <li><strong>Higher WSI scores move right</strong> as workforce stability, coverage resilience, and pipeline strength improve.</li>
+                <li><strong>Higher VI scores move upward</strong> as extra volatility is reduced and baseline stability is preserved.</li>
+                <li><strong>Crossing above 60 / 60</strong> signals entry into Managed Stability.</li>
+                <li><strong>Reaching 80+ / 80+ with aligned support</strong> indicates Optimized Stability and stronger operating control.</li>
+              </ul>
+
+              <div class="mini-roi">
+                <div style="margin-bottom:10px; color:rgba(255,255,255,0.78); font-size:13px;">
+                  Illustrative Stability Improvement Example
+                </div>
+                <div class="grid">
+                  <div><strong>VI:</strong> 49 → 72</div><div><strong>+23</strong> baseline stability</div>
+                  <div><strong>WSI:</strong> 41 → 63</div><div><strong>+22</strong> workforce stability</div>
+                  <div><strong>OT:</strong> $312k → $204k</div><div><strong>$108k</strong> cost reduction</div>
+                </div>
+              </div>
+
+              <div class="map-readout">
+                <h4>Current plotted point</h4>
+                <div class="readout-grid">
+                  <div><strong>Label:</strong> <span id="mapLabel">System Default</span></div>
+                  <div><strong>Source:</strong> <span id="mapSource">Default example</span></div>
+                  <div><strong>VI:</strong> <span id="mapVI">62</span></div>
+                  <div><strong>WSI:</strong> <span id="mapWSI">48</span></div>
+                  <div><strong>VI Updated:</strong> <span id="mapVIUpdated">—</span></div>
+                  <div><strong>WSI Updated:</strong> <span id="mapWSIUpdated">—</span></div>
+                  <div><strong>Mode:</strong> <span id="mapMode">—</span></div>
+                  <div><strong>Community Type:</strong> <span id="mapCommunityType">—</span></div>
+                  <div><strong>State:</strong> <span id="mapState">—</span></div>
+                  <div><strong>Updated At:</strong> <span id="mapUpdatedAt">—</span></div>
+                  <div><strong>X coordinate:</strong> <span id="mapX">252.8</span></div>
+                  <div><strong>Y coordinate:</strong> <span id="mapY">174.0</span></div>
+                </div>
+              </div>
+
+              <div class="map-actions">
+                <button class="btn btn-ghost" id="resetMapBtn" type="button">Reset to Default Example</button>
+                <a class="btn btn-vi" href="volatility-index.html">Update VI →</a>
+                <a class="btn btn-wsi" href="wsi.html">Update WSI →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="prototype-note">
+            <strong>Internal concept model for strategy, portfolio conversations, and refinement.</strong>
+            Built independently by Hudson Keel to explore how senior living operators can better detect volatility, assess workforce stability, and align more intelligent operational responses.
+            <span class="small">
+              VOL Health™ is a working internal framework for evaluation and strategic insight testing. It is not a final or officially endorsed commercial product.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        Prototype concept for internal discussion and testing. Built by Hudson Keel as a directional framework for senior living volatility &amp; workforce stability diagnostics.
+        <br/>
+        VOL Health™ is a working internal framework and does not represent a finalized commercial product.
+      </footer>
+    </div>
   </div>
 
   <script>
@@ -1137,16 +1198,16 @@
     }
 
     function scoreToMapX(wsi){
-  const safeWSI = clamp(wsi, 0, 100);
-  const { left, right } = stabilityMap.chart;
-  return left + (safeWSI / 100) * (right - left);
-}
+      const safeWSI = clamp(wsi, 0, 100);
+      const { left, right } = stabilityMap.chart;
+      return left + (safeWSI / 100) * (right - left);
+    }
 
-function scoreToMapY(vi){
-  const safeVI = clamp(vi, 0, 100);
-  const { top, bottom } = stabilityMap.chart;
-  return bottom - (safeVI / 100) * (bottom - top);
-}
+    function scoreToMapY(vi){
+      const safeVI = clamp(vi, 0, 100);
+      const { top, bottom } = stabilityMap.chart;
+      return bottom - (safeVI / 100) * (bottom - top);
+    }
 
     function clearCurrentMapPoint(){
       const existing = document.getElementById('currentBuildingPoint');
