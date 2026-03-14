@@ -853,7 +853,6 @@
     `;
   }
 
-    <script>
   function renderMaps(){
     const saved = readMapData();
 
@@ -899,8 +898,6 @@
     renderSingleMap(current, future);
   }
     
-</script>
-    <script>
   function renderSingleMap(current, future){
     const panel = document.getElementById("singleMapPanel");
     const svg = document.getElementById("singleMapSvg");
@@ -924,7 +921,6 @@
       svg.innerHTML = buildMapSvg(current, null);
     }
   }
-</script>
 
     function resetMapData(){
       localStorage.removeItem(MAP_STORAGE_KEY);
