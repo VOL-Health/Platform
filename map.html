@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VOL Health | Stability Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg-2:#0c1830;
+      --panel:rgba(13,18,36,0.96);
+      --panel-2:rgba(17,24,46,0.94);
+      --line:rgba(255,255,255,0.10);
+      --line-2:rgba(255,255,255,0.14);
+      --text:#eef4ff;
+      --muted:#9fb2d2;
+      --blue:#2c6cff;
+      --green:#35c67a;
+      --green-2:#28a862;
+      --amber:#f6b44b;
+      --red:#f06161;
+      --shadow:0 14px 34px rgba(0,0,0,0.34);
+      --radius-xl:22px;
+      --radius-lg:20px;
+      --radius-md:16px;
+      --radius-sm:12px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+
+    .shell{
+      width:min(1280px, calc(100% - 28px));
+      margin:22px auto 40px;
+      padding:0 0 32px;
+    }
+
+    .platform-header{
+      margin-bottom:6px;
+      padding:18px 14px 0;
+    }
+
+    .platform-header-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .platform-brand{ min-width:0; }
+
+    .platform-logo-line{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      line-height:0.95;
+    }
+
+    .platform-logo-vol{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:var(--blue);
+      letter-spacing:0.02em;
+    }
+
+    .platform-logo-health{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#f3f6ff;
+      letter-spacing:0.02em;
+    }
+
+    .platform-brand-sub{
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.22em;
+      color:rgba(255,255,255,0.78);
+    }
+
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
+    }
+
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+      color:#ffffff;
+    }
+
+    .platform-page-intro{
+      padding:14px 18px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      margin-bottom:6px;
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      margin-bottom:12px;
+    }
+
+    .page-title{
+      margin:0 0 6px;
+      font-size:clamp(24px, 3vw, 34px);
+      line-height:1.08;
+      font-weight:800;
+      letter-spacing:-0.01em;
+    }
+
+    .page-subtitle{
+      margin-top:4px;
+      max-width:860px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    .page{
+      padding:8px 14px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
+      border-radius:22px;
+    }
+
+    .system-spine{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:12px;
+      margin:0 0 14px;
+    }
+
+    .spine-card{
+      background:rgba(16,23,44,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:14px 16px;
+      min-height:112px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+    }
+
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.55);
+      background:linear-gradient(180deg, rgba(44,108,255,0.16), rgba(13,18,36,0.96));
+    }
+
+    .spine-card .step{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:6px;
+    }
+
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin-bottom:6px;
+      color:#f5f6ff;
+    }
+
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .context-bar{
+      display:grid;
+      grid-template-columns:1.2fr auto auto;
+      gap:12px;
+      margin:0 0 14px;
+      padding:14px 16px;
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+      align-items:end;
+    }
+
+    .context-field label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:8px;
+    }
+
+    .toggle-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .toggle-btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      cursor:pointer;
+    }
+
+    .toggle-btn.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      white-space:nowrap;
+      text-decoration:none;
+    }
+
+    .btn:hover{
+      filter:brightness(1.06);
+      transform:translateY(-1px);
+    }
+
+    .btn.secondary{
+      background:#39415a;
+    }
+
+    .btn.ghost{
+      background:transparent;
+      color:#dce5ff;
+      border:1px solid #33406f;
+    }
+
+    .map-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      margin-top:16px;
+    }
+
+    .map-panel{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+    }
+
+    .map-panel h3{
+      margin:0 0 6px;
+      font-size:18px;
+    }
+
+    .map-panel p{
+      margin:0 0 12px;
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .svg-shell{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .svg-shell svg{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:14px;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .mini{
+      background:#050814;
+      border-radius:12px;
+      padding:10px 12px;
+      border:1px solid #252b49;
+    }
+
+    .mini .k{
+      color:var(--muted);
+      margin-bottom:4px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .mini .v{
+      font-size:15px;
+      font-weight:700;
+      color:#e3e6ff;
+    }
+
+    .readout-card{
+      margin-top:16px;
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+    }
+
+    .readout-card h3{
+      margin:0 0 10px;
+      font-size:18px;
+    }
+
+    .readout-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .readout-box{
+      background:#050814;
+      border-radius:12px;
+      padding:10px 12px;
+      border:1px solid #252b49;
+      min-height:76px;
+    }
+
+    .readout-box .label{
+      color:var(--muted);
+      margin-bottom:6px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .readout-box .value{
+      font-size:14px;
+      font-weight:700;
+      line-height:1.35;
+      color:#eef4ff;
+    }
+
+    .prototype-note{
+      margin-top:28px;
+      width:100%;
+      max-width:none;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .prototype-note strong{
+      color:#eef4ff;
+      font-weight:700;
+    }
+
+    .prototype-note .small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      opacity:0.9;
+    }
+
+    @media (max-width: 1080px){
+      .system-spine{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .map-grid,
+      .readout-grid,
+      .summary-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .context-bar{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .platform-nav{
+        justify-content:flex-start;
+      }
+
+      .system-spine,
+      .map-grid,
+      .readout-grid,
+      .summary-grid{
+        grid-template-columns:1fr;
+      }
+
+      .page{
+        padding:14px 14px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <header class="platform-header">
+      <div class="platform-header-top">
+        <div class="platform-brand">
+          <div class="platform-logo-line">
+            <span class="platform-logo-vol">VOL</span>
+            <span class="platform-logo-health">HEALTH</span>
+          </div>
+          <div class="platform-brand-sub">STAFFHEALTH + ACCUSHIELD VERIFIED</div>
+        </div>
+
+        <nav class="platform-nav">
+          <a href="volatility-index.html" class="nav-pill">VI</a>
+          <a href="wsi.html" class="nav-pill">WSI</a>
+          <a href="shai.html" class="nav-pill">SHAI</a>
+          <a href="map.html" class="nav-pill active">Stability Map</a>
+          <a href="index.html" class="nav-pill">Platform Hub</a>
+        </nav>
+      </div>
+
+      <div class="platform-page-intro">
+        <div class="page-kicker">VOL HEALTH™ VISUALIZATION LAYER</div>
+        <h1 class="page-title">Stability Map</h1>
+        <p class="page-subtitle">
+          Visualize the pattern of pressure across your community or portfolio and compare the current state to a more stabilized future state.
+        </p>
+      </div>
+    </header>
+
+    <div class="page">
+
+      <section class="system-spine">
+        <div class="spine-card">
+          <div class="step">Step 1</div>
+          <strong>Detect</strong>
+          <span>Identify extra volatility forming inside the building or portfolio above the endemic baseline.</span>
+        </div>
+        <div class="spine-card">
+          <div class="step">Step 2</div>
+          <strong>Measure</strong>
+          <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+        </div>
+        <div class="spine-card">
+          <div class="step">Step 3</div>
+          <strong>Align</strong>
+          <span>Recommend the right operational response before instability spreads.</span>
+        </div>
+        <div class="spine-card active">
+          <div class="step">Step 4</div>
+          <strong>Visualize</strong>
+          <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
+        </div>
+      </section>
+
+      <section class="context-bar">
+        <div class="context-field">
+          <label>Map View</label>
+          <div class="toggle-row">
+            <button class="toggle-btn active" id="sideBySideBtn" type="button">Side-by-Side</button>
+            <button class="toggle-btn" id="singleToggleBtn" type="button">Single Map Toggle</button>
+          </div>
+        </div>
+
+        <div class="context-field">
+          <label>Navigation</label>
+          <div class="toggle-row">
+            <a class="btn secondary" href="volatility-index.html">Update VI</a>
+            <a class="btn secondary" href="wsi.html">Update WSI</a>
+            <a class="btn ghost" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+
+        <div class="context-field">
+          <label>Map State</label>
+          <div class="toggle-row">
+            <button class="btn ghost" id="resetMapBtn" type="button">Reset Default</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="map-grid" id="dualMapGrid">
+        <article class="map-panel">
+          <h3>Current State</h3>
+          <p>Shows the latest saved VI and WSI position based on the current operating pattern.</p>
+          <div class="svg-shell">
+            <svg id="currentMapSvg" viewBox="0 0 520 420" role="img" aria-label="Current state stability map"></svg>
+          </div>
+
+          <div class="summary-grid">
+            <div class="mini">
+              <div class="k">Label</div>
+              <div class="v" id="currentLabel">System Default</div>
+            </div>
+            <div class="mini">
+              <div class="k">VI</div>
+              <div class="v" id="currentVI">62</div>
+            </div>
+            <div class="mini">
+              <div class="k">WSI</div>
+              <div class="v" id="currentWSI">48</div>
+            </div>
+            <div class="mini">
+              <div class="k">Zone</div>
+              <div class="v" id="currentZone">Volatility Pressure</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="map-panel">
+          <h3>Stabilized / Optimized State</h3>
+          <p>Shows the projected future position after aligned SHAI actions improve both the VI and WSI position.</p>
+          <div class="svg-shell">
+            <svg id="futureMapSvg" viewBox="0 0 520 420" role="img" aria-label="Future state stability map"></svg>
+          </div>
+
+          <div class="summary-grid">
+            <div class="mini">
+              <div class="k">Label</div>
+              <div class="v" id="futureLabel">Stabilized Scenario</div>
+            </div>
+            <div class="mini">
+              <div class="k">VI</div>
+              <div class="v" id="futureVI">78</div>
+            </div>
+            <div class="mini">
+              <div class="k">WSI</div>
+              <div class="v" id="futureWSI">72</div>
+            </div>
+            <div class="mini">
+              <div class="k">Zone</div>
+              <div class="v" id="futureZone">Managed Stability</div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="map-panel" id="singleMapPanel" style="display:none; margin-top:16px;">
+        <h3 id="singleMapTitle">Current State</h3>
+        <p id="singleMapSubtitle">Shows the latest saved VI and WSI position based on the current operating pattern.</p>
+        <div class="svg-shell">
+          <svg id="singleMapSvg" viewBox="0 0 520 420" role="img" aria-label="Single stability map"></svg>
+        </div>
+      </section>
+
+      <section class="readout-card">
+        <h3>Map Readout</h3>
+        <div class="readout-grid">
+          <div class="readout-box">
+            <div class="label">Current Source</div>
+            <div class="value" id="mapSource">Default example</div>
+          </div>
+          <div class="readout-box">
+            <div class="label">Mode</div>
+            <div class="value" id="mapMode">—</div>
+          </div>
+          <div class="readout-box">
+            <div class="label">Updated At</div>
+            <div class="value" id="mapUpdatedAt">—</div>
+          </div>
+          <div class="readout-box">
+            <div class="label">Improvement Pattern</div>
+            <div class="value" id="improvementPattern">Projected north-east stability movement</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="prototype-note">
+        <strong>Prototype concept for internal discussion and testing.</strong>
+        Built by Hudson Keel as a directional framework for visualizing how communities move from exposed operations toward managed and optimized stability.
+        <span class="small">
+          VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, strategic response alignment, and visual pattern interpretation. It does not represent a finalized commercial product.
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const MAP_STORAGE_KEY = "volHealthMapData";
+
+    const chart = {
+      left: 80,
+      right: 440,
+      top: 60,
+      bottom: 360
+    };
+
+    const defaults = {
+      label: "System Default",
+      source: "Default example",
+      vi: 62,
+      wsi: 48,
+      viStabilized: 78,
+      wsiWithSourcing: 72,
+      updatedAt: "—",
+      mode: "—",
+      color: "#5aa8ff"
+    };
+
+    let singleMode = false;
+    let singleViewFuture = false;
+
+    function clamp(value, min, max){
+      value = Number(value);
+      if (isNaN(value)) return min;
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function readMapData(){
+      try{
+        const raw = localStorage.getItem(MAP_STORAGE_KEY);
+        if(!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : null;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function scoreToMapX(wsi){
+      const safeWSI = clamp(wsi, 0, 100);
+      return chart.left + (safeWSI / 100) * (chart.right - chart.left);
+    }
+
+    function scoreToMapY(vi){
+      const safeVI = clamp(vi, 0, 100);
+      return chart.bottom - (safeVI / 100) * (chart.bottom - chart.top);
+    }
+
+    function zoneFor(vi, wsi){
+      if (vi >= 80 && wsi >= 80) return "Optimized Stability";
+      if (vi >= 60 && wsi >= 60) return "Managed Stability";
+      if (vi < 60 && wsi >= 60) return "Volatility Pressure";
+      if (vi >= 60 && wsi < 60) return "Manually Stabilized";
+      return "Exposed Operations";
+    }
+
+    function buildMapSvg(point, futurePoint){
+      const x = scoreToMapX(point.wsi);
+      const y = scoreToMapY(point.vi);
+
+      let futureMarkup = "";
+      if (futurePoint) {
+        const fx = scoreToMapX(futurePoint.wsi);
+        const fy = scoreToMapY(futurePoint.vi);
+        futureMarkup = `
+          <path d="M ${x} ${y} L ${fx} ${fy}"
+            stroke="rgba(255,255,255,0.28)"
+            stroke-width="2.5"
+            stroke-dasharray="6 8"
+            stroke-linecap="round"/>
+          <circle cx="${fx}" cy="${fy}" r="8" fill="#35c67a" stroke="#ffffff" stroke-width="2"/>
+        `;
+      }
+
+      return `
+        <defs>
+          <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0d1224"/>
+            <stop offset="100%" stop-color="#141a33"/>
+          </linearGradient>
+          <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
+
+        <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
+        <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
+        <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
+        <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
+
+        <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+          <line x1="80" y1="60" x2="80" y2="360"/>
+          <line x1="152" y1="60" x2="152" y2="360"/>
+          <line x1="224" y1="60" x2="224" y2="360"/>
+          <line x1="296" y1="60" x2="296" y2="360"/>
+          <line x1="368" y1="60" x2="368" y2="360"/>
+          <line x1="440" y1="60" x2="440" y2="360"/>
+
+          <line x1="80" y1="60" x2="440" y2="60"/>
+          <line x1="80" y1="120" x2="440" y2="120"/>
+          <line x1="80" y1="180" x2="440" y2="180"/>
+          <line x1="80" y1="240" x2="440" y2="240"/>
+          <line x1="80" y1="300" x2="440" y2="300"/>
+          <line x1="80" y1="360" x2="440" y2="360"/>
+        </g>
+
+        <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
+          <line x1="80" y1="360" x2="440" y2="360"/>
+          <line x1="80" y1="360" x2="80" y2="60"/>
+        </g>
+
+        <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
+          <line x1="296" y1="60" x2="296" y2="360"/>
+          <line x1="80" y1="180" x2="440" y2="180"/>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
+          <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
+          <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
+          <text x="94" y="206" fill="#ff525e" font-size="12.5">Exposed Operations</text>
+          <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
+          <text x="214" y="400">WSI (Workforce Stability Index) →</text>
+          <text x="18" y="230" transform="rotate(-90 18 230)">VI (Baseline Stability) →</text>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
+          <text x="70" y="378">0</text>
+          <text x="142" y="378">20</text>
+          <text x="214" y="378">40</text>
+          <text x="286" y="378">60</text>
+          <text x="358" y="378">80</text>
+          <text x="432" y="378">100</text>
+
+          <text x="48" y="364">0</text>
+          <text x="42" y="304">20</text>
+          <text x="42" y="244">40</text>
+          <text x="42" y="184">60</text>
+          <text x="42" y="124">80</text>
+          <text x="36" y="66">100</text>
+        </g>
+
+        ${futureMarkup}
+        <circle cx="${x}" cy="${y}" r="8" fill="${point.color || "#5aa8ff"}" stroke="#ffffff" stroke-width="2" filter="url(#pointGlow)"/>
+      `;
+    }
+
+    function renderMaps(){
+      const saved = readMapData();
+
+      const current = {
+        label: saved?.label || defaults.label,
+        source: saved?.label ? "Saved VI + WSI calculator data" : defaults.source,
+        vi: clamp(saved?.vi ?? defaults.vi, 0, 100),
+        wsi: clamp(saved?.wsi ?? defaults.wsi, 0, 100),
+        updatedAt: saved?.updatedAt || defaults.updatedAt,
+        mode: saved?.mode || defaults.mode,
+        color: "#5aa8ff"
+      };
+
+      const future = {
+        label: "Stabilized Scenario",
+        vi: clamp(saved?.viStabilized ?? defaults.viStabilized, 0, 100),
+        wsi: clamp(saved?.wsiWithSourcing ?? defaults.wsiWithSourcing, 0, 100),
+        color: "#35c67a"
+      };
+
+      document.getElementById("currentMapSvg").innerHTML = buildMapSvg(current, future);
+      document.getElementById("futureMapSvg").innerHTML = buildMapSvg(future, null);
+
+      document.getElementById("currentLabel").textContent = current.label;
+      document.getElementById("currentVI").textContent = current.vi;
+      document.getElementById("currentWSI").textContent = current.wsi;
+      document.getElementById("currentZone").textContent = zoneFor(current.vi, current.wsi);
+
+      document.getElementById("futureLabel").textContent = future.label;
+      document.getElementById("futureVI").textContent = future.vi;
+      document.getElementById("futureWSI").textContent = future.wsi;
+      document.getElementById("futureZone").textContent = zoneFor(future.vi, future.wsi);
+
+      document.getElementById("mapSource").textContent = current.source;
+      document.getElementById("mapMode").textContent = current.mode;
+      document.getElementById("mapUpdatedAt").textContent = current.updatedAt;
+
+      const improvementText = `VI ${current.vi} → ${future.vi} | WSI ${current.wsi} → ${future.wsi}`;
+      document.getElementById("improvementPattern").textContent = improvementText;
+
+      renderSingleMap(current, future);
+    }
+
+    function renderSingleMap(current, future){
+      const panel = document.getElementById("singleMapPanel");
+      const svg = document.getElementById("singleMapSvg");
+      const title = document.getElementById("singleMapTitle");
+      const subtitle = document.getElementById("singleMapSubtitle");
+
+      if (!singleMode) {
+        panel.style.display = "none";
+        return;
+      }
+
+      panel.style.display = "block";
+
+      if (singleViewFuture) {
+        title.textContent = "Stabilized / Optimized State";
+        subtitle.textContent = "Projected future position after aligned SHAI actions improve both VI and WSI.";
+        svg.innerHTML = buildMapSvg(future, null);
+      } else {
+        title.textContent = "Current State";
+        subtitle.textContent = "Latest saved VI and WSI position based on the current operating pattern.";
+        svg.innerHTML = buildMapSvg(current, future);
+      }
+    }
+
+    function resetMapData(){
+      localStorage.removeItem(MAP_STORAGE_KEY);
+      renderMaps();
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      renderMaps();
+
+      const sideBySideBtn = document.getElementById("sideBySideBtn");
+      const singleToggleBtn = document.getElementById("singleToggleBtn");
+      const dualMapGrid = document.getElementById("dualMapGrid");
+      const singleMapPanel = document.getElementById("singleMapPanel");
+      const resetMapBtn = document.getElementById("resetMapBtn");
+
+      sideBySideBtn.addEventListener("click", function(){
+        singleMode = false;
+        sideBySideBtn.classList.add("active");
+        singleToggleBtn.classList.remove("active");
+        dualMapGrid.style.display = "grid";
+        singleMapPanel.style.display = "none";
+      });
+
+      singleToggleBtn.addEventListener("click", function(){
+        singleMode = true;
+        sideBySideBtn.classList.remove("active");
+        singleToggleBtn.classList.add("active");
+        dualMapGrid.style.display = "none";
+        singleViewFuture = !singleViewFuture;
+        renderMaps();
+      });
+
+      resetMapBtn.addEventListener("click", resetMapData);
+    });
+  </script>
+</body>
+</html>
