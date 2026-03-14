@@ -2,99 +2,446 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-
+  <title>VOL Health | SHAI Stability Engine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --brand-blue:#1f57b8;
-      --brand-green:#2e8b57;
-      --brand-yellow:#f2b705;
-      --shai-gray:#6e758a;
-      --shai-gray-dark:#545b70;
-      --bg:#050816;
-      --card:#0d1224;
-      --muted:#9399b3;
-      --border:#242944;
-      --text:#e9ecff;
-
-      /* bridge variables used by legacy SHAI components */
-      --bg-card: rgba(0,0,0,0.18);
-      --border-subtle: rgba(255,255,255,0.10);
-      --text-main: var(--text);
-      --text-muted: rgba(255,255,255,0.70);
-      --accent: var(--shai-gray);
-      --accent-soft: rgba(110,117,138,0.16);
-      --accent-dark: rgba(110,117,138,0.42);
-      --danger: #e63946;
-      --success: var(--brand-green);
-      --warning: var(--brand-yellow);
-      --info: var(--brand-blue);
+      --bg:#07111f;
+      --bg-2:#0c1830;
+      --panel:rgba(13,18,36,0.96);
+      --panel-2:rgba(17,24,46,0.94);
+      --line:rgba(255,255,255,0.10);
+      --text:#eef4ff;
+      --muted:#9fb2d2;
+      --blue:#2c6cff;
+      --green:#35c67a;
+      --green-2:#28a862;
+      --amber:#f6b44b;
+      --red:#f06161;
+      --gray:#7f879d;
+      --gray-2:#62697c;
+      --shadow:0 14px 34px rgba(0,0,0,0.34);
+      --radius-xl:20px;
+      --radius-lg:18px;
+      --radius-md:14px;
     }
 
-.brand-logo{
-  height:100px;
-  width:auto;
-  display:block;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
-}
-    
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html,body{ min-height:100%; }
 
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1200px 700px at 10% 10%, rgba(31,87,184,0.18), transparent 60%),
-        radial-gradient(1000px 700px at 80% 30%, rgba(46,139,87,0.14), transparent 60%),
-        linear-gradient(180deg, #050816 0%, #05060f 100%);
+      font-family:Inter, Arial, Helvetica, sans-serif;
       color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
     }
 
     a{ color:inherit; }
 
-    .wrap{ max-width:1100px; margin:0 auto; padding:26px 18px 40px; }
-
-    /* Top bar */
-    .topbar{ display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:18px; }
-    .brand{ display:flex; align-items:center; gap:12px; }
-    .brand h1{ font-size:18px; letter-spacing:0.06em; margin:0; font-weight:900; }
-    .brand .sub{ font-size:11px; color:rgba(255,255,255,0.65); letter-spacing:0.06em; font-weight:700; }
-
-    .nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
-    .nav a{
-      font-size:12px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,0.72);
-      text-decoration:none;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+    .wrap{
+      width:min(1280px, calc(100% - 28px));
+      margin:22px auto 40px;
     }
-    .nav a:hover{ background: rgba(255,255,255,0.06); }
 
-    /* Cards */
-    .card{
-      background: linear-gradient(
-        180deg,
-        rgba(13,18,36,0.92),
-        rgba(10,14,30,0.92)
-      );
+    .platform-header{
+      margin-bottom:6px;
+    }
+
+    .platform-header-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .platform-brand{
+      min-width:0;
+    }
+
+    .platform-logo-line{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      line-height:0.95;
+    }
+
+    .platform-logo-vol{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:var(--blue);
+      letter-spacing:0.02em;
+    }
+
+    .platform-logo-health{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#f3f6ff;
+      letter-spacing:0.02em;
+    }
+
+    .platform-brand-sub{
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.22em;
+      color:rgba(255,255,255,0.78);
+    }
+
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+      color:#ffffff;
+    }
+
+    .platform-page-intro{
+      padding:14px 18px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      margin-bottom:6px;
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      text-transform:none;
+      margin-bottom:12px;
+    }
+
+    .page-title{
+      margin:0 0 6px;
+      font-size:clamp(22px, 2.6vw, 32px);
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.01em;
+    }
+
+    .page-subtitle{
+      margin-top:4px;
+      max-width:880px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .page{
+      padding:8px 14px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
+      border-radius:22px;
+    }
+
+    .system-spine{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+      margin:0 0 14px;
+    }
+
+    .spine-card{
+      background:rgba(16,23,44,0.92);
       border:1px solid rgba(255,255,255,0.10);
       border-radius:18px;
-      box-shadow: 0 22px 70px rgba(0,0,0,0.35);
+      padding:14px 16px;
+      min-height:104px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
     }
 
-    /* Card header helpers (you were using these but not styling them) */
-    .card-header{
-      padding:14px 14px 10px;
-      border-bottom:1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.02);
-      border-top-left-radius:18px;
-      border-top-right-radius:18px;
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.55);
+      background:linear-gradient(180deg, rgba(44,108,255,0.16), rgba(13,18,36,0.96));
+      box-shadow:0 18px 36px rgba(0,0,0,0.45);
     }
+
+    .spine-card .step{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:6px;
+    }
+
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin-bottom:6px;
+      color:#f5f6ff;
+    }
+
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .context-bar{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      margin:0 0 14px;
+      padding:14px 16px;
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+    }
+
+    .context-main{
+      min-width:0;
+    }
+
+    .context-field{
+      margin-bottom:10px;
+    }
+
+    .context-actions{
+      display:flex;
+      align-items:flex-start;
+      margin-top:6px;
+    }
+
+    .context-field label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:8px;
+    }
+
+    .inline-mode-options{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin:0;
+    }
+
+    .inline-mode-options label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:14px;
+      color:#f5f6ff;
+      text-transform:none;
+      letter-spacing:0;
+      margin:0;
+    }
+
+    .inline-mode-options input{
+      accent-color:var(--green);
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn,
+    .btn-link{
+      border:none;
+      background:var(--blue);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.06em;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      box-shadow:none;
+    }
+
+    .btn:hover,
+    .btn-link:hover{
+      filter:brightness(1.05);
+    }
+
+    .btn.primary,
+    .btn-link.primary{
+      background:linear-gradient(180deg, #7c859b, #62697c);
+      border:1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn.secondary,
+    .btn-link.secondary{
+      background:#39415a;
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.ghost,
+    .btn-link.ghost{
+      background:transparent;
+      border:1px solid #33406f;
+      color:#dce5ff;
+    }
+
+    .btn.gray,
+    .btn-link.gray{
+      background:linear-gradient(180deg, #7c859b, #62697c);
+      border:1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn.green,
+    .btn-link.green{
+      background:linear-gradient(90deg, var(--green), #34c08a);
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    input[type="text"]{
+      width:100%;
+      padding:11px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#050814;
+      color:#f5f6ff;
+      font-size:14px;
+      outline:none;
+    }
+
+    input[type="text"]:focus{
+      border-color:var(--blue);
+      box-shadow:0 0 0 2px rgba(31,87,184,0.45);
+    }
+
+    .tabs-card{
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+      padding:14px;
+      margin-bottom:14px;
+    }
+
+    .tabs-bar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .tabs-left{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .tab-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.82);
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .tab-btn:hover{
+      background:rgba(255,255,255,0.06);
+    }
+
+    .tab-btn.active{
+      background:rgba(127,135,157,0.22);
+      border-color:rgba(255,255,255,0.16);
+      color:#fff;
+    }
+
+    .tab-hint{
+      color:rgba(255,255,255,0.62);
+      font-size:12px;
+    }
+
+    .tab-panel{
+      display:none;
+    }
+
+    .tab-panel.active{
+      display:block;
+    }
+
+    .layout-grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .sidebar-section{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+    }
+
+    .card-header{
+      padding:0 0 10px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      margin-bottom:10px;
+    }
+
     .card-title{
       display:flex;
       align-items:center;
@@ -106,6 +453,7 @@
       color:rgba(255,255,255,0.90);
       margin:0;
     }
+
     .card-title-badge{
       font-size:11px;
       font-weight:900;
@@ -114,236 +462,76 @@
       padding:6px 10px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
       color:rgba(255,255,255,0.80);
     }
+
     .card-sub{
-      padding:10px 14px 12px;
       color:rgba(255,255,255,0.76);
       font-size:12.5px;
       line-height:1.45;
+      margin-bottom:12px;
     }
 
-    /* Buttons */
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:11px 18px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:0.09em;
-      text-decoration:none;
-      border:1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color:#fff;
-      cursor:pointer;
-      white-space:nowrap;
-      transition:transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
-    }
-    .btn:hover{ transform:translateY(-1px); filter:brightness(1.05); background: rgba(255,255,255,0.06); }
-
-    .btn-primary{
-      background:var(--shai-gray);
-      border-color: rgba(255,255,255,0.12);
-    }
-
-    /* Ghost buttons: readable + consistent everywhere (no !important needed) */
-    .btn-ghost{
-      background: rgba(255,255,255,0.03);
-      color:#e9ecff;
-      border:1px solid rgba(255,255,255,0.12);
-    }
-    .btn-ghost:hover{
-      background: rgba(255,255,255,0.10);
-    }
-
-    /* Page header */
-    .hero{ padding:18px; }
-    .pill{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:8px 12px; border-radius:999px;
+    .search-shell{
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
-      color:rgba(255,255,255,0.82);
+      background:rgba(0,0,0,0.18);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:14px;
+    }
+
+    .search-label{
       font-size:12px;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
       font-weight:900;
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.72);
       margin-bottom:10px;
     }
-    .hero h2{
-  margin:0 0 10px;
-  font-size:30px;
-  line-height:1.1;
-  font-weight:800;
-  letter-spacing:-0.02em;
-  color:#ffffff;
-}
 
-.hero p{
-  margin:0;
-  color:rgba(255,255,255,0.86);
-  line-height:1.55;
-  font-size:14px;
-  max-width:980px;
-}
-
-.hero p + p{
-  margin-top:8px;
-}
-
-.hero-meta{
-  margin-top:14px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.meta-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.10);
-  background:rgba(0,0,0,0.18);
-  color:rgba(255,255,255,0.78);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:0.04em;
-}
-
-.meta-pill strong{
-  color:#ffffff;
-}
-
-.muted-note{
-  font-size:13px;
-  line-height:1.45;
-  color:rgba(255,255,255,0.58);
-}
-
-.tm{
-  font-size:0.62em;
-  vertical-align:super;
-}
-
-/* Section label pill */
-
-.hero .section-pill{
-  display:inline-flex;
-  align-items:center;
-  padding:8px 14px;
-  margin:0 0 14px;
-  border-radius:999px;
-
-  border:1px solid rgba(255,255,255,0.12);
-  background:linear-gradient(
-    180deg,
-    rgba(255,255,255,0.05),
-    rgba(255,255,255,0.02)
-  );
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.05),
-    0 8px 18px rgba(0,0,0,0.22);
-
-  color:#ffffff;
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-
-  line-height:1;
-  white-space:nowrap;
-}
-    
-    /* Tabs */
-    .tabs-card{ margin-top:14px; padding:14px; }
-    .tabs-bar{
+    .search-row{
       display:flex;
       gap:10px;
       align-items:center;
-      justify-content:space-between;
       flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    .tabs-left{ display:flex; gap:10px; flex-wrap:wrap; }
-    .tab-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
-      color:rgba(255,255,255,0.82);
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:0.10em;
-      cursor:pointer;
-      user-select:none;
-    }
-    .tab-btn:hover{ background: rgba(255,255,255,0.06); }
-    .tab-btn.active{
-      background: rgba(110,117,138,0.22);
-      border-color: rgba(255,255,255,0.16);
-      color:#fff;
-    }
-    .tab-hint{ color:rgba(255,255,255,0.62); font-size:12px; }
-
-    .tab-panel{ display:none; }
-    .tab-panel.active{ display:block; }
-
-    /* Layout */
-    .page{ display:flex; flex-direction:column; gap:14px; }
-
-    .layout-grid{
-      display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap:14px;
-      align-items:start;
     }
 
-    .sidebar-section{ display:flex; flex-direction:column; gap:14px; }
-
-    /* Search */
-    .search-shell{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
-      border-radius:18px;
-      padding:14px;
-    }
-    .search-label{ font-size:12px; font-weight:900; letter-spacing:0.10em; text-transform:uppercase; color:rgba(255,255,255,0.72); margin-bottom:10px; }
-    .search-row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
     .search-input-wrap{
-      flex: 1 1 420px;
+      flex:1 1 420px;
       display:flex;
       align-items:center;
       gap:10px;
       padding:10px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
     }
-    .search-icon{ opacity:0.85; }
+
+    .search-icon{
+      opacity:0.85;
+    }
+
     .search-input{
       width:100%;
-      background: transparent;
+      background:transparent;
       border:none;
       outline:none;
-      color: rgba(255,255,255,0.92);
+      color:rgba(255,255,255,0.92);
       font-size:14px;
     }
-    .search-input::placeholder{ color:rgba(255,255,255,0.45); }
-    .search-button{ padding:11px 16px; }
 
-    /* Chips */
-    .prompt-chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    .search-input::placeholder{
+      color:rgba(255,255,255,0.45);
+    }
+
+    .prompt-chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
     .chip{
       display:inline-flex;
       align-items:center;
@@ -351,92 +539,89 @@
       padding:8px 10px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.03);
+      background:rgba(255,255,255,0.03);
       font-size:12px;
       color:rgba(255,255,255,0.78);
       cursor:pointer;
       user-select:none;
     }
-    .chip:hover{ background: rgba(255,255,255,0.06); }
 
-    /* Metrics */
-    .summary-metrics{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:10px;
-      padding: 0 14px 14px;
-    }
-    .metric-box{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
-      border-radius:16px;
-      padding:12px;
-    }
-    .metric-label{ color:rgba(255,255,255,0.62); font-size:11px; text-transform:uppercase; letter-spacing:0.10em; font-weight:900; }
-    .metric-value{ font-size:18px; font-weight:900; margin-top:6px; }
-    .metric-sub{ color:rgba(255,255,255,0.70); font-size:12px; margin-top:4px; line-height:1.35; }
-
-    /* Sidebar notes */
-    .sidebar-note{
-      padding: 0 14px 14px;
-      color: rgba(255,255,255,0.72);
-      font-size: 12.5px;
-      line-height: 1.5;
+    .chip:hover{
+      background:rgba(255,255,255,0.06);
     }
 
-    /* Actions bar */
-    .actions-bar{
-      padding: 0 14px 14px;
-      display:grid;
-      grid-template-columns: 1fr;
+    .candidate-list{
+      display:flex;
+      flex-direction:column;
       gap:10px;
     }
 
-    /* Candidate list */
-    .candidate-list{ display:flex; flex-direction:column; gap:10px; padding:14px; padding-top:0; }
-    .candidate-card{
+    .candidate-card,
+    .shift-card,
+    .recommendation,
+    .insight-card,
+    .usage-card{
       border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
+      background:rgba(0,0,0,0.18);
       border-radius:18px;
       padding:12px;
     }
 
-    /* Candidate rows */
     .candidate-row-top{
       display:flex;
       gap:12px;
       align-items:center;
       justify-content:space-between;
     }
-    .candidate-main{ display:flex; gap:12px; align-items:center; }
+
+    .candidate-main{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
     .candidate-avatar{
-      width:42px; height:42px;
+      width:42px;
+      height:42px;
       border-radius:14px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(255,255,255,0.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.06);
       border:1px solid rgba(255,255,255,0.10);
       font-weight:900;
-      flex: 0 0 auto;
+      flex:0 0 auto;
     }
-    .candidate-name-role{ display:flex; flex-direction:column; gap:2px; }
-    .candidate-name-role strong{ font-size:14px; }
-    .candidate-name-role span{ color:rgba(255,255,255,0.70); font-size:12px; }
+
+    .candidate-name-role{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .candidate-name-role strong{
+      font-size:14px;
+    }
+
+    .candidate-name-role span{
+      color:rgba(255,255,255,0.70);
+      font-size:12px;
+    }
 
     .candidate-tag-elig{
       border:1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
-      color: rgba(255,255,255,0.80);
+      background:rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.80);
       font-size:12px;
       font-weight:900;
       padding:8px 10px;
       border-radius:999px;
-      letter-spacing:0.02em;
-      text-transform:none;
       white-space:nowrap;
     }
+
     .candidate-tag-elig.pending{
-      border-color: rgba(242,183,5,0.35);
-      background: rgba(242,183,5,0.08);
+      border-color:rgba(242,183,5,0.35);
+      background:rgba(242,183,5,0.08);
     }
 
     .candidate-stats{
@@ -448,6 +633,7 @@
       font-size:12.5px;
       line-height:1.35;
     }
+
     .candidate-meta{
       margin-top:10px;
       display:flex;
@@ -457,38 +643,92 @@
       font-size:12px;
     }
 
-    .fit{ font-weight:900; }
+    .fit{
+      font-weight:900;
+    }
 
-    /* Insight/usage cards (used in markup; styled here) */
     .insight-card,
     .usage-card{
-      margin: 12px 14px 0;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
-      border-radius:18px;
-      padding:12px;
       display:flex;
       gap:12px;
       align-items:flex-start;
+      margin-top:12px;
     }
-    .insight-icon, .usage-icon{
-      width:34px; height:34px;
+
+    .insight-icon,
+    .usage-icon{
+      width:34px;
+      height:34px;
       border-radius:12px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(255,255,255,0.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.06);
       border:1px solid rgba(255,255,255,0.10);
-      flex: 0 0 auto;
+      flex:0 0 auto;
       opacity:0.95;
     }
-    .insight-sub, .usage-sub{
+
+    .insight-sub,
+    .usage-sub{
       margin-top:6px;
-      color: rgba(255,255,255,0.75);
+      color:rgba(255,255,255,0.75);
       font-size:12.5px;
       line-height:1.45;
     }
 
-    /* Provider panel styles */
-    .section{ margin-top:0; }
+    .summary-metrics{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .metric-box{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .metric-label{
+      color:rgba(255,255,255,0.62);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      font-weight:900;
+    }
+
+    .metric-value{
+      font-size:18px;
+      font-weight:900;
+      margin-top:6px;
+    }
+
+    .metric-sub{
+      color:rgba(255,255,255,0.70);
+      font-size:12px;
+      margin-top:4px;
+      line-height:1.35;
+    }
+
+    .sidebar-note{
+      margin-top:12px;
+      color:rgba(255,255,255,0.72);
+      font-size:12.5px;
+      line-height:1.5;
+    }
+
+    .actions-bar{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .section{
+      margin-top:0;
+    }
+
     .section-title{
       font-size:12px;
       font-weight:900;
@@ -497,14 +737,13 @@
       color:rgba(255,255,255,0.72);
       margin:0 0 10px;
     }
-    .shift-card{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
-      border-radius:18px;
-      padding:12px;
-      margin-bottom:10px;
+
+    .shift-title{
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:6px;
     }
-    .shift-title{ font-size:14px; font-weight:900; margin-bottom:6px; }
+
     .shift-meta{
       display:flex;
       justify-content:space-between;
@@ -513,94 +752,175 @@
       color:rgba(255,255,255,0.72);
       font-size:12px;
       margin-top:4px;
+      margin-bottom:8px;
     }
 
-    /* Recommendation callouts (fix: remove light-mode inline styles) */
     .recommendation{
-      margin-top:10px;
       color:rgba(255,255,255,0.78);
       font-size:12.5px;
       line-height:1.45;
-      background: rgba(0,0,0,0.18);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      padding: 12px;
     }
+
     .rec-warn{
-      border-color: rgba(242,183,5,0.35);
-      background: rgba(242,183,5,0.08);
+      border-color:rgba(242,183,5,0.35);
+      background:rgba(242,183,5,0.08);
     }
+
     .rec-info{
-      border-color: rgba(31,87,184,0.35);
-      background: rgba(31,87,184,0.08);
+      border-color:rgba(31,87,184,0.35);
+      background:rgba(31,87,184,0.08);
     }
 
     .progress-bar{
       height:10px;
       border-radius:999px;
-      background: rgba(255,255,255,0.06);
+      background:rgba(255,255,255,0.06);
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.10);
       margin-top:8px;
     }
-    .progress-bar-fill{ height:100%; width:65%; background: rgba(46,139,87,0.65); }
 
-    footer{ margin-top:18px; color:rgba(255,255,255,0.55); font-size:11.5px; line-height:1.55; }
+    .progress-bar-fill{
+      height:100%;
+      width:65%;
+      background:rgba(46,139,87,0.65);
+    }
 
-    @media (max-width: 920px){
-      .layout-grid{ grid-template-columns:1fr; }
-      .summary-metrics{ grid-template-columns:1fr; }
+    .prototype-note{
+      margin-top:18px;
+      width:100%;
+      max-width:none;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .prototype-note strong{
+      color:#eef4ff;
+      font-weight:700;
+    }
+
+    .prototype-note .small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      opacity:0.9;
+    }
+
+    @media (max-width: 980px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .platform-nav{
+        justify-content:flex-start;
+      }
+
+      .system-spine{
+        grid-template-columns:1fr;
+      }
+
+      .context-bar{
+        grid-template-columns:1fr;
+      }
+
+      .layout-grid{
+        grid-template-columns:1fr;
+      }
+
+      .summary-metrics{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
 
-   <div class="topbar">
-  <div class="brand">
-    <img class="brand-logo" src="vol-health-logo.png" alt="VOL Health logo" />
-  </div>
-
-  <nav class="nav" aria-label="Primary">
-    <a href="./">Platform Hub</a>
-    <a href="#wfi" onclick="setTab('wfi'); return false;">WFI (Operator)</a>
-    <a href="#provider" onclick="setTab('provider'); return false;">Provider</a>
-  </nav>
-</div>
-
-    <section class="card hero">
-  <p class="section-pill">VOL HEALTH™ ALIGNMENT LAYER</p>
- <h2>SHAI™ turns insight into aligned action.</h2>
-
-<p>
-  SHAI<span class="tm">™</span>, short for <strong>Strategic HR Alignment Intelligence</strong>, is the stability intelligence layer within VOL Health that enables communities to move north-east by reducing near-term volatility while strengthening long-term workforce stability.
-</p>
-
-<p class="muted-note">
-  The interface below is a directional preview of the experience. Live data integrations are not yet connected.
-</p>
-
-  <div class="hero-meta">
-    <div class="meta-pill">Community: <strong>Hudson Oaks Memory Care</strong></div>
-    <div class="meta-pill">Mode: <strong>Stability Active</strong></div>
-    <div class="meta-pill">View: <strong id="viewLabel">WFI (Operator)</strong></div>
-  </div>
-</section>
-
-    <section class="card tabs-card">
-      <div class="tabs-bar">
-        <div class="tabs-left">
-          <button class="tab-btn" id="tabBtn-wfi" type="button" onclick="setTab('wfi')">WFI (Operator)</button>
-          <button class="tab-btn" id="tabBtn-provider" type="button" onclick="setTab('provider')">Provider</button>
+    <header class="platform-header">
+      <div class="platform-header-top">
+        <div class="platform-brand">
+          <div class="platform-logo-line">
+            <span class="platform-logo-vol">VOL</span>
+            <span class="platform-logo-health">HEALTH</span>
+          </div>
+          <div class="platform-brand-sub">STAFFHEALTH + ACCUSHIELD VERIFIED</div>
         </div>
-        <div class="tab-hint">Tip: we remember your last view.</div>
+
+        <nav class="platform-nav">
+          <a href="volatility-index.html" class="nav-pill">VI</a>
+          <a href="wsi.html" class="nav-pill">WSI</a>
+          <a href="shai.html" class="nav-pill active">SHAI</a>
+          <a href="map.html" class="nav-pill">Stability Map</a>
+          <a href="index.html" class="nav-pill">Platform Hub</a>
+        </nav>
       </div>
 
-      <!-- ===================== WFI (OPERATOR) ===================== -->
-      <div class="tab-panel" id="panel-wfi">
-        <div class="page">
+      <div class="platform-page-intro">
+        <div class="page-kicker">VOL HEALTH™ ALIGNMENT LAYER</div>
+        <h1 class="page-title">Strategic HR Alignment Intelligence</h1>
+        <p class="page-subtitle">
+          SHAI turns stability insight into aligned action by helping operators, schedulers, and providers move from detection to the right next response.
+        </p>
+      </div>
+    </header>
 
-          <!-- Search -->
+    <div class="page">
+
+      <section class="system-spine">
+        <div class="spine-card">
+          <div class="step">Step 1</div>
+          <strong>VI — Detect</strong>
+          <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
+        </div>
+        <div class="spine-card">
+          <div class="step">Step 2</div>
+          <strong>WSI — Measure</strong>
+          <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+        </div>
+        <div class="spine-card active">
+          <div class="step">Step 3</div>
+          <strong>SHAI — Align</strong>
+          <span>Recommend the right operational response before instability spreads and translate insight into action.</span>
+        </div>
+      </section>
+
+      <section class="context-bar">
+        <div class="context-main">
+          <div class="context-field">
+            <label>Community + Status</label>
+            <div class="inline-mode-options">
+              <label><input type="radio" checked disabled /> Hudson Oaks Memory Care</label>
+              <label><input type="radio" checked disabled /> Stability Active</label>
+              <label><input type="radio" checked disabled /> <span id="viewLabel">Operator Layer</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="context-actions">
+          <div class="btn-row">
+            <a class="btn-link ghost" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link ghost" href="wsi.html">Go to WSI</a>
+            <a class="btn-link gray" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="tabs-card">
+        <div class="tabs-bar">
+          <div class="tabs-left">
+            <button class="tab-btn" id="tabBtn-wfi" type="button" onclick="setTab('wfi')">Operator Layer</button>
+            <button class="tab-btn" id="tabBtn-provider" type="button" onclick="setTab('provider')">Provider Layer</button>
+          </div>
+          <div class="tab-hint">Directional preview only. Live integrations are not yet connected.</div>
+        </div>
+
+        <div class="tab-panel" id="panel-wfi">
           <section class="search-shell">
             <div class="search-label">Ask SHAI about your caregivers, staffing, or hiring</div>
             <div class="search-row">
@@ -611,12 +931,7 @@
                   type="text"
                   placeholder='e.g. "Show me CNAs within 15 miles who stabilize weekend memory-care shifts"' />
               </div>
-
-              <!-- FIX: use the button system -->
-              <button class="btn btn-primary search-button" type="button">
-                <span class="icon">▶</span>
-                Ask SHAI
-              </button>
+              <button class="btn primary search-button" type="button">Ask SHAI</button>
             </div>
 
             <div class="prompt-chips">
@@ -628,19 +943,17 @@
             </div>
           </section>
 
-          <!-- Main Layout -->
           <section class="layout-grid">
-            <!-- Left: AI answer + results -->
             <div class="card">
               <div class="card-header">
-                <div class="card-title">
-                  🧠 SHAI Answer
-                  <span class="card-title-badge">Live Intelligence</span>
-                </div>
+                <div class="card-title">🧠 SHAI Answer <span class="card-title-badge">Live Intelligence</span></div>
               </div>
-              <div class="card-sub">Prompt: “Reliable CNAs within 15 miles for memory care this month.”</div>
 
-              <div class="card-sub" style="padding-top:0;">
+              <div class="card-sub">
+                Prompt: “Reliable CNAs within 15 miles for memory care this month.”
+              </div>
+
+              <div class="card-sub">
                 I found <strong>12 caregivers</strong> that match your request:
                 <ul style="margin:8px 0 0 18px; padding:0; font-size:13px; color:rgba(255,255,255,0.78); line-height:1.45;">
                   <li>8 have worked memory care in the last 90 days</li>
@@ -648,18 +961,14 @@
                   <li>3 are currently eligible for full-time hire with no fee</li>
                   <li>4 have strong matches to communities similar to yours</li>
                 </ul>
-                <div style="margin-top:10px; color:rgba(255,255,255,0.75); font-size:12.5px;">
-                  Tap any profile below to see reliability, experience, and hire-eligibility.
-                </div>
               </div>
 
-              <div class="card-sub" style="padding-top:0;">
-                <span class="card-title-badge" style="background: rgba(110,117,138,0.18);">Filtered by reliability &amp; experience</span>
-                <span class="card-title-badge" style="background: rgba(110,117,138,0.18);">Availability confirmed via VOL Health</span>
-                <span class="card-title-badge" style="background: rgba(110,117,138,0.18);">Similarity to your community factored in</span>
+              <div class="card-sub">
+                <span class="card-title-badge" style="background:rgba(127,135,157,0.18);">Filtered by reliability &amp; experience</span>
+                <span class="card-title-badge" style="background:rgba(127,135,157,0.18);">Availability confirmed via VOL Health</span>
+                <span class="card-title-badge" style="background:rgba(127,135,157,0.18);">Similarity to your community factored in</span>
               </div>
 
-              <!-- Candidate list (structure corrected so avatar/layout behaves) -->
               <div class="candidate-list">
                 <div class="candidate-card">
                   <div class="candidate-row-top">
@@ -680,9 +989,9 @@
                   </div>
 
                   <div class="candidate-meta">
-                    <span class="meta-pill fit">Fit: ★★★★☆ · similar communities</span>
-                    <span class="meta-pill">Weekend &amp; overnight capable</span>
-                    <span class="meta-pill">Available via VOL Health</span>
+                    <span class="chip fit">Fit: ★★★★☆ · similar communities</span>
+                    <span class="chip">Weekend &amp; overnight capable</span>
+                    <span class="chip">Available via VOL Health</span>
                   </div>
                 </div>
 
@@ -705,9 +1014,9 @@
                   </div>
 
                   <div class="candidate-meta">
-                    <span class="meta-pill fit">Fit: ★★★★★</span>
-                    <span class="meta-pill">Strong request-back history</span>
-                    <span class="meta-pill">Available via VOL Health</span>
+                    <span class="chip fit">Fit: ★★★★★</span>
+                    <span class="chip">Strong request-back history</span>
+                    <span class="chip">Available via VOL Health</span>
                   </div>
                 </div>
 
@@ -730,48 +1039,40 @@
                   </div>
 
                   <div class="candidate-meta">
-                    <span class="meta-pill fit">Fit: ★★★☆☆</span>
-                    <span class="meta-pill">Weekend coverage priority</span>
-                    <span class="meta-pill">Available via VOL Health</span>
+                    <span class="chip fit">Fit: ★★★☆☆</span>
+                    <span class="chip">Weekend coverage priority</span>
+                    <span class="chip">Available via VOL Health</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Insight -->
               <div class="insight-card">
                 <div class="insight-icon">ⓘ</div>
                 <div>
                   <strong>Stability Insight</strong>
                   <div class="insight-sub">
-                    Selecting a caregiver with a Fit Score of ★★★★☆ or higher for your weekend memory-care
-                    shifts is projected to reduce your <strong>Weekend Volatility Index by 18 points</strong>
-                    and save approximately <strong>$28,600/year</strong>, based on your current VOL Health profile.
+                    Selecting a caregiver with a Fit Score of ★★★★☆ or higher for your weekend memory-care shifts is projected to reduce your <strong>Weekend Volatility Index by 18 points</strong> and save approximately <strong>$28,600/year</strong>, based on your current VOL Health profile.
                   </div>
                 </div>
               </div>
 
-              <!-- Usage banner -->
               <div class="usage-card">
                 <div class="usage-icon">⚡</div>
                 <div>
                   <div><strong>Powered by VOL Health usage</strong></div>
                   <div class="usage-sub">
-                    This live intelligence stays fully active while you maintain at least
-                    <strong>40 VOL Health hours/month</strong>. If usage drops, SHAI will continue to work,
-                    but real-time availability and updated scores will gradually freeze.
+                    This intelligence layer stays fully active while you maintain consistent VOL Health usage. If usage drops, SHAI can still guide decisions, but real-time availability and refreshed scores will gradually freeze.
                   </div>
                 </div>
               </div>
-
-              <div style="height:14px;"></div>
             </div>
 
-            <!-- Right: Summary & actions -->
             <aside class="sidebar-section">
               <div class="card">
                 <div class="card-header">
                   <div class="card-title">VOL Health Snapshot</div>
                 </div>
+
                 <div class="card-sub">
                   Economic impact of instability, based on your current pattern of OT, PRN usage, vacancies, and turnover.
                 </div>
@@ -782,30 +1083,29 @@
                     <div class="metric-value">$184,000</div>
                     <div class="metric-sub">OT + PRN + leadership drag · yearly estimate</div>
                   </div>
+
                   <div class="metric-box">
                     <div class="metric-label">Workforce Drag</div>
                     <div class="metric-value">$236,000</div>
                     <div class="metric-sub">Turnover + vacancy drag · yearly estimate</div>
                   </div>
+
                   <div class="metric-box">
                     <div class="metric-label">Stabilizable Upside</div>
                     <div class="metric-value">$312,000</div>
                     <div class="metric-sub">Conservative savings unlocked through SHAI-guided staffing + hiring</div>
                   </div>
+
                   <div class="metric-box">
                     <div class="metric-label">Suggested Tier</div>
                     <div class="metric-sub">
-                      <div class="meta-pill" style="background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.10);">
-                        <span style="width:9px;height:9px;border-radius:99px;background: var(--brand-yellow); display:inline-block;"></span>
-                        Core Stability · AI-Enabled
-                      </div>
+                      <span class="chip"><span style="width:9px;height:9px;border-radius:99px;background:var(--amber);display:inline-block;"></span> Core Stability · AI-Enabled</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="sidebar-note">
-                  SHAI uses your VOL Health stability profile to prioritize caregivers who reduce volatility and drag,
-                  not just “fill” shifts.
+                  SHAI uses your VOL Health stability profile to prioritize caregivers who reduce volatility and drag, not just “fill” shifts.
                 </div>
               </div>
 
@@ -813,165 +1113,156 @@
                 <div class="card-header">
                   <div class="card-title">Next Best Actions</div>
                 </div>
+
                 <div class="card-sub">
                   Turn SHAI recommendations into real staffing decisions in a few clicks.
                 </div>
 
                 <div class="actions-bar">
-                  <button class="btn btn-ghost" type="button">⭐ Save shortlist for scheduler</button>
-                  <button class="btn btn-ghost" type="button">📅 Trial for weekend shifts</button>
-                  <button class="btn btn-ghost" type="button">✅ Check full-time hire eligibility</button>
-                  <button class="btn btn-ghost" type="button">📊 View stability impact report</button>
+                  <button class="btn ghost" type="button">Save shortlist for scheduler</button>
+                  <button class="btn ghost" type="button">Trial for weekend shifts</button>
+                  <button class="btn ghost" type="button">Check full-time hire eligibility</button>
+                  <button class="btn ghost" type="button">View stability impact report</button>
                 </div>
 
                 <div class="sidebar-note">
-                  EDs, DONs, and schedulers can share these shortlists and impact reports across your
-                  leadership team to align on staffing decisions quickly.
+                  EDs, DONs, and schedulers can share these shortlists and impact reports across your leadership team to align on staffing decisions quickly.
                 </div>
               </div>
             </aside>
           </section>
-
         </div>
-      </div>
 
-      <!-- ===================== PROVIDER ===================== -->
-      <div class="tab-panel" id="panel-provider">
-        <div class="page">
-
-          <!-- Recommended Shifts -->
-          <section class="section">
-            <div class="section-title">⭐ Your Best-Fit Shifts (Recommended by SHAI)</div>
-
-            <div class="shift-card">
-              <div class="shift-title">Memory Care · Evening Shift</div>
-              <div class="shift-meta">
-                <span>4pm–10pm · Fri, Feb 14</span>
-                <span class="chip">High Fit</span>
+        <div class="tab-panel" id="panel-provider">
+          <section class="layout-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Best-Fit Shifts</div>
               </div>
-              <div class="shift-meta">
-                <span>Strong request-back history</span>
-                <span>12 miles away</span>
+
+              <div class="card-sub">
+                SHAI recommends shifts that match your reliability, history, and skill profile.
               </div>
-              <!-- FIX: use base .btn -->
-              <button class="btn btn-primary" type="button">Request Shift</button>
+
+              <section class="section">
+                <div class="shift-card">
+                  <div class="shift-title">Memory Care · Evening Shift</div>
+                  <div class="shift-meta">
+                    <span>4pm–10pm · Fri, Feb 14</span>
+                    <span class="chip">High Fit</span>
+                  </div>
+                  <div class="shift-meta">
+                    <span>Strong request-back history</span>
+                    <span>12 miles away</span>
+                  </div>
+                  <button class="btn primary" type="button">Request Shift</button>
+                </div>
+
+                <div class="shift-card">
+                  <div class="shift-title">Assisted Living · Weekend Double</div>
+                  <div class="shift-meta">
+                    <span>Sat 7am–7pm</span>
+                    <span class="chip">Stability Bonus Eligible</span>
+                  </div>
+                  <div class="shift-meta">
+                    <span>You’ve had 3 perfect weekends here</span>
+                    <span>9 miles away</span>
+                  </div>
+                  <button class="btn primary" type="button">Request Shift</button>
+                </div>
+
+                <div class="shift-card">
+                  <div class="shift-title">Skilled Nursing · Night Shift</div>
+                  <div class="shift-meta">
+                    <span>11pm–7am · Tues</span>
+                    <span class="chip">Pro Match</span>
+                  </div>
+                  <div class="shift-meta">
+                    <span>Great reliability on nights</span>
+                    <span>14 miles away</span>
+                  </div>
+                  <button class="btn primary" type="button">Request Shift</button>
+                </div>
+              </section>
             </div>
 
-            <div class="shift-card">
-              <div class="shift-title">Assisted Living · Weekend Double</div>
-              <div class="shift-meta">
-                <span>Sat 7am–7pm</span>
-                <span class="chip">Stability Bonus Eligible</span>
-              </div>
-              <div class="shift-meta">
-                <span>You’ve had 3 perfect weekends here</span>
-                <span>9 miles away</span>
-              </div>
-              <button class="btn btn-primary" type="button">Request Shift</button>
-            </div>
+            <aside class="sidebar-section">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Your Performance + Progress</div>
+                </div>
 
-            <div class="shift-card">
-              <div class="shift-title">Skilled Nursing · Night Shift</div>
-              <div class="shift-meta">
-                <span>11pm–7am · Tues</span>
-                <span class="chip">Pro Match</span>
-              </div>
-              <div class="shift-meta">
-                <span>Great reliability on nights</span>
-                <span>14 miles away</span>
-              </div>
-              <button class="btn btn-primary" type="button">Request Shift</button>
-            </div>
-          </section>
+                <div class="summary-metrics">
+                  <div class="metric-box">
+                    <div class="metric-label">Reliability</div>
+                    <div class="metric-value">92 / 100</div>
+                  </div>
 
-          <!-- Your Stats -->
-          <section class="section">
-            <div class="section-title">📊 Your Performance &amp; Progress</div>
+                  <div class="metric-box">
+                    <div class="metric-label">Stability Streak</div>
+                    <div class="metric-value">17 shifts</div>
+                    <div class="progress-bar"><div class="progress-bar-fill" style="width:82%;"></div></div>
+                  </div>
 
-            <div style="display:flex; gap:14px; flex-wrap:wrap;">
-              <div class="metric-box">
-                <div class="metric-label">Reliability</div>
-                <div class="metric-value">92/100</div>
-              </div>
+                  <div class="metric-box">
+                    <div class="metric-label">FT Eligibility</div>
+                    <div class="metric-value">148 / 182 hrs</div>
+                    <div class="progress-bar"><div class="progress-bar-fill" style="width:81%;"></div></div>
+                  </div>
 
-              <div class="metric-box" style="flex: 1; min-width: 260px;">
-                <div class="metric-label">Stability Streak</div>
-                <div class="metric-value">17 shifts</div>
-                <div class="progress-bar">
-                  <div class="progress-bar-fill" style="width: 82%;"></div>
+                  <div class="metric-box">
+                    <div class="metric-label">Career Track</div>
+                    <div class="metric-value">Memory Care Pro</div>
+                    <div class="metric-sub">Gold Reliability Level in progress</div>
+                  </div>
                 </div>
               </div>
 
-              <div class="metric-box" style="min-width: 220px;">
-                <div class="metric-label">FT Eligibility</div>
-                <div class="metric-value">148 / 182 hrs</div>
-                <div class="progress-bar">
-                  <div class="progress-bar-fill" style="width: 81%;"></div>
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">SHAI Recommendations</div>
+                </div>
+
+                <div class="recommendation">
+                  You are <strong>34 hours away</strong> from being eligible for a <strong>full-time hire</strong> at two communities where you’ve performed exceptionally well.
+                  <br><br>
+                  Based on your strengths in night shift and memory care, SHAI suggests prioritizing:
+                  <ul style="margin:6px 0 6px 20px;">
+                    <li>2 night shifts this week</li>
+                    <li>1 weekend shift next week</li>
+                  </ul>
+                  This will elevate your reliability score to <strong>94/100</strong> and complete your FT eligibility.
+                </div>
+
+                <div class="recommendation rec-warn" style="margin-top:10px;">
+                  SHAI has detected a slight increase in late check-ins and a 3-week streak of heavy workloads.
+                  <br><br>
+                  Recommendation:
+                  <ul style="margin:6px 0 6px 20px;">
+                    <li>Choose lighter shifts for the next 5–7 days</li>
+                    <li>Avoid double shifts this weekend</li>
+                    <li>Consider an AL shift instead of MC to prevent fatigue</li>
+                  </ul>
+                </div>
+
+                <div class="recommendation rec-info" style="margin-top:10px;">
+                  You are on track for the <strong>Memory Care Pro badge</strong> and <strong>Gold Reliability Level</strong>. These unlock preferred shift access, stability bonuses, higher Fit Score visibility, and faster FT conversion opportunities.
                 </div>
               </div>
-            </div>
+            </aside>
           </section>
-
-          <!-- Personalized Recommendations -->
-          <section class="section">
-            <div class="section-title">🧠 SHAI Recommendations</div>
-
-            <div class="recommendation">
-              You are <strong>34 hours away</strong> from being eligible for a <strong>full-time hire</strong> at two communities where you’ve
-              performed exceptionally well (Hudson Oaks MC &amp; Willow Ridge AL).
-              <br><br>
-              Based on your strengths in night shift and memory care, SHAI suggests prioritizing:
-              <ul style="margin: 6px 0 6px 20px;">
-                <li>2 night shifts this week</li>
-                <li>1 weekend shift next week</li>
-              </ul>
-              This will elevate your reliability score to <strong>94/100</strong> and complete your FT eligibility.
-            </div>
-          </section>
-
-          <!-- Burnout Monitor (FIXED: dark-mode friendly) -->
-          <section class="section">
-            <div class="section-title">💙 Burnout &amp; Wellness Monitor</div>
-            <div class="recommendation rec-warn">
-              SHAI has detected a slight increase in late check-ins and a 3-week streak of heavy workloads.
-              <br><br>
-              Recommendation:
-              <ul style="margin: 6px 0 6px 20px;">
-                <li>Choose lighter shifts for the next 5–7 days</li>
-                <li>Avoid double shifts this weekend</li>
-                <li>Consider an AL shift instead of MC to prevent fatigue</li>
-              </ul>
-              Staying balanced helps preserve your reliability score and career momentum.
-            </div>
-          </section>
-
-          <!-- Career Path (FIXED: dark-mode friendly) -->
-          <section class="section">
-            <div class="section-title">🌱 Your Career Path Progress</div>
-            <div class="recommendation rec-info">
-              You are on track for the <strong>“Memory Care Pro” badge</strong> and <strong>Gold Reliability Level</strong>.
-              These unlock:
-              <ul style="margin:6px 0 6px 20px;">
-                <li>Preferred shift access</li>
-                <li>Stability bonuses</li>
-                <li>Higher Fit Score visibility</li>
-                <li>Faster FT conversion opportunities</li>
-              </ul>
-              Keep your streak going — SHAI is actively matching you to the roles where you thrive.
-            </div>
-          </section>
-
         </div>
+      </section>
+
+      <div class="prototype-note">
+        <strong>Prototype concept for internal discussion and testing.</strong>
+        Built by Hudson Keel as a directional framework for turning senior living volatility and workforce insight into aligned action.
+        <span class="small">
+          VOL Health™ and SHAI™ are working internal concepts designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. They do not represent finalized commercial products.
+        </span>
       </div>
 
-    </section>
-
-    <footer>
-      Prototype concept for internal discussion and testing. Built by Hudson Keel as a directional framework for senior living volatility &amp; workforce stability diagnostics.
-      <br/>
-      VOL Health™ is a working name for an internal tool and does not represent a commercial product offering.
-    </footer>
-
+    </div>
   </div>
 
   <script>
@@ -995,7 +1286,7 @@
       });
 
       const label = document.getElementById("viewLabel");
-      if(label) label.textContent = tab === "provider" ? "Provider" : "WFI (Operator)";
+      if(label) label.textContent = tab === "provider" ? "Provider Layer" : "Operator Layer";
 
       try{ localStorage.setItem(STORAGE_KEY, tab); }catch(e){}
     }
