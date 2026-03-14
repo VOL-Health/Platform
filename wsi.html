@@ -2,54 +2,330 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>VOL Health™ – Workforce Stability Index (WSI)</title>
+  <title>VOL Health | Workforce Stability Index</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --brand-blue:#1f57b8;
-      --brand-green:#2e8b57;
-      --brand-yellow:#f2b705;
-      --dark:#050814;
-      --bg:#050816;
-      --card:#0d1224;
-      --muted:#9399b3;
-      --border:#242944;
-      --danger:#df4759;
+      --bg:#07111f;
+      --bg-2:#0c1830;
+      --panel:rgba(13,18,36,0.96);
+      --panel-2:rgba(17,24,46,0.94);
+      --line:rgba(255,255,255,0.10);
+      --text:#eef4ff;
+      --muted:#9fb2d2;
+      --blue:#2c6cff;
+      --green:#35c67a;
+      --green-2:#28a862;
+      --amber:#f6b44b;
+      --red:#f06161;
+      --shadow:0 14px 34px rgba(0,0,0,0.34);
+      --radius-xl:20px;
+      --radius-lg:18px;
+      --radius-md:14px;
     }
 
     *{
       box-sizing:border-box;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      margin:0;
-      padding:0;
     }
 
-body{
-  margin:0;
-  color:#eef4ff;
-  min-height:100vh;
-  font-family:Inter, Arial, Helvetica, sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
-    radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
-    linear-gradient(180deg, #06101e 0%, #091427 32%, #0c1830 68%, #0a1629 100%);
-}
+    html,body{
+      min-height:100%;
+    }
 
-.shell{
-  width:min(1280px, calc(100% - 28px));
-  margin:22px auto 40px;
-  border-radius:0;
-  padding:0 0 32px;
-  background:none;
-  box-shadow:none;
-  overflow:visible;
-}
+    body{
+      margin:0;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
+    }
 
- .page{
-  padding:8px 14px 32px;
-  background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
-  border-radius:22px;
-}
+    a{
+      color:inherit;
+    }
+
+    .shell{
+      width:min(1280px, calc(100% - 28px));
+      margin:22px auto 40px;
+      padding:0 0 32px;
+    }
+
+    .platform-header{
+      margin-bottom:6px;
+      padding:18px 14px 0;
+    }
+
+    .platform-header-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .platform-brand{
+      min-width:0;
+    }
+
+    .platform-logo-line{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      line-height:0.95;
+    }
+
+    .platform-logo-vol{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:var(--blue);
+      letter-spacing:0.02em;
+    }
+
+    .platform-logo-health{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#f3f6ff;
+      letter-spacing:0.02em;
+    }
+
+    .platform-brand-sub{
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.22em;
+      color:rgba(255,255,255,0.78);
+    }
+
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+    }
+
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+      color:#ffffff;
+    }
+
+    .platform-page-intro{
+      padding:14px 18px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      margin-bottom:6px;
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      text-transform:none;
+      margin-bottom:12px;
+    }
+
+    .page-title{
+      margin:0 0 6px;
+      font-size:clamp(22px, 2.6vw, 32px);
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.01em;
+    }
+
+    .page-subtitle{
+      margin-top:4px;
+      max-width:760px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .page{
+      padding:8px 14px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
+      border-radius:22px;
+    }
+
+    .system-spine{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+      margin:0 0 14px;
+    }
+
+    .spine-card{
+      background:rgba(16,23,44,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:14px 16px;
+      min-height:104px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+    }
+
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.55);
+      background:linear-gradient(180deg, rgba(44,108,255,0.16), rgba(13,18,36,0.96));
+      box-shadow:0 18px 36px rgba(0,0,0,0.45);
+    }
+
+    .spine-card .step{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:6px;
+    }
+
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin-bottom:6px;
+      color:#f5f6ff;
+    }
+
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .context-bar{
+      display:grid;
+      grid-template-columns:1.3fr 1.2fr auto;
+      gap:12px;
+      margin:0 0 14px;
+      padding:14px 16px;
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+    }
+
+    .context-field{
+      margin-bottom:10px;
+    }
+
+    .context-actions{
+      margin-top:6px;
+    }
+
+    .context-field label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:8px;
+    }
+
+    .inline-mode-options{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin:0;
+    }
+
+    .inline-mode-options label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:14px;
+      color:#f5f6ff;
+      text-transform:none;
+      letter-spacing:0;
+      margin:0;
+    }
+
+    .mode-options input{
+      margin-right:6px;
+      accent-color:var(--green);
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn,
+    .btn-link{
+      border:none;
+      background:var(--blue);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.04em;
+      box-shadow:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      transition:filter 0.12s ease, transform 0.12s ease;
+    }
+
+    .btn:hover,
+    .btn-link:hover{
+      filter:brightness(1.06);
+      transform:translateY(-1px);
+    }
+
+    .btn.secondary,
+    .btn-link.secondary{
+      background:#39415a;
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.green,
+    .btn-link.green{
+      background:linear-gradient(90deg, var(--green), #34c08a);
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.ghost,
+    .btn-link.ghost{
+      background:transparent;
+      border:1px solid #33406f;
+      color:#dce5ff;
+    }
 
     h1{
       font-size:1.6rem;
@@ -90,14 +366,14 @@ body{
       font-size:0.9rem;
     }
 
-#snapshotTitle{
-  margin:6px 0 4px;
-}
+    #snapshotTitle{
+      margin:6px 0 4px;
+    }
 
-#snapshotSubtitle{
-  margin:0 0 16px;
-}
-    
+    #snapshotSubtitle{
+      margin:0 0 16px;
+    }
+
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -105,13 +381,13 @@ body{
       margin-top:16px;
     }
 
-.card{
-  background:rgba(17,24,46,0.94);
-  border-radius:20px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.28);
-  padding:18px;
-  border:1px solid rgba(255,255,255,0.11);
-}
+    .card{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+    }
 
     .card p{
       font-size:0.8rem;
@@ -130,23 +406,6 @@ body{
       margin-bottom:10px;
     }
 
-.pill{
-  position:absolute;
-  top:14px;
-  right:18px;
-  font-size:11px;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.12);
-  color:#d8def8;
-  letter-spacing:.06em;
-}
-
-.shsi-hero{
-  position:relative;
-}
-    
     .field label{
       display:flex;
       justify-content:space-between;
@@ -167,29 +426,21 @@ body{
     input[type="text"],
     select{
       width:100%;
-      padding:6px 7px;
-      border-radius:8px;
-      border:1px solid var(--border);
+      padding:9px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.10);
       font-size:0.88rem;
-      box-sizing:border-box;
-      font-family:inherit;
       background:#050814;
       color:#f5f6ff;
+      font-family:inherit;
     }
 
     input[type="number"]:focus,
     input[type="text"]:focus,
     select:focus{
       outline:none;
-      border-color:var(--brand-blue);
+      border-color:var(--blue);
       box-shadow:0 0 0 2px rgba(31,87,184,0.45);
-    }
-
-
-
-    .mode-options input{
-      margin-right:6px;
-      accent-color:var(--brand-green);
     }
 
     .note{
@@ -198,10 +449,21 @@ body{
       margin-top:6px;
     }
 
-    .single-only{display:block;}
-    .portfolio-only{display:none;}
-    body.mode-portfolio .single-only{display:none;}
-    body.mode-portfolio .portfolio-only{display:block;}
+    .single-only{
+      display:block;
+    }
+
+    .portfolio-only{
+      display:none;
+    }
+
+    body.mode-portfolio .single-only{
+      display:none;
+    }
+
+    body.mode-portfolio .portfolio-only{
+      display:block;
+    }
 
     .dist-table{
       width:100%;
@@ -213,7 +475,7 @@ body{
 
     .dist-table th,
     .dist-table td{
-      padding:4px 6px;
+      padding:6px 8px;
       border-bottom:1px solid #242944;
       text-align:left;
       vertical-align:top;
@@ -225,18 +487,13 @@ body{
       color:#f5f6ff;
     }
 
-    .dist-bands{
-      font-size:0.74rem;
-      color:var(--muted);
-    }
-
     .small-input{
       width:70px;
-      padding:4px 5px;
+      padding:6px 7px;
       font-size:0.8rem;
       background:#050814;
       border-radius:8px;
-      border:1px solid var(--border);
+      border:1px solid rgba(255,255,255,0.10);
       color:#f5f6ff;
     }
 
@@ -245,6 +502,10 @@ body{
       font-weight:600;
       text-align:right;
       min-width:80px;
+    }
+
+    .total-cell.bad{
+      color:#ff9ba8;
     }
 
     .summary-grid{
@@ -271,7 +532,7 @@ body{
     .score-number{
       font-size:2.2rem;
       font-weight:800;
-      color:var(--brand-yellow);
+      color:var(--amber);
     }
 
     .score-tag{
@@ -314,8 +575,8 @@ body{
     .kpi{
       flex:1 1 180px;
       background:#050814;
-      border-radius:10px;
-      padding:8px 10px;
+      border-radius:12px;
+      padding:10px 12px;
       font-size:0.86rem;
       border:1px solid #252b49;
     }
@@ -380,59 +641,6 @@ body{
       font-weight:600;
     }
 
-    .btn-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-    }
-
-    .btn,
-    .btn-link{
-      border:none;
-      background:var(--brand-blue);
-      color:#fff;
-      padding:10px 16px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:800;
-      cursor:pointer;
-      text-transform:uppercase;
-      letter-spacing:0.6px;
-      box-shadow:0 10px 26px rgba(2,12,54,0.7);
-      transition:transform 0.12s ease,box-shadow 0.12s ease,filter 0.12s ease;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .btn:hover,
-    .btn-link:hover{
-      filter:brightness(1.06);
-      transform:translateY(-1px);
-      box-shadow:0 14px 36px rgba(2,12,54,0.85);
-    }
-
-    .btn.secondary,
-    .btn-link.secondary{
-      background:#30364f;
-      box-shadow:none;
-    }
-
-    .btn.green,
-    .btn-link.green{
-      background:linear-gradient(90deg,var(--brand-green),#34c08a);
-    }
-
-    .btn.ghost,
-    .btn-link.ghost{
-      background:transparent;
-      border:1px solid #33406f;
-      color:#dce5ff;
-      box-shadow:none;
-    }
-
     .nav-note{
       margin-top:14px;
       padding:12px 14px;
@@ -454,11 +662,11 @@ body{
     }
 
     .portfolio-card{
-      background:var(--card);
-      border-radius:16px;
-      box-shadow:0 14px 32px rgba(0,0,0,0.75);
-      padding:16px 16px 18px;
-      border:1px solid var(--border);
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
       margin-bottom:16px;
     }
 
@@ -511,327 +719,78 @@ body{
       min-width:84px;
     }
 
-    .total-cell.bad{
-      color:#ff9ba8;
+    .prototype-note{
+      margin-top:28px;
+      width:100%;
+      max-width:none;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
     }
 
-      
+    .prototype-note strong{
+      color:#eef4ff;
+      font-weight:700;
+    }
+
+    .prototype-note .small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      opacity:0.9;
+    }
+
+    @media (max-width: 980px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .platform-nav{
+        justify-content:flex-start;
+      }
+
+      .system-spine{
+        grid-template-columns:1fr;
+      }
+
+      .context-bar{
+        grid-template-columns:1fr;
+      }
+
+      .summary-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
     @media (max-width:720px){
+      .page{
+        padding:14px 14px 28px;
+      }
+
+      h1{
+        font-size:1.4rem;
+      }
+
+      .card,
+      .portfolio-card{
+        padding:14px 12px 16px;
+      }
+
       .portfolio-top{
         grid-template-columns:1fr;
       }
     }
-    
-.prototype-note {
-  margin-top: 28px;
-  width: 100%;
-  max-width: none;
-  padding: 16px 18px;
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.03);
-  color: var(--muted, #9fb2d2);
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.prototype-note strong {
-  color: var(--text, #eef4ff);
-  font-weight: 700;
-}
-
-.prototype-note .small {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.9;
-}
-    
-    .footer-note{
-      margin-top:20px;
-      font-size:0.78rem;
-      color:var(--muted);
-      max-width:860px;
-    }
-
-    .attribution{
-      text-align:center;
-      font-size:11px;
-      color:#686f97;
-      margin-top:10px;
-      opacity:0.8;
-    }
-
-    @media (max-width:720px){
-      body{
-        padding:18px 8px 32px;
-      }
-      .shell{
-        border-radius:22px;
-      }
-      .page{
-        padding:14px 14px 28px;
-      }
-      .summary-grid{
-        grid-template-columns:1fr;
-      }
-      h1{
-        font-size:1.4rem;
-      }
-      .card{
-        padding:14px 12px 16px;
-      }
-    }
-
- .platform-header{
-  margin-bottom:2px;
-  padding:18px 14px 0;
-}
-
-    .platform-header-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:18px;
-      margin-bottom:18px;
-    }
-
-    .platform-brand{
-      min-width:0;
-    }
-
-    .platform-logo-line{
-      display:flex;
-      align-items:flex-end;
-      gap:10px;
-      line-height:0.95;
-    }
-
-    .platform-logo-vol{
-      font-size:clamp(44px, 5vw, 72px);
-      font-weight:900;
-      color:#2c6cff;
-      letter-spacing:0.02em;
-    }
-
-    .platform-logo-health{
-      font-size:clamp(44px, 5vw, 72px);
-      font-weight:900;
-      color:#f3f6ff;
-      letter-spacing:0.02em;
-    }
-
-    .platform-brand-sub{
-      margin-top:4px;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:0.22em;
-      color:rgba(255,255,255,0.78);
-    }
-
-    .platform-nav{
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .nav-pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.12);
-      background:rgba(255,255,255,0.04);
-      color:#eef4ff;
-      text-decoration:none;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:0.04em;
-      white-space:nowrap;
-      text-transform:none;
-      box-shadow:none;
-    }
-
-    .nav-pill:hover{
-      background:rgba(255,255,255,0.08);
-      border-color:rgba(255,255,255,0.24);
-      transform:none;
-      filter:none;
-    }
-
-    .nav-pill.active{
-      background:rgba(44,108,255,0.16);
-      border-color:rgba(44,108,255,0.45);
-      color:#ffffff;
-    }
-
-    .platform-page-intro{
-      padding:14px 18px;
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
-      margin-bottom:6px;
-    }
-
-    .page-kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 12px;
-      border-radius:999px;
-      border:1px solid rgba(44,108,255,0.35);
-      background:rgba(44,108,255,0.12);
-      color:#dbe6ff;
-      font-size:11px;
-      font-weight:700;
-      letter-spacing:0.04em;
-      text-transform:none;
-      margin-bottom:12px;
-    }
-
-    .page-title{
-      margin:0 0 6px;
-      font-size:clamp(22px, 2.6vw, 32px);
-      line-height:1.1;
-      font-weight:800;
-      letter-spacing:-0.01em;
-    }
-
-    .page-subtitle{
-      margin-top:4px;
-      max-width:760px;
-      color:rgba(255,255,255,0.78);
-      font-size:14px;
-      line-height:1.5;
-    }
-
-    @media (max-width: 980px){
-  .platform-header-top{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .platform-nav{
-    justify-content:flex-start;
-  }
-}
-
-.system-spine{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:12px;
-  margin:0 0 14px;
-}
-
-.spine-card{
-  background:rgba(16,23,44,0.92);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:18px;
-  padding:14px 16px;
-  min-height:104px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.28);
-}
-
-.spine-card.active{
-  border-color:rgba(44,108,255,0.45);
-  background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
-}
-
-.spine-card .step{
-  font-size:11px;
-  color:#9fb2d2;
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  margin-bottom:6px;
-}
-
-.spine-card strong{
-  display:block;
-  font-size:17px;
-  margin-bottom:6px;
-  color:#f5f6ff;
-}
-
-.spine-card span{
-  color:#c4cae8;
-  font-size:13px;
-  line-height:1.45;
-}
-
-.context-bar{
-  display:grid;
-  grid-template-columns:1.3fr 1.2fr auto;
-  gap:12px;
-  margin:0 0 14px;
-  padding:14px 16px;
-  background:rgba(14,20,40,0.90);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:20px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.26);
-}
-
-.context-field{
-  margin-bottom:10px;
-}
-
-.context-actions{
-  margin-top:6px;
-}
-    
-.context-field label{
-  display:block;
-  font-size:11px;
-  color:#9fb2d2;
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  margin-bottom:8px;
-}
-
-.inline-mode-options{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  margin:0;
-}
-
-.inline-mode-options label{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:14px;
-  color:#f5f6ff;
-  text-transform:none;
-  letter-spacing:0;
-  margin:0;
-}
-
-.context-actions .btn-row{
-  flex-wrap:wrap;
-}
-
-@media (max-width: 980px){
-  .system-spine{
-    grid-template-columns:1fr;
-  }
-
-  .context-bar{
-    grid-template-columns:1fr;
-  }
-}
-
-  .context-bar{
-    grid-template-columns:1fr;
-  }
-}
   </style>
 </head>
 <body class="mode-single">
   <div class="shell">
 
-       <header class="platform-header">
+    <header class="platform-header">
       <div class="platform-header-top">
         <div class="platform-brand">
           <div class="platform-logo-line">
@@ -861,58 +820,58 @@ body{
 
     <div class="page">
 
-     <section class="system-spine">
-  <div class="spine-card">
-    <div class="step">Step 1</div>
-    <strong>VI — Detect</strong>
-    <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
-  </div>
-  <div class="spine-card active">
-    <div class="step">Step 2</div>
-    <strong>WSI — Measure</strong>
-    <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
-  </div>
-  <div class="spine-card">
-    <div class="step">Step 3</div>
-    <strong>SHAI — Align</strong>
-    <span>Recommend the right operational response before instability spreads.</span>
-  </div>
-</section>
+      <section class="system-spine">
+        <div class="spine-card">
+          <div class="step">Step 1</div>
+          <strong>VI — Detect</strong>
+          <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
+        </div>
+        <div class="spine-card active">
+          <div class="step">Step 2</div>
+          <strong>WSI — Measure</strong>
+          <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+        </div>
+        <div class="spine-card">
+          <div class="step">Step 3</div>
+          <strong>SHAI — Align</strong>
+          <span>Recommend the right operational response before instability spreads.</span>
+        </div>
+      </section>
 
-<section class="context-bar">
-  <div class="context-field context-mode">
-    <label>Mode</label>
-    <div class="mode-options inline-mode-options">
-      <label>
-        <input type="radio" name="mode" value="single" checked />
-        Single Community
-      </label>
-      <label>
-        <input type="radio" name="mode" value="portfolio" />
-        Portfolio View
-      </label>
-    </div>
-  </div>
+      <section class="context-bar">
+        <div class="context-field context-mode">
+          <label>Mode</label>
+          <div class="mode-options inline-mode-options">
+            <label>
+              <input type="radio" name="mode" value="single" checked />
+              Single Community
+            </label>
+            <label>
+              <input type="radio" name="mode" value="portfolio" />
+              Portfolio View
+            </label>
+          </div>
+        </div>
 
-  <div class="context-field">
-    <label>Community / Portfolio</label>
-    <input type="text" id="entityName" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
-  </div>
+        <div class="context-field">
+          <label>Community / Portfolio</label>
+          <input type="text" id="entityName" placeholder="Bee Cave, Legend Oaks Kyle, Portfolio A, etc." />
+        </div>
 
-  <div class="context-field context-actions">
-    <label>Navigation</label>
-    <div class="btn-row">
-      <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
-      <a class="btn-link ghost" href="index.html">Return to Platform</a>
-    </div>
-  </div>
-</section>
+        <div class="context-field context-actions">
+          <label>Navigation</label>
+          <div class="btn-row">
+            <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link ghost" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+      </section>
 
-<h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
-<p class="subtitle" id="snapshotSubtitle">
-  Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength
-  roll up into a single Workforce Stability Index and economic view.
-</p>
+      <h1 id="snapshotTitle">Workforce Stability Snapshot</h1>
+      <p class="subtitle" id="snapshotSubtitle">
+        Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength
+        roll up into a single Workforce Stability Index and economic view.
+      </p>
 
       <div class="grid single-only">
         <div class="card">
@@ -1048,7 +1007,7 @@ body{
 
       <div class="portfolio-section portfolio-only">
         <div class="portfolio-card">
-          <h3>2. Portfolio Context &amp; Workforce Stability</h3>
+          <h3>Portfolio Context &amp; Workforce Stability</h3>
           <p>
             Enter how many communities fall into each band. The tool converts these distributions into portfolio-wide average values for each WSI metric.
           </p>
@@ -1068,7 +1027,7 @@ body{
         </div>
 
         <div class="portfolio-card">
-          <h3>Portfolio Context &amp; Staffing Volatility</h3>
+          <h3>Portfolio Staffing Volatility</h3>
           <table class="dist-table">
             <thead>
               <tr>
@@ -1293,7 +1252,7 @@ body{
           </div>
         </div>
       </div>
-      
+
       <div class="summary-grid">
         <div class="card summary-main">
           <h2>Stability Index &amp; Economics</h2>
@@ -1323,14 +1282,11 @@ body{
               <div class="kpi-value" id="workforceDrag">$–</div>
             </div>
             <div class="kpi">
-  <div class="kpi-label">Operational Elasticity Health</div>
-
-  <div class="elasticity-state" id="elasticityState">Calculating...</div>
-
-  <div class="kpi-subvalue" id="archetypeMeaning">—</div>
-
-  <div class="kpi-subvalue" id="elasticityScoreLine">Elasticity Score: —</div>
-</div>
+              <div class="kpi-label">Operational Elasticity Health</div>
+              <div class="elasticity-state" id="elasticityState">Calculating...</div>
+              <div class="kpi-subvalue" id="archetypeMeaning">—</div>
+              <div class="kpi-subvalue" id="elasticityScoreLine">Elasticity Score: —</div>
+            </div>
           </div>
 
           <div class="nav-note">
@@ -1394,661 +1350,635 @@ body{
       </div>
 
       <div class="prototype-note">
-  <strong>Prototype concept for internal discussion and testing.</strong>
-  Built by Hudson Keel as a directional framework for assessing workforce absorption capacity in senior living operations.
-  
-  <span class="small">
-  VOL Health™ is a working internal model designed to support workforce stability analysis, volatility interpretation, and strategic response alignment. It does not represent a finalized commercial product.
-  </span>
-</div>
+        <strong>Prototype concept for internal discussion and testing.</strong>
+        Built by Hudson Keel as a directional framework for assessing workforce absorption capacity in senior living operations.
+        <span class="small">
+          VOL Health™ is a working internal model designed to support workforce stability analysis, volatility interpretation, and strategic response alignment. It does not represent a finalized commercial product.
+        </span>
+      </div>
+    </div>
   </div>
 
   <script>
-  const MAP_STORAGE_KEY = "volHealthMapData";
-  const NATURAL_WSI_CAP = 80;
-  const MAX_WSI_STABILIZED = 95;
-    
-  function clamp(value, min, max) {
-    value = Number(value);
-    if (isNaN(value)) return min;
-    return Math.min(Math.max(value, min), max);
-  }
+    const MAP_STORAGE_KEY = "volHealthMapData";
+    const NATURAL_WSI_CAP = 80;
+    const MAX_WSI_STABILIZED = 95;
 
-  function formatCurrency(amount) {
-    if (isNaN(amount)) return "$–";
-    const abs = Math.abs(amount);
-    const sign = amount < 0 ? "-" : "";
-    return sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
-  }
-
-  function getMode() {
-    const checked = document.querySelector("input[name='mode']:checked");
-    return checked ? checked.value : "single";
-  }
-
-  function safeNumber(value){
-    const num = Number(value);
-    return Number.isFinite(num) ? num : null;
-  }
-
-  function readMapData(){
-    try{
-      const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
-      return parsed && typeof parsed === "object" ? parsed : {};
-    }catch(err){
-      return {};
-    }
-  }
-
-  function getExplicitEntityName() {
-    return (document.getElementById("entityName")?.value || "").trim();
-  }
-
-  function getFallbackEntityLabel() {
-    return "WSI Community";
-  }
-
-  function buildLabel(existing){
-    const explicit = getExplicitEntityName();
-    if(explicit) return explicit;
-    if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
-    return getFallbackEntityLabel();
-  }
-
-  function saveVOLHealthMapData(partial){
-    const existing = readMapData();
-
-    const merged = {
-      ...existing,
-      ...partial,
-      label: buildLabel(existing),
-      mode: getMode(),
-      updatedAt: new Date().toISOString()
-    };
-
-    localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-    updateMapStatusChip();
-    return merged;
-  }
-
- function updateMapStatusChip(){
-  const data = readMapData();
-  const hasVI = Number.isFinite(Number(data.vi));
-  const hasWSI = Number.isFinite(Number(data.wsi));
-  const dot = document.getElementById("mapStatusDot");
-  const text = document.getElementById("mapStatusText");
-
-  if (!dot || !text) return;
-
-  if(hasVI && hasWSI){
-    dot.classList.add("active");
-    text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
-  }else if(hasVI){
-    dot.classList.remove("active");
-    text.textContent = `VI saved • WSI still needed for map point`;
-  }else if(hasWSI){
-    dot.classList.remove("active");
-    text.textContent = `WSI saved • VI still needed for map point`;
-  }else{
-    dot.classList.remove("active");
-    text.textContent = "Map point not complete yet";
-  }
-}
-
-  function updateModeUI() {
-    const mode = getMode();
-
-    const titleEl = document.getElementById("snapshotTitle");
-    const subtitleEl = document.getElementById("snapshotSubtitle");
-
-    if(mode === "portfolio"){
-      document.body.classList.add("mode-portfolio");
-
-      titleEl.textContent = "Workforce Stability Snapshot (Portfolio)";
-      subtitleEl.textContent =
-        "Enter how many communities fall into each workforce condition band. The model converts these distributions into portfolio-wide averages and a consolidated Workforce Stability Index.";
-
-    } else {
-      document.body.classList.remove("mode-portfolio");
-
-      titleEl.textContent = "Workforce Stability Snapshot";
-      subtitleEl.textContent =
-        "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
-    }
-  }
-
-  function bandAverage(low, mid, high, total) {
-    total = clamp(total, 1, 500);
-    const rowTotal = low + mid + high;
-    return {
-      score: ((low * 2) + (mid * 6) + (high * 9)) / total,
-      rowTotal
-    };
-  }
-
-  function setRowTotal(id, rowTotal, total) {
-    const cell = document.getElementById(id);
-    if (!cell) return;
-    cell.textContent = `${rowTotal} / ${total}`;
-    cell.classList.toggle("bad", rowTotal !== total);
-  }
-
-  function portfolioInputsToSingleAverages() {
-    const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
-
-    const open = bandAverage(
-      clamp(document.getElementById("pfOpenLow").value, 0, total),
-      clamp(document.getElementById("pfOpenMid").value, 0, total),
-      clamp(document.getElementById("pfOpenHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfOpenTotal", open.rowTotal, total);
-
-    const prn = bandAverage(
-      clamp(document.getElementById("pfPrnLow").value, 0, total),
-      clamp(document.getElementById("pfPrnMid").value, 0, total),
-      clamp(document.getElementById("pfPrnHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfPrnTotal", prn.rowTotal, total);
-
-    const call = bandAverage(
-      clamp(document.getElementById("pfCallLow").value, 0, total),
-      clamp(document.getElementById("pfCallMid").value, 0, total),
-      clamp(document.getElementById("pfCallHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfCallTotal", call.rowTotal, total);
-
-    const otHours = bandAverage(
-      clamp(document.getElementById("pfOtHoursLow").value, 0, total),
-      clamp(document.getElementById("pfOtHoursMid").value, 0, total),
-      clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
-
-    const otPrem = bandAverage(
-      clamp(document.getElementById("pfOtPremLow").value, 0, total),
-      clamp(document.getElementById("pfOtPremMid").value, 0, total),
-      clamp(document.getElementById("pfOtPremHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
-
-    const agencyPrem = bandAverage(
-      clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
-      clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
-      clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
-
-    const pbj = bandAverage(
-      clamp(document.getElementById("pfPbjLow").value, 0, total),
-      clamp(document.getElementById("pfPbjMid").value, 0, total),
-      clamp(document.getElementById("pfPbjHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfPbjTotal", pbj.rowTotal, total);
-
-    const survey = bandAverage(
-      clamp(document.getElementById("pfSurveyLow").value, 0, total),
-      clamp(document.getElementById("pfSurveyMid").value, 0, total),
-      clamp(document.getElementById("pfSurveyHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfSurveyTotal", survey.rowTotal, total);
-
-    const leader = bandAverage(
-      clamp(document.getElementById("pfLeaderLow").value, 0, total),
-      clamp(document.getElementById("pfLeaderMid").value, 0, total),
-      clamp(document.getElementById("pfLeaderHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfLeaderTotal", leader.rowTotal, total);
-
-    const turnover = bandAverage(
-      clamp(document.getElementById("pfTurnoverLow").value, 0, total),
-      clamp(document.getElementById("pfTurnoverMid").value, 0, total),
-      clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
-
-    const vacancies = bandAverage(
-      clamp(document.getElementById("pfVacLow").value, 0, total),
-      clamp(document.getElementById("pfVacMid").value, 0, total),
-      clamp(document.getElementById("pfVacHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfVacTotal", vacancies.rowTotal, total);
-
-    const ttf = bandAverage(
-      clamp(document.getElementById("pfTtfLow").value, 0, total),
-      clamp(document.getElementById("pfTtfMid").value, 0, total),
-      clamp(document.getElementById("pfTtfHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfTtfTotal", ttf.rowTotal, total);
-
-    const recruit = bandAverage(
-      clamp(document.getElementById("pfRecruitLow").value, 0, total),
-      clamp(document.getElementById("pfRecruitMid").value, 0, total),
-      clamp(document.getElementById("pfRecruitHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
-
-    return {
-      openShifts: Math.round(open.score / 10 * 50),
-      percentPRN: Math.round(prn.score * 10),
-      callOffs: Math.round(call.score / 10 * 20),
-      coverageResolution: prn.score >= 6.8 ? "external" : prn.score >= 4.8 ? "internal_float" : "overtime",
-      otHours: Math.round(otHours.score / 10 * 500),
-      otPremium: Math.round(otPrem.score * 10),
-      agencyPremium: Math.round(agencyPrem.score * 10),
-      pbjRisk: Math.round(pbj.score),
-      surveyCitations: Math.round(survey.score),
-      leaderTurnover: Math.round(leader.score),
-      turnoverRate: Math.round(turnover.score * 10),
-      vacancies: Math.round(vacancies.score / 10 * 20),
-      timeToFill: Math.round(ttf.score / 10 * 120),
-      recruitSpend: Math.round(recruit.score / 10 * 50000)
-    };
-  }
-
-  function getInputs() {
-    if (getMode() === "portfolio") {
-      return portfolioInputsToSingleAverages();
+    function clamp(value, min, max) {
+      value = Number(value);
+      if (isNaN(value)) return min;
+      return Math.min(Math.max(value, min), max);
     }
 
-    return {
-      openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
-      percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
-      callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
-      coverageResolution: document.getElementById("coverageResolution").value,
-      otHours: clamp(document.getElementById("otHours").value, 0, 500),
-      otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
-      agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
-      pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
-      surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
-      leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
-      turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
-      vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
-      timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
-      recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
-    };
-  }
-
-  function inverseScore(value, maxValue) {
-    return clamp(100 - ((value / maxValue) * 100), 0, 100);
-  }
-
-  function getPrnMixScore(percentPRN) {
-    const prn = clamp(percentPRN, 0, 100);
-
-    if (prn <= 4) {
-      return 52 + (prn / 4) * 8;
-    }
-    if (prn <= 12) {
-      return 60 + ((prn - 4) / 8) * 24;
-    }
-    if (prn <= 25) {
-      return 84 + ((25 - prn) / 13) * 8;
-    }
-    if (prn <= 40) {
-      return 76 - ((prn - 25) / 15) * 16;
-    }
-    return clamp(60 - ((prn - 40) / 60) * 28, 25, 60);
-  }
-
-  function getCoverageResolutionScore(resolution) {
-    switch(resolution){
-      case "internal_float": return 92;
-      case "external": return 78;
-      case "overtime": return 56;
-      case "unfilled": return 24;
-      default: return 60;
-    }
-  }
-
-  function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
-    const prnMixScore = getPrnMixScore(percentPRN);
-    const resolutionScore = getCoverageResolutionScore(coverageResolution);
-    const openScore = inverseScore(openShifts, 50);
-    const callScore = inverseScore(callOffs, 20);
-    const otScore = inverseScore(otHours, 500);
-
-    const coverageResilience = clamp(
-      (openScore * 0.30) +
-      (callScore * 0.20) +
-      (prnMixScore * 0.25) +
-      (resolutionScore * 0.25),
-      0, 100
-    );
-
-    const elasticityBalance = Math.round(((coverageResilience - 50) / 50) * 100);
-
-    let healthState = "Agency Stabilized";
-    let archetype = "Agency Stabilized";
-    let meaning = "Operational pressure is being absorbed through external coverage, preserving continuity but often at higher cost.";
-
-    if (coverageResolution === "unfilled" || openShifts >= 12 || callOffs >= 6 || coverageResilience < 40) {
-      healthState = "Elasticity Failure";
-      archetype = "Elasticity Failure";
-      meaning = "The workforce system is no longer absorbing disruption reliably. Open gaps and instability are reaching the floor.";
-    } else if (coverageResolution === "overtime" || otHours >= 140 || (percentPRN <= 5 && openShifts >= 6)) {
-      healthState = "Burnout Stabilized";
-      archetype = "Burnout Stabilized";
-      meaning = "Stability is being protected mainly by stretching existing staff, increasing burnout risk and reducing long-term resilience.";
-    } else if (coverageResilience >= 78 && percentPRN >= 8 && percentPRN <= 28) {
-      healthState = "Balanced Elastic";
-      archetype = "Balanced Elastic";
-      meaning = "The workforce system is absorbing disruption through a healthy mix of internal flexibility and external support.";
+    function formatCurrency(amount) {
+      if (isNaN(amount)) return "$–";
+      const abs = Math.abs(amount);
+      const sign = amount < 0 ? "-" : "";
+      return sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
     }
 
-    return {
-      prnMixScore,
-      resolutionScore,
-      coverageResilience,
-      elasticityBalance,
-      healthState,
-      archetype,
-      meaning
-    };
-  }
-
-  function getImprovedCoverageResolution(currentResolution) {
-    switch(currentResolution){
-      case "overtime":
-        return "internal_float";
-      case "unfilled":
-        return "external";
-      case "external":
-        return "external";
-      case "internal_float":
-      default:
-        return "internal_float";
-    }
-  }
-
-  function getImprovedScenario(inputs) {
-    return {
-      openShifts: clamp(inputs.openShifts * 0.78, 0, 50),
-      percentPRN: clamp(inputs.percentPRN <= 5 ? inputs.percentPRN + 6 : inputs.percentPRN * 0.94, 0, 100),
-      callOffs: clamp(inputs.callOffs * 0.82, 0, 20),
-      coverageResolution: getImprovedCoverageResolution(inputs.coverageResolution),
-      otHours: clamp(inputs.otHours * 0.74, 0, 500),
-      otPremium: clamp(inputs.otPremium * 0.94, 0, 100),
-      agencyPremium: clamp(inputs.agencyPremium * 0.97, 0, 100),
-      pbjRisk: clamp(inputs.pbjRisk * 0.88, 0, 10),
-      surveyCitations: clamp(inputs.surveyCitations * 0.95, 0, 10),
-      leaderTurnover: clamp(inputs.leaderTurnover * 0.92, 0, 10),
-      turnoverRate: clamp(inputs.turnoverRate * 0.72, 0, 100),
-      vacancies: clamp(inputs.vacancies * 0.68, 0, 20),
-      timeToFill: clamp(inputs.timeToFill * 0.76, 0, 120),
-      recruitSpend: clamp(inputs.recruitSpend * 0.84, 0, 50000)
-    };
-  }
-
-  function calculateWSIValues(inputs) {
-    const openShifts = clamp(inputs.openShifts, 0, 50);
-    const percentPRN = clamp(inputs.percentPRN, 0, 100);
-    const callOffs = clamp(inputs.callOffs, 0, 20);
-    const otHours = clamp(inputs.otHours, 0, 500);
-    const otPremium = clamp(inputs.otPremium, 0, 100);
-    const agencyPremium = clamp(inputs.agencyPremium, 0, 100);
-    const pbjRisk = clamp(inputs.pbjRisk, 0, 10);
-    const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
-    const leaderTurnover = clamp(inputs.leaderTurnover, 0, 10);
-    const turnoverRate = clamp(inputs.turnoverRate, 0, 100);
-    const vacancies = clamp(inputs.vacancies, 0, 20);
-    const timeToFill = clamp(inputs.timeToFill, 0, 120);
-    const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
-
-    const elasticity = getElasticityProfile(
-      percentPRN,
-      openShifts,
-      callOffs,
-      otHours,
-      inputs.coverageResolution
-    );
-
-       const openShiftScore = inverseScore(openShifts, 50);
-    const callOffScore = inverseScore(callOffs, 20);
-    const otHourScore = inverseScore(otHours, 500);
-    const vacancyScore = inverseScore(vacancies, 20);
-
-    const coverageResilience = clamp(
-      (elasticity.coverageResilience * 0.58) +
-      (openShiftScore * 0.27) +
-      (callOffScore * 0.15),
-      0, 100
-    );
-
-    const costControl = clamp(
-      (otHourScore * 0.58) +
-      (inverseScore(otPremium, 100) * 0.16) +
-      (inverseScore(agencyPremium, 100) * 0.14) +
-      (elasticity.prnMixScore * 0.12),
-      0, 100
-    );
-
-    const operationalReliability = clamp(
-      (inverseScore(pbjRisk, 10) * 0.40) +
-      (inverseScore(surveyCitations, 10) * 0.30) +
-      (inverseScore(leaderTurnover, 10) * 0.30),
-      0, 100
-    );
-
-    const pipelineStrength = clamp(
-      (inverseScore(turnoverRate, 100) * 0.28) +
-      (vacancyScore * 0.36) +
-      (inverseScore(timeToFill, 120) * 0.24) +
-      (inverseScore(recruitSpend, 50000) * 0.12),
-      0, 100
-    );
-
-   const rawWorkforceHealth = Math.round(
-  (coverageResilience * 0.33) +
-  (costControl * 0.22) +
-  (operationalReliability * 0.15) +
-  (pipelineStrength * 0.30)
-);
-
-// Convert raw workforce health into drag against the natural WSI cap
-const workforceDragPct = 100 - rawWorkforceHealth;
-let naturalWsiScore = Math.round(
-  NATURAL_WSI_CAP - ((workforceDragPct / 100) * NATURAL_WSI_CAP)
-);
-
-// Extra penalties for acute strain
-if (openShifts >= 12) naturalWsiScore -= 4;
-if (otHours >= 180) naturalWsiScore -= 4;
-if (vacancies >= 5) naturalWsiScore -= 4;
-
-const finalWsiScore = clamp(naturalWsiScore, 0, NATURAL_WSI_CAP);
-
-// How much gap remains to a realistically stabilized state
-const recoverableGap = MAX_WSI_STABILIZED - finalWsiScore;
-const modeledRecoveryPct = 0.50; // candidate sourcing / aligned workforce action assumption
-const withSourcingWsiScore = clamp(
-  Math.round(finalWsiScore + (recoverableGap * modeledRecoveryPct)),
-  0,
-  MAX_WSI_STABILIZED
-);   
-    
-    const annualVolatilityCost =
-  ((96 - finalWsiScore) / 96) * 2000000;
-
-const stabilizableUpside = Math.round(
-  annualVolatilityCost *
-  Math.min(0.50, 0.22 + ((96 - finalWsiScore) / 96) * 0.38)
-);
-
-const workforceDragCost =
-  ((100 - pipelineStrength) / 100) * 1000000;
-
-return {
-  elasticity,
-  coverageResilience,
-  costControl,
-  operationalReliability,
-  pipelineStrength,
-  wsiScore: finalWsiScore,
-  rawWsiScore: rawWorkforceHealth,
-  withSourcingWsiScore,
-  annualVolatilityCost,
-  stabilizableUpside,
-  workforceDragCost
-};
-  }
-
-  function getScoreTagMeta(score){
-    if (score < 45) {
-      return { label: "Fragile", cls: "high-risk" };
-    }
-    if (score < 70) {
-      return { label: "Pressured", cls: "moderate-risk" };
-    }
-    return { label: "Stable", cls: "stable" };
-  }
-
-  function updateWSI() {
-    const currentInputs = getInputs();
-    const current = calculateWSIValues(currentInputs);
-    const improved = calculateWSIValues(getImprovedScenario(currentInputs));
-
-    const scoreEl = document.getElementById("shsiScore");
-    const tagEl = document.getElementById("scoreTag");
-    scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
-
-    const tagMeta = getScoreTagMeta(current.wsiScore);
-    tagEl.textContent = tagMeta.label;
-    tagEl.classList.remove("high-risk","moderate-risk","stable");
-    tagEl.classList.add(tagMeta.cls);
-
-    document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
-    document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
-    document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
-
-    const elasticityPct = current.elasticity.elasticityBalance;
-    document.getElementById("elasticityState").textContent = current.elasticity.healthState;
-    document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
-    
-    document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
-
-    const portfolioScore = document.getElementById("portfolioWsiScore");
-    const portfolioState = document.getElementById("portfolioElasticityState");
-    const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
-    const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
-    const portfolioNote = document.getElementById("portfolioSummaryNote");
-
-    let primaryConstraint = "Coverage Resilience";
-    const domainPairs = [
-      { name: "Coverage Resilience", score: current.coverageResilience },
-      { name: "Cost Control", score: current.costControl },
-      { name: "Operational Reliability", score: current.operationalReliability },
-      { name: "Pipeline Strength", score: current.pipelineStrength }
-    ].sort((a,b) => a.score - b.score);
-    primaryConstraint = domainPairs[0].name;
-
-    let economicPressure = "Contained";
-    if (current.annualVolatilityCost >= 1800000) economicPressure = "Severe";
-    else if (current.annualVolatilityCost >= 1100000) economicPressure = "Elevated";
-    else if (current.annualVolatilityCost >= 550000) economicPressure = "Building";
-
-    if (portfolioScore) portfolioScore.textContent = current.wsiScore;
-    if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
-    if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
-    if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
-
-    if (portfolioNote) {
-      portfolioNote.textContent =
-        getMode() === "portfolio"
-          ? `This portfolio view suggests workforce stability is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
-          : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
+    function getMode() {
+      const checked = document.querySelector("input[name='mode']:checked");
+      return checked ? checked.value : "single";
     }
 
-    document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
-    document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
+    function safeNumber(value){
+      const num = Number(value);
+      return Number.isFinite(num) ? num : null;
+    }
 
-    const deltaShsi = improved.wsiScore - current.wsiScore;
-    document.getElementById("deltaShsiCell").textContent =
-      isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
-    document.getElementById("deltaShsiCell").className =
-      deltaShsi >= 0 ? "delta-positive" : "delta-negative";
+    function readMapData(){
+      try{
+        const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+        return parsed && typeof parsed === "object" ? parsed : {};
+      }catch(err){
+        return {};
+      }
+    }
 
-    document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
-    document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
+    function getExplicitEntityName() {
+      return (document.getElementById("entityName")?.value || "").trim();
+    }
 
-    const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
-    const deltaVolText = isNaN(deltaVol)
-      ? "–"
-      : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
-    document.getElementById("deltaVolCostCell").textContent = deltaVolText;
-    document.getElementById("deltaVolCostCell").className =
-      deltaVol <= 0 ? "delta-positive" : "delta-negative";
+    function getFallbackEntityLabel() {
+      return "WSI Community";
+    }
 
-    document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
-    document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
+    function buildLabel(existing){
+      const explicit = getExplicitEntityName();
+      if(explicit) return explicit;
+      if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
+      return getFallbackEntityLabel();
+    }
 
-    const deltaWork = improved.workforceDragCost - current.workforceDragCost;
-    const deltaWorkText = isNaN(deltaWork)
-      ? "–"
-      : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
-    document.getElementById("deltaWorkforceCell").textContent = deltaWorkText;
-    document.getElementById("deltaWorkforceCell").className =
-      deltaWork <= 0 ? "delta-positive" : "delta-negative";
+    function saveVOLHealthMapData(partial){
+      const existing = readMapData();
 
-    saveVOLHealthMapData({
-      wsi: safeNumber(current.wsiScore),
-      wsiCurrent: safeNumber(current.wsiScore),
-      wsiWithSourcing: safeNumber(improved.wsiScore),
-      wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
-      wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
-      wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
-      wsiElasticityBalance: safeNumber(current.elasticity.elasticityBalance),
-      wsiArchetype: current.elasticity.archetype,
-      wsiCoverageResilience: safeNumber(Math.round(current.coverageResilience)),
-      wsiCostControl: safeNumber(Math.round(current.costControl)),
-      wsiOperationalReliability: safeNumber(Math.round(current.operationalReliability)),
-      wsiPipelineStrength: safeNumber(Math.round(current.pipelineStrength)),
-      wsiMode: getMode(),
-      wsiSource: "wsi",
-      wsiUpdated: new Date().toISOString()
-    });
-  }
+      const merged = {
+        ...existing,
+        ...partial,
+        label: buildLabel(existing),
+        mode: getMode(),
+        updatedAt: new Date().toISOString()
+      };
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const numericInputs = document.querySelectorAll("input[type='number']");
-    numericInputs.forEach(input => {
-      input.addEventListener("input", updateWSI);
-    });
+      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+      updateMapStatusChip();
+      return merged;
+    }
 
-    const textInputs = document.querySelectorAll("input[type='text']");
-    textInputs.forEach(input => {
-      input.addEventListener("input", updateWSI);
-    });
+    function updateMapStatusChip(){
+      const data = readMapData();
+      const hasVI = Number.isFinite(Number(data.vi));
+      const hasWSI = Number.isFinite(Number(data.wsi));
+      const dot = document.getElementById("mapStatusDot");
+      const text = document.getElementById("mapStatusText");
 
-    const selectInputs = document.querySelectorAll("select");
-    selectInputs.forEach(input => {
-      input.addEventListener("change", updateWSI);
-    });
+      if (!dot || !text) return;
 
-    const modeInputs = document.querySelectorAll("input[name='mode']");
-    modeInputs.forEach(input => {
-      input.addEventListener("change", function () {
-        updateModeUI();
-        updateWSI();
+      if(hasVI && hasWSI){
+        dot.classList.add("active");
+        text.textContent = `Map point ready • VI ${Math.round(Number(data.vi))} / WSI ${Math.round(Number(data.wsi))}`;
+      }else if(hasVI){
+        dot.classList.remove("active");
+        text.textContent = `VI saved • WSI still needed for map point`;
+      }else if(hasWSI){
+        dot.classList.remove("active");
+        text.textContent = `WSI saved • VI still needed for map point`;
+      }else{
+        dot.classList.remove("active");
+        text.textContent = "Map point not complete yet";
+      }
+    }
+
+    function updateModeUI() {
+      const mode = getMode();
+
+      const titleEl = document.getElementById("snapshotTitle");
+      const subtitleEl = document.getElementById("snapshotSubtitle");
+
+      if(mode === "portfolio"){
+        document.body.classList.add("mode-portfolio");
+        titleEl.textContent = "Workforce Stability Snapshot (Portfolio)";
+        subtitleEl.textContent =
+          "Enter how many communities fall into each workforce condition band. The model converts these distributions into portfolio-wide averages and a consolidated Workforce Stability Index.";
+      } else {
+        document.body.classList.remove("mode-portfolio");
+        titleEl.textContent = "Workforce Stability Snapshot";
+        subtitleEl.textContent =
+          "Adjust the inputs below to see how staffing volatility, financial exposure, operational risk, and workforce pipeline strength roll up into a single Workforce Stability Index and economic view.";
+      }
+    }
+
+    function bandAverage(low, mid, high, total) {
+      total = clamp(total, 1, 500);
+      const rowTotal = low + mid + high;
+      return {
+        score: ((low * 2) + (mid * 6) + (high * 9)) / total,
+        rowTotal
+      };
+    }
+
+    function setRowTotal(id, rowTotal, total) {
+      const cell = document.getElementById(id);
+      if (!cell) return;
+      cell.textContent = `${rowTotal} / ${total}`;
+      cell.classList.toggle("bad", rowTotal !== total);
+    }
+
+    function portfolioInputsToSingleAverages() {
+      const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
+
+      const open = bandAverage(
+        clamp(document.getElementById("pfOpenLow").value, 0, total),
+        clamp(document.getElementById("pfOpenMid").value, 0, total),
+        clamp(document.getElementById("pfOpenHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOpenTotal", open.rowTotal, total);
+
+      const prn = bandAverage(
+        clamp(document.getElementById("pfPrnLow").value, 0, total),
+        clamp(document.getElementById("pfPrnMid").value, 0, total),
+        clamp(document.getElementById("pfPrnHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfPrnTotal", prn.rowTotal, total);
+
+      const call = bandAverage(
+        clamp(document.getElementById("pfCallLow").value, 0, total),
+        clamp(document.getElementById("pfCallMid").value, 0, total),
+        clamp(document.getElementById("pfCallHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfCallTotal", call.rowTotal, total);
+
+      const otHours = bandAverage(
+        clamp(document.getElementById("pfOtHoursLow").value, 0, total),
+        clamp(document.getElementById("pfOtHoursMid").value, 0, total),
+        clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
+
+      const otPrem = bandAverage(
+        clamp(document.getElementById("pfOtPremLow").value, 0, total),
+        clamp(document.getElementById("pfOtPremMid").value, 0, total),
+        clamp(document.getElementById("pfOtPremHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
+
+      const agencyPrem = bandAverage(
+        clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
+        clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
+        clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
+
+      const pbj = bandAverage(
+        clamp(document.getElementById("pfPbjLow").value, 0, total),
+        clamp(document.getElementById("pfPbjMid").value, 0, total),
+        clamp(document.getElementById("pfPbjHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfPbjTotal", pbj.rowTotal, total);
+
+      const survey = bandAverage(
+        clamp(document.getElementById("pfSurveyLow").value, 0, total),
+        clamp(document.getElementById("pfSurveyMid").value, 0, total),
+        clamp(document.getElementById("pfSurveyHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfSurveyTotal", survey.rowTotal, total);
+
+      const leader = bandAverage(
+        clamp(document.getElementById("pfLeaderLow").value, 0, total),
+        clamp(document.getElementById("pfLeaderMid").value, 0, total),
+        clamp(document.getElementById("pfLeaderHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfLeaderTotal", leader.rowTotal, total);
+
+      const turnover = bandAverage(
+        clamp(document.getElementById("pfTurnoverLow").value, 0, total),
+        clamp(document.getElementById("pfTurnoverMid").value, 0, total),
+        clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
+
+      const vacancies = bandAverage(
+        clamp(document.getElementById("pfVacLow").value, 0, total),
+        clamp(document.getElementById("pfVacMid").value, 0, total),
+        clamp(document.getElementById("pfVacHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfVacTotal", vacancies.rowTotal, total);
+
+      const ttf = bandAverage(
+        clamp(document.getElementById("pfTtfLow").value, 0, total),
+        clamp(document.getElementById("pfTtfMid").value, 0, total),
+        clamp(document.getElementById("pfTtfHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfTtfTotal", ttf.rowTotal, total);
+
+      const recruit = bandAverage(
+        clamp(document.getElementById("pfRecruitLow").value, 0, total),
+        clamp(document.getElementById("pfRecruitMid").value, 0, total),
+        clamp(document.getElementById("pfRecruitHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
+
+      return {
+        openShifts: Math.round(open.score / 10 * 50),
+        percentPRN: Math.round(prn.score * 10),
+        callOffs: Math.round(call.score / 10 * 20),
+        coverageResolution: prn.score >= 6.8 ? "external" : prn.score >= 4.8 ? "internal_float" : "overtime",
+        otHours: Math.round(otHours.score / 10 * 500),
+        otPremium: Math.round(otPrem.score * 10),
+        agencyPremium: Math.round(agencyPrem.score * 10),
+        pbjRisk: Math.round(pbj.score),
+        surveyCitations: Math.round(survey.score),
+        leaderTurnover: Math.round(leader.score),
+        turnoverRate: Math.round(turnover.score * 10),
+        vacancies: Math.round(vacancies.score / 10 * 20),
+        timeToFill: Math.round(ttf.score / 10 * 120),
+        recruitSpend: Math.round(recruit.score / 10 * 50000)
+      };
+    }
+
+    function getInputs() {
+      if (getMode() === "portfolio") {
+        return portfolioInputsToSingleAverages();
+      }
+
+      return {
+        openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
+        percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
+        callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
+        coverageResolution: document.getElementById("coverageResolution").value,
+        otHours: clamp(document.getElementById("otHours").value, 0, 500),
+        otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
+        agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
+        pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
+        surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
+        leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
+        turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
+        vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
+        timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
+        recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
+      };
+    }
+
+    function inverseScore(value, maxValue) {
+      return clamp(100 - ((value / maxValue) * 100), 0, 100);
+    }
+
+    function getPrnMixScore(percentPRN) {
+      const prn = clamp(percentPRN, 0, 100);
+
+      if (prn <= 4) return 52 + (prn / 4) * 8;
+      if (prn <= 12) return 60 + ((prn - 4) / 8) * 24;
+      if (prn <= 25) return 84 + ((25 - prn) / 13) * 8;
+      if (prn <= 40) return 76 - ((prn - 25) / 15) * 16;
+      return clamp(60 - ((prn - 40) / 60) * 28, 25, 60);
+    }
+
+    function getCoverageResolutionScore(resolution) {
+      switch(resolution){
+        case "internal_float": return 92;
+        case "external": return 78;
+        case "overtime": return 56;
+        case "unfilled": return 24;
+        default: return 60;
+      }
+    }
+
+    function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
+      const prnMixScore = getPrnMixScore(percentPRN);
+      const resolutionScore = getCoverageResolutionScore(coverageResolution);
+      const openScore = inverseScore(openShifts, 50);
+      const callScore = inverseScore(callOffs, 20);
+
+      const coverageResilience = clamp(
+        (openScore * 0.30) +
+        (callScore * 0.20) +
+        (prnMixScore * 0.25) +
+        (resolutionScore * 0.25),
+        0, 100
+      );
+
+      const elasticityBalance = Math.round(((coverageResilience - 50) / 50) * 100);
+
+      let healthState = "Agency Stabilized";
+      let archetype = "Agency Stabilized";
+      let meaning = "Operational pressure is being absorbed through external coverage, preserving continuity but often at higher cost.";
+
+      if (coverageResolution === "unfilled" || openShifts >= 12 || callOffs >= 6 || coverageResilience < 40) {
+        healthState = "Elasticity Failure";
+        archetype = "Elasticity Failure";
+        meaning = "The workforce system is no longer absorbing disruption reliably. Open gaps and instability are reaching the floor.";
+      } else if (coverageResolution === "overtime" || otHours >= 140 || (percentPRN <= 5 && openShifts >= 6)) {
+        healthState = "Burnout Stabilized";
+        archetype = "Burnout Stabilized";
+        meaning = "Stability is being protected mainly by stretching existing staff, increasing burnout risk and reducing long-term resilience.";
+      } else if (coverageResilience >= 78 && percentPRN >= 8 && percentPRN <= 28) {
+        healthState = "Balanced Elastic";
+        archetype = "Balanced Elastic";
+        meaning = "The workforce system is absorbing disruption through a healthy mix of internal flexibility and external support.";
+      }
+
+      return {
+        prnMixScore,
+        resolutionScore,
+        coverageResilience,
+        elasticityBalance,
+        healthState,
+        archetype,
+        meaning
+      };
+    }
+
+    function getImprovedCoverageResolution(currentResolution) {
+      switch(currentResolution){
+        case "overtime": return "internal_float";
+        case "unfilled": return "external";
+        case "external": return "external";
+        case "internal_float":
+        default: return "internal_float";
+      }
+    }
+
+    function getImprovedScenario(inputs) {
+      return {
+        openShifts: clamp(inputs.openShifts * 0.78, 0, 50),
+        percentPRN: clamp(inputs.percentPRN <= 5 ? inputs.percentPRN + 6 : inputs.percentPRN * 0.94, 0, 100),
+        callOffs: clamp(inputs.callOffs * 0.82, 0, 20),
+        coverageResolution: getImprovedCoverageResolution(inputs.coverageResolution),
+        otHours: clamp(inputs.otHours * 0.74, 0, 500),
+        otPremium: clamp(inputs.otPremium * 0.94, 0, 100),
+        agencyPremium: clamp(inputs.agencyPremium * 0.97, 0, 100),
+        pbjRisk: clamp(inputs.pbjRisk * 0.88, 0, 10),
+        surveyCitations: clamp(inputs.surveyCitations * 0.95, 0, 10),
+        leaderTurnover: clamp(inputs.leaderTurnover * 0.92, 0, 10),
+        turnoverRate: clamp(inputs.turnoverRate * 0.72, 0, 100),
+        vacancies: clamp(inputs.vacancies * 0.68, 0, 20),
+        timeToFill: clamp(inputs.timeToFill * 0.76, 0, 120),
+        recruitSpend: clamp(inputs.recruitSpend * 0.84, 0, 50000)
+      };
+    }
+
+    function calculateWSIValues(inputs) {
+      const openShifts = clamp(inputs.openShifts, 0, 50);
+      const percentPRN = clamp(inputs.percentPRN, 0, 100);
+      const callOffs = clamp(inputs.callOffs, 0, 20);
+      const otHours = clamp(inputs.otHours, 0, 500);
+      const otPremium = clamp(inputs.otPremium, 0, 100);
+      const agencyPremium = clamp(inputs.agencyPremium, 0, 100);
+      const pbjRisk = clamp(inputs.pbjRisk, 0, 10);
+      const surveyCitations = clamp(inputs.surveyCitations, 0, 10);
+      const leaderTurnover = clamp(inputs.leaderTurnover, 0, 10);
+      const turnoverRate = clamp(inputs.turnoverRate, 0, 100);
+      const vacancies = clamp(inputs.vacancies, 0, 20);
+      const timeToFill = clamp(inputs.timeToFill, 0, 120);
+      const recruitSpend = clamp(inputs.recruitSpend, 0, 50000);
+
+      const elasticity = getElasticityProfile(
+        percentPRN,
+        openShifts,
+        callOffs,
+        otHours,
+        inputs.coverageResolution
+      );
+
+      const openShiftScore = inverseScore(openShifts, 50);
+      const callOffScore = inverseScore(callOffs, 20);
+      const otHourScore = inverseScore(otHours, 500);
+      const vacancyScore = inverseScore(vacancies, 20);
+
+      const coverageResilience = clamp(
+        (elasticity.coverageResilience * 0.58) +
+        (openShiftScore * 0.27) +
+        (callOffScore * 0.15),
+        0, 100
+      );
+
+      const costControl = clamp(
+        (otHourScore * 0.58) +
+        (inverseScore(otPremium, 100) * 0.16) +
+        (inverseScore(agencyPremium, 100) * 0.14) +
+        (elasticity.prnMixScore * 0.12),
+        0, 100
+      );
+
+      const operationalReliability = clamp(
+        (inverseScore(pbjRisk, 10) * 0.40) +
+        (inverseScore(surveyCitations, 10) * 0.30) +
+        (inverseScore(leaderTurnover, 10) * 0.30),
+        0, 100
+      );
+
+      const pipelineStrength = clamp(
+        (inverseScore(turnoverRate, 100) * 0.28) +
+        (vacancyScore * 0.36) +
+        (inverseScore(timeToFill, 120) * 0.24) +
+        (inverseScore(recruitSpend, 50000) * 0.12),
+        0, 100
+      );
+
+      const rawWorkforceHealth = Math.round(
+        (coverageResilience * 0.33) +
+        (costControl * 0.22) +
+        (operationalReliability * 0.15) +
+        (pipelineStrength * 0.30)
+      );
+
+      const workforceDragPct = 100 - rawWorkforceHealth;
+      let naturalWsiScore = Math.round(
+        NATURAL_WSI_CAP - ((workforceDragPct / 100) * NATURAL_WSI_CAP)
+      );
+
+      if (openShifts >= 12) naturalWsiScore -= 4;
+      if (otHours >= 180) naturalWsiScore -= 4;
+      if (vacancies >= 5) naturalWsiScore -= 4;
+
+      const finalWsiScore = clamp(naturalWsiScore, 0, NATURAL_WSI_CAP);
+
+      const recoverableGap = MAX_WSI_STABILIZED - finalWsiScore;
+      const modeledRecoveryPct = 0.50;
+      const withSourcingWsiScore = clamp(
+        Math.round(finalWsiScore + (recoverableGap * modeledRecoveryPct)),
+        0,
+        MAX_WSI_STABILIZED
+      );
+
+      const annualVolatilityCost = ((96 - finalWsiScore) / 96) * 2000000;
+
+      const stabilizableUpside = Math.round(
+        annualVolatilityCost *
+        Math.min(0.50, 0.22 + ((96 - finalWsiScore) / 96) * 0.38)
+      );
+
+      const workforceDragCost = ((100 - pipelineStrength) / 100) * 1000000;
+
+      return {
+        elasticity,
+        coverageResilience,
+        costControl,
+        operationalReliability,
+        pipelineStrength,
+        wsiScore: finalWsiScore,
+        rawWsiScore: rawWorkforceHealth,
+        withSourcingWsiScore,
+        annualVolatilityCost,
+        stabilizableUpside,
+        workforceDragCost
+      };
+    }
+
+    function getScoreTagMeta(score){
+      if (score < 45) return { label: "Fragile", cls: "high-risk" };
+      if (score < 70) return { label: "Pressured", cls: "moderate-risk" };
+      return { label: "Stable", cls: "stable" };
+    }
+
+    function updateWSI() {
+      const currentInputs = getInputs();
+      const current = calculateWSIValues(currentInputs);
+      const improved = calculateWSIValues(getImprovedScenario(currentInputs));
+
+      const scoreEl = document.getElementById("shsiScore");
+      const tagEl = document.getElementById("scoreTag");
+      scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
+
+      const tagMeta = getScoreTagMeta(current.wsiScore);
+      tagEl.textContent = tagMeta.label;
+      tagEl.classList.remove("high-risk","moderate-risk","stable");
+      tagEl.classList.add(tagMeta.cls);
+
+      document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
+      document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
+      document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
+
+      const elasticityPct = current.elasticity.elasticityBalance;
+      document.getElementById("elasticityState").textContent = current.elasticity.healthState;
+      document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
+      document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
+
+      const portfolioScore = document.getElementById("portfolioWsiScore");
+      const portfolioState = document.getElementById("portfolioElasticityState");
+      const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
+      const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
+      const portfolioNote = document.getElementById("portfolioSummaryNote");
+
+      let primaryConstraint = "Coverage Resilience";
+      const domainPairs = [
+        { name: "Coverage Resilience", score: current.coverageResilience },
+        { name: "Cost Control", score: current.costControl },
+        { name: "Operational Reliability", score: current.operationalReliability },
+        { name: "Pipeline Strength", score: current.pipelineStrength }
+      ].sort((a,b) => a.score - b.score);
+      primaryConstraint = domainPairs[0].name;
+
+      let economicPressure = "Contained";
+      if (current.annualVolatilityCost >= 1800000) economicPressure = "Severe";
+      else if (current.annualVolatilityCost >= 1100000) economicPressure = "Elevated";
+      else if (current.annualVolatilityCost >= 550000) economicPressure = "Building";
+
+      if (portfolioScore) portfolioScore.textContent = current.wsiScore;
+      if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
+      if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
+      if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
+
+      if (portfolioNote) {
+        portfolioNote.textContent =
+          getMode() === "portfolio"
+            ? `This portfolio view suggests workforce stability is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
+            : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
+      }
+
+      document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
+      document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
+
+      const deltaShsi = improved.wsiScore - current.wsiScore;
+      document.getElementById("deltaShsiCell").textContent =
+        isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
+      document.getElementById("deltaShsiCell").className =
+        deltaShsi >= 0 ? "delta-positive" : "delta-negative";
+
+      document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
+      document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
+
+      const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
+      const deltaVolText = isNaN(deltaVol)
+        ? "–"
+        : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
+      document.getElementById("deltaVolCostCell").textContent = deltaVolText;
+      document.getElementById("deltaVolCostCell").className =
+        deltaVol <= 0 ? "delta-positive" : "delta-negative";
+
+      document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
+      document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
+
+      const deltaWork = improved.workforceDragCost - current.workforceDragCost;
+      const deltaWorkText = isNaN(deltaWork)
+        ? "–"
+        : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
+      document.getElementById("deltaWorkforceCell").textContent = deltaWorkText;
+      document.getElementById("deltaWorkforceCell").className =
+        deltaWork <= 0 ? "delta-positive" : "delta-negative";
+
+      saveVOLHealthMapData({
+        wsi: safeNumber(current.wsiScore),
+        wsiCurrent: safeNumber(current.wsiScore),
+        wsiWithSourcing: safeNumber(improved.wsiScore),
+        wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
+        wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
+        wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
+        wsiElasticityBalance: safeNumber(current.elasticity.elasticityBalance),
+        wsiArchetype: current.elasticity.archetype,
+        wsiCoverageResilience: safeNumber(Math.round(current.coverageResilience)),
+        wsiCostControl: safeNumber(Math.round(current.costControl)),
+        wsiOperationalReliability: safeNumber(Math.round(current.operationalReliability)),
+        wsiPipelineStrength: safeNumber(Math.round(current.pipelineStrength)),
+        wsiMode: getMode(),
+        wsiSource: "wsi",
+        wsiUpdated: new Date().toISOString()
       });
-    });
+    }
 
-    updateModeUI();
-    updateWSI();
-    updateMapStatusChip();
-  });
-</script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const numericInputs = document.querySelectorAll("input[type='number']");
+      numericInputs.forEach(input => {
+        input.addEventListener("input", updateWSI);
+      });
+
+      const textInputs = document.querySelectorAll("input[type='text']");
+      textInputs.forEach(input => {
+        input.addEventListener("input", updateWSI);
+      });
+
+      const selectInputs = document.querySelectorAll("select");
+      selectInputs.forEach(input => {
+        input.addEventListener("change", updateWSI);
+      });
+
+      const modeInputs = document.querySelectorAll("input[name='mode']");
+      modeInputs.forEach(input => {
+        input.addEventListener("change", function () {
+          updateModeUI();
+          updateWSI();
+        });
+      });
+
+      updateModeUI();
+      updateWSI();
+      updateMapStatusChip();
+    });
+  </script>
 </body>
 </html>
