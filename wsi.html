@@ -952,21 +952,24 @@
         </a>
       </section>
 
-      <section class="context-bar">
-        <div class="context-field context-mode">
-          <label>Mode</label>
-          <div class="mode-options inline-mode-options">
-            <label>
-              <input type="radio" name="mode" value="single" checked />
-              Single Community
-            </label>
-            <label>
-              <input type="radio" name="mode" value="portfolio" />
-              Portfolio View
-            </label>
-          </div>
-        </div>
+      <div class="context-field context-mode">
+  <label>MODE</label>
 
+  <div class="inline-mode-options">
+
+    <label>
+      <input type="radio" name="mode" checked>
+      Single Community
+    </label>
+
+    <label>
+      <input type="radio" name="mode">
+      Portfolio View
+    </label>
+
+  </div>
+</div>
+      
         <div class="context-field">
           <label>Community / Portfolio</label>
           <input type="text" id="entityName" placeholder="Even Keel, CHM3, Portfolio A, etc." value="Community A" />
