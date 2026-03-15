@@ -1998,7 +1998,9 @@ function saveVIMapData(partial) {
 
     document.getElementById('portfolioSize')?.addEventListener('input', update);
 
-    modeSelect?.addEventListener('change', update);
+    modeInputs.forEach(input => {
+  input.addEventListener('change', update);
+});
 
     document.getElementById('entityName')?.addEventListener('input', () => {
       update();
