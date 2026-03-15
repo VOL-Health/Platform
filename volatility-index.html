@@ -174,212 +174,209 @@
       line-height:1.55;
     }
 
-   .system-spine a{
-  text-decoration:none;
-}
+    .system-spine{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:12px;
+      margin:0 0 14px;
+      align-items:stretch;
+    }
 
-.spine-card{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  text-decoration:none;
-  color:inherit;
-  background:rgba(16,23,44,0.92);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:18px;
-  padding:16px 18px;
-  min-height:110px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.28);
-  transition:
-    transform 0.14s ease,
-    box-shadow 0.14s ease,
-    border-color 0.14s ease,
-    background 0.14s ease;
-  cursor:pointer;
-}
+    .system-spine a{
+      text-decoration:none;
+    }
 
-.spine-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 20px 44px rgba(0,0,0,0.34);
-  border-color:rgba(44,108,255,0.35);
-}
+    .spine-card{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      text-decoration:none;
+      color:inherit;
+      background:rgba(16,23,44,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:16px 18px;
+      min-height:110px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
+    }
 
-.spine-card.active{
-  border-color:rgba(44,108,255,0.45);
-  background:linear-gradient(
-    180deg,
-    rgba(44,108,255,0.14),
-    rgba(13,18,36,0.96)
-  );
-}
+    .spine-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
+    }
 
-.spine-card .step{
-  font-size:11px;
-  color:#9fb2d2;
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  margin-bottom:2px;
-}
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.45);
+      background:linear-gradient(
+        180deg,
+        rgba(44,108,255,0.14),
+        rgba(13,18,36,0.96)
+      );
+    }
 
-.spine-card strong{
-  display:block;
-  font-size:17px;
-  margin:0;
-  color:#f5f6ff;
-  line-height:1.2;
-}
+    .spine-card .step{
+      font-size:11px;
+      color:#9fb2d2;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:2px;
+    }
 
-.spine-card span{
-  color:#c4cae8;
-  font-size:13px;
-  line-height:1.45;
-}
-    
-   .context-bar{
-  display:grid;
-  grid-template-columns:1.3fr 1.2fr auto;
-  gap:12px;
-  margin:0 0 16px;
-  padding:14px 16px;
-  background:rgba(14,20,40,0.90);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:20px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.26);
-}
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin:0;
+      color:#f5f6ff;
+      line-height:1.2;
+    }
 
-.context-field{
-  margin-bottom:0;
-}
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
 
-.context-actions{
-  margin-top:0;
-}
+    .context-bar{
+      display:grid;
+      grid-template-columns:1.3fr 1.2fr auto;
+      gap:12px;
+      margin:0 0 16px;
+      padding:14px 16px;
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+    }
 
-.context-field label{
-  display:block;
-  font-size:11px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  margin-bottom:8px;
-}
+    .context-field{
+      margin-bottom:0;
+    }
 
-.context-field input{
-  width:100%;
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.10);
-  font-size:0.95rem;
-  background:#050814;
-  color:#f5f6ff;
-  font-family:inherit;
-  outline:none;
-}
+    .context-actions{
+      margin-top:0;
+      align-self:end;
+    }
 
-.context-field input:focus{
-  border-color:var(--blue);
-  box-shadow:
-    0 0 0 1px rgba(44,108,255,0.55),
-    0 0 12px rgba(44,108,255,0.25);
-  background:#060b1a;
-}
+    .context-field label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:8px;
+    }
 
-.context-mode{
-  align-self:center;
-}
+    .context-field input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      font-size:0.95rem;
+      background:#050814;
+      color:#f5f6ff;
+      font-family:inherit;
+      outline:none;
+    }
 
-.context-actions{
-  align-self:end;
-}
-    
-.inline-mode-options{
-  display:flex;
-  gap:18px;
-  flex-wrap:nowrap;
-  align-items:center;
-  margin:0;
-}
+    .context-field input:focus{
+      border-color:var(--blue);
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.55),
+        0 0 12px rgba(44,108,255,0.25);
+      background:#060b1a;
+    }
 
-.inline-mode-options label{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-size:14px;
-  color:#f5f6ff;
-  text-transform:none;
-  letter-spacing:0;
-  margin:0;
-  white-space:nowrap;
-  line-height:1;
-}
+    .inline-mode-options{
+      display:flex;
+      gap:18px;
+      flex-wrap:nowrap;
+      align-items:center;
+      margin:0;
+    }
 
-.mode-options input{
-  margin-right:6px;
-  accent-color:var(--green);
-}
+    .inline-mode-options label{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:14px;
+      color:#f5f6ff;
+      text-transform:none;
+      letter-spacing:0;
+      margin:0;
+      white-space:nowrap;
+      line-height:1;
+    }
 
-.context-mode{
-  min-width:0;
-}
+    .context-mode{
+      min-width:0;
+      align-self:center;
+    }
 
-.mode-options input{
-  margin-right:0;
-  accent-color:var(--green);
-  flex:0 0 auto;
-}
-    
-.btn-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  align-items:center;
-}
+    .mode-options input{
+      margin-right:0;
+      accent-color:var(--green);
+      flex:0 0 auto;
+    }
 
-.btn,
-.btn-link{
-  border:none;
-  background:var(--blue);
-  color:#fff;
-  padding:10px 16px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-  text-transform:uppercase;
-  letter-spacing:0.04em;
-  box-shadow:none;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  white-space:nowrap;
-  transition:filter 0.12s ease, transform 0.12s ease;
-}
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
 
-.btn:hover,
-.btn-link:hover{
-  filter:brightness(1.06);
-  transform:translateY(-1px);
-}
+    .btn,
+    .btn-link{
+      border:none;
+      background:var(--blue);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.04em;
+      box-shadow:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      transition:filter 0.12s ease, transform 0.12s ease;
+    }
 
-.btn.secondary,
-.btn-link.secondary{
-  background:#39415a;
-  border:1px solid rgba(255,255,255,0.10);
-}
+    .btn:hover,
+    .btn-link:hover{
+      filter:brightness(1.06);
+      transform:translateY(-1px);
+    }
 
-.btn.green,
-.btn-link.green{
-  background:linear-gradient(90deg, var(--green), #34c08a);
-  border:1px solid rgba(255,255,255,0.10);
-}
+    .btn.secondary,
+    .btn-link.secondary{
+      background:#39415a;
+      border:1px solid rgba(255,255,255,0.10);
+    }
 
-.btn.ghost,
-.btn-link.ghost{
-  background:transparent;
-  border:1px solid #33406f;
-  color:#dce5ff;
-}
+    .btn.green,
+    .btn-link.green{
+      background:linear-gradient(90deg, var(--green), #34c08a);
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.ghost,
+    .btn-link.ghost{
+      background:transparent;
+      border:1px solid #33406f;
+      color:#dce5ff;
+    }
 
     .field label{
       display:block;
@@ -409,41 +406,6 @@
         0 0 0 1px rgba(44,108,255,0.55),
         0 0 12px rgba(44,108,255,0.25);
       background:#060b1a;
-    }
-
-    .btn{
-      appearance:none;
-      border:1px solid rgba(255,255,255,0.14);
-      background:rgba(255,255,255,0.04);
-      color:var(--text);
-      padding:12px 14px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:13px;
-      cursor:pointer;
-      white-space:nowrap;
-      transition:filter 0.12s ease, transform 0.12s ease, border-color 0.12s ease;
-    }
-
-    .btn:hover{
-      filter:brightness(1.06);
-      transform:translateY(-1px);
-    }
-
-    .btn.primary{
-      background:linear-gradient(180deg, #2d6dff, #1553d8);
-      border-color:rgba(44,108,255,0.55);
-    }
-
-    .btn.secondary{
-      background:#39415a;
-      border-color:rgba(255,255,255,0.10);
-    }
-
-    .btn.ghost{
-      background:transparent;
-      border:1px solid #33406f;
-      color:#dce5ff;
     }
 
     .hidden{ display:none !important; }
@@ -916,12 +878,16 @@
         grid-template-columns:1fr;
       }
 
-      .context{
+      .context-bar{
         grid-template-columns:1fr 1fr;
       }
 
       .portfolio-summary{
         grid-template-columns:1fr 1fr;
+      }
+
+      .system-spine{
+        grid-template-columns:repeat(2, minmax(0,1fr));
       }
     }
 
@@ -935,15 +901,13 @@
         justify-content:flex-start;
       }
 
-      .system-spine{
-  display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
-  gap:12px;
-  margin:0 0 14px;
-  align-items:stretch;
-}
+      .system-spine,
+      .driver-grid,
+      .portfolio-summary{
+        grid-template-columns:1fr;
+      }
 
-      .context,
+      .context-bar,
       .portfolio-size-row{
         grid-template-columns:1fr;
       }
@@ -1029,59 +993,59 @@
       </section>
 
       <section class="system-spine">
-  <a href="volatility-index.html" class="spine-card active">
-    <div class="step">Step 1</div>
-    <strong>VI — Detect</strong>
-    <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
-  </a>
+        <a href="volatility-index.html" class="spine-card active">
+          <div class="step">Step 1</div>
+          <strong>VI — Detect</strong>
+          <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
+        </a>
 
-  <a href="wsi.html" class="spine-card">
-    <div class="step">Step 2</div>
-    <strong>WSI — Measure</strong>
-    <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
-  </a>
+        <a href="wsi.html" class="spine-card">
+          <div class="step">Step 2</div>
+          <strong>WSI — Measure</strong>
+          <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+        </a>
 
-  <a href="shai.html" class="spine-card">
-    <div class="step">Step 3</div>
-    <strong>SHAI — Align</strong>
-    <span>Recommend the right operational response before instability spreads.</span>
-  </a>
+        <a href="shai.html" class="spine-card">
+          <div class="step">Step 3</div>
+          <strong>SHAI — Align</strong>
+          <span>Recommend the right operational response before instability spreads.</span>
+        </a>
 
-  <a href="map.html" class="spine-card">
-    <div class="step">Step 4</div>
-    <strong>Map — Visualize</strong>
-    <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
-  </a>
-</section>
+        <a href="map.html" class="spine-card">
+          <div class="step">Step 4</div>
+          <strong>Map — Visualize</strong>
+          <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
+        </a>
+      </section>
 
       <section class="context-bar">
-  <div class="context-field context-mode">
-    <label>Mode</label>
-    <div class="mode-options inline-mode-options">
-      <label>
-        <input type="radio" name="mode" value="single" checked />
-        Single Community
-      </label>
-      <label>
-        <input type="radio" name="mode" value="portfolio" />
-        Portfolio View
-      </label>
-    </div>
-  </div>
+        <div class="context-field context-mode">
+          <label>Mode</label>
+          <div class="mode-options inline-mode-options">
+            <label>
+              <input type="radio" name="mode" value="single" checked />
+              Single Community
+            </label>
+            <label>
+              <input type="radio" name="mode" value="portfolio" />
+              Portfolio View
+            </label>
+          </div>
+        </div>
 
-  <div class="context-field">
-    <label>Community / Portfolio</label>
-    <input type="text" id="entityName" placeholder="Longleaf Bee Cave / Gulfside / Portfolio A" value="Community A" />
-  </div>
+        <div class="context-field">
+          <label>Community / Portfolio</label>
+          <input type="text" id="entityName" placeholder="Longleaf Bee Cave / Gulfside / Portfolio A" value="Community A" />
+        </div>
 
-  <div class="context-field context-actions">
-    <label>Navigation</label>
-    <div class="btn-row">
-      <a class="btn-link secondary" href="wsi.html">Go to WSI</a>
-      <a class="btn-link ghost" href="index.html">Return to Platform</a>
-    </div>
-  </div>
-</section>
+        <div class="context-field context-actions">
+          <label>Navigation</label>
+          <div class="btn-row">
+            <a class="btn-link secondary" href="wsi.html">Go to WSI</a>
+            <a class="btn-link ghost" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+      </section>
 
       <section class="portfolio-panel hidden" id="portfolioPanel">
         <h3>Portfolio Context &amp; Volatility Signals</h3>
@@ -1510,7 +1474,7 @@
   </div>
 
   <script>
-    const ENDemic_BASELINE = 80;
+    const ENDEMIC_BASELINE = 80;
     const MAX_FINAL_STABILITY = 95;
     const MAP_STORAGE_KEY = "volHealthMapData";
 
@@ -1519,7 +1483,6 @@
     const modeInputs = document.querySelectorAll("input[name='mode']");
     const portfolioPanel = document.getElementById('portfolioPanel');
     const singleViewMain = document.getElementById('singleViewMain');
-    const calcBtn = document.getElementById('calcBtn');
 
     const weights = {
       census: 1.15,
@@ -1563,25 +1526,25 @@
       return "VI Community";
     }
 
-   function getMode() {
-  const checked = document.querySelector("input[name='mode']:checked");
-  return checked ? checked.value : "single";
-}
+    function getMode() {
+      const checked = document.querySelector("input[name='mode']:checked");
+      return checked ? checked.value : "single";
+    }
 
-function saveVIMapData(partial) {
-  const existing = readMapData();
+    function saveVIMapData(partial) {
+      const existing = readMapData();
 
-  const merged = {
-    ...existing,
-    ...partial,
-    label: buildMapLabel(existing),
-    mode: getMode() === "portfolio" ? "Portfolio View" : "Single Community",
-    updatedAt: new Date().toISOString()
-  };
+      const merged = {
+        ...existing,
+        ...partial,
+        label: buildMapLabel(existing),
+        mode: getMode() === "portfolio" ? "Portfolio View" : "Single Community",
+        updatedAt: new Date().toISOString()
+      };
 
-  localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-  return merged;
-}
+      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+      return merged;
+    }
 
     function usageImpactPct(val){
       if (val === 'conservative') return 0.35;
@@ -1662,11 +1625,11 @@ function saveVIMapData(partial) {
         : `This community is now operating in an exposed stability state. Extra volatility has risen to a level that is likely already reducing consistency, efficiency, and leadership capacity, with ${dominantDomain.toLowerCase()} acting as the most visible drag.`;
     }
 
-  function toggleModeUI(){
-  const isPortfolio = getMode() === 'portfolio';
-  portfolioPanel.classList.toggle('hidden', !isPortfolio);
-  singleViewMain.classList.toggle('hidden', isPortfolio);
-}
+    function toggleModeUI(){
+      const isPortfolio = getMode() === 'portfolio';
+      portfolioPanel.classList.toggle('hidden', !isPortfolio);
+      singleViewMain.classList.toggle('hidden', isPortfolio);
+    }
 
     function clampNumber(value, min, max){
       const num = Number(value);
@@ -1701,9 +1664,9 @@ function saveVIMapData(partial) {
     }
 
     function collectValues(){
-      const mode = modeSelect?.value || 'Single Community';
+      const mode = getMode();
 
-      if (mode === 'Portfolio View'){
+      if (mode === 'portfolio'){
         return {
           census: weightedPortfolioAverage('census'),
           acuity: weightedPortfolioAverage('acuity'),
@@ -1726,7 +1689,7 @@ function saveVIMapData(partial) {
     }
 
     function calculateMetrics(){
-      const mode = modeSelect?.value || 'Single Community';
+      const mode = getMode() === 'portfolio' ? 'Portfolio View' : 'Single Community';
       const values = collectValues();
 
       const residentWeighted =
@@ -1753,18 +1716,18 @@ function saveVIMapData(partial) {
       const externalMax = (10 * weights.survey) + (10 * weights.reimbursement);
 
       const domainScores = {
-        resident: Math.max(0, Math.round(ENDemic_BASELINE - ((residentWeighted / residentMax) * ENDemic_BASELINE))),
-        operations: Math.max(0, Math.round(ENDemic_BASELINE - ((operationsWeighted / operationsMax) * ENDemic_BASELINE))),
-        workforce: Math.max(0, Math.round(ENDemic_BASELINE - ((workforceWeighted / workforceMax) * ENDemic_BASELINE))),
-        external: Math.max(0, Math.round(ENDemic_BASELINE - ((externalWeighted / externalMax) * ENDemic_BASELINE)))
+        resident: Math.max(0, Math.round(ENDEMIC_BASELINE - ((residentWeighted / residentMax) * ENDEMIC_BASELINE))),
+        operations: Math.max(0, Math.round(ENDEMIC_BASELINE - ((operationsWeighted / operationsMax) * ENDEMIC_BASELINE))),
+        workforce: Math.max(0, Math.round(ENDEMIC_BASELINE - ((workforceWeighted / workforceMax) * ENDEMIC_BASELINE))),
+        external: Math.max(0, Math.round(ENDEMIC_BASELINE - ((externalWeighted / externalMax) * ENDEMIC_BASELINE)))
       };
 
       const totalWeighted = Object.keys(values).reduce((sum, d) => sum + (values[d] * weights[d]), 0);
       const maxWeighted = Object.keys(values).reduce((sum, d) => sum + (10 * weights[d]), 0);
       const extraVolNormalized = maxWeighted === 0 ? 0 : Math.round((totalWeighted / maxWeighted) * 100);
 
-      const stabilityPre = Math.max(0, Math.round(ENDemic_BASELINE - ((extraVolNormalized / 100) * ENDemic_BASELINE)));
-      const volatilityDrag = ENDemic_BASELINE - stabilityPre;
+      const stabilityPre = Math.max(0, Math.round(ENDEMIC_BASELINE - ((extraVolNormalized / 100) * ENDEMIC_BASELINE)));
+      const volatilityDrag = ENDEMIC_BASELINE - stabilityPre;
 
       const usage = mode === 'Portfolio View' ? 'moderate' : 'moderate';
       const recoveryPct = usageImpactPct(usage);
@@ -2055,14 +2018,12 @@ function saveVIMapData(partial) {
     document.getElementById('portfolioSize')?.addEventListener('input', update);
 
     modeInputs.forEach(input => {
-  input.addEventListener('change', update);
-});
+      input.addEventListener('change', update);
+    });
 
     document.getElementById('entityName')?.addEventListener('input', () => {
       update();
     });
-
-    calcBtn?.addEventListener('click', update);
 
     const runWsiBtn = document.getElementById('runWsiBtn');
     if (runWsiBtn){
@@ -2092,7 +2053,6 @@ function saveVIMapData(partial) {
       });
     }
 
-    // initialize true theoretical defaults
     resetSingleDefaults();
     resetPortfolioDefaults();
     updateRowSums();
