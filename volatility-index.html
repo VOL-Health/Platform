@@ -1739,18 +1739,10 @@ saveVIMapData({
         });
       }
 
-      const dot = document.getElementById('plotDot');
-      const label = document.getElementById('plotLabel');
-      const x = 34;
-      const bottom = 18 + ((stabilityPre / MAX_FINAL_STABILITY) * 62);
-
-      dot.style.left = `${x}%`;
-      dot.style.bottom = `${bottom}%`;
-      label.style.left = `${x}%`;
-      label.style.bottom = `${bottom}%`;
-      label.textContent = document.getElementById('entityName')?.value || 'Community A';
-      dot.style.background = color;
-      dot.style.boxShadow = `0 0 0 8px color-mix(in srgb, ${color} 18%, transparent)`;
+      renderVIPreviewMap(
+  stabilityPre,
+  buildMapLabel(readMapData())
+);
     }
 
     function navigateTo(candidates) {
