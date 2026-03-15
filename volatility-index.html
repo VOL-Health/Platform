@@ -222,17 +222,110 @@
       line-height:1.45;
     }
 
-    .context{
-      display:grid;
-      grid-template-columns:1.1fr 1.3fr 0.9fr 0.9fr auto;
-      gap:12px;
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:var(--radius-xl);
-      padding:14px;
-      box-shadow:var(--shadow);
-      margin-bottom:16px;
-    }
+   .context-bar{
+  display:grid;
+  grid-template-columns:1.3fr 1.2fr auto;
+  gap:12px;
+  margin:0 0 16px;
+  padding:14px 16px;
+  background:rgba(14,20,40,0.90);
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:20px;
+  box-shadow:0 14px 34px rgba(0,0,0,0.26);
+}
+
+.context-field{
+  margin-bottom:0;
+}
+
+.context-actions{
+  margin-top:0;
+}
+
+.context-field label{
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  margin-bottom:8px;
+}
+
+.inline-mode-options{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin:0;
+}
+
+.inline-mode-options label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:14px;
+  color:#f5f6ff;
+  text-transform:none;
+  letter-spacing:0;
+  margin:0;
+}
+
+.mode-options input{
+  margin-right:6px;
+  accent-color:var(--green);
+}
+
+.btn-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+
+.btn,
+.btn-link{
+  border:none;
+  background:var(--blue);
+  color:#fff;
+  padding:10px 16px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  box-shadow:none;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  transition:filter 0.12s ease, transform 0.12s ease;
+}
+
+.btn:hover,
+.btn-link:hover{
+  filter:brightness(1.06);
+  transform:translateY(-1px);
+}
+
+.btn.secondary,
+.btn-link.secondary{
+  background:#39415a;
+  border:1px solid rgba(255,255,255,0.10);
+}
+
+.btn.green,
+.btn-link.green{
+  background:linear-gradient(90deg, var(--green), #34c08a);
+  border:1px solid rgba(255,255,255,0.10);
+}
+
+.btn.ghost,
+.btn-link.ghost{
+  background:transparent;
+  border:1px solid #33406f;
+  color:#dce5ff;
+}
 
     .field label{
       display:block;
