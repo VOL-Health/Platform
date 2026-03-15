@@ -1606,11 +1606,11 @@ function saveVIMapData(partial) {
         : `This community is now operating in an exposed stability state. Extra volatility has risen to a level that is likely already reducing consistency, efficiency, and leadership capacity, with ${dominantDomain.toLowerCase()} acting as the most visible drag.`;
     }
 
-    function toggleModeUI(){
-      const isPortfolio = modeSelect?.value === 'Portfolio View';
-      portfolioPanel.classList.toggle('hidden', !isPortfolio);
-      singleViewMain.classList.toggle('hidden', isPortfolio);
-    }
+  function toggleModeUI(){
+  const isPortfolio = getMode() === 'portfolio';
+  portfolioPanel.classList.toggle('hidden', !isPortfolio);
+  singleViewMain.classList.toggle('hidden', isPortfolio);
+}
 
     function clampNumber(value, min, max){
       const num = Number(value);
