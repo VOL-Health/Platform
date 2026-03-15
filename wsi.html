@@ -4,930 +4,907 @@
   <meta charset="UTF-8" />
   <title>VOL Health | Workforce Stability Index</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
- <style>
-  :root{
-    --bg:#07111f;
-    --bg-2:#0c1830;
-    --panel:rgba(13,18,36,0.96);
-    --panel-2:rgba(17,24,46,0.94);
-    --line:rgba(255,255,255,0.10);
-    --text:#eef4ff;
-    --muted:#9fb2d2;
-    --blue:#2c6cff;
-    --green:#35c67a;
-    --green-2:#28a862;
-    --amber:#f6b44b;
-    --red:#f06161;
-    --shadow:0 14px 34px rgba(0,0,0,0.34);
-    --radius-xl:20px;
-    --radius-lg:18px;
-    --radius-md:14px;
-  }
-
-  *{ box-sizing:border-box; }
-  html,body{ min-height:100%; }
-
-  body{
-    margin:0;
-    font-family:Inter, Arial, Helvetica, sans-serif;
-    color:var(--text);
-    background:
-      radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
-      radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
-      linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
-  }
-
-  a{ color:inherit; text-decoration:none; }
-
-  .shell{
-    width:min(1320px, calc(100% - 28px));
-    margin:22px auto 40px;
-    padding:0 0 32px;
-  }
-
-  .platform-header{
-    margin-bottom:6px;
-    padding:18px 14px 0;
-  }
-
-  .platform-header-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:18px;
-    margin-bottom:18px;
-  }
-
-  .platform-brand{ min-width:0; }
-
-  .platform-logo-line{
-    display:flex;
-    align-items:flex-end;
-    gap:10px;
-    line-height:0.95;
-  }
-
-  .platform-logo-vol{
-    font-size:clamp(44px, 5vw, 72px);
-    font-weight:900;
-    color:var(--blue);
-    letter-spacing:0.02em;
-  }
-
-  .platform-logo-health{
-    font-size:clamp(44px, 5vw, 72px);
-    font-weight:900;
-    color:#f3f6ff;
-    letter-spacing:0.02em;
-  }
-
-  .platform-brand-sub{
-    margin-top:4px;
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:0.22em;
-    color:rgba(255,255,255,0.78);
-  }
-
-  .platform-nav{
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    flex-wrap:wrap;
-    gap:10px;
-  }
-
-  .nav-pill{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    padding:10px 14px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.12);
-    background:rgba(255,255,255,0.04);
-    color:#eef4ff;
-    text-decoration:none;
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:0.04em;
-    white-space:nowrap;
-    transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
-  }
-
-  .nav-pill:hover{
-    background:rgba(255,255,255,0.08);
-    border-color:rgba(255,255,255,0.24);
-    transform:translateY(-1px);
-  }
-
-  .nav-pill.active{
-    background:rgba(44,108,255,0.18);
-    border-color:rgba(44,108,255,0.60);
-    color:#ffffff;
-    box-shadow:
-      0 0 0 1px rgba(44,108,255,0.35),
-      0 4px 14px rgba(44,108,255,0.25);
-  }
-
-  .platform-page-intro{
-    padding:14px 18px;
-    border-radius:22px;
-    border:1px solid rgba(255,255,255,0.10);
-    background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
-    margin-bottom:6px;
-  }
-
-  .page-kicker{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:6px 12px;
-    border-radius:999px;
-    border:1px solid rgba(44,108,255,0.35);
-    background:rgba(44,108,255,0.12);
-    color:#dbe6ff;
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:0.04em;
-    text-transform:none;
-    margin-bottom:12px;
-  }
-
-  .page-title{
-    margin:0 0 6px;
-    font-size:clamp(22px, 2.6vw, 32px);
-    line-height:1.1;
-    font-weight:800;
-    letter-spacing:-0.01em;
-  }
-
-  .page-subtitle{
-    margin-top:4px;
-    max-width:760px;
-    color:rgba(255,255,255,0.78);
-    font-size:14px;
-    line-height:1.5;
-  }
-
-  .page{
-    padding:8px 14px 32px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
-    border-radius:22px;
-  }
-
-  .system-spine{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-    gap:12px;
-    margin:0 0 14px;
-    align-items:stretch;
-  }
-
-  .system-spine a{
-    text-decoration:none;
-  }
-
-  .spine-card{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    text-decoration:none;
-    color:inherit;
-    background:rgba(16,23,44,0.92);
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius:18px;
-    padding:16px 18px;
-    min-height:110px;
-    box-shadow:0 14px 34px rgba(0,0,0,0.28);
-    transition:
-      transform 0.14s ease,
-      box-shadow 0.14s ease,
-      border-color 0.14s ease,
-      background 0.14s ease;
-    cursor:pointer;
-  }
-
-  .spine-card:hover{
-    transform:translateY(-2px);
-    box-shadow:0 20px 44px rgba(0,0,0,0.34);
-    border-color:rgba(44,108,255,0.35);
-  }
-
-  .spine-card.active{
-    border-color:rgba(44,108,255,0.45);
-    background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
-  }
-
-  .spine-card .step{
-    font-size:11px;
-    color:#9fb2d2;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    margin-bottom:2px;
-  }
-
-  .spine-card strong{
-    display:block;
-    font-size:17px;
-    margin:0;
-    color:#f5f6ff;
-    line-height:1.2;
-  }
-
-  .spine-card span{
-    color:#c4cae8;
-    font-size:13px;
-    line-height:1.45;
-  }
-
- .context-bar{
-  display:grid;
-  grid-template-columns:minmax(340px, 1.1fr) minmax(320px, 1.35fr) auto;
-  gap:14px;
-  margin:0 0 16px;
-  padding:18px 20px;
-  background:rgba(14,20,40,0.90);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:20px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.26);
-  align-items:end;
-}
-
-.context-field{
-  margin:0;
-  min-width:0;
-}
-
-.context-field label{
-  display:block;
-  font-size:11px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  margin-bottom:10px;
-  font-weight:800;
-}
-
-.context-field input{
-  width:100%;
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.10);
-  font-size:0.95rem;
-  background:#050814;
-  color:#f5f6ff;
-  font-family:inherit;
-  outline:none;
-}
-
-.context-field input:focus{
-  border-color:var(--blue);
-  box-shadow:
-    0 0 0 1px rgba(44,108,255,0.55),
-    0 0 12px rgba(44,108,255,0.25);
-  background:#060b1a;
-}
-
-.context-mode{
-  min-width:0;
-}
-
-.inline-mode-options{
-  display:flex;
-  align-items:center;
-  gap:18px;
-  padding:2px 0;
-}
-
-.inline-mode-options label{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:14px;
-  font-weight:600;
-  color:#eef4ff;
-  cursor:pointer;
-}
-
-.inline-mode-options input[type="radio"]{
-  accent-color:#35c67a;
-  margin:0;
-}
-.context-actions{
-  align-self:end;
-}
-
-@media (max-width: 1180px){
-  .context-bar{
-    grid-template-columns:1fr;
-    align-items:stretch;
-  }
-
-  .context-actions{
-    align-self:auto;
-  }
-}
-
-@media (max-width: 720px){
-  .inline-mode-options{
-    gap:14px;
-  }
-
-  .inline-mode-options label{
-    font-size:13px;
-  }
-}
-
-  .context-actions{
-    align-self:end;
-  }
-
-  .btn-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
-  }
-
-  .btn,
-  .btn-link{
-    border:none;
-    background:var(--blue);
-    color:#fff;
-    padding:10px 16px;
-    border-radius:999px;
-    font-size:13px;
-    font-weight:800;
-    cursor:pointer;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    box-shadow:none;
-    text-decoration:none;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    white-space:nowrap;
-    transition:filter 0.12s ease, transform 0.12s ease;
-  }
-
-  .btn:hover,
-  .btn-link:hover{
-    filter:brightness(1.06);
-    transform:translateY(-1px);
-  }
-
-  .btn.primary,
-  .btn-link.primary{
-    background:linear-gradient(180deg,#3c7cff,#2c6cff);
-    color:white;
-    box-shadow:0 6px 16px rgba(44,108,255,0.35);
-  }
-
-  .btn.secondary,
-  .btn-link.secondary{
-    background:#39415a;
-    border:1px solid rgba(255,255,255,0.10);
-  }
-
-  .btn.green,
-  .btn-link.green{
-    background:linear-gradient(90deg, var(--green), #34c08a);
-    border:1px solid rgba(255,255,255,0.10);
-  }
-
-  .btn.ghost,
-  .btn-link.ghost{
-    background:transparent;
-    border:1px solid #33406f;
-    color:#dce5ff;
-  }
-
-  .section-kicker{
-    margin:4px 0 12px;
-    color:rgba(255,255,255,0.64);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.12em;
-    font-weight:800;
-  }
-
-  .input-grid{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0, 1fr));
-    gap:16px;
-    margin-bottom:18px;
-    align-items:start;
-  }
-
-  .results-grid{
-    display:grid;
-    grid-template-columns:minmax(0,1.15fr) minmax(0,0.95fr) minmax(0,0.95fr);
-    gap:16px;
-    margin-top:18px;
-    align-items:stretch;
-  }
-
-  .card{
-    background:rgba(17,24,46,0.94);
-    border-radius:20px;
-    box-shadow:0 14px 34px rgba(0,0,0,0.28);
-    padding:16px;
-    border:1px solid rgba(255,255,255,0.11);
-    transition:transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
-    min-width:0;
-  }
-
-  .card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 22px 48px rgba(0,0,0,0.36);
-    border-color:rgba(255,255,255,0.16);
-  }
-
-  .card h3{
-    margin:0 0 6px;
-    font-size:18px;
-    color:#f5f6ff;
-  }
-
-  .card h2{
-    margin:0 0 8px;
-    font-size:18px;
-    color:#f5f6ff;
-  }
-
-  .card p{
-    margin:0 0 8px;
-    line-height:1.45;
-    font-size:12.5px;
-    color:#c4cae8;
-  }
-
-  .field{
-    margin-bottom:8px;
-  }
-
-  .field label{
-    display:flex;
-    justify-content:space-between;
-    align-items:baseline;
-    gap:8px;
-    font-size:0.84rem;
-    margin-bottom:4px;
-    color:#e3e6ff;
-  }
-
-  .field small{
-    color:var(--muted);
-    font-size:0.75rem;
-    margin-left:6px;
-    white-space:nowrap;
-  }
-
-  input[type="number"],
-  input[type="text"],
-  select{
-    width:100%;
-    padding:9px 10px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,0.10);
-    font-size:0.88rem;
-    background:#050814;
-    color:#f5f6ff;
-    font-family:inherit;
-    outline:none;
-  }
-
-  input[type="number"]:focus,
-  input[type="text"]:focus,
-  select:focus{
-    border-color:var(--blue);
-    box-shadow:
-      0 0 0 1px rgba(44,108,255,0.55),
-      0 0 12px rgba(44,108,255,0.25);
-    background:#060b1a;
-  }
-
-  .note{
-    font-size:0.78rem;
-    color:var(--muted);
-    margin-top:6px;
-    line-height:1.45;
-  }
-
-  .single-only{ }
-
-  .portfolio-only{
-    display:none;
-  }
-
-  body.mode-portfolio .single-only{
-    display:none !important;
-  }
-
-  body.mode-portfolio .portfolio-only{
-    display:block;
-  }
-
-  .portfolio-section{
-    display:none;
-    margin-top:4px;
-    margin-bottom:18px;
-  }
-
-  body.mode-portfolio .portfolio-section{
-    display:block;
-  }
-
-  .portfolio-card{
-    background:rgba(17,24,46,0.94);
-    border-radius:20px;
-    box-shadow:0 14px 34px rgba(0,0,0,0.28);
-    padding:18px;
-    border:1px solid rgba(255,255,255,0.11);
-    margin-bottom:16px;
-  }
-
-  .portfolio-card h3{
-    margin-bottom:6px;
-  }
-
-  .portfolio-card p{
-    font-size:0.82rem;
-    color:#c4cae8;
-    margin-bottom:10px;
-  }
-
-  .portfolio-top{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 220px;
-    gap:14px;
-    align-items:end;
-    margin-bottom:12px;
-  }
-
-  .dist-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:0.78rem;
-    margin-top:4px;
-    color:#d5daf5;
-  }
-
-  .dist-table th,
-  .dist-table td{
-    padding:6px 8px;
-    border-bottom:1px solid #242944;
-    text-align:left;
-    vertical-align:top;
-  }
-
-  .dist-table th{
-    background:#12182e;
-    font-weight:600;
-    color:#f5f6ff;
-  }
-
-  .small-input{
-    width:70px;
-    padding:6px 7px;
-    font-size:0.8rem;
-    background:#050814;
-    border-radius:8px;
-    border:1px solid rgba(255,255,255,0.10);
-    color:#f5f6ff;
-  }
-
-  .total-cell{
-    font-size:0.78rem;
-    font-weight:600;
-    text-align:right;
-    min-width:80px;
-  }
-
-  .total-cell.bad{
-    color:#ff9ba8;
-  }
-
-  .band-note{
-    display:block;
-    margin-top:4px;
-    font-size:0.74rem;
-    color:var(--muted);
-    line-height:1.35;
-  }
-
-  .portfolio-summary{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-    margin-top:16px;
-  }
-
-  .portfolio-summary .kpi{
-    min-height:86px;
-  }
-
-  .portfolio-actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:12px;
-  }
-
-  .summary-main{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    height:100%;
-  }
-
-  .score-badge{
-    display:inline-flex;
-    align-items:baseline;
-    gap:8px;
-    margin-top:4px;
-    flex-wrap:wrap;
-  }
-
-  .score-number{
-    font-size:2.8rem;
-    font-weight:900;
-    color:var(--amber);
-    line-height:0.95;
-  }
-
-  .score-tag{
-    padding:4px 10px;
-    border-radius:999px;
-    font-size:0.75rem;
-    font-weight:800;
-    border:1px solid #515782;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    background:#12182e;
-    color:#e3e6ff;
-  }
-
-  .score-tag.high-risk{
-    border-color:#e5533d;
-    color:#ffd3ce;
-    background:rgba(223,71,89,0.18);
-  }
-
-  .score-tag.moderate-risk{
-    border-color:#f0aa2c;
-    color:#ffe8c7;
-    background:rgba(242,183,5,0.18);
-  }
-
-  .score-tag.stable{
-    border-color:#3e9153;
-    color:#c8f8d4;
-    background:rgba(46,139,87,0.18);
-  }
-
-  .kpi-row{
-    display:grid;
-    grid-template-columns:repeat(2, minmax(0,1fr));
-    gap:12px;
-    margin-top:8px;
-  }
-
-  .kpi{
-    background:#050814;
-    border-radius:12px;
-    padding:12px;
-    font-size:0.86rem;
-    border:1px solid #252b49;
-    min-width:0;
-  }
-
-  .kpi-label{
-    color:var(--muted);
-    margin-bottom:6px;
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    font-weight:800;
-  }
-
-  .kpi-value{
-    font-weight:800;
-    font-size:1rem;
-    color:#e3e6ff;
-    line-height:1.3;
-    word-break:break-word;
-  }
-
-  .kpi-subvalue{
-    margin-top:4px;
-    font-size:0.78rem;
-    color:#c4cae8;
-    line-height:1.4;
-  }
-
-  .elasticity-state{
-    font-weight:900;
-    font-size:1.02rem;
-    color:#f5f6ff;
-    margin-top:2px;
-  }
-
-  .scenario-card table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:6px;
-    font-size:0.8rem;
-    color:#d5daf5;
-  }
-
-  .scenario-card th,
-  .scenario-card td{
-    padding:6px 8px;
-    text-align:left;
-    border-bottom:1px solid #242944;
-  }
-
-  .scenario-card th{
-    background:#12182e;
-    font-weight:600;
-    color:#f5f6ff;
-  }
-
-  .delta-positive{
-    color:#7ce9b4;
-    font-weight:700;
-  }
-
-  .delta-negative{
-    color:#ff9ba8;
-    font-weight:700;
-  }
-
-  .nav-note{
-    margin-top:14px;
-    padding:12px 14px;
-    border-radius:14px;
-    background:rgba(11,17,35,0.75);
-    border:1px solid #273154;
-    color:#d8def8;
-    font-size:12.5px;
-    line-height:1.5;
-  }
-
-  .single-axis-map-shell{
-    border:1px solid rgba(255,255,255,0.10);
-    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.18));
-    border-radius:20px;
-    padding:10px;
-    box-shadow:
-      inset 0 1px 0 rgba(255,255,255,0.03),
-      inset 0 -20px 40px rgba(0,0,0,0.16);
-    margin:12px 0 12px;
-  }
-
-  .single-axis-map-shell svg{
-    width:100%;
-    height:auto;
-    display:block;
-    border-radius:16px;
-  }
-
-  .single-axis-zone-readout{
-    border:1px solid rgba(255,255,255,0.08);
-    background:rgba(255,255,255,0.04);
-    border-radius:16px;
-    padding:14px 14px 15px;
-  }
-
-  .single-axis-zone-label{
-    color:rgba(255,255,255,0.62);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.10em;
-    font-weight:800;
-    margin-bottom:8px;
-  }
-
-  .single-axis-zone-value{
-    font-size:16px;
-    font-weight:900;
-    color:#eef4ff;
-    margin-bottom:6px;
-    line-height:1.2;
-  }
-
-  .single-axis-zone-note{
-    color:#c4cae8;
-    font-size:13px;
-    line-height:1.5;
-  }
-
-  .prototype-note{
-    margin-top:22px;
-    width:100%;
-    max-width:none;
-    padding:16px 18px;
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius:16px;
-    background:rgba(255,255,255,0.03);
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.55;
-  }
-
-  .prototype-note strong{
-    color:#eef4ff;
-    font-weight:700;
-  }
-
-  .prototype-note .small{
-    display:block;
-    margin-top:6px;
-    font-size:12px;
-    opacity:0.9;
-  }
-
-  @media (max-width: 1080px){
-    .input-grid{
-      grid-template-columns:repeat(2, minmax(0,1fr));
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg-2:#0c1830;
+      --panel:rgba(13,18,36,0.96);
+      --panel-2:rgba(17,24,46,0.94);
+      --line:rgba(255,255,255,0.10);
+      --text:#eef4ff;
+      --muted:#9fb2d2;
+      --blue:#2c6cff;
+      --green:#35c67a;
+      --green-2:#28a862;
+      --amber:#f6b44b;
+      --red:#f06161;
+      --shadow:0 14px 34px rgba(0,0,0,0.34);
+      --radius-xl:20px;
+      --radius-lg:18px;
+      --radius-md:14px;
     }
 
-    .results-grid{
-      grid-template-columns:1fr;
+    *{ box-sizing:border-box; }
+    html,body{ min-height:100%; }
+
+    body{
+      margin:0;
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
     }
 
-    .kpi-row{
-      grid-template-columns:repeat(2, minmax(0,1fr));
+    a{ color:inherit; text-decoration:none; }
+
+    .shell{
+      width:min(1320px, calc(100% - 28px));
+      margin:22px auto 40px;
+      padding:0 0 32px;
     }
 
-    .system-spine{
-      grid-template-columns:repeat(2, minmax(0,1fr));
+    .platform-header{
+      margin-bottom:6px;
+      padding:18px 14px 0;
     }
 
-    .context-bar{
-      grid-template-columns:1fr;
-      align-items:stretch;
-    }
-
-    .context-actions{
-      align-self:auto;
-    }
-  }
-
-  @media (max-width: 760px){
     .platform-header-top{
-      flex-direction:column;
+      display:flex;
+      justify-content:space-between;
       align-items:flex-start;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    .platform-brand{ min-width:0; }
+
+    .platform-logo-line{
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      line-height:0.95;
+    }
+
+    .platform-logo-vol{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:var(--blue);
+      letter-spacing:0.02em;
+    }
+
+    .platform-logo-health{
+      font-size:clamp(44px, 5vw, 72px);
+      font-weight:900;
+      color:#f3f6ff;
+      letter-spacing:0.02em;
     }
 
     .platform-nav{
-      justify-content:flex-start;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
     }
 
-    .system-spine,
-    .input-grid{
-      grid-template-columns:1fr;
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
     }
-  }
 
-  @media (max-width: 720px){
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.18);
+      border-color:rgba(44,108,255,0.60);
+      color:#ffffff;
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.35),
+        0 4px 14px rgba(44,108,255,0.25);
+    }
+
+    .platform-page-intro{
+      padding:14px 18px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      margin-bottom:6px;
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      margin-bottom:12px;
+    }
+
+    .page-title{
+      margin:0 0 6px;
+      font-size:clamp(22px, 2.6vw, 32px);
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.01em;
+    }
+
+    .page-subtitle{
+      margin-top:4px;
+      max-width:760px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.5;
+    }
+
     .page{
-      padding:14px 14px 28px;
+      padding:8px 14px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
+      border-radius:22px;
     }
 
-    .card,
-    .portfolio-card{
-      padding:14px 12px 16px;
+    .system-spine{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:12px;
+      margin:0 0 14px;
+      align-items:stretch;
     }
 
-    .portfolio-top{
-      grid-template-columns:1fr;
+    .system-spine a{
+      text-decoration:none;
     }
 
-    .kpi-row{
-      grid-template-columns:1fr;
-    }
-
-    .summary-actions{
+    .spine-card{
+      display:flex;
       flex-direction:column;
+      gap:6px;
+      text-decoration:none;
+      color:inherit;
+      background:rgba(16,23,44,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:16px 18px;
+      min-height:110px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
     }
 
-    .summary-actions .btn-link{
+    .spine-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
+    }
+
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.45);
+      background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
+    }
+
+    .spine-card .step{
+      font-size:11px;
+      color:#9fb2d2;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:2px;
+    }
+
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin:0;
+      color:#f5f6ff;
+      line-height:1.2;
+    }
+
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .context-bar{
+      display:grid;
+      grid-template-columns:minmax(300px, 0.95fr) minmax(360px, 1.25fr) auto;
+      gap:16px;
+      margin:0 0 16px;
+      padding:18px 20px;
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+      align-items:end;
+    }
+
+    .context-field{
+      margin:0;
+      min-width:0;
+    }
+
+    .context-field label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:10px;
+      font-weight:800;
+    }
+
+    .context-field input{
       width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      font-size:0.95rem;
+      background:#050814;
+      color:#f5f6ff;
+      font-family:inherit;
+      outline:none;
+    }
+
+    .context-field input:focus{
+      border-color:var(--blue);
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.55),
+        0 0 12px rgba(44,108,255,0.25);
+      background:#060b1a;
+    }
+
+    .context-mode{
+      min-width:0;
     }
 
     .inline-mode-options{
-  flex-wrap:wrap;
-  gap:14px;
-}
+      display:flex;
+      align-items:center;
+      gap:22px;
+      min-height:46px;
+      flex-wrap:nowrap;
+    }
 
-.inline-mode-options label{
-  width:auto;
-  justify-content:flex-start;
-}
-  }
-</style>
+    .mode-option{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:14px;
+      font-weight:600;
+      color:#eef4ff;
+      cursor:pointer;
+      white-space:nowrap;
+      line-height:1;
+    }
+
+    .mode-option input[type="radio"]{
+      accent-color:#35c67a;
+      margin:0;
+      flex:0 0 auto;
+    }
+
+    .mode-option span{
+      display:inline-block;
+      white-space:nowrap;
+    }
+
+    .context-actions{
+      align-self:end;
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn,
+    .btn-link{
+      border:none;
+      background:var(--blue);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.04em;
+      box-shadow:none;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      transition:filter 0.12s ease, transform 0.12s ease;
+    }
+
+    .btn:hover,
+    .btn-link:hover{
+      filter:brightness(1.06);
+      transform:translateY(-1px);
+    }
+
+    .btn.primary,
+    .btn-link.primary{
+      background:linear-gradient(180deg,#3c7cff,#2c6cff);
+      color:white;
+      box-shadow:0 6px 16px rgba(44,108,255,0.35);
+    }
+
+    .btn.secondary,
+    .btn-link.secondary{
+      background:#39415a;
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.green,
+    .btn-link.green{
+      background:linear-gradient(90deg, var(--green), #34c08a);
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.ghost,
+    .btn-link.ghost{
+      background:transparent;
+      border:1px solid #33406f;
+      color:#dce5ff;
+    }
+
+    .section-kicker{
+      margin:4px 0 12px;
+      color:rgba(255,255,255,0.64);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-weight:800;
+    }
+
+    .input-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:16px;
+      margin-bottom:18px;
+      align-items:start;
+    }
+
+    .results-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(0,0.95fr) minmax(0,0.95fr);
+      gap:16px;
+      margin-top:18px;
+      align-items:stretch;
+    }
+
+    .card{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.11);
+      transition:transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      min-width:0;
+    }
+
+    .card:hover{
+      transform:translateY(-3px);
+      box-shadow:0 22px 48px rgba(0,0,0,0.36);
+      border-color:rgba(255,255,255,0.16);
+    }
+
+    .card h3{
+      margin:0 0 6px;
+      font-size:18px;
+      color:#f5f6ff;
+    }
+
+    .card h2{
+      margin:0 0 8px;
+      font-size:18px;
+      color:#f5f6ff;
+    }
+
+    .card p{
+      margin:0 0 8px;
+      line-height:1.45;
+      font-size:12.5px;
+      color:#c4cae8;
+    }
+
+    .field{
+      margin-bottom:8px;
+    }
+
+    .field label{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:8px;
+      font-size:0.84rem;
+      margin-bottom:4px;
+      color:#e3e6ff;
+    }
+
+    .field small{
+      color:var(--muted);
+      font-size:0.75rem;
+      margin-left:6px;
+      white-space:nowrap;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select{
+      width:100%;
+      padding:9px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.10);
+      font-size:0.88rem;
+      background:#050814;
+      color:#f5f6ff;
+      font-family:inherit;
+      outline:none;
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    select:focus{
+      border-color:var(--blue);
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.55),
+        0 0 12px rgba(44,108,255,0.25);
+      background:#060b1a;
+    }
+
+    .note{
+      font-size:0.78rem;
+      color:var(--muted);
+      margin-top:6px;
+      line-height:1.45;
+    }
+
+    .single-only{ }
+
+    .portfolio-only{
+      display:none;
+    }
+
+    body.mode-portfolio .single-only{
+      display:none !important;
+    }
+
+    body.mode-portfolio .portfolio-only{
+      display:block;
+    }
+
+    .portfolio-section{
+      display:none;
+      margin-top:4px;
+      margin-bottom:18px;
+    }
+
+    body.mode-portfolio .portfolio-section{
+      display:block;
+    }
+
+    .portfolio-card{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+      margin-bottom:16px;
+    }
+
+    .portfolio-card h3{
+      margin-bottom:6px;
+    }
+
+    .portfolio-card p{
+      font-size:0.82rem;
+      color:#c4cae8;
+      margin-bottom:10px;
+    }
+
+    .portfolio-top{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 220px;
+      gap:14px;
+      align-items:end;
+      margin-bottom:12px;
+    }
+
+    .dist-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.78rem;
+      margin-top:4px;
+      color:#d5daf5;
+    }
+
+    .dist-table th,
+    .dist-table td{
+      padding:6px 8px;
+      border-bottom:1px solid #242944;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    .dist-table th{
+      background:#12182e;
+      font-weight:600;
+      color:#f5f6ff;
+    }
+
+    .small-input{
+      width:70px;
+      padding:6px 7px;
+      font-size:0.8rem;
+      background:#050814;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.10);
+      color:#f5f6ff;
+    }
+
+    .total-cell{
+      font-size:0.78rem;
+      font-weight:600;
+      text-align:right;
+      min-width:80px;
+    }
+
+    .total-cell.bad{
+      color:#ff9ba8;
+    }
+
+    .band-note{
+      display:block;
+      margin-top:4px;
+      font-size:0.74rem;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    .portfolio-summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .portfolio-summary .kpi{
+      min-height:86px;
+    }
+
+    .portfolio-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .summary-main{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      height:100%;
+    }
+
+    .score-badge{
+      display:inline-flex;
+      align-items:baseline;
+      gap:8px;
+      margin-top:4px;
+      flex-wrap:wrap;
+    }
+
+    .score-number{
+      font-size:2.8rem;
+      font-weight:900;
+      color:var(--amber);
+      line-height:0.95;
+    }
+
+    .score-tag{
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:0.75rem;
+      font-weight:800;
+      border:1px solid #515782;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      background:#12182e;
+      color:#e3e6ff;
+    }
+
+    .score-tag.high-risk{
+      border-color:#e5533d;
+      color:#ffd3ce;
+      background:rgba(223,71,89,0.18);
+    }
+
+    .score-tag.moderate-risk{
+      border-color:#f0aa2c;
+      color:#ffe8c7;
+      background:rgba(242,183,5,0.18);
+    }
+
+    .score-tag.stable{
+      border-color:#3e9153;
+      color:#c8f8d4;
+      background:rgba(46,139,87,0.18);
+    }
+
+    .kpi-row{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin-top:8px;
+    }
+
+    .kpi{
+      background:#050814;
+      border-radius:12px;
+      padding:12px;
+      font-size:0.86rem;
+      border:1px solid #252b49;
+      min-width:0;
+    }
+
+    .kpi-label{
+      color:var(--muted);
+      margin-bottom:6px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      font-weight:800;
+    }
+
+    .kpi-value{
+      font-weight:800;
+      font-size:1rem;
+      color:#e3e6ff;
+      line-height:1.3;
+      word-break:break-word;
+    }
+
+    .kpi-subvalue{
+      margin-top:4px;
+      font-size:0.78rem;
+      color:#c4cae8;
+      line-height:1.4;
+    }
+
+    .elasticity-state{
+      font-weight:900;
+      font-size:1.02rem;
+      color:#f5f6ff;
+      margin-top:2px;
+    }
+
+    .scenario-card table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:6px;
+      font-size:0.8rem;
+      color:#d5daf5;
+    }
+
+    .scenario-card th,
+    .scenario-card td{
+      padding:6px 8px;
+      text-align:left;
+      border-bottom:1px solid #242944;
+    }
+
+    .scenario-card th{
+      background:#12182e;
+      font-weight:600;
+      color:#f5f6ff;
+    }
+
+    .delta-positive{
+      color:#7ce9b4;
+      font-weight:700;
+    }
+
+    .delta-negative{
+      color:#ff9ba8;
+      font-weight:700;
+    }
+
+    .nav-note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(11,17,35,0.75);
+      border:1px solid #273154;
+      color:#d8def8;
+      font-size:12.5px;
+      line-height:1.5;
+    }
+
+    .single-axis-map-shell{
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.18));
+      border-radius:20px;
+      padding:10px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        inset 0 -20px 40px rgba(0,0,0,0.16);
+      margin:12px 0 12px;
+    }
+
+    .single-axis-map-shell svg{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:16px;
+    }
+
+    .single-axis-zone-readout{
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      border-radius:16px;
+      padding:14px 14px 15px;
+    }
+
+    .single-axis-zone-label{
+      color:rgba(255,255,255,0.62);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .single-axis-zone-value{
+      font-size:16px;
+      font-weight:900;
+      color:#eef4ff;
+      margin-bottom:6px;
+      line-height:1.2;
+    }
+
+    .single-axis-zone-note{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .prototype-note{
+      margin-top:22px;
+      width:100%;
+      max-width:none;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .prototype-note strong{
+      color:#eef4ff;
+      font-weight:700;
+    }
+
+    .prototype-note .small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      opacity:0.9;
+    }
+
+    @media (max-width: 1180px){
+      .context-bar{
+        grid-template-columns:1fr;
+        align-items:stretch;
+      }
+
+      .context-actions{
+        align-self:auto;
+      }
+
+      .inline-mode-options{
+        flex-wrap:wrap;
+      }
+    }
+
+    @media (max-width: 1080px){
+      .input-grid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+
+      .results-grid{
+        grid-template-columns:1fr;
+      }
+
+      .kpi-row{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+
+      .system-spine{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+    }
+
+    @media (max-width: 760px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .platform-nav{
+        justify-content:flex-start;
+      }
+
+      .system-spine,
+      .input-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 720px){
+      .page{
+        padding:14px 14px 28px;
+      }
+
+      .card,
+      .portfolio-card{
+        padding:14px 12px 16px;
+      }
+
+      .portfolio-top{
+        grid-template-columns:1fr;
+      }
+
+      .kpi-row{
+        grid-template-columns:1fr;
+      }
+
+      .context-bar{
+        padding:16px 14px;
+      }
+
+      .inline-mode-options{
+        gap:14px;
+        flex-wrap:wrap;
+      }
+
+      .mode-option{
+        font-size:13px;
+      }
+    }
+  </style>
 </head>
 <body class="mode-single">
   <div class="shell">
@@ -959,66 +936,69 @@
       </div>
     </header>
 
-<div class="page">
+    <div class="page">
 
-  <section class="system-spine">
-    <a href="volatility-index.html" class="spine-card">
-      <div class="step">Step 1</div>
-      <strong>VI — Detect</strong>
-      <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
-    </a>
+      <section class="system-spine">
+        <a href="volatility-index.html" class="spine-card">
+          <div class="step">Step 1</div>
+          <strong>VI — Detect</strong>
+          <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
+        </a>
 
-    <a href="wsi.html" class="spine-card active">
-      <div class="step">Step 2</div>
-      <strong>WSI — Measure</strong>
-      <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
-    </a>
+        <a href="wsi.html" class="spine-card active">
+          <div class="step">Step 2</div>
+          <strong>WSI — Measure</strong>
+          <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+        </a>
 
-    <a href="shai.html" class="spine-card">
-      <div class="step">Step 3</div>
-      <strong>SHAI — Align</strong>
-      <span>Recommend the right operational response before instability spreads.</span>
-    </a>
+        <a href="shai.html" class="spine-card">
+          <div class="step">Step 3</div>
+          <strong>SHAI — Align</strong>
+          <span>Recommend the right operational response before instability spreads.</span>
+        </a>
 
-    <a href="map.html" class="spine-card">
-      <div class="step">Step 4</div>
-      <strong>Map — Visualize</strong>
-      <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
-    </a>
-  </section>
+        <a href="map.html" class="spine-card">
+          <div class="step">Step 4</div>
+          <strong>Map — Visualize</strong>
+          <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
+        </a>
+      </section>
 
-  <section class="context-bar">
-    <div class="context-field context-mode">
-     <label>
-  <input type="radio" name="mode" checked>
-  Single Community
-</label>
+      <section class="context-bar">
+        <div class="context-field context-mode">
+          <label>Mode</label>
 
-<label>
-  <input type="radio" name="mode">
-  Portfolio View
-</label>
-      </div>
-    </div>
+          <div class="inline-mode-options">
+            <label class="mode-option">
+              <input type="radio" name="mode" value="single" checked />
+              <span>Single Community</span>
+            </label>
 
-    <div class="context-field">
-      <label>Community / Portfolio</label>
-      <input
-        type="text"
-        id="entityName"
-        placeholder="Even Keel, CHM3, Portfolio A, etc."
-        value="Community A"
-      />
-    </div>
+            <label class="mode-option">
+              <input type="radio" name="mode" value="portfolio" />
+              <span>Portfolio View</span>
+            </label>
+          </div>
+        </div>
 
-    <div class="context-field context-actions">
-      <label>Navigation</label>
-      <div class="btn-row">
-        <a class="btn-link primary" href="volatility-index.html">Go to VI</a>
-        <a class="btn-link secondary" href="index.html">Return to Platform</a>
-      </div>
-    </div>
-  </section>
+        <div class="context-field">
+          <label>Community / Portfolio</label>
+          <input
+            type="text"
+            id="entityName"
+            placeholder="Even Keel, CHM3, Portfolio A, etc."
+            value="Community A"
+          />
+        </div>
+
+        <div class="context-field context-actions">
+          <label>Navigation</label>
+          <div class="btn-row">
+            <a class="btn-link primary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link secondary" href="index.html">Return to Platform</a>
+          </div>
+        </div>
+      </section>
 
       <div class="section-kicker">Workforce Stability Inputs</div>
 
@@ -1445,736 +1425,727 @@
   </div>
 
   <script>
-  const MAP_STORAGE_KEY = "volHealthMapData";
-  const NATURAL_WSI_CAP = 80;
-  const MAX_WSI_STABILIZED = 95;
+    const MAP_STORAGE_KEY = "volHealthMapData";
+    const NATURAL_WSI_CAP = 80;
+    const MAX_WSI_STABILIZED = 95;
 
-  function clamp(value, min, max) {
-    value = Number(value);
-    if (isNaN(value)) return min;
-    return Math.min(Math.max(value, min), max);
-  }
-
-  function formatCurrency(amount) {
-    if (isNaN(amount)) return "$–";
-    const abs = Math.abs(amount);
-    const sign = amount < 0 ? "-" : "";
-    return sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
-  }
-
-  function getMode() {
-    const checked = document.querySelector("input[name='mode']:checked");
-    return checked ? checked.value : "single";
-  }
-
-  function safeNumber(value){
-    const num = Number(value);
-    return Number.isFinite(num) ? num : null;
-  }
-
-  function readMapData(){
-    try{
-      const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
-      return parsed && typeof parsed === "object" ? parsed : {};
-    }catch(err){
-      return {};
-    }
-  }
-
-  function getExplicitEntityName() {
-    return (document.getElementById("entityName")?.value || "").trim();
-  }
-
-  function getFallbackEntityLabel() {
-    return "WSI Community";
-  }
-
-  function buildLabel(existing){
-    const explicit = getExplicitEntityName();
-    if(explicit) return explicit;
-    if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
-    return getFallbackEntityLabel();
-  }
-
-  function saveVOLHealthMapData(partial){
-    const existing = readMapData();
-
-    const merged = {
-      ...existing,
-      ...partial,
-      label: buildLabel(existing),
-      mode: getMode(),
-      updatedAt: new Date().toISOString()
-    };
-
-    localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-    return merged;
-  }
-
-  function syncModeInputsFromBody() {
-    const shouldBePortfolio = document.body.classList.contains("mode-portfolio");
-    const targetValue = shouldBePortfolio ? "portfolio" : "single";
-    const radio = document.querySelector(`input[name="mode"][value="${targetValue}"]`);
-    if (radio) radio.checked = true;
-  }
-
-  function updateModeUI() {
-    const mode = getMode();
-
-    if(mode === "portfolio"){
-      document.body.classList.add("mode-portfolio");
-    } else {
-      document.body.classList.remove("mode-portfolio");
-    }
-  }
-
-  function bandAverage(low, mid, high, total) {
-    total = clamp(total, 1, 500);
-    const rowTotal = low + mid + high;
-    return {
-      score: ((low * 2) + (mid * 6) + (high * 9)) / total,
-      rowTotal
-    };
-  }
-
-  function setRowTotal(id, rowTotal, total) {
-    const cell = document.getElementById(id);
-    if (!cell) return;
-    cell.textContent = `${rowTotal} / ${total}`;
-    cell.classList.toggle("bad", rowTotal !== total);
-  }
-
-  function portfolioInputsToSingleAverages() {
-    const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
-
-    const open = bandAverage(
-      clamp(document.getElementById("pfOpenLow").value, 0, total),
-      clamp(document.getElementById("pfOpenMid").value, 0, total),
-      clamp(document.getElementById("pfOpenHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfOpenTotal", open.rowTotal, total);
-
-    const prn = bandAverage(
-      clamp(document.getElementById("pfPrnLow").value, 0, total),
-      clamp(document.getElementById("pfPrnMid").value, 0, total),
-      clamp(document.getElementById("pfPrnHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfPrnTotal", prn.rowTotal, total);
-
-    const call = bandAverage(
-      clamp(document.getElementById("pfCallLow").value, 0, total),
-      clamp(document.getElementById("pfCallMid").value, 0, total),
-      clamp(document.getElementById("pfCallHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfCallTotal", call.rowTotal, total);
-
-    const otHours = bandAverage(
-      clamp(document.getElementById("pfOtHoursLow").value, 0, total),
-      clamp(document.getElementById("pfOtHoursMid").value, 0, total),
-      clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
-
-    const otPrem = bandAverage(
-      clamp(document.getElementById("pfOtPremLow").value, 0, total),
-      clamp(document.getElementById("pfOtPremMid").value, 0, total),
-      clamp(document.getElementById("pfOtPremHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
-
-    const agencyPrem = bandAverage(
-      clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
-      clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
-      clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
-
-    const pbj = bandAverage(
-      clamp(document.getElementById("pfPbjLow").value, 0, total),
-      clamp(document.getElementById("pfPbjMid").value, 0, total),
-      clamp(document.getElementById("pfPbjHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfPbjTotal", pbj.rowTotal, total);
-
-    const survey = bandAverage(
-      clamp(document.getElementById("pfSurveyLow").value, 0, total),
-      clamp(document.getElementById("pfSurveyMid").value, 0, total),
-      clamp(document.getElementById("pfSurveyHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfSurveyTotal", survey.rowTotal, total);
-
-    const leader = bandAverage(
-      clamp(document.getElementById("pfLeaderLow").value, 0, total),
-      clamp(document.getElementById("pfLeaderMid").value, 0, total),
-      clamp(document.getElementById("pfLeaderHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfLeaderTotal", leader.rowTotal, total);
-
-    const turnover = bandAverage(
-      clamp(document.getElementById("pfTurnoverLow").value, 0, total),
-      clamp(document.getElementById("pfTurnoverMid").value, 0, total),
-      clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
-
-    const vac = bandAverage(
-      clamp(document.getElementById("pfVacLow").value, 0, total),
-      clamp(document.getElementById("pfVacMid").value, 0, total),
-      clamp(document.getElementById("pfVacHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfVacTotal", vac.rowTotal, total);
-
-    const ttf = bandAverage(
-      clamp(document.getElementById("pfTtfLow").value, 0, total),
-      clamp(document.getElementById("pfTtfMid").value, 0, total),
-      clamp(document.getElementById("pfTtfHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfTtfTotal", ttf.rowTotal, total);
-
-    const recruit = bandAverage(
-      clamp(document.getElementById("pfRecruitLow").value, 0, total),
-      clamp(document.getElementById("pfRecruitMid").value, 0, total),
-      clamp(document.getElementById("pfRecruitHigh").value, 0, total),
-      total
-    );
-    setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
-
-    return {
-      openShifts: Math.round((open.score / 10) * 50),
-      percentPRN: Math.round((prn.score / 10) * 100),
-      callOffs: Math.round((call.score / 10) * 20),
-      coverageResolution: open.score >= 7.5 ? "overtime" : (open.score >= 4.5 ? "external" : "internal_float"),
-      otHours: Math.round((otHours.score / 10) * 500),
-      otPremium: Math.round((otPrem.score / 10) * 100),
-      agencyPremium: Math.round((agencyPrem.score / 10) * 100),
-      pbjRisk: Math.round((pbj.score / 10) * 10),
-      surveyCitations: Math.round((survey.score / 10) * 10),
-      leaderTurnover: Math.round((leader.score / 10) * 10),
-      turnoverRate: Math.round((turnover.score / 10) * 100),
-      vacancies: Math.round((vac.score / 10) * 20),
-      timeToFill: Math.round((ttf.score / 10) * 120),
-      recruitSpend: Math.round((recruit.score / 10) * 50000)
-    };
-  }
-
-  function getInputs() {
-    if (getMode() === "portfolio") {
-      return portfolioInputsToSingleAverages();
+    function clamp(value, min, max) {
+      value = Number(value);
+      if (isNaN(value)) return min;
+      return Math.min(Math.max(value, min), max);
     }
 
-    return {
-      openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
-      percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
-      callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
-      coverageResolution: document.getElementById("coverageResolution").value,
-      otHours: clamp(document.getElementById("otHours").value, 0, 500),
-      otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
-      agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
-      pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
-      surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
-      leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
-      turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
-      vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
-      timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
-      recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
-    };
-  }
-
-  function inverseScore(value, maxValue) {
-    return clamp(100 - ((value / maxValue) * 100), 0, 100);
-  }
-
-  function getPrnMixScore(percentPRN) {
-    const prn = clamp(percentPRN, 0, 100);
-
-    if (prn <= 4) return 52 + (prn / 4) * 8;
-    if (prn <= 12) return 60 + ((prn - 4) / 8) * 24;
-    if (prn <= 25) return 84 + ((25 - prn) / 13) * 8;
-    if (prn <= 40) return 76 - ((prn - 25) / 15) * 16;
-    return clamp(60 - ((prn - 40) / 60) * 28, 25, 60);
-  }
-
-  function getCoverageResolutionScore(resolution) {
-    switch(resolution){
-      case "internal_float": return 92;
-      case "external": return 78;
-      case "overtime": return 56;
-      case "unfilled": return 24;
-      default: return 60;
-    }
-  }
-
-  function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
-    const prnMixScore = getPrnMixScore(percentPRN);
-    const resolutionScore = getCoverageResolutionScore(coverageResolution);
-    const openScore = inverseScore(openShifts, 50);
-    const callScore = inverseScore(callOffs, 20);
-    const otScore = inverseScore(otHours, 500);
-
-    const coverageResilience = clamp(
-      (openScore * 0.30) +
-      (callScore * 0.20) +
-      (prnMixScore * 0.25) +
-      (resolutionScore * 0.25),
-      0, 100
-    );
-
-    const elasticityBalance = Math.round(((coverageResilience - 50) / 50) * 100);
-
-    let archetype = "Balanced Elastic";
-    let healthState = "Balanced Elastic";
-    let meaning = "Operational pressure is absorbed through a healthy mix of internal flexibility and external support, keeping strain off core staff.";
-
-    if (coverageResolution === "unfilled" || coverageResilience < 42) {
-      archetype = "Elasticity Failure";
-      healthState = "Elasticity Failure";
-      meaning = "Operational pressure exceeds the workforce system’s ability to absorb disruption, leading to open gaps and rising instability.";
-    } else if (coverageResolution === "overtime" || (otScore < 58 && resolutionScore <= 56)) {
-      archetype = "Burnout Stabilized";
-      healthState = "Burnout Stabilized";
-      meaning = "Operational pressure is being absorbed by pushing extra workload onto existing staff through overtime and schedule stretch.";
-    } else if (coverageResolution === "external" || (prnMixScore < 72 && resolutionScore >= 70)) {
-      archetype = "Agency Stabilized";
-      healthState = "Agency Stabilized";
-      meaning = "Operational pressure is absorbed through external coverage rather than staff stretch, maintaining stability at higher cost.";
+    function formatCurrency(amount) {
+      if (isNaN(amount)) return "$–";
+      const abs = Math.abs(amount);
+      const sign = amount < 0 ? "-" : "";
+      return sign + "$" + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
     }
 
-    return {
-      prnMixScore,
-      resolutionScore,
-      openScore,
-      callScore,
-      coverageResilience,
-      elasticityBalance,
-      archetype,
-      healthState,
-      meaning
-    };
-  }
+    function getMode() {
+      const checked = document.querySelector("input[name='mode']:checked");
+      return checked ? checked.value : "single";
+    }
 
-  function calculateWSIValues(inputs) {
-    const {
-      openShifts,
-      percentPRN,
-      callOffs,
-      coverageResolution,
-      otHours,
-      otPremium,
-      agencyPremium,
-      pbjRisk,
-      surveyCitations,
-      leaderTurnover,
-      turnoverRate,
-      vacancies,
-      timeToFill,
-      recruitSpend
-    } = inputs;
+    function safeNumber(value){
+      const num = Number(value);
+      return Number.isFinite(num) ? num : null;
+    }
 
-    const elasticity = getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution);
+    function readMapData(){
+      try{
+        const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+        return parsed && typeof parsed === "object" ? parsed : {};
+      }catch(err){
+        return {};
+      }
+    }
 
-    const coverageResilience = clamp(elasticity.coverageResilience, 0, 100);
+    function getExplicitEntityName() {
+      return (document.getElementById("entityName")?.value || "").trim();
+    }
 
-    const costControl = clamp(
-      (inverseScore(otHours, 500) * 0.36) +
-      (inverseScore(otPremium, 100) * 0.24) +
-      (inverseScore(agencyPremium, 100) * 0.26) +
-      (inverseScore(percentPRN, 100) * 0.14),
-      0, 100
-    );
+    function getFallbackEntityLabel() {
+      return "WSI Community";
+    }
 
-    const vacancyScore = inverseScore(vacancies, 20);
+    function buildLabel(existing){
+      const explicit = getExplicitEntityName();
+      if(explicit) return explicit;
+      if(existing.label && String(existing.label).trim()) return String(existing.label).trim();
+      return getFallbackEntityLabel();
+    }
 
-    const operationalReliability = clamp(
-      (inverseScore(pbjRisk, 10) * 0.40) +
-      (inverseScore(surveyCitations, 10) * 0.30) +
-      (inverseScore(leaderTurnover, 10) * 0.30),
-      0, 100
-    );
+    function saveVOLHealthMapData(partial){
+      const existing = readMapData();
 
-    const pipelineStrength = clamp(
-      (inverseScore(turnoverRate, 100) * 0.28) +
-      (vacancyScore * 0.36) +
-      (inverseScore(timeToFill, 120) * 0.24) +
-      (inverseScore(recruitSpend, 50000) * 0.12),
-      0, 100
-    );
+      const merged = {
+        ...existing,
+        ...partial,
+        label: buildLabel(existing),
+        mode: getMode(),
+        updatedAt: new Date().toISOString()
+      };
 
-    const rawWorkforceHealth = Math.round(
-      (coverageResilience * 0.33) +
-      (costControl * 0.22) +
-      (operationalReliability * 0.15) +
-      (pipelineStrength * 0.30)
-    );
+      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+      return merged;
+    }
 
-    const workforceDragPct = 100 - rawWorkforceHealth;
-    let naturalWsiScore = Math.round(
-      NATURAL_WSI_CAP - ((workforceDragPct / 100) * NATURAL_WSI_CAP)
-    );
+    function updateModeUI() {
+      const mode = getMode();
 
-    if (openShifts >= 12) naturalWsiScore -= 4;
-    if (otHours >= 180) naturalWsiScore -= 4;
-    if (vacancies >= 5) naturalWsiScore -= 4;
+      if(mode === "portfolio"){
+        document.body.classList.add("mode-portfolio");
+      } else {
+        document.body.classList.remove("mode-portfolio");
+      }
+    }
 
-    const finalWsiScore = clamp(naturalWsiScore, 0, NATURAL_WSI_CAP);
-
-    const recoverableGap = MAX_WSI_STABILIZED - finalWsiScore;
-    const modeledRecoveryPct = 0.50;
-    const withSourcingWsiScore = clamp(
-      Math.round(finalWsiScore + (recoverableGap * modeledRecoveryPct)),
-      0,
-      MAX_WSI_STABILIZED
-    );
-
-    const annualVolatilityCost = ((96 - finalWsiScore) / 96) * 2000000;
-
-    const stabilizableUpside = Math.round(
-      annualVolatilityCost *
-      Math.min(0.50, 0.22 + ((96 - finalWsiScore) / 96) * 0.38)
-    );
-
-    const workforceDragCost = ((100 - pipelineStrength) / 100) * 1000000;
-
-    return {
-      elasticity,
-      coverageResilience,
-      costControl,
-      operationalReliability,
-      pipelineStrength,
-      wsiScore: finalWsiScore,
-      rawWsiScore: rawWorkforceHealth,
-      withSourcingWsiScore,
-      annualVolatilityCost,
-      stabilizableUpside,
-      workforceDragCost
-    };
-  }
-
-  function getImprovedScenario(currentInputs){
-    return {
-      ...currentInputs,
-      openShifts: clamp(Math.round(currentInputs.openShifts * 0.72), 0, 50),
-      percentPRN: clamp(Math.round(currentInputs.percentPRN * 0.82), 0, 100),
-      callOffs: clamp(Math.max(0, currentInputs.callOffs - 1), 0, 20),
-      coverageResolution:
-        currentInputs.coverageResolution === "unfilled"
-          ? "external"
-          : (currentInputs.coverageResolution === "overtime" ? "external" : "internal_float"),
-      otHours: clamp(Math.round(currentInputs.otHours * 0.76), 0, 500),
-      otPremium: clamp(Math.round(currentInputs.otPremium * 0.90), 0, 100),
-      agencyPremium: clamp(Math.round(currentInputs.agencyPremium * 0.92), 0, 100),
-      pbjRisk: clamp(Math.max(0, currentInputs.pbjRisk - 1), 0, 10),
-      surveyCitations: clamp(currentInputs.surveyCitations, 0, 10),
-      leaderTurnover: clamp(currentInputs.leaderTurnover, 0, 10),
-      turnoverRate: clamp(Math.round(currentInputs.turnoverRate * 0.82), 0, 100),
-      vacancies: clamp(Math.max(0, currentInputs.vacancies - 2), 0, 20),
-      timeToFill: clamp(Math.round(currentInputs.timeToFill * 0.75), 0, 120),
-      recruitSpend: clamp(Math.round(currentInputs.recruitSpend * 0.92), 0, 50000)
-    };
-  }
-
-  function getScoreTagMeta(score){
-    if (score < 45) return { label: "Fragile", cls: "high-risk" };
-    if (score < 70) return { label: "Pressured", cls: "moderate-risk" };
-    return { label: "Stable", cls: "stable" };
-  }
-
-  function wsiScoreToPreviewX(score){
-    const safe = Math.max(0, Math.min(100, Number(score) || 0));
-    const left = 56;
-    const right = 356;
-    return left + (safe / 100) * (right - left);
-  }
-
-  function wsiPreviewZone(score){
-    const safe = Number(score) || 0;
-
-    if (safe >= 70){
+    function bandAverage(low, mid, high, total) {
+      total = clamp(total, 1, 500);
+      const rowTotal = low + mid + high;
       return {
-        title: "Managed Workforce Stability",
-        note: "Coverage resilience, cost control, and pipeline health are strong enough to support more stable operations.",
-        color: "#35c67a"
+        score: ((low * 2) + (mid * 6) + (high * 9)) / total,
+        rowTotal
       };
     }
 
-    if (safe >= 45){
+    function setRowTotal(id, rowTotal, total) {
+      const cell = document.getElementById(id);
+      if (!cell) return;
+      cell.textContent = `${rowTotal} / ${total}`;
+      cell.classList.toggle("bad", rowTotal !== total);
+    }
+
+    function portfolioInputsToSingleAverages() {
+      const total = clamp(document.getElementById("portfolioCount")?.value || 20, 1, 500);
+
+      const open = bandAverage(
+        clamp(document.getElementById("pfOpenLow").value, 0, total),
+        clamp(document.getElementById("pfOpenMid").value, 0, total),
+        clamp(document.getElementById("pfOpenHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOpenTotal", open.rowTotal, total);
+
+      const prn = bandAverage(
+        clamp(document.getElementById("pfPrnLow").value, 0, total),
+        clamp(document.getElementById("pfPrnMid").value, 0, total),
+        clamp(document.getElementById("pfPrnHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfPrnTotal", prn.rowTotal, total);
+
+      const call = bandAverage(
+        clamp(document.getElementById("pfCallLow").value, 0, total),
+        clamp(document.getElementById("pfCallMid").value, 0, total),
+        clamp(document.getElementById("pfCallHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfCallTotal", call.rowTotal, total);
+
+      const otHours = bandAverage(
+        clamp(document.getElementById("pfOtHoursLow").value, 0, total),
+        clamp(document.getElementById("pfOtHoursMid").value, 0, total),
+        clamp(document.getElementById("pfOtHoursHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOtHoursTotal", otHours.rowTotal, total);
+
+      const otPrem = bandAverage(
+        clamp(document.getElementById("pfOtPremLow").value, 0, total),
+        clamp(document.getElementById("pfOtPremMid").value, 0, total),
+        clamp(document.getElementById("pfOtPremHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfOtPremTotal", otPrem.rowTotal, total);
+
+      const agencyPrem = bandAverage(
+        clamp(document.getElementById("pfAgencyPremLow").value, 0, total),
+        clamp(document.getElementById("pfAgencyPremMid").value, 0, total),
+        clamp(document.getElementById("pfAgencyPremHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfAgencyPremTotal", agencyPrem.rowTotal, total);
+
+      const pbj = bandAverage(
+        clamp(document.getElementById("pfPbjLow").value, 0, total),
+        clamp(document.getElementById("pfPbjMid").value, 0, total),
+        clamp(document.getElementById("pfPbjHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfPbjTotal", pbj.rowTotal, total);
+
+      const survey = bandAverage(
+        clamp(document.getElementById("pfSurveyLow").value, 0, total),
+        clamp(document.getElementById("pfSurveyMid").value, 0, total),
+        clamp(document.getElementById("pfSurveyHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfSurveyTotal", survey.rowTotal, total);
+
+      const leader = bandAverage(
+        clamp(document.getElementById("pfLeaderLow").value, 0, total),
+        clamp(document.getElementById("pfLeaderMid").value, 0, total),
+        clamp(document.getElementById("pfLeaderHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfLeaderTotal", leader.rowTotal, total);
+
+      const turnover = bandAverage(
+        clamp(document.getElementById("pfTurnoverLow").value, 0, total),
+        clamp(document.getElementById("pfTurnoverMid").value, 0, total),
+        clamp(document.getElementById("pfTurnoverHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfTurnoverTotal", turnover.rowTotal, total);
+
+      const vac = bandAverage(
+        clamp(document.getElementById("pfVacLow").value, 0, total),
+        clamp(document.getElementById("pfVacMid").value, 0, total),
+        clamp(document.getElementById("pfVacHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfVacTotal", vac.rowTotal, total);
+
+      const ttf = bandAverage(
+        clamp(document.getElementById("pfTtfLow").value, 0, total),
+        clamp(document.getElementById("pfTtfMid").value, 0, total),
+        clamp(document.getElementById("pfTtfHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfTtfTotal", ttf.rowTotal, total);
+
+      const recruit = bandAverage(
+        clamp(document.getElementById("pfRecruitLow").value, 0, total),
+        clamp(document.getElementById("pfRecruitMid").value, 0, total),
+        clamp(document.getElementById("pfRecruitHigh").value, 0, total),
+        total
+      );
+      setRowTotal("pfRecruitTotal", recruit.rowTotal, total);
+
       return {
-        title: "Stretched but Functional",
-        note: "The workforce system is holding, but stability still depends on stretch, cost pressure, or uneven resilience.",
-        color: "#f6b44b"
+        openShifts: Math.round((open.score / 10) * 50),
+        percentPRN: Math.round((prn.score / 10) * 100),
+        callOffs: Math.round((call.score / 10) * 20),
+        coverageResolution: open.score >= 7.5 ? "overtime" : (open.score >= 4.5 ? "external" : "internal_float"),
+        otHours: Math.round((otHours.score / 10) * 500),
+        otPremium: Math.round((otPrem.score / 10) * 100),
+        agencyPremium: Math.round((agencyPrem.score / 10) * 100),
+        pbjRisk: Math.round((pbj.score / 10) * 10),
+        surveyCitations: Math.round((survey.score / 10) * 10),
+        leaderTurnover: Math.round((leader.score / 10) * 10),
+        turnoverRate: Math.round((turnover.score / 10) * 100),
+        vacancies: Math.round((vac.score / 10) * 20),
+        timeToFill: Math.round((ttf.score / 10) * 120),
+        recruitSpend: Math.round((recruit.score / 10) * 50000)
       };
     }
 
-    return {
-      title: "Fragile Workforce",
-      note: "Workforce resilience is currently limited and the system remains vulnerable to coverage instability.",
-      color: "#f06161"
-    };
-  }
+    function getInputs() {
+      if (getMode() === "portfolio") {
+        return portfolioInputsToSingleAverages();
+      }
 
-  function renderWSIPreviewMap(currentScore, futureScore, label){
-    const svg = document.getElementById("wsiPreviewSvg");
-    if (!svg) return;
-
-    const safeCurrent = Math.max(0, Math.min(100, Number(currentScore) || 0));
-    const safeFuture = Math.max(0, Math.min(100, Number(futureScore) || safeCurrent));
-
-    const xCurrent = wsiScoreToPreviewX(safeCurrent);
-    const xFuture = wsiScoreToPreviewX(safeFuture);
-
-    const zone = wsiPreviewZone(safeCurrent);
-    const pointLabel = label || (document.getElementById("entityName")?.value || "WSI Community");
-
-    svg.innerHTML = `
-      <defs>
-        <linearGradient id="wsiPreviewBg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#0c1224"/>
-          <stop offset="100%" stop-color="#141c33"/>
-        </linearGradient>
-
-        <filter id="wsiPreviewGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="5" result="blur"/>
-          <feMerge>
-            <feMergeNode in="blur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-
-      <rect x="0" y="0" width="420" height="260" rx="18" fill="url(#wsiPreviewBg)" stroke="rgba(255,255,255,0.08)"/>
-
-      <rect x="56" y="84" width="100" height="96" fill="rgba(230,57,70,0.20)"/>
-      <rect x="156" y="84" width="100" height="96" fill="rgba(242,183,5,0.18)"/>
-      <rect x="256" y="84" width="100" height="96" fill="rgba(46,139,87,0.16)"/>
-
-      <g stroke="rgba(255,255,255,0.11)" stroke-width="1">
-        <line x1="56" y1="84" x2="356" y2="84"/>
-        <line x1="56" y1="132" x2="356" y2="132"/>
-        <line x1="56" y1="180" x2="356" y2="180"/>
-
-        <line x1="56" y1="84" x2="56" y2="180"/>
-        <line x1="106" y1="84" x2="106" y2="180"/>
-        <line x1="156" y1="84" x2="156" y2="180"/>
-        <line x1="206" y1="84" x2="206" y2="180"/>
-        <line x1="256" y1="84" x2="256" y2="180"/>
-        <line x1="306" y1="84" x2="306" y2="180"/>
-        <line x1="356" y1="84" x2="356" y2="180"/>
-      </g>
-
-      <g stroke="rgba(255,255,255,0.26)" stroke-width="2">
-        <line x1="56" y1="180" x2="356" y2="180"/>
-      </g>
-
-      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.58)">
-        <text x="56" y="202" text-anchor="middle">0</text>
-        <text x="116" y="202" text-anchor="middle">20</text>
-        <text x="176" y="202" text-anchor="middle">40</text>
-        <text x="236" y="202" text-anchor="middle">60</text>
-        <text x="296" y="202" text-anchor="middle">80</text>
-        <text x="356" y="202" text-anchor="middle">100</text>
-      </g>
-
-      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800" font-size="11.5">
-        <text x="74" y="108" fill="#ff6b73">Fragile Workforce</text>
-        <text x="181" y="108" fill="#ffe74e">Stretched</text>
-        <text x="266" y="108" fill="#8be39b">Managed Stability</text>
-      </g>
-
-      <text
-        x="160"
-        y="232"
-        fill="rgba(255,255,255,0.72)"
-        font-size="11"
-        font-weight="700"
-        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
-        WSI (Workforce Stability Index)
-      </text>
-
-      <line
-        x1="${xCurrent}"
-        y1="142"
-        x2="${xFuture}"
-        y2="142"
-        stroke="rgba(255,255,255,0.28)"
-        stroke-width="2.5"
-        stroke-dasharray="6 7"
-        stroke-linecap="round"
-      />
-
-      <circle cx="${xFuture}" cy="142" r="7.5" fill="#5aa8ff" opacity="0.28" stroke="#ffffff" stroke-opacity="0.40" stroke-width="2"></circle>
-
-      <circle cx="${xCurrent}" cy="142" r="12" fill="${zone.color}" opacity="0.18" filter="url(#wsiPreviewGlow)"></circle>
-      <circle cx="${xCurrent}" cy="142" r="7.5" fill="${zone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
-
-      <text
-        x="${Math.min(xCurrent + 14, 292)}"
-        y="138"
-        fill="#eef4ff"
-        font-size="12.5"
-        font-weight="800"
-        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
-        ${pointLabel}
-      </text>
-    `;
-
-    const zoneValue = document.getElementById("wsiPreviewZone");
-    const zoneNote = document.getElementById("wsiPreviewNote");
-
-    if (zoneValue) zoneValue.textContent = zone.title;
-    if (zoneNote) zoneNote.textContent = zone.note;
-  }
-
-  function updateWSI() {
-    const currentInputs = getInputs();
-    const current = calculateWSIValues(currentInputs);
-    const improved = calculateWSIValues(getImprovedScenario(currentInputs));
-
-    const scoreEl = document.getElementById("shsiScore");
-    const tagEl = document.getElementById("scoreTag");
-    scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
-
-    const tagMeta = getScoreTagMeta(current.wsiScore);
-    tagEl.textContent = tagMeta.label;
-    tagEl.classList.remove("high-risk","moderate-risk","stable");
-    tagEl.classList.add(tagMeta.cls);
-
-    document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
-    document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
-    document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
-
-    const elasticityPct = current.elasticity.elasticityBalance;
-    document.getElementById("elasticityState").textContent = current.elasticity.healthState;
-    document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
-    document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
-
-    const portfolioScore = document.getElementById("portfolioWsiScore");
-    const portfolioState = document.getElementById("portfolioElasticityState");
-    const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
-    const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
-    const portfolioNote = document.getElementById("portfolioSummaryNote");
-
-    let primaryConstraint = "Coverage Resilience";
-    const domainPairs = [
-      { name: "Coverage Resilience", score: current.coverageResilience },
-      { name: "Cost Control", score: current.costControl },
-      { name: "Operational Reliability", score: current.operationalReliability },
-      { name: "Pipeline Strength", score: current.pipelineStrength }
-    ].sort((a,b) => a.score - b.score);
-    primaryConstraint = domainPairs[0].name;
-
-    let economicPressure = "Contained";
-    if (current.annualVolatilityCost >= 1800000) economicPressure = "Severe";
-    else if (current.annualVolatilityCost >= 1100000) economicPressure = "Elevated";
-    else if (current.annualVolatilityCost >= 550000) economicPressure = "Building";
-
-    if (portfolioScore) portfolioScore.textContent = current.wsiScore;
-    if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
-    if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
-    if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
-
-    if (portfolioNote) {
-      portfolioNote.textContent =
-        getMode() === "portfolio"
-          ? `This portfolio view suggests workforce stability is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
-          : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
+      return {
+        openShifts: clamp(document.getElementById("openShifts").value, 0, 50),
+        percentPRN: clamp(document.getElementById("percentPRN").value, 0, 100),
+        callOffs: clamp(document.getElementById("callOffs").value, 0, 20),
+        coverageResolution: document.getElementById("coverageResolution").value,
+        otHours: clamp(document.getElementById("otHours").value, 0, 500),
+        otPremium: clamp(document.getElementById("otPremium").value, 0, 100),
+        agencyPremium: clamp(document.getElementById("agencyPremium").value, 0, 100),
+        pbjRisk: clamp(document.getElementById("pbjRisk").value, 0, 10),
+        surveyCitations: clamp(document.getElementById("surveyCitations").value, 0, 10),
+        leaderTurnover: clamp(document.getElementById("leaderTurnover").value, 0, 10),
+        turnoverRate: clamp(document.getElementById("turnoverRate").value, 0, 100),
+        vacancies: clamp(document.getElementById("vacancies").value, 0, 20),
+        timeToFill: clamp(document.getElementById("timeToFill").value, 0, 120),
+        recruitSpend: clamp(document.getElementById("recruitSpend").value, 0, 50000)
+      };
     }
 
-    document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
-    document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
+    function inverseScore(value, maxValue) {
+      return clamp(100 - ((value / maxValue) * 100), 0, 100);
+    }
 
-    const deltaShsi = improved.wsiScore - current.wsiScore;
-    document.getElementById("deltaShsiCell").textContent =
-      isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
-    document.getElementById("deltaShsiCell").className =
-      deltaShsi >= 0 ? "delta-positive" : "delta-negative";
+    function getPrnMixScore(percentPRN) {
+      const prn = clamp(percentPRN, 0, 100);
 
-    document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
-    document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
+      if (prn <= 4) return 52 + (prn / 4) * 8;
+      if (prn <= 12) return 60 + ((prn - 4) / 8) * 24;
+      if (prn <= 25) return 84 + ((25 - prn) / 13) * 8;
+      if (prn <= 40) return 76 - ((prn - 25) / 15) * 16;
+      return clamp(60 - ((prn - 40) / 60) * 28, 25, 60);
+    }
 
-    const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
-    const deltaVolText = isNaN(deltaVol)
-      ? "–"
-      : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
-    document.getElementById("deltaVolCostCell").textContent = deltaVolText;
-    document.getElementById("deltaVolCostCell").className =
-      deltaVol <= 0 ? "delta-positive" : "delta-negative";
+    function getCoverageResolutionScore(resolution) {
+      switch(resolution){
+        case "internal_float": return 92;
+        case "external": return 78;
+        case "overtime": return 56;
+        case "unfilled": return 24;
+        default: return 60;
+      }
+    }
 
-    document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
-    document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
+    function getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution) {
+      const prnMixScore = getPrnMixScore(percentPRN);
+      const resolutionScore = getCoverageResolutionScore(coverageResolution);
+      const openScore = inverseScore(openShifts, 50);
+      const callScore = inverseScore(callOffs, 20);
+      const otScore = inverseScore(otHours, 500);
 
-    const deltaWork = improved.workforceDragCost - current.workforceDragCost;
-    const deltaWorkText = isNaN(deltaWork)
-      ? "–"
-      : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
-    document.getElementById("deltaWorkforceCell").textContent = deltaWorkText;
-    document.getElementById("deltaWorkforceCell").className =
-      deltaWork <= 0 ? "delta-positive" : "delta-negative";
+      const coverageResilience = clamp(
+        (openScore * 0.30) +
+        (callScore * 0.20) +
+        (prnMixScore * 0.25) +
+        (resolutionScore * 0.25),
+        0, 100
+      );
 
-    saveVOLHealthMapData({
-      wsi: safeNumber(current.wsiScore),
-      wsiCurrent: safeNumber(current.wsiScore),
-      wsiWithSourcing: safeNumber(improved.wsiScore),
-      wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
-      wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
-      wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
-      wsiElasticityBalance: safeNumber(current.elasticity.elasticityBalance),
-      wsiArchetype: current.elasticity.archetype,
-      wsiCoverageResilience: safeNumber(Math.round(current.coverageResilience)),
-      wsiCostControl: safeNumber(Math.round(current.costControl)),
-      wsiOperationalReliability: safeNumber(Math.round(current.operationalReliability)),
-      wsiPipelineStrength: safeNumber(Math.round(current.pipelineStrength)),
-      wsiMode: getMode(),
-      wsiSource: "wsi",
-      wsiUpdated: new Date().toISOString()
-    });
+      const elasticityBalance = Math.round(((coverageResilience - 50) / 50) * 100);
 
-    renderWSIPreviewMap(
-      current.wsiScore,
-      improved.wsiScore,
-      buildLabel(readMapData())
-    );
-  }
+      let archetype = "Balanced Elastic";
+      let healthState = "Balanced Elastic";
+      let meaning = "Operational pressure is absorbed through a healthy mix of internal flexibility and external support, keeping strain off core staff.";
 
-  document.addEventListener("DOMContentLoaded", function () {
-    syncModeInputsFromBody();
-    updateModeUI();
+      if (coverageResolution === "unfilled" || coverageResilience < 42) {
+        archetype = "Elasticity Failure";
+        healthState = "Elasticity Failure";
+        meaning = "Operational pressure exceeds the workforce system’s ability to absorb disruption, leading to open gaps and rising instability.";
+      } else if (coverageResolution === "overtime" || (otScore < 58 && resolutionScore <= 56)) {
+        archetype = "Burnout Stabilized";
+        healthState = "Burnout Stabilized";
+        meaning = "Operational pressure is being absorbed by pushing extra workload onto existing staff through overtime and schedule stretch.";
+      } else if (coverageResolution === "external" || (prnMixScore < 72 && resolutionScore >= 70)) {
+        archetype = "Agency Stabilized";
+        healthState = "Agency Stabilized";
+        meaning = "Operational pressure is absorbed through external coverage rather than staff stretch, maintaining stability at higher cost.";
+      }
 
-    const numericInputs = document.querySelectorAll("input[type='number']");
-    numericInputs.forEach(input => {
-      input.addEventListener("input", updateWSI);
-    });
+      return {
+        prnMixScore,
+        resolutionScore,
+        openScore,
+        callScore,
+        coverageResilience,
+        elasticityBalance,
+        archetype,
+        healthState,
+        meaning
+      };
+    }
 
-    const textInputs = document.querySelectorAll("input[type='text']");
-    textInputs.forEach(input => {
-      input.addEventListener("input", updateWSI);
-    });
+    function calculateWSIValues(inputs) {
+      const {
+        openShifts,
+        percentPRN,
+        callOffs,
+        coverageResolution,
+        otHours,
+        otPremium,
+        agencyPremium,
+        pbjRisk,
+        surveyCitations,
+        leaderTurnover,
+        turnoverRate,
+        vacancies,
+        timeToFill,
+        recruitSpend
+      } = inputs;
 
-    const selectInputs = document.querySelectorAll("select");
-    selectInputs.forEach(input => {
-      input.addEventListener("change", updateWSI);
-    });
+      const elasticity = getElasticityProfile(percentPRN, openShifts, callOffs, otHours, coverageResolution);
 
-    const modeInputs = document.querySelectorAll("input[name='mode']");
-    modeInputs.forEach(input => {
-      input.addEventListener("change", function () {
-        updateModeUI();
-        updateWSI();
+      const coverageResilience = clamp(elasticity.coverageResilience, 0, 100);
+
+      const costControl = clamp(
+        (inverseScore(otHours, 500) * 0.36) +
+        (inverseScore(otPremium, 100) * 0.24) +
+        (inverseScore(agencyPremium, 100) * 0.26) +
+        (inverseScore(percentPRN, 100) * 0.14),
+        0, 100
+      );
+
+      const vacancyScore = inverseScore(vacancies, 20);
+
+      const operationalReliability = clamp(
+        (inverseScore(pbjRisk, 10) * 0.40) +
+        (inverseScore(surveyCitations, 10) * 0.30) +
+        (inverseScore(leaderTurnover, 10) * 0.30),
+        0, 100
+      );
+
+      const pipelineStrength = clamp(
+        (inverseScore(turnoverRate, 100) * 0.28) +
+        (vacancyScore * 0.36) +
+        (inverseScore(timeToFill, 120) * 0.24) +
+        (inverseScore(recruitSpend, 50000) * 0.12),
+        0, 100
+      );
+
+      const rawWorkforceHealth = Math.round(
+        (coverageResilience * 0.33) +
+        (costControl * 0.22) +
+        (operationalReliability * 0.15) +
+        (pipelineStrength * 0.30)
+      );
+
+      const workforceDragPct = 100 - rawWorkforceHealth;
+      let naturalWsiScore = Math.round(
+        NATURAL_WSI_CAP - ((workforceDragPct / 100) * NATURAL_WSI_CAP)
+      );
+
+      if (openShifts >= 12) naturalWsiScore -= 4;
+      if (otHours >= 180) naturalWsiScore -= 4;
+      if (vacancies >= 5) naturalWsiScore -= 4;
+
+      const finalWsiScore = clamp(naturalWsiScore, 0, NATURAL_WSI_CAP);
+
+      const recoverableGap = MAX_WSI_STABILIZED - finalWsiScore;
+      const modeledRecoveryPct = 0.50;
+      const withSourcingWsiScore = clamp(
+        Math.round(finalWsiScore + (recoverableGap * modeledRecoveryPct)),
+        0,
+        MAX_WSI_STABILIZED
+      );
+
+      const annualVolatilityCost = ((96 - finalWsiScore) / 96) * 2000000;
+
+      const stabilizableUpside = Math.round(
+        annualVolatilityCost *
+        Math.min(0.50, 0.22 + ((96 - finalWsiScore) / 96) * 0.38)
+      );
+
+      const workforceDragCost = ((100 - pipelineStrength) / 100) * 1000000;
+
+      return {
+        elasticity,
+        coverageResilience,
+        costControl,
+        operationalReliability,
+        pipelineStrength,
+        wsiScore: finalWsiScore,
+        rawWsiScore: rawWorkforceHealth,
+        withSourcingWsiScore,
+        annualVolatilityCost,
+        stabilizableUpside,
+        workforceDragCost
+      };
+    }
+
+    function getImprovedScenario(currentInputs){
+      return {
+        ...currentInputs,
+        openShifts: clamp(Math.round(currentInputs.openShifts * 0.72), 0, 50),
+        percentPRN: clamp(Math.round(currentInputs.percentPRN * 0.82), 0, 100),
+        callOffs: clamp(Math.max(0, currentInputs.callOffs - 1), 0, 20),
+        coverageResolution:
+          currentInputs.coverageResolution === "unfilled"
+            ? "external"
+            : (currentInputs.coverageResolution === "overtime" ? "external" : "internal_float"),
+        otHours: clamp(Math.round(currentInputs.otHours * 0.76), 0, 500),
+        otPremium: clamp(Math.round(currentInputs.otPremium * 0.90), 0, 100),
+        agencyPremium: clamp(Math.round(currentInputs.agencyPremium * 0.92), 0, 100),
+        pbjRisk: clamp(Math.max(0, currentInputs.pbjRisk - 1), 0, 10),
+        surveyCitations: clamp(currentInputs.surveyCitations, 0, 10),
+        leaderTurnover: clamp(currentInputs.leaderTurnover, 0, 10),
+        turnoverRate: clamp(Math.round(currentInputs.turnoverRate * 0.82), 0, 100),
+        vacancies: clamp(Math.max(0, currentInputs.vacancies - 2), 0, 20),
+        timeToFill: clamp(Math.round(currentInputs.timeToFill * 0.75), 0, 120),
+        recruitSpend: clamp(Math.round(currentInputs.recruitSpend * 0.92), 0, 50000)
+      };
+    }
+
+    function getScoreTagMeta(score){
+      if (score < 45) return { label: "Fragile", cls: "high-risk" };
+      if (score < 70) return { label: "Pressured", cls: "moderate-risk" };
+      return { label: "Stable", cls: "stable" };
+    }
+
+    function wsiScoreToPreviewX(score){
+      const safe = Math.max(0, Math.min(100, Number(score) || 0));
+      const left = 56;
+      const right = 356;
+      return left + (safe / 100) * (right - left);
+    }
+
+    function wsiPreviewZone(score){
+      const safe = Number(score) || 0;
+
+      if (safe >= 70){
+        return {
+          title: "Managed Workforce Stability",
+          note: "Coverage resilience, cost control, and pipeline health are strong enough to support more stable operations.",
+          color: "#35c67a"
+        };
+      }
+
+      if (safe >= 45){
+        return {
+          title: "Stretched but Functional",
+          note: "The workforce system is holding, but stability still depends on stretch, cost pressure, or uneven resilience.",
+          color: "#f6b44b"
+        };
+      }
+
+      return {
+        title: "Fragile Workforce",
+        note: "Workforce resilience is currently limited and the system remains vulnerable to coverage instability.",
+        color: "#f06161"
+      };
+    }
+
+    function renderWSIPreviewMap(currentScore, futureScore, label){
+      const svg = document.getElementById("wsiPreviewSvg");
+      if (!svg) return;
+
+      const safeCurrent = Math.max(0, Math.min(100, Number(currentScore) || 0));
+      const safeFuture = Math.max(0, Math.min(100, Number(futureScore) || safeCurrent));
+
+      const xCurrent = wsiScoreToPreviewX(safeCurrent);
+      const xFuture = wsiScoreToPreviewX(safeFuture);
+
+      const zone = wsiPreviewZone(safeCurrent);
+      const pointLabel = label || (document.getElementById("entityName")?.value || "WSI Community");
+
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="wsiPreviewBg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0c1224"/>
+            <stop offset="100%" stop-color="#141c33"/>
+          </linearGradient>
+
+          <filter id="wsiPreviewGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect x="0" y="0" width="420" height="260" rx="18" fill="url(#wsiPreviewBg)" stroke="rgba(255,255,255,0.08)"/>
+
+        <rect x="56" y="84" width="100" height="96" fill="rgba(230,57,70,0.20)"/>
+        <rect x="156" y="84" width="100" height="96" fill="rgba(242,183,5,0.18)"/>
+        <rect x="256" y="84" width="100" height="96" fill="rgba(46,139,87,0.16)"/>
+
+        <g stroke="rgba(255,255,255,0.11)" stroke-width="1">
+          <line x1="56" y1="84" x2="356" y2="84"/>
+          <line x1="56" y1="132" x2="356" y2="132"/>
+          <line x1="56" y1="180" x2="356" y2="180"/>
+
+          <line x1="56" y1="84" x2="56" y2="180"/>
+          <line x1="106" y1="84" x2="106" y2="180"/>
+          <line x1="156" y1="84" x2="156" y2="180"/>
+          <line x1="206" y1="84" x2="206" y2="180"/>
+          <line x1="256" y1="84" x2="256" y2="180"/>
+          <line x1="306" y1="84" x2="306" y2="180"/>
+          <line x1="356" y1="84" x2="356" y2="180"/>
+        </g>
+
+        <g stroke="rgba(255,255,255,0.26)" stroke-width="2">
+          <line x1="56" y1="180" x2="356" y2="180"/>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.58)">
+          <text x="56" y="202" text-anchor="middle">0</text>
+          <text x="116" y="202" text-anchor="middle">20</text>
+          <text x="176" y="202" text-anchor="middle">40</text>
+          <text x="236" y="202" text-anchor="middle">60</text>
+          <text x="296" y="202" text-anchor="middle">80</text>
+          <text x="356" y="202" text-anchor="middle">100</text>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800" font-size="11.5">
+          <text x="74" y="108" fill="#ff6b73">Fragile Workforce</text>
+          <text x="181" y="108" fill="#ffe74e">Stretched</text>
+          <text x="266" y="108" fill="#8be39b">Managed Stability</text>
+        </g>
+
+        <text
+          x="160"
+          y="232"
+          fill="rgba(255,255,255,0.72)"
+          font-size="11"
+          font-weight="700"
+          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
+          WSI (Workforce Stability Index)
+        </text>
+
+        <line
+          x1="${xCurrent}"
+          y1="142"
+          x2="${xFuture}"
+          y2="142"
+          stroke="rgba(255,255,255,0.28)"
+          stroke-width="2.5"
+          stroke-dasharray="6 7"
+          stroke-linecap="round"
+        />
+
+        <circle cx="${xFuture}" cy="142" r="7.5" fill="#5aa8ff" opacity="0.28" stroke="#ffffff" stroke-opacity="0.40" stroke-width="2"></circle>
+
+        <circle cx="${xCurrent}" cy="142" r="12" fill="${zone.color}" opacity="0.18" filter="url(#wsiPreviewGlow)"></circle>
+        <circle cx="${xCurrent}" cy="142" r="7.5" fill="${zone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
+
+        <text
+          x="${Math.min(xCurrent + 14, 292)}"
+          y="138"
+          fill="#eef4ff"
+          font-size="12.5"
+          font-weight="800"
+          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
+          ${pointLabel}
+        </text>
+      `;
+
+      const zoneValue = document.getElementById("wsiPreviewZone");
+      const zoneNote = document.getElementById("wsiPreviewNote");
+
+      if (zoneValue) zoneValue.textContent = zone.title;
+      if (zoneNote) zoneNote.textContent = zone.note;
+    }
+
+    function updateWSI() {
+      const currentInputs = getInputs();
+      const current = calculateWSIValues(currentInputs);
+      const improved = calculateWSIValues(getImprovedScenario(currentInputs));
+
+      const scoreEl = document.getElementById("shsiScore");
+      const tagEl = document.getElementById("scoreTag");
+      scoreEl.textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
+
+      const tagMeta = getScoreTagMeta(current.wsiScore);
+      tagEl.textContent = tagMeta.label;
+      tagEl.classList.remove("high-risk","moderate-risk","stable");
+      tagEl.classList.add(tagMeta.cls);
+
+      document.getElementById("volCost").textContent = formatCurrency(current.annualVolatilityCost);
+      document.getElementById("stabilizableUpside").textContent = formatCurrency(current.stabilizableUpside);
+      document.getElementById("workforceDrag").textContent = formatCurrency(current.workforceDragCost);
+
+      const elasticityPct = current.elasticity.elasticityBalance;
+      document.getElementById("elasticityState").textContent = current.elasticity.healthState;
+      document.getElementById("elasticityScoreLine").textContent = `Score: ${elasticityPct > 0 ? "+" : ""}${elasticityPct}`;
+      document.getElementById("archetypeMeaning").textContent = current.elasticity.meaning;
+
+      const portfolioScore = document.getElementById("portfolioWsiScore");
+      const portfolioState = document.getElementById("portfolioElasticityState");
+      const portfolioConstraint = document.getElementById("portfolioPrimaryConstraint");
+      const portfolioEconomic = document.getElementById("portfolioEconomicPressure");
+      const portfolioNote = document.getElementById("portfolioSummaryNote");
+
+      let primaryConstraint = "Coverage Resilience";
+      const domainPairs = [
+        { name: "Coverage Resilience", score: current.coverageResilience },
+        { name: "Cost Control", score: current.costControl },
+        { name: "Operational Reliability", score: current.operationalReliability },
+        { name: "Pipeline Strength", score: current.pipelineStrength }
+      ].sort((a,b) => a.score - b.score);
+      primaryConstraint = domainPairs[0].name;
+
+      let economicPressure = "Contained";
+      if (current.annualVolatilityCost >= 1800000) economicPressure = "Severe";
+      else if (current.annualVolatilityCost >= 1100000) economicPressure = "Elevated";
+      else if (current.annualVolatilityCost >= 550000) economicPressure = "Building";
+
+      if (portfolioScore) portfolioScore.textContent = current.wsiScore;
+      if (portfolioState) portfolioState.textContent = current.elasticity.healthState;
+      if (portfolioConstraint) portfolioConstraint.textContent = primaryConstraint;
+      if (portfolioEconomic) portfolioEconomic.textContent = economicPressure;
+
+      if (portfolioNote) {
+        portfolioNote.textContent =
+          getMode() === "portfolio"
+            ? `This portfolio view suggests workforce stability is currently ${current.elasticity.healthState.toLowerCase()} across the building base. The primary constraint appears to be ${primaryConstraint.toLowerCase()}, with ${economicPressure.toLowerCase()} economic pressure visible across the portfolio.`
+            : "Band definitions are directional. The model converts these distributions into portfolio-wide average values for each metric.";
+      }
+
+      document.getElementById("currentShsiCell").textContent = isNaN(current.wsiScore) ? "–" : current.wsiScore;
+      document.getElementById("withSourcingShsiCell").textContent = isNaN(improved.wsiScore) ? "–" : improved.wsiScore;
+
+      const deltaShsi = improved.wsiScore - current.wsiScore;
+      document.getElementById("deltaShsiCell").textContent =
+        isNaN(deltaShsi) ? "–" : (deltaShsi >= 0 ? "+" + deltaShsi : deltaShsi);
+      document.getElementById("deltaShsiCell").className =
+        deltaShsi >= 0 ? "delta-positive" : "delta-negative";
+
+      document.getElementById("currentVolCostCell").textContent = formatCurrency(current.annualVolatilityCost);
+      document.getElementById("withSourcingVolCostCell").textContent = formatCurrency(improved.annualVolatilityCost);
+
+      const deltaVol = improved.annualVolatilityCost - current.annualVolatilityCost;
+      const deltaVolText = isNaN(deltaVol)
+        ? "–"
+        : (deltaVol <= 0 ? formatCurrency(deltaVol) : "+" + formatCurrency(deltaVol).slice(1));
+      document.getElementById("deltaVolCostCell").textContent = deltaVolText;
+      document.getElementById("deltaVolCostCell").className =
+        deltaVol <= 0 ? "delta-positive" : "delta-negative";
+
+      document.getElementById("currentWorkforceCell").textContent = formatCurrency(current.workforceDragCost);
+      document.getElementById("withSourcingWorkforceCell").textContent = formatCurrency(improved.workforceDragCost);
+
+      const deltaWork = improved.workforceDragCost - current.workforceDragCost;
+      const deltaWorkText = isNaN(deltaWork)
+        ? "–"
+        : (deltaWork <= 0 ? formatCurrency(deltaWork) : "+" + formatCurrency(deltaWork).slice(1));
+      document.getElementById("deltaWorkforceCell").textContent = deltaWorkText;
+      document.getElementById("deltaWorkforceCell").className =
+        deltaWork <= 0 ? "delta-positive" : "delta-negative";
+
+      saveVOLHealthMapData({
+        wsi: safeNumber(current.wsiScore),
+        wsiCurrent: safeNumber(current.wsiScore),
+        wsiWithSourcing: safeNumber(improved.wsiScore),
+        wsiVolatilityCost: safeNumber(Math.round(current.annualVolatilityCost)),
+        wsiStabilizableUpside: safeNumber(Math.round(current.stabilizableUpside)),
+        wsiWorkforceDragCost: safeNumber(Math.round(current.workforceDragCost)),
+        wsiElasticityBalance: safeNumber(current.elasticity.elasticityBalance),
+        wsiArchetype: current.elasticity.archetype,
+        wsiCoverageResilience: safeNumber(Math.round(current.coverageResilience)),
+        wsiCostControl: safeNumber(Math.round(current.costControl)),
+        wsiOperationalReliability: safeNumber(Math.round(current.operationalReliability)),
+        wsiPipelineStrength: safeNumber(Math.round(current.pipelineStrength)),
+        wsiMode: getMode(),
+        wsiSource: "wsi",
+        wsiUpdated: new Date().toISOString()
       });
-    });
 
-    updateWSI();
-  });
-</script>
+      renderWSIPreviewMap(
+        current.wsiScore,
+        improved.wsiScore,
+        buildLabel(readMapData())
+      );
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const numericInputs = document.querySelectorAll("input[type='number']");
+      numericInputs.forEach(input => {
+        input.addEventListener("input", updateWSI);
+      });
+
+      const textInputs = document.querySelectorAll("input[type='text']");
+      textInputs.forEach(input => {
+        input.addEventListener("input", updateWSI);
+      });
+
+      const selectInputs = document.querySelectorAll("select");
+      selectInputs.forEach(input => {
+        input.addEventListener("change", updateWSI);
+      });
+
+      const modeInputs = document.querySelectorAll("input[name='mode']");
+      modeInputs.forEach(input => {
+        input.addEventListener("change", function () {
+          updateModeUI();
+          updateWSI();
+        });
+      });
+
+      updateModeUI();
+      updateWSI();
+    });
+  </script>
 </body>
 </html>
