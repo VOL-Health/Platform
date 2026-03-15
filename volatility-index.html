@@ -1452,6 +1452,113 @@ function saveVIMapData(partial) {
       }[domain];
     }
 
+function viScoreToPreviewY(score){
+  const safe = Math.max(0, Math.min(100, Number(score) || 0));
+  const top = 36;
+  const bottom = 276;
+  return bottom - (safe / 100) * (bottom - top);
+}
+
+function viPreviewZone(score){
+  const safe = Number(score) || 0;
+
+  if (safe >= 70){
+    return {
+      title: "Stable Baseline",
+      note: "Baseline stability is still largely intact. Extra volatility remains limited.",
+      color: "#35c67a"
+    };
+  }
+
+  if (safe >= 45){
+    return {
+      title: "Pressured Stability",
+      note: "The building is still functioning, but extra volatility is beginning to materially erode baseline stability.",
+      color: "#f6b44b"
+    };
+  }
+
+  return {
+    title: "Exposed Operations",
+    note: "Extra volatility is now materially reducing baseline stability and increasing operational exposure.",
+    color: "#f06161"
+  };
+}
+
+function renderVIPreviewMap(score, label){
+  const svg = document.getElementById("viPreviewSvg");
+  if (!svg) return;
+
+  const safeScore = Math.max(0, Math.min(100, Number(score) || 0));
+  const y = viScoreToPreviewY(safeScore);
+  const zone = viPreviewZone(safeScore);
+  const pointLabel = label || (document.getElementById("entityName")?.value || "Community A");
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="viPreviewBg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#0d1224"/>
+        <stop offset="100%" stop-color="#141a33"/>
+      </linearGradient>
+
+      <filter id="viPreviewGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="4" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+
+    <rect x="0" y="0" width="320" height="320" rx="18" fill="url(#viPreviewBg)" stroke="rgba(255,255,255,0.10)"/>
+
+    <rect x="72" y="196" width="176" height="80" fill="rgba(230,57,70,0.22)"/>
+    <rect x="72" y="116" width="176" height="80" fill="rgba(242,183,5,0.22)"/>
+    <rect x="72" y="36" width="176" height="80" fill="rgba(46,139,87,0.18)"/>
+
+    <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+      <line x1="72" y1="36" x2="248" y2="36"/>
+      <line x1="72" y1="76" x2="248" y2="76"/>
+      <line x1="72" y1="116" x2="248" y2="116"/>
+      <line x1="72" y1="156" x2="248" y2="156"/>
+      <line x1="72" y1="196" x2="248" y2="196"/>
+      <line x1="72" y1="236" x2="248" y2="236"/>
+      <line x1="72" y1="276" x2="248" y2="276"/>
+    </g>
+
+    <g stroke="rgba(255,255,255,0.30)" stroke-width="2">
+      <line x1="72" y1="276" x2="72" y2="36"/>
+    </g>
+
+    <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800" font-size="11.5">
+      <text x="86" y="64" fill="#8be39b">Stable Baseline</text>
+      <text x="86" y="144" fill="#ffe74e">Pressured Stability</text>
+      <text x="86" y="224" fill="#ff6b73">Exposed Operations</text>
+    </g>
+
+    <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.58)">
+      <text x="58" y="280">0</text>
+      <text x="52" y="240">20</text>
+      <text x="52" y="200">40</text>
+      <text x="52" y="160">60</text>
+      <text x="52" y="120">80</text>
+      <text x="46" y="40">100</text>
+      <text x="22" y="196" transform="rotate(-90 22 196)">VI (Baseline Stability) →</text>
+    </g>
+
+    <circle cx="160" cy="${y}" r="10" fill="${zone.color}" opacity="0.28" filter="url(#viPreviewGlow)"></circle>
+    <circle cx="160" cy="${y}" r="7" fill="${zone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
+
+    <text x="174" y="${y + 4}" fill="#eef4ff" font-size="12" font-weight="700">${pointLabel}</text>
+  `;
+
+  const zoneValue = document.getElementById("viPreviewZone");
+  const zoneNote = document.getElementById("viPreviewNote");
+
+  if (zoneValue) zoneValue.textContent = zone.title;
+  if (zoneNote) zoneNote.textContent = zone.note;
+}
+    
     function portfolioDriverScore(driverKey, totalCommunities) {
       const low = Number(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="low"]`)?.value || 0);
       const mid = Number(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="mid"]`)?.value || 0);
