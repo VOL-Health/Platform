@@ -1507,20 +1507,25 @@
       return "VI Community";
     }
 
-    function saveVIMapData(partial){
-      const existing = readMapData();
+   function getMode() {
+  const checked = document.querySelector("input[name='mode']:checked");
+  return checked ? checked.value : "single";
+}
 
-      const merged = {
-        ...existing,
-        ...partial,
-        label: buildMapLabel(existing),
-        mode: modeSelect?.value || "Single Community",
-        updatedAt: new Date().toISOString()
-      };
+function saveVIMapData(partial) {
+  const existing = readMapData();
 
-      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-      return merged;
-    }
+  const merged = {
+    ...existing,
+    ...partial,
+    label: buildMapLabel(existing),
+    mode: getMode() === "portfolio" ? "Portfolio View" : "Single Community",
+    updatedAt: new Date().toISOString()
+  };
+
+  localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
+  return merged;
+}
 
     function usageImpactPct(val){
       if (val === 'conservative') return 0.35;
