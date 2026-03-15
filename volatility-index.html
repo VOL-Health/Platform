@@ -1236,18 +1236,22 @@
         </section>
 
         <section class="card map-card">
-          <h4>Stability Map Preview</h4>
-          <p>VI establishes the vertical starting state by estimating how much extra volatility is reducing baseline stability. WSI will later determine how much structural resilience exists to move the point east.</p>
-          <div class="map">
-            <div class="axis-y">Baseline Stability</div>
-            <div class="axis-x">Workforce Stability</div>
-            <div class="plot-dot" id="plotDot" style="left:34%; bottom:74%;"></div>
-            <div class="map-label" id="plotLabel" style="left:34%; bottom:74%;">Community A</div>
-          </div>
-        </section>
-      </aside>
-    </section>
+  <h4>VI Preview Map</h4>
+  <p>VI controls the vertical stability position. As extra volatility increases, the community moves downward from stable baseline conditions into pressured and then exposed territory.</p>
 
+  <div class="single-axis-map-shell">
+    <svg id="viPreviewSvg" viewBox="0 0 320 320" role="img" aria-label="VI preview map"></svg>
+  </div>
+
+  <div class="single-axis-zone-readout">
+    <div class="single-axis-zone-label">Current VI zone</div>
+    <div class="single-axis-zone-value" id="viPreviewZone">Stable Baseline</div>
+    <div class="single-axis-zone-note" id="viPreviewNote">
+      Baseline stability is still largely intact. Extra volatility remains limited.
+    </div>
+  </div>
+</section>
+        
     <div class="prototype-note">
       <strong>Prototype concept for internal discussion and testing.</strong>
       Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
