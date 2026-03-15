@@ -528,30 +528,51 @@
       flex: 0 0 auto;
     }
 
-    .map {
-      position: relative;
-      height: 220px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 1px solid var(--line);
-      overflow: hidden;
-      margin: 10px 0 12px;
-    }
+  .single-axis-map-shell{
+  border:1px solid rgba(255,255,255,0.10);
+  background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(0,0,0,0.16));
+  border-radius:18px;
+  padding:12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.03),
+    inset 0 -20px 40px rgba(0,0,0,0.14);
+  margin:10px 0 12px;
+}
 
-    .map::before,
-    .map::after {
-      content: "";
-      position: absolute;
-      background: rgba(255,255,255,0.10);
-    }
+.single-axis-map-shell svg{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:14px;
+}
 
-    .map::before {
-      left: 50%; top: 0; bottom: 0; width: 1px;
-    }
+.single-axis-zone-readout{
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.03);
+  border-radius:14px;
+  padding:12px;
+}
 
-    .map::after {
-      top: 50%; left: 0; right: 0; height: 1px;
-    }
+.single-axis-zone-label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  margin-bottom:6px;
+}
+
+.single-axis-zone-value{
+  font-size:15px;
+  font-weight:800;
+  color:#eef4ff;
+  margin-bottom:6px;
+}
+
+.single-axis-zone-note{
+  color:#c4cae8;
+  font-size:12.5px;
+  line-height:1.45;
+}
 
     .axis-y,
     .axis-x {
