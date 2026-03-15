@@ -180,21 +180,37 @@
       grid-template-columns:repeat(4, minmax(0, 1fr));
       gap:12px;
       margin:0 0 14px;
+      align-items:stretch;
+    }
+
+    .system-spine a{
+      text-decoration:none;
     }
 
     .spine-card{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      text-decoration:none;
+      color:inherit;
       background:rgba(16,23,44,0.92);
       border:1px solid rgba(255,255,255,0.10);
       border-radius:18px;
       padding:16px 18px;
-      min-height:104px;
+      min-height:110px;
       box-shadow:0 14px 34px rgba(0,0,0,0.28);
-      transition:transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
     }
 
     .spine-card:hover{
       transform:translateY(-2px);
       box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
     }
 
     .spine-card.active{
@@ -207,14 +223,15 @@
       color:#9fb2d2;
       text-transform:uppercase;
       letter-spacing:0.08em;
-      margin-bottom:6px;
+      margin-bottom:2px;
     }
 
     .spine-card strong{
       display:block;
       font-size:17px;
-      margin-bottom:6px;
+      margin:0;
       color:#f5f6ff;
+      line-height:1.2;
     }
 
     .spine-card span{
@@ -241,6 +258,7 @@
 
     .context-actions{
       margin-top:0;
+      align-self:end;
     }
 
     .context-field label{
@@ -252,27 +270,56 @@
       margin-bottom:8px;
     }
 
+    .context-field input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.10);
+      font-size:0.95rem;
+      background:#050814;
+      color:#f5f6ff;
+      font-family:inherit;
+      outline:none;
+    }
+
+    .context-field input:focus{
+      border-color:var(--blue);
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.55),
+        0 0 12px rgba(44,108,255,0.25);
+      background:#060b1a;
+    }
+
     .inline-mode-options{
       display:flex;
-      gap:14px;
-      flex-wrap:wrap;
+      gap:18px;
+      flex-wrap:nowrap;
+      align-items:center;
       margin:0;
     }
 
     .inline-mode-options label{
-      display:flex;
+      display:inline-flex;
       align-items:center;
-      gap:6px;
+      gap:8px;
       font-size:14px;
       color:#f5f6ff;
       text-transform:none;
       letter-spacing:0;
       margin:0;
+      white-space:nowrap;
+      line-height:1;
+    }
+
+    .context-mode{
+      min-width:0;
+      align-self:center;
     }
 
     .mode-options input{
-      margin-right:6px;
+      margin-right:0;
       accent-color:var(--green);
+      flex:0 0 auto;
     }
 
     .btn-row{
@@ -309,6 +356,13 @@
       transform:translateY(-1px);
     }
 
+    .btn.primary,
+    .btn-link.primary{
+      background:linear-gradient(180deg,#3c7cff,#2c6cff);
+      color:white;
+      box-shadow:0 6px 16px rgba(44,108,255,0.35);
+    }
+
     .btn.secondary,
     .btn-link.secondary{
       background:#39415a;
@@ -342,6 +396,7 @@
       grid-template-columns:repeat(4, minmax(0, 1fr));
       gap:16px;
       margin-bottom:18px;
+      align-items:start;
     }
 
     .results-grid{
@@ -353,14 +408,14 @@
     }
 
     .card{
-  background:rgba(17,24,46,0.94);
-  border-radius:20px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.28);
-  padding:16px;
-  border:1px solid rgba(255,255,255,0.11);
-  transition:transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
-  min-width:0;
-}
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.11);
+      transition:transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      min-width:0;
+    }
 
     .card:hover{
       transform:translateY(-3px);
@@ -439,19 +494,19 @@
       line-height:1.45;
     }
 
-   .single-only{ }
+    .single-only{ }
 
-.portfolio-only{
-  display:none;
-}
+    .portfolio-only{
+      display:none;
+    }
 
-body.mode-portfolio .single-only{
-  display:none !important;
-}
+    body.mode-portfolio .single-only{
+      display:none !important;
+    }
 
-body.mode-portfolio .portfolio-only{
-  display:block;
-}
+    body.mode-portfolio .portfolio-only{
+      display:block;
+    }
 
     .portfolio-section{
       display:none;
@@ -774,38 +829,42 @@ body.mode-portfolio .portfolio-only{
     }
 
     @media (max-width: 1080px){
-  .input-grid{
-    grid-template-columns:repeat(2, minmax(0,1fr));
-  }
+      .input-grid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
 
-  .results-grid{
-    grid-template-columns:1fr;
-  }
+      .results-grid{
+        grid-template-columns:1fr;
+      }
 
-  .kpi-row{
-    grid-template-columns:repeat(2, minmax(0,1fr));
-  }
-}
-    
-@media (max-width: 760px){
-  .platform-header-top{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+      .kpi-row{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
 
-  .platform-nav{
-    justify-content:flex-start;
-  }
+      .system-spine{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+    }
 
-  .system-spine,
-  .input-grid{
-    grid-template-columns:1fr;
-  }
+    @media (max-width: 760px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
 
-  .context-bar{
-    grid-template-columns:1fr;
-  }
-}
+      .platform-nav{
+        justify-content:flex-start;
+      }
+
+      .system-spine,
+      .input-grid{
+        grid-template-columns:1fr;
+      }
+
+      .context-bar{
+        grid-template-columns:1fr;
+      }
+    }
 
     @media (max-width: 720px){
       .page{
@@ -868,29 +927,29 @@ body.mode-portfolio .portfolio-only{
     <div class="page">
 
       <section class="system-spine">
-        <div class="spine-card">
+        <a href="volatility-index.html" class="spine-card">
           <div class="step">Step 1</div>
           <strong>VI — Detect</strong>
           <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
-        </div>
+        </a>
 
-        <div class="spine-card active">
+        <a href="wsi.html" class="spine-card active">
           <div class="step">Step 2</div>
           <strong>WSI — Measure</strong>
           <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
-        </div>
+        </a>
 
-        <div class="spine-card">
+        <a href="shai.html" class="spine-card">
           <div class="step">Step 3</div>
           <strong>SHAI — Align</strong>
           <span>Recommend the right operational response before instability spreads.</span>
-        </div>
+        </a>
 
-        <div class="spine-card">
+        <a href="map.html" class="spine-card">
           <div class="step">Step 4</div>
           <strong>Map — Visualize</strong>
           <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
-        </div>
+        </a>
       </section>
 
       <section class="context-bar">
@@ -1217,8 +1276,8 @@ body.mode-portfolio .portfolio-only{
           </div>
 
           <div class="portfolio-actions">
-            <a class="btn-link secondary" href="volatility-index.html">Go to VI</a>
-            <a class="btn-link green" href="index.html">Return to Platform</a>
+            <a class="btn-link primary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link secondary" href="index.html">Return to Platform</a>
           </div>
         </div>
       </div>
@@ -1308,15 +1367,14 @@ body.mode-portfolio .portfolio-only{
             overtime, and overreliance on reactive coverage.
           </p>
 
-<div class="nav-note" style="margin-top:12px;">
-  Once WSI is saved, the platform page can plot the real Stability Map point when VI is also present.
-</div>
-          
-<div class="btn-row" style="margin-top:14px;">
-  <a class="btn-link primary" href="volatility-index.html">Go to VI</a>
-  <a class="btn-link secondary" href="index.html">Return to Platform</a>
-</div>
-          
+          <div class="nav-note" style="margin-top:12px;">
+            Once WSI is saved, the platform page can plot the real Stability Map point when VI is also present.
+          </div>
+
+          <div class="btn-row" style="margin-top:14px;">
+            <a class="btn-link primary" href="volatility-index.html">Go to VI</a>
+            <a class="btn-link secondary" href="index.html">Return to Platform</a>
+          </div>
         </div>
 
         <div class="card scenario-card">
