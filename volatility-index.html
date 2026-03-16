@@ -1479,7 +1479,7 @@
     </div>
   </div>
 
-  <script>
+    <script>
     const ENDEMIC_BASELINE = 80;
     const MAX_FINAL_STABILITY = 95;
     const MAP_STORAGE_KEY = "volHealthMapData";
@@ -1516,6 +1516,14 @@
       reimbursement: 'Reimbursement pressure'
     };
 
+    const PREVIEW_MAP = {
+      x: 170,
+      top: 26,
+      bottom: 254,
+      currentOffsetX: 0,
+      stabilizedOffsetX: 24
+    };
+
     function readMapData(){
       try{
         const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
@@ -1525,19 +1533,23 @@
       }
     }
 
+    function getEntityName(){
+      return (document.getElementById("entityName")?.value || "").trim();
+    }
+
     function buildMapLabel(existing){
-      const explicit = (document.getElementById("entityName")?.value || "").trim();
+      const explicit = getEntityName();
       if (explicit) return explicit;
       if (existing.label && String(existing.label).trim()) return String(existing.label).trim();
       return "VI Community";
     }
 
-    function getMode() {
+    function getMode(){
       const checked = document.querySelector("input[name='mode']:checked");
       return checked ? checked.value : "single";
     }
 
-    function saveVIMapData(partial) {
+    function saveVIMapData(partial){
       const existing = readMapData();
 
       const merged = {
@@ -1735,7 +1747,7 @@
       const stabilityPre = Math.max(0, Math.round(ENDEMIC_BASELINE - ((extraVolNormalized / 100) * ENDEMIC_BASELINE)));
       const volatilityDrag = ENDEMIC_BASELINE - stabilityPre;
 
-      const usage = mode === 'Portfolio View' ? 'moderate' : 'moderate';
+      const usage = 'moderate';
       const recoveryPct = usageImpactPct(usage);
       const recoverableGap = MAX_FINAL_STABILITY - stabilityPre;
       const impactScore = Math.round(recoverableGap * recoveryPct);
@@ -1760,13 +1772,6 @@
       };
     }
 
-    function viScoreToPreviewY(score){
-      const safe = Math.max(0, Math.min(100, Number(score) || 0));
-      const top = 26;
-      const bottom = 254;
-      return bottom - (safe / 100) * (bottom - top);
-    }
-
     function viPreviewZone(score){
       const safe = Number(score) || 0;
 
@@ -1778,10 +1783,10 @@
         };
       }
 
-      if (safe >= 45){
+      if (safe >= 35){
         return {
           title:"Pressured Stability",
-          note:"The building is still functioning, but extra volatility is beginning to materially erode baseline stability.",
+          note:"The building is still functioning, but extra volatility is materially eroding baseline stability.",
           color:"#f6b44b"
         };
       }
@@ -1793,14 +1798,46 @@
       };
     }
 
-    function renderVIPreviewMap(score, label){
+    function viScoreToPreviewY(score){
+      const safe = clampNumber(score, 0, 100);
+
+      if (safe >= 70){
+        const t = (safe - 70) / 30;
+        return 104 - (t * (104 - 26));
+      }
+
+      if (safe >= 35){
+        const t = (safe - 35) / 35;
+        return 182 - (t * (182 - 104));
+      }
+
+      const t = safe / 35;
+      return 254 - (t * (254 - 182));
+    }
+
+    function escapeSvgText(value){
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function renderVIPreviewMap(currentScore, stabilizedScore, label){
       const svg = document.getElementById("viPreviewSvg");
       if (!svg) return;
 
-      const safeScore = Math.max(0, Math.min(100, Number(score) || 0));
-      const y = viScoreToPreviewY(safeScore);
-      const zone = viPreviewZone(safeScore);
-      const pointLabel = label || (document.getElementById("entityName")?.value || "Community A");
+      const current = clampNumber(currentScore, 0, 100);
+      const stabilized = clampNumber(stabilizedScore, 0, 100);
+
+      const currentY = viScoreToPreviewY(current);
+      const stabilizedY = viScoreToPreviewY(stabilized);
+
+      const currentZone = viPreviewZone(current);
+      const stabilizedZone = viPreviewZone(stabilized);
+
+      const pointLabel = escapeSvgText(label || getEntityName() || "Community A");
 
       svg.innerHTML = `
         <defs>
@@ -1811,6 +1848,14 @@
 
           <filter id="viPreviewGlow" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="5" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="viPreviewSoftGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3.5" result="blur"/>
             <feMerge>
               <feMergeNode in="blur"/>
               <feMergeNode in="SourceGraphic"/>
@@ -1864,25 +1909,52 @@
           VI (Baseline Stability)
         </text>
 
-        <circle cx="170" cy="${y - 22}" r="12" fill="${zone.color}" opacity="0.18" filter="url(#viPreviewGlow)"></circle>
-        <circle cx="170" cy="${y - 22}" r="7.5" fill="${zone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
+        <g stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="5 4">
+          <line x1="${PREVIEW_MAP.x}" y1="${currentY}" x2="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX}" y2="${stabilizedY}"/>
+        </g>
+
+        <circle cx="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX}" cy="${stabilizedY}" r="11" fill="${stabilizedZone.color}" opacity="0.16" filter="url(#viPreviewSoftGlow)"></circle>
+        <circle cx="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX}" cy="${stabilizedY}" r="6.5" fill="none" stroke="${stabilizedZone.color}" stroke-width="2.2"></circle>
+
+        <circle cx="${PREVIEW_MAP.x}" cy="${currentY}" r="13" fill="${currentZone.color}" opacity="0.20" filter="url(#viPreviewGlow)"></circle>
+        <circle cx="${PREVIEW_MAP.x}" cy="${currentY}" r="7.5" fill="${currentZone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
 
         <text
-          x="184"
-          y="${y - 18}"
+          x="${PREVIEW_MAP.x + 14}"
+          y="${currentY - 10}"
           fill="#eef4ff"
           font-size="12.5"
           font-weight="800"
           font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
           ${pointLabel}
         </text>
+
+        <text
+          x="${PREVIEW_MAP.x + 14}"
+          y="${currentY + 8}"
+          fill="rgba(255,255,255,0.70)"
+          font-size="10.5"
+          font-weight="700"
+          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
+          Current ${current}
+        </text>
+
+        <text
+          x="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX + 14}"
+          y="${stabilizedY + 4}"
+          fill="rgba(255,255,255,0.66)"
+          font-size="10.5"
+          font-weight="700"
+          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
+          Stabilized ${stabilized}
+        </text>
       `;
 
       const zoneValue = document.getElementById("viPreviewZone");
       const zoneNote = document.getElementById("viPreviewNote");
 
-      if (zoneValue) zoneValue.textContent = zone.title;
-      if (zoneNote) zoneNote.textContent = zone.note;
+      if (zoneValue) zoneValue.textContent = currentZone.title;
+      if (zoneNote) zoneNote.textContent = currentZone.note;
     }
 
     function update(){
@@ -1976,6 +2048,7 @@
 
       renderVIPreviewMap(
         stabilityPre,
+        finalScore,
         buildMapLabel(readMapData())
       );
     }
