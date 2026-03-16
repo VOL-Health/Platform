@@ -81,14 +81,6 @@
     .platform-logo-vol{ color:var(--blue); }
     .platform-logo-health{ color:#f3f6ff; }
 
-    .platform-brand-sub{
-      margin-top:4px;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:0.22em;
-      color:rgba(255,255,255,0.78);
-    }
-
     .platform-nav{
       display:flex;
       align-items:center;
@@ -214,11 +206,7 @@
 
     .spine-card.active{
       border-color:rgba(44,108,255,0.45);
-      background:linear-gradient(
-        180deg,
-        rgba(44,108,255,0.14),
-        rgba(13,18,36,0.96)
-      );
+      background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
     }
 
     .spine-card .step{
@@ -243,13 +231,13 @@
       line-height:1.45;
     }
 
-       .context-bar{
+    .context-bar{
       display:grid;
-      grid-template-columns:minmax(260px, 1fr) minmax(260px, 1.1fr) auto;
-      gap:12px;
+      grid-template-columns:minmax(250px, 300px) minmax(320px, 1fr) auto;
+      gap:16px;
       align-items:end;
       margin:0 0 16px;
-      padding:14px 16px;
+      padding:16px 20px;
       background:rgba(14,20,40,0.90);
       border:1px solid rgba(255,255,255,0.10);
       border-radius:20px;
@@ -278,7 +266,7 @@
       color:var(--muted);
       text-transform:uppercase;
       letter-spacing:0.08em;
-      margin-bottom:8px;
+      margin-bottom:10px;
     }
 
     .context-field input{
@@ -304,9 +292,9 @@
     .inline-mode-options{
       display:flex;
       align-items:center;
-      gap:18px;
+      gap:22px;
       flex-wrap:nowrap;
-      min-height:44px;
+      min-height:48px;
       margin:0;
     }
 
@@ -322,13 +310,16 @@
       letter-spacing:0;
       line-height:1;
       cursor:pointer;
+      font-weight:600;
     }
 
     .mode-options input{
       margin:0;
       accent-color:var(--green);
       flex:0 0 auto;
-      transform:translateY(0.5px);
+      width:16px;
+      height:16px;
+      transform:translateY(0);
     }
 
     .btn-row{
@@ -884,8 +875,16 @@
         grid-template-columns:1fr;
       }
 
-          .context-bar{
+      .context-bar{
         grid-template-columns:1fr;
+      }
+
+      .context-actions{
+        min-width:0;
+      }
+
+      .context-actions .btn-row{
+        width:100%;
       }
 
       .portfolio-summary{
@@ -913,9 +912,14 @@
         grid-template-columns:1fr;
       }
 
-      .context-bar,
       .portfolio-size-row{
         grid-template-columns:1fr;
+      }
+
+      .inline-mode-options{
+        flex-wrap:wrap;
+        gap:14px;
+        min-height:auto;
       }
     }
 
@@ -952,6 +956,16 @@
       }
 
       .summary-actions .btn{
+        width:100%;
+      }
+
+      .btn-row{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .btn-row .btn-link,
+      .btn-row .btn{
         width:100%;
       }
     }
@@ -1479,7 +1493,7 @@
     </div>
   </div>
 
-    <script>
+  <script>
     const ENDEMIC_BASELINE = 80;
     const MAX_FINAL_STABILITY = 95;
     const MAP_STORAGE_KEY = "volHealthMapData";
@@ -1516,14 +1530,6 @@
       reimbursement: 'Reimbursement pressure'
     };
 
-    const PREVIEW_MAP = {
-      x: 170,
-      top: 26,
-      bottom: 254,
-      currentOffsetX: 0,
-      stabilizedOffsetX: 24
-    };
-
     function readMapData(){
       try{
         const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
@@ -1544,12 +1550,12 @@
       return "VI Community";
     }
 
-    function getMode(){
+    function getMode() {
       const checked = document.querySelector("input[name='mode']:checked");
       return checked ? checked.value : "single";
     }
 
-    function saveVIMapData(partial){
+    function saveVIMapData(partial) {
       const existing = readMapData();
 
       const merged = {
@@ -1800,19 +1806,9 @@
 
     function viScoreToPreviewY(score){
       const safe = clampNumber(score, 0, 100);
-
-      if (safe >= 70){
-        const t = (safe - 70) / 30;
-        return 104 - (t * (104 - 26));
-      }
-
-      if (safe >= 35){
-        const t = (safe - 35) / 35;
-        return 182 - (t * (182 - 104));
-      }
-
-      const t = safe / 35;
-      return 254 - (t * (254 - 182));
+      const top = 26;
+      const bottom = 254;
+      return bottom - ((safe / 100) * (bottom - top));
     }
 
     function escapeSvgText(value){
@@ -1865,37 +1861,36 @@
 
         <rect x="0" y="0" width="320" height="280" rx="18" fill="url(#viPreviewBg)" stroke="rgba(255,255,255,0.08)"/>
 
-        <rect x="84" y="26" width="150" height="78" fill="rgba(46,139,87,0.16)"/>
-        <rect x="84" y="104" width="150" height="78" fill="rgba(242,183,5,0.18)"/>
-        <rect x="84" y="182" width="150" height="72" fill="rgba(230,57,70,0.20)"/>
-
-        <g stroke="rgba(255,255,255,0.11)" stroke-width="1">
-          <line x1="84" y1="26" x2="234" y2="26"/>
-          <line x1="84" y1="65" x2="234" y2="65"/>
-          <line x1="84" y1="104" x2="234" y2="104"/>
-          <line x1="84" y1="143" x2="234" y2="143"/>
-          <line x1="84" y1="182" x2="234" y2="182"/>
-          <line x1="84" y1="218" x2="234" y2="218"/>
-          <line x1="84" y1="254" x2="234" y2="254"/>
-        </g>
+        <rect x="84" y="26" width="150" height="68.4" fill="rgba(46,139,87,0.16)"/>
+        <rect x="84" y="94.4" width="150" height="79.8" fill="rgba(242,183,5,0.18)"/>
+        <rect x="84" y="174.2" width="150" height="79.8" fill="rgba(230,57,70,0.20)"/>
 
         <g stroke="rgba(255,255,255,0.26)" stroke-width="2">
           <line x1="84" y1="254" x2="84" y2="26"/>
         </g>
 
+        <g stroke="rgba(255,255,255,0.11)" stroke-width="1">
+          <line x1="84" y1="26" x2="234" y2="26"/>
+          <line x1="84" y1="71.6" x2="234" y2="71.6"/>
+          <line x1="84" y1="117.2" x2="234" y2="117.2"/>
+          <line x1="84" y1="162.8" x2="234" y2="162.8"/>
+          <line x1="84" y1="208.4" x2="234" y2="208.4"/>
+          <line x1="84" y1="254" x2="234" y2="254"/>
+        </g>
+
         <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.58)">
-          <text x="70" y="258" text-anchor="end">0</text>
-          <text x="70" y="222" text-anchor="end">20</text>
-          <text x="70" y="186" text-anchor="end">40</text>
-          <text x="70" y="147" text-anchor="end">60</text>
-          <text x="70" y="108" text-anchor="end">80</text>
           <text x="70" y="30" text-anchor="end">100</text>
+          <text x="70" y="75.6" text-anchor="end">80</text>
+          <text x="70" y="121.2" text-anchor="end">60</text>
+          <text x="70" y="166.8" text-anchor="end">40</text>
+          <text x="70" y="212.4" text-anchor="end">20</text>
+          <text x="70" y="258" text-anchor="end">0</text>
         </g>
 
         <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800" font-size="11.5">
           <text x="96" y="52" fill="#8be39b">Stable Baseline</text>
-          <text x="96" y="130" fill="#ffe74e">Pressured Stability</text>
-          <text x="96" y="218" fill="#ff6b73">Exposed Operations</text>
+          <text x="96" y="129" fill="#ffe74e">Pressured Stability</text>
+          <text x="96" y="206" fill="#ff6b73">Exposed Operations</text>
         </g>
 
         <text
@@ -1910,18 +1905,18 @@
         </text>
 
         <g stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="5 4">
-          <line x1="${PREVIEW_MAP.x}" y1="${currentY}" x2="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX}" y2="${stabilizedY}"/>
+          <line x1="170" y1="${currentY}" x2="194" y2="${stabilizedY}"/>
         </g>
 
-        <circle cx="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX}" cy="${stabilizedY}" r="11" fill="${stabilizedZone.color}" opacity="0.16" filter="url(#viPreviewSoftGlow)"></circle>
-        <circle cx="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX}" cy="${stabilizedY}" r="6.5" fill="none" stroke="${stabilizedZone.color}" stroke-width="2.2"></circle>
+        <circle cx="194" cy="${stabilizedY}" r="11" fill="${stabilizedZone.color}" opacity="0.16" filter="url(#viPreviewSoftGlow)"></circle>
+        <circle cx="194" cy="${stabilizedY}" r="6.5" fill="none" stroke="${stabilizedZone.color}" stroke-width="2.2"></circle>
 
-        <circle cx="${PREVIEW_MAP.x}" cy="${currentY}" r="13" fill="${currentZone.color}" opacity="0.20" filter="url(#viPreviewGlow)"></circle>
-        <circle cx="${PREVIEW_MAP.x}" cy="${currentY}" r="7.5" fill="${currentZone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
+        <circle cx="170" cy="${currentY}" r="13" fill="${currentZone.color}" opacity="0.20" filter="url(#viPreviewGlow)"></circle>
+        <circle cx="170" cy="${currentY}" r="7.5" fill="${currentZone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
 
         <text
-          x="${PREVIEW_MAP.x + 14}"
-          y="${currentY - 10}"
+          x="184"
+          y="${currentY - 14}"
           fill="#eef4ff"
           font-size="12.5"
           font-weight="800"
@@ -1930,8 +1925,8 @@
         </text>
 
         <text
-          x="${PREVIEW_MAP.x + 14}"
-          y="${currentY + 8}"
+          x="184"
+          y="${currentY + 10}"
           fill="rgba(255,255,255,0.70)"
           font-size="10.5"
           font-weight="700"
@@ -1940,7 +1935,7 @@
         </text>
 
         <text
-          x="${PREVIEW_MAP.x + PREVIEW_MAP.stabilizedOffsetX + 14}"
+          x="208"
           y="${stabilizedY + 4}"
           fill="rgba(255,255,255,0.66)"
           font-size="10.5"
