@@ -113,17 +113,22 @@
       font-weight:800;
       letter-spacing:0.04em;
       white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
     }
 
     .nav-pill:hover{
       background:rgba(255,255,255,0.08);
       border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
     }
 
     .nav-pill.active{
       background:rgba(44,108,255,0.16);
       border-color:rgba(44,108,255,0.45);
       color:#ffffff;
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.28),
+        0 4px 14px rgba(44,108,255,0.20);
     }
 
     .platform-page-intro{
@@ -173,52 +178,66 @@
     }
 
     .system-spine{
-  display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
-  gap:12px;
-  margin:0 0 14px;
-}
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:12px;
+      margin:0 0 14px;
+    }
 
-.spine-card{
-  background:rgba(16,23,44,0.92);
-  border:1px solid rgba(255,255,255,0.10);
-  border-radius:18px;
-  padding:16px 18px;
-  min-height:104px;
-  box-shadow:0 14px 34px rgba(0,0,0,0.28);
-}
+    .system-spine a{
+      text-decoration:none;
+    }
 
-.spine-card.active{
-  border-color:rgba(44,108,255,0.45);
-  background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
-}
+    .spine-card{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      background:rgba(16,23,44,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:16px 18px;
+      min-height:104px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
+      color:inherit;
+    }
 
-.spine-card .step{
-  font-size:11px;
-  color:#9fb2d2;
-  text-transform:uppercase;
-  letter-spacing:0.08em;
-  margin-bottom:6px;
-}
+    .spine-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
+    }
 
-.spine-card strong{
-  display:block;
-  font-size:17px;
-  margin-bottom:6px;
-  color:#f5f6ff;
-}
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.45);
+      background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
+    }
 
-.spine-card span{
-  color:#c4cae8;
-  font-size:13px;
-  line-height:1.45;
-}
+    .spine-card .step{
+      font-size:11px;
+      color:#9fb2d2;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:6px;
+    }
 
-@media (max-width: 980px){
-  .system-spine{
-    grid-template-columns:1fr;
-  }
-}
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin-bottom:6px;
+      color:#f5f6ff;
+    }
+
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
 
     .context-bar{
       display:grid;
@@ -302,11 +321,13 @@
       justify-content:center;
       white-space:nowrap;
       box-shadow:none;
+      transition:filter 0.12s ease, transform 0.12s ease;
     }
 
     .btn:hover,
     .btn-link:hover{
       filter:brightness(1.05);
+      transform:translateY(-1px);
     }
 
     .btn.primary,
@@ -848,83 +869,81 @@
       }
     }
 
-@media (max-width: 820px){
+    @media (max-width: 820px){
+      html, body{
+        max-width:100%;
+        overflow-x:hidden;
+      }
 
-  html, body{
-    max-width:100%;
-    overflow-x:hidden;
-  }
+      .wrap{
+        width:calc(100% - 20px);
+        margin:14px auto 28px;
+      }
 
-  .wrap{
-    width:calc(100% - 20px);
-    margin:14px auto 28px;
-  }
+      .page{
+        padding:8px 8px 24px;
+      }
 
-  .page{
-    padding:8px 8px 24px;
-  }
+      .tabs-card,
+      .card,
+      .platform-page-intro,
+      .context-bar,
+      .search-shell,
+      .prototype-note{
+        padding-left:14px;
+        padding-right:14px;
+      }
 
-  .tabs-card,
-  .card,
-  .platform-page-intro,
-  .context-bar,
-  .search-shell,
-  .prototype-note{
-    padding-left:14px;
-    padding-right:14px;
-  }
+      .search-row,
+      .candidate-row-top,
+      .candidate-main{
+        min-width:0;
+      }
 
-  .search-row,
-  .candidate-row-top,
-  .candidate-main{
-    min-width:0;
-  }
+      .search-input-wrap{
+        flex:1 1 100%;
+        min-width:0;
+      }
 
-  .search-input-wrap{
-    flex:1 1 100%;
-    min-width:0;
-  }
+      .search-button{
+        width:100%;
+      }
 
-  .search-button{
-    width:100%;
-  }
+      .candidate-row-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
 
-  .candidate-row-top{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+      .candidate-main{
+        width:100%;
+        min-width:0;
+      }
 
-  .candidate-main{
-    width:100%;
-    min-width:0;
-  }
+      .candidate-name-role,
+      .candidate-stats,
+      .candidate-meta,
+      .card-sub{
+        min-width:0;
+        overflow-wrap:break-word;
+      }
 
-  .candidate-name-role,
-  .candidate-stats,
-  .candidate-meta,
-  .card-sub{
-    min-width:0;
-    overflow-wrap:break-word;
-  }
+      .candidate-tag-elig{
+        white-space:normal;
+        max-width:100%;
+      }
 
-  .candidate-tag-elig{
-    white-space:normal;
-    max-width:100%;
-  }
+      .btn,
+      .btn-link,
+      .chip,
+      .card-title-badge{
+        max-width:100%;
+      }
 
-  .btn,
-  .btn-link,
-  .chip,
-  .card-title-badge{
-    max-width:100%;
-  }
-
-  .actions-bar .btn{
-    width:100%;
-    white-space:normal;
-  }
-}
-    
+      .actions-bar .btn{
+        width:100%;
+        white-space:normal;
+      }
+    }
   </style>
 </head>
 <body>
@@ -944,7 +963,7 @@
           <a href="volatility-index.html" class="nav-pill">VI</a>
           <a href="wsi.html" class="nav-pill">WSI</a>
           <a href="shai.html" class="nav-pill active">SHAI</a>
-          <a href="map.html" class="nav-pill">Stability Map</a>          
+          <a href="map.html" class="nav-pill">Stability Map</a>
         </nav>
       </div>
 
@@ -960,30 +979,30 @@
     <div class="page">
 
       <section class="system-spine">
-  <div class="spine-card">
-    <div class="step">Step 1</div>
-    <strong>VI — Detect</strong>
-    <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
-  </div>
+        <a href="volatility-index.html" class="spine-card">
+          <div class="step">Step 1</div>
+          <strong>VI — Detect</strong>
+          <span>Identify extra volatility forming inside the building or portfolio above the normal endemic baseline.</span>
+        </a>
 
-  <div class="spine-card">
-    <div class="step">Step 2</div>
-    <strong>WSI — Measure</strong>
-    <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
-  </div>
+        <a href="wsi.html" class="spine-card">
+          <div class="step">Step 2</div>
+          <strong>WSI — Measure</strong>
+          <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
+        </a>
 
-  <div class="spine-card active">
-    <div class="step">Step 3</div>
-    <strong>SHAI — Align</strong>
-    <span>Recommend the right operational response before instability spreads.</span>
-  </div>
+        <a href="shai.html" class="spine-card active">
+          <div class="step">Step 3</div>
+          <strong>SHAI — Align</strong>
+          <span>Recommend the right operational response before instability spreads.</span>
+        </a>
 
-  <div class="spine-card">
-    <div class="step">Step 4</div>
-    <strong>Map — Visualize</strong>
-    <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
-  </div>
-</section>
+        <a href="map.html" class="spine-card">
+          <div class="step">Step 4</div>
+          <strong>Map — Visualize</strong>
+          <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
+        </a>
+      </section>
 
       <section class="context-bar">
         <div class="context-main">
