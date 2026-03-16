@@ -178,13 +178,30 @@
       margin:0 0 14px;
     }
 
+    .system-spine a{
+      text-decoration:none;
+    }
+
     .spine-card{
+      display:block;
       background:rgba(16,23,44,0.92);
       border:1px solid rgba(255,255,255,0.10);
       border-radius:18px;
       padding:14px 16px;
       min-height:112px;
       box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
+    }
+
+    .spine-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
     }
 
     .spine-card.active{
@@ -299,32 +316,32 @@
     }
 
     .map-panel{
-  position:relative;
-  background:linear-gradient(180deg, rgba(17,24,46,0.96), rgba(14,20,40,0.92));
-  border-radius:20px;
-  box-shadow:
-    0 14px 34px rgba(0,0,0,0.28),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-  padding:18px;
-  border:1px solid rgba(255,255,255,0.11);
-  overflow:hidden;
-}
+      position:relative;
+      background:linear-gradient(180deg, rgba(17,24,46,0.96), rgba(14,20,40,0.92));
+      border-radius:20px;
+      box-shadow:
+        0 14px 34px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+      overflow:hidden;
+    }
 
-.map-panel::before{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  top:0;
-  height:1px;
-  background:linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255,255,255,0.14) 20%,
-    rgba(255,255,255,0.06) 80%,
-    transparent 100%
-  );
-}
+    .map-panel::before{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:1px;
+      background:linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255,255,255,0.14) 20%,
+        rgba(255,255,255,0.06) 80%,
+        transparent 100%
+      );
+    }
 
     .map-panel h3{
       margin:0 0 6px;
@@ -339,18 +356,18 @@
     }
 
     .svg-shell{
-  border:1px solid rgba(255,255,255,0.10);
-  background:linear-gradient(
-    180deg,
-    rgba(255,255,255,0.025),
-    rgba(0,0,0,0.16)
-  );
-  border-radius:18px;
-  padding:12px;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.03),
-    inset 0 -20px 40px rgba(0,0,0,0.14);
-}
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(
+        180deg,
+        rgba(255,255,255,0.025),
+        rgba(0,0,0,0.16)
+      );
+      border-radius:18px;
+      padding:12px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        inset 0 -20px 40px rgba(0,0,0,0.14);
+    }
 
     .svg-shell svg{
       width:100%;
@@ -507,11 +524,11 @@
         </div>
 
         <nav class="platform-nav">
-           <a href="index.html" class="nav-pill">Platform Hub</a>
+          <a href="index.html" class="nav-pill">Platform Hub</a>
           <a href="volatility-index.html" class="nav-pill">VI</a>
           <a href="wsi.html" class="nav-pill">WSI</a>
           <a href="shai.html" class="nav-pill">SHAI</a>
-          <a href="map.html" class="nav-pill active">Stability Map</a>         
+          <a href="map.html" class="nav-pill active">Stability Map</a>
         </nav>
       </div>
 
@@ -527,26 +544,26 @@
     <div class="page">
 
       <section class="system-spine">
-        <div class="spine-card">
+        <a href="volatility-index.html" class="spine-card">
           <div class="step">Step 1</div>
           <strong>Detect</strong>
           <span>Identify extra volatility forming inside the building or portfolio above the endemic baseline.</span>
-        </div>
-        <div class="spine-card">
+        </a>
+        <a href="wsi.html" class="spine-card">
           <div class="step">Step 2</div>
           <strong>Measure</strong>
           <span>Test whether the workforce system can absorb volatility, coverage strain, pipeline weakness, and cost pressure.</span>
-        </div>
-        <div class="spine-card">
+        </a>
+        <a href="shai.html" class="spine-card">
           <div class="step">Step 3</div>
           <strong>Align</strong>
           <span>Recommend the right operational response before instability spreads.</span>
-        </div>
-        <div class="spine-card active">
+        </a>
+        <a href="map.html" class="spine-card active">
           <div class="step">Step 4</div>
           <strong>Visualize</strong>
           <span>Visualize the pattern of pressure across your community or portfolio and the path toward managed stability.</span>
-        </div>
+        </a>
       </section>
 
       <section class="context-bar">
@@ -731,195 +748,191 @@
       return "Exposed Operations";
     }
 
-  function buildMapSvg(point, comparisonPoint = null, options = {}){
-    const x = scoreToMapX(point.wsi);
-    const y = scoreToMapY(point.vi);
+    function buildMapSvg(point, comparisonPoint = null, options = {}){
+      const x = scoreToMapX(point.wsi);
+      const y = scoreToMapY(point.vi);
 
-    const showComparison = !!comparisonPoint;
-    const comparisonFirst = options.comparisonFirst !== false;
+      const showComparison = !!comparisonPoint;
 
-    let comparisonMarkup = "";
-    if (showComparison) {
-      const cx = scoreToMapX(comparisonPoint.wsi);
-      const cy = scoreToMapY(comparisonPoint.vi);
+      let comparisonMarkup = "";
+      if (showComparison) {
+        const cx = scoreToMapX(comparisonPoint.wsi);
+        const cy = scoreToMapY(comparisonPoint.vi);
 
-      comparisonMarkup = `
-        <path d="M ${cx} ${cy} L ${x} ${y}"
-          stroke="rgba(255,255,255,0.30)"
-          stroke-width="2.5"
-          stroke-dasharray="6 8"
-          stroke-linecap="round"/>
+        comparisonMarkup = `
+          <path d="M ${cx} ${cy} L ${x} ${y}"
+            stroke="rgba(255,255,255,0.30)"
+            stroke-width="2.5"
+            stroke-dasharray="6 8"
+            stroke-linecap="round"/>
+
+          <circle
+            cx="${cx}"
+            cy="${cy}"
+            r="7"
+            fill="${comparisonPoint.color || "#5aa8ff"}"
+            fill-opacity="0.40"
+            stroke="#ffffff"
+            stroke-opacity="0.45"
+            stroke-width="2"/>
+        `;
+      }
+
+      return `
+        <defs>
+          <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0d1224"/>
+            <stop offset="100%" stop-color="#141a33"/>
+          </linearGradient>
+
+          <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
+
+        <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
+        <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
+        <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
+        <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
+
+        <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
+          <line x1="80" y1="60" x2="80" y2="360"/>
+          <line x1="152" y1="60" x2="152" y2="360"/>
+          <line x1="224" y1="60" x2="224" y2="360"/>
+          <line x1="296" y1="60" x2="296" y2="360"/>
+          <line x1="368" y1="60" x2="368" y2="360"/>
+          <line x1="440" y1="60" x2="440" y2="360"/>
+
+          <line x1="80" y1="60" x2="440" y2="60"/>
+          <line x1="80" y1="120" x2="440" y2="120"/>
+          <line x1="80" y1="180" x2="440" y2="180"/>
+          <line x1="80" y1="240" x2="440" y2="240"/>
+          <line x1="80" y1="300" x2="440" y2="300"/>
+          <line x1="80" y1="360" x2="440" y2="360"/>
+        </g>
+
+        <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
+          <line x1="80" y1="360" x2="440" y2="360"/>
+          <line x1="80" y1="360" x2="80" y2="60"/>
+        </g>
+
+        <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
+          <line x1="296" y1="60" x2="296" y2="360"/>
+          <line x1="80" y1="180" x2="440" y2="180"/>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
+          <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
+          <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
+          <text x="94" y="206" fill="#ff525e" font-size="12.5">Exposed Operations</text>
+          <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
+          <text x="214" y="400">WSI (Workforce Stability Index) →</text>
+          <text x="18" y="230" transform="rotate(-90 18 230)">VI (Baseline Stability) →</text>
+        </g>
+
+        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
+          <text x="70" y="378">0</text>
+          <text x="142" y="378">20</text>
+          <text x="214" y="378">40</text>
+          <text x="286" y="378">60</text>
+          <text x="358" y="378">80</text>
+          <text x="432" y="378">100</text>
+
+          <text x="48" y="364">0</text>
+          <text x="42" y="304">20</text>
+          <text x="42" y="244">40</text>
+          <text x="42" y="184">60</text>
+          <text x="42" y="124">80</text>
+          <text x="36" y="66">100</text>
+        </g>
+
+        ${comparisonMarkup}
 
         <circle
-          cx="${cx}"
-          cy="${cy}"
-          r="7"
-          fill="${comparisonPoint.color || "#5aa8ff"}"
-          fill-opacity="0.40"
+          cx="${x}"
+          cy="${y}"
+          r="8"
+          fill="${point.color || "#5aa8ff"}"
           stroke="#ffffff"
-          stroke-opacity="0.45"
-          stroke-width="2"/>
+          stroke-width="2"
+          filter="url(#pointGlow)"/>
       `;
     }
 
-    return `
-      <defs>
-        <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#0d1224"/>
-          <stop offset="100%" stop-color="#141a33"/>
-        </linearGradient>
+    function renderMaps(){
+      const saved = readMapData();
 
-        <filter id="pointGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="4" result="blur"/>
-          <feMerge>
-            <feMergeNode in="blur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
+      const current = {
+        label: saved?.label || defaults.label,
+        source: saved?.label ? "Saved VI + WSI calculator data" : defaults.source,
+        vi: clamp(saved?.vi ?? defaults.vi, 0, 100),
+        wsi: clamp(saved?.wsi ?? defaults.wsi, 0, 100),
+        updatedAt: saved?.updatedAt || defaults.updatedAt,
+        mode: saved?.mode || defaults.mode,
+        color: "#5aa8ff"
+      };
 
-      <rect x="0" y="0" width="520" height="420" rx="18" fill="url(#mapBg)" stroke="rgba(255,255,255,0.10)"/>
+      const future = {
+        label: "Stabilized Scenario",
+        vi: clamp(saved?.viStabilized ?? defaults.viStabilized, 0, 100),
+        wsi: clamp(saved?.wsiWithSourcing ?? defaults.wsiWithSourcing, 0, 100),
+        color: "#35c67a"
+      };
 
-      <rect x="80" y="180" width="216" height="180" fill="rgba(230,57,70,0.22)"/>
-      <rect x="80" y="60" width="216" height="120" fill="rgba(242,183,5,0.24)"/>
-      <rect x="296" y="180" width="144" height="180" fill="rgba(31,87,184,0.22)"/>
-      <rect x="296" y="60" width="144" height="120" fill="rgba(46,139,87,0.18)"/>
+      document.getElementById("currentMapSvg").innerHTML = buildMapSvg(current, null);
+      document.getElementById("futureMapSvg").innerHTML = buildMapSvg(future, current);
 
-      <g stroke="rgba(255,255,255,0.12)" stroke-width="1">
-        <line x1="80" y1="60" x2="80" y2="360"/>
-        <line x1="152" y1="60" x2="152" y2="360"/>
-        <line x1="224" y1="60" x2="224" y2="360"/>
-        <line x1="296" y1="60" x2="296" y2="360"/>
-        <line x1="368" y1="60" x2="368" y2="360"/>
-        <line x1="440" y1="60" x2="440" y2="360"/>
+      document.getElementById("currentLabel").textContent = current.label;
+      document.getElementById("currentVI").textContent = current.vi;
+      document.getElementById("currentWSI").textContent = current.wsi;
+      document.getElementById("currentZone").textContent = zoneFor(current.vi, current.wsi);
 
-        <line x1="80" y1="60" x2="440" y2="60"/>
-        <line x1="80" y1="120" x2="440" y2="120"/>
-        <line x1="80" y1="180" x2="440" y2="180"/>
-        <line x1="80" y1="240" x2="440" y2="240"/>
-        <line x1="80" y1="300" x2="440" y2="300"/>
-        <line x1="80" y1="360" x2="440" y2="360"/>
-      </g>
+      document.getElementById("futureLabel").textContent = future.label;
+      document.getElementById("futureVI").textContent = future.vi;
+      document.getElementById("futureWSI").textContent = future.wsi;
+      document.getElementById("futureZone").textContent = zoneFor(future.vi, future.wsi);
 
-      <g stroke="rgba(255,255,255,0.35)" stroke-width="2">
-        <line x1="80" y1="360" x2="440" y2="360"/>
-        <line x1="80" y1="360" x2="80" y2="60"/>
-      </g>
+      document.getElementById("mapSource").textContent = current.source;
+      document.getElementById("mapMode").textContent = current.mode;
+      document.getElementById("mapUpdatedAt").textContent = current.updatedAt;
+      document.getElementById("improvementPattern").textContent =
+        `VI ${current.vi} → ${future.vi} | WSI ${current.wsi} → ${future.wsi}`;
 
-      <g stroke="rgba(255,255,255,0.24)" stroke-width="2.25">
-        <line x1="296" y1="60" x2="296" y2="360"/>
-        <line x1="80" y1="180" x2="440" y2="180"/>
-      </g>
-
-      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800">
-        <text x="96" y="162" fill="#ffe74e" font-size="12.5">Manually Stabilized</text>
-        <text x="318" y="162" fill="#8be39b" font-size="12.5">Managed Stability</text>
-        <text x="94" y="206" fill="#ff525e" font-size="12.5">Exposed Operations</text>
-        <text x="318" y="206" fill="#5aa8ff" font-size="12.5">Volatility Pressure</text>
-      </g>
-
-      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="12" fill="rgba(255,255,255,0.80)">
-        <text x="214" y="400">WSI (Workforce Stability Index) →</text>
-        <text x="18" y="230" transform="rotate(-90 18 230)">VI (Baseline Stability) →</text>
-      </g>
-
-      <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.55)">
-        <text x="70" y="378">0</text>
-        <text x="142" y="378">20</text>
-        <text x="214" y="378">40</text>
-        <text x="286" y="378">60</text>
-        <text x="358" y="378">80</text>
-        <text x="432" y="378">100</text>
-
-        <text x="48" y="364">0</text>
-        <text x="42" y="304">20</text>
-        <text x="42" y="244">40</text>
-        <text x="42" y="184">60</text>
-        <text x="42" y="124">80</text>
-        <text x="36" y="66">100</text>
-      </g>
-
-      ${comparisonMarkup}
-
-      <circle
-        cx="${x}"
-        cy="${y}"
-        r="8"
-        fill="${point.color || "#5aa8ff"}"
-        stroke="#ffffff"
-        stroke-width="2"
-        filter="url(#pointGlow)"/>
-    `;
-  }
-
-  function renderMaps(){
-    const saved = readMapData();
-
-    const current = {
-      label: saved?.label || defaults.label,
-      source: saved?.label ? "Saved VI + WSI calculator data" : defaults.source,
-      vi: clamp(saved?.vi ?? defaults.vi, 0, 100),
-      wsi: clamp(saved?.wsi ?? defaults.wsi, 0, 100),
-      updatedAt: saved?.updatedAt || defaults.updatedAt,
-      mode: saved?.mode || defaults.mode,
-      color: "#5aa8ff"
-    };
-
-    const future = {
-      label: "Stabilized Scenario",
-      vi: clamp(saved?.viStabilized ?? defaults.viStabilized, 0, 100),
-      wsi: clamp(saved?.wsiWithSourcing ?? defaults.wsiWithSourcing, 0, 100),
-      color: "#35c67a"
-    };
-
-    /* LEFT = current only */
-    document.getElementById("currentMapSvg").innerHTML = buildMapSvg(current, null);
-
-    /* RIGHT = future + current ghost */
-    document.getElementById("futureMapSvg").innerHTML = buildMapSvg(future, current);
-
-    document.getElementById("currentLabel").textContent = current.label;
-    document.getElementById("currentVI").textContent = current.vi;
-    document.getElementById("currentWSI").textContent = current.wsi;
-    document.getElementById("currentZone").textContent = zoneFor(current.vi, current.wsi);
-
-    document.getElementById("futureLabel").textContent = future.label;
-    document.getElementById("futureVI").textContent = future.vi;
-    document.getElementById("futureWSI").textContent = future.wsi;
-    document.getElementById("futureZone").textContent = zoneFor(future.vi, future.wsi);
-
-    document.getElementById("mapSource").textContent = current.source;
-    document.getElementById("mapMode").textContent = current.mode;
-    document.getElementById("mapUpdatedAt").textContent = current.updatedAt;
-    document.getElementById("improvementPattern").textContent =
-      `VI ${current.vi} → ${future.vi} | WSI ${current.wsi} → ${future.wsi}`;
-
-    renderSingleMap(current, future);
-  }
-    
-  function renderSingleMap(current, future){
-    const panel = document.getElementById("singleMapPanel");
-    const svg = document.getElementById("singleMapSvg");
-    const title = document.getElementById("singleMapTitle");
-    const subtitle = document.getElementById("singleMapSubtitle");
-
-    if (!singleMode) {
-      panel.style.display = "none";
-      return;
+      renderSingleMap(current, future);
     }
 
-    panel.style.display = "block";
+    function renderSingleMap(current, future){
+      const panel = document.getElementById("singleMapPanel");
+      const svg = document.getElementById("singleMapSvg");
+      const title = document.getElementById("singleMapTitle");
+      const subtitle = document.getElementById("singleMapSubtitle");
 
-    if (singleViewFuture) {
-      title.textContent = "Stabilized / Optimized State";
-      subtitle.textContent = "Projected future position after aligned SHAI actions improve both VI and WSI.";
-      svg.innerHTML = buildMapSvg(future, current);
-    } else {
-      title.textContent = "Current State";
-      subtitle.textContent = "Latest saved VI and WSI position based on the current operating pattern.";
-      svg.innerHTML = buildMapSvg(current, null);
+      if (!singleMode) {
+        panel.style.display = "none";
+        return;
+      }
+
+      panel.style.display = "block";
+
+      if (singleViewFuture) {
+        title.textContent = "Stabilized / Optimized State";
+        subtitle.textContent = "Projected future position after aligned SHAI actions improve both VI and WSI.";
+        svg.innerHTML = buildMapSvg(future, current);
+      } else {
+        title.textContent = "Current State";
+        subtitle.textContent = "Latest saved VI and WSI position based on the current operating pattern.";
+        svg.innerHTML = buildMapSvg(current, null);
+      }
     }
-  }
 
     function resetMapData(){
       localStorage.removeItem(MAP_STORAGE_KEY);
