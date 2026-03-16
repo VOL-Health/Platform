@@ -188,29 +188,37 @@
 
     .page-subtitle + .page-subtitle{ margin-top:10px; }
 
-.system-spine{
-  position:relative;
-  margin-top:10px;
-  margin-bottom:10px;
-  padding:12px;
-  border-radius:24px;
-  background:linear-gradient(
-    180deg,
-    rgba(20,34,64,0.88),
-    rgba(12,22,42,0.80)
-  );
-  border:1px solid rgba(90,140,255,0.55); /* brighter edge */
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.05) inset,
-    0 16px 40px rgba(0,0,0,0.32),
-    0 0 40px rgba(70,130,255,0.14)
-}
+    .system-spine{
+      position:relative;
+      margin-top:10px;
+      margin-bottom:10px;
+      padding:12px;
+      border-radius:24px;
+      background:linear-gradient(
+        180deg,
+        rgba(20,34,64,0.88),
+        rgba(12,22,42,0.80)
+      );
+      border:1px solid rgba(90,140,255,0.55);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.05) inset,
+        0 16px 40px rgba(0,0,0,0.32),
+        0 0 40px rgba(70,130,255,0.14);
+    }
+
+    .system-spine .page-kicker{
+      margin-bottom:14px;
+    }
 
     .spine-grid{
       display:grid;
       grid-template-columns:repeat(4, minmax(0,1fr));
       gap:16px;
-      margin-bottom:14px;
+      margin-bottom:0;
+    }
+
+    .spine-grid a{
+      text-decoration:none;
     }
 
     .spine-card{
@@ -222,6 +230,19 @@
       min-height:188px;
       display:flex;
       flex-direction:column;
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
+    }
+
+    .spine-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
+      background:linear-gradient(180deg, rgba(20,34,64,0.98), rgba(14,22,44,0.96));
     }
 
     .spine-step{
@@ -247,68 +268,6 @@
       line-height:1.55;
       flex:1 1 auto;
     }
-
-    .spine-card .mini-btn{ margin-top:14px; }
-
-    .system-spine .page-kicker{
-     margin-bottom:14px;
-   }
-
-    .btn,
-    .mini-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:11px 18px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:0.04em;
-      border:1px solid rgba(255,255,255,0.12);
-      cursor:pointer;
-      white-space:nowrap;
-      transition:transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
-      background:rgba(255,255,255,0.04);
-      color:#fff;
-    }
-
-    .mini-btn{
-      text-transform:none;
-      letter-spacing:0;
-      font-size:12px;
-      font-weight:800;
-      padding:9px 14px;
-    }
-
- .mini-btn.mini-btn-shai{
-  background:linear-gradient(180deg,#3d7aff 0%, #2f69e8 100%);
-  color:#ffffff;
-  border:1px solid rgba(130,170,255,0.32);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.10);
-}
-
-.mini-btn-shai:hover{
-  filter:brightness(1.06);
-}
-
-    .btn:hover,
-    .mini-btn:hover{
-      transform:translateY(-1px);
-      filter:brightness(1.05);
-    }
-
-    .btn-vi,
-    .mini-btn-vi{ background:var(--blue); }
-    .btn-wsi,
-    .mini-btn-wsi{ background:var(--blue); }
-    .btn-shai,
-    .mini-btn-shai{ background:rgba(110,117,138,0.22); }
-    .btn-map,
-    .mini-btn-map{ background:var(--blue); }
-    .btn-ghost,
-    .mini-btn-ghost{ background:transparent; color:#d7defa; border:1px solid rgba(255,255,255,0.14); }
 
     .section{ margin-top:16px; }
 
@@ -556,6 +515,35 @@
       margin-top:12px;
     }
 
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:11px 18px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.04em;
+      border:1px solid rgba(255,255,255,0.12);
+      cursor:pointer;
+      white-space:nowrap;
+      transition:transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.05);
+    }
+
+    .btn-vi{ background:var(--blue); }
+    .btn-wsi{ background:var(--blue); }
+    .btn-map{ background:var(--blue); }
+    .btn-ghost{ background:transparent; color:#d7defa; border:1px solid rgba(255,255,255,0.14); }
+
     .accordion-card{ padding:16px 18px; }
 
     .accordion{ margin-top:14px; display:flex; flex-direction:column; gap:12px; }
@@ -626,6 +614,39 @@
     .acc-list li{ margin:6px 0; }
 
     .acc-actions{ display:flex; flex-direction:column; gap:10px; align-items:flex-start; }
+
+    .mini-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:9px 14px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0;
+      border:1px solid rgba(255,255,255,0.12);
+      cursor:pointer;
+      white-space:nowrap;
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      transition:transform 0.12s ease, filter 0.12s ease, background 0.12s ease;
+    }
+
+    .mini-btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.05);
+    }
+
+    .mini-btn-vi{ background:var(--blue); }
+    .mini-btn-wsi{ background:var(--blue); }
+    .mini-btn-shai{
+      background:linear-gradient(180deg,#3d7aff 0%, #2f69e8 100%);
+      color:#ffffff;
+      border:1px solid rgba(130,170,255,0.32);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.10);
+    }
+    .mini-btn-map{ background:var(--blue); }
 
     .acc-item.open .acc-body{ max-height:540px; }
     .acc-item.open .acc-toggle span{ transform:rotate(90deg); }
@@ -716,40 +737,43 @@
         </p>
       </section>
 
-	<div class="system-spine">
+      <div class="system-spine">
+        <div class="page-kicker">VOL HEALTH STABILITY ENGINE</div>
 
-<div class="page-kicker">VOL HEALTH STABILITY ENGINE</div>
-     
-  <section class="spine-grid" aria-label="VOL Health system spine">
-    <article class="spine-card">
-      <div class="spine-step">Step 1</div>
-      <h3 class="spine-title">Detect Volatility</h3>
-      <p class="spine-copy">The Volatility Index identifies hidden operational instability driven by census pressure, acuity shifts, care strain, and staffing disruption.</p>
-      <a class="mini-btn mini-btn-vi" href="volatility-index.html">View VI</a>
-    </article>
+        <section class="spine-grid" aria-label="VOL Health system spine">
+          <a href="volatility-index.html" aria-label="Open VI - Detect Volatility">
+            <article class="spine-card">
+              <div class="spine-step">Step 1</div>
+              <h3 class="spine-title">Detect Volatility</h3>
+              <p class="spine-copy">The Volatility Index identifies hidden operational instability driven by census pressure, acuity shifts, care strain, and staffing disruption.</p>
+            </article>
+          </a>
 
-        <article class="spine-card">
-          <div class="spine-step">Step 2</div>
-          <h3 class="spine-title">Measure Workforce Stability</h3>
-          <p class="spine-copy">The Workforce Stability Index measures how effectively the workforce system absorbs volatility, coverage strain, cost drag, and pipeline weakness.</p>
-          <a class="mini-btn mini-btn-wsi" href="wsi.html">View WSI</a>
-        </article>
+          <a href="wsi.html" aria-label="Open WSI - Measure Workforce Stability">
+            <article class="spine-card">
+              <div class="spine-step">Step 2</div>
+              <h3 class="spine-title">Measure Workforce Stability</h3>
+              <p class="spine-copy">The Workforce Stability Index measures how effectively the workforce system absorbs volatility, coverage strain, cost drag, and pipeline weakness.</p>
+            </article>
+          </a>
 
-        <article class="spine-card">
-          <div class="spine-step">Step 3</div>
-          <h3 class="spine-title">Align Operational Response</h3>
-          <p class="spine-copy">SHAI converts diagnostic insight into the right operational response so teams can stabilize volatility before it spreads.</p>
-          <a class="mini-btn mini-btn-shai" href="shai.html">View SHAI</a>
-        </article>
+          <a href="shai.html" aria-label="Open SHAI - Align Operational Response">
+            <article class="spine-card">
+              <div class="spine-step">Step 3</div>
+              <h3 class="spine-title">Align Operational Response</h3>
+              <p class="spine-copy">SHAI converts diagnostic insight into the right operational response so teams can stabilize volatility before it spreads.</p>
+            </article>
+          </a>
 
-        <article class="spine-card">
-          <div class="spine-step">Step 4</div>
-          <h3 class="spine-title">Visualize Stability</h3>
-          <p class="spine-copy">The Stability Map shows where a community sits today and how aligned action can move it toward managed and optimized stability.</p>
-          <a class="mini-btn mini-btn-map" href="map.html">View Map</a>
-        </article>
-      </section>
-    </div> 
+          <a href="map.html" aria-label="Open Stability Map - Visualize Stability">
+            <article class="spine-card">
+              <div class="spine-step">Step 4</div>
+              <h3 class="spine-title">Visualize Stability</h3>
+              <p class="spine-copy">The Stability Map shows where a community sits today and how aligned action can move it toward managed and optimized stability.</p>
+            </article>
+          </a>
+        </section>
+      </div>
 
       <section class="section card snapshot-card" id="snapshotSection">
         <div class="snapshot-top">
