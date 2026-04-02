@@ -422,6 +422,22 @@
 
     .hidden{ display:none !important; }
 
+    .eps-disabled{
+  opacity:0.55;
+  pointer-events:none;
+  transition:opacity 0.25s ease;
+}
+
+.eps-enabled{
+  opacity:1;
+  pointer-events:auto;
+  transition:opacity 0.25s ease;
+}
+
+.eps-disabled input[type="range"]{
+  opacity:0.6;
+}
+
     .recommendation-banner{
       margin:0 0 16px;
       padding:16px 18px;
@@ -1938,8 +1954,18 @@
 
     function toggleCommunityTypeView(){
       const showExternal = includesExternalSignals();
-      document.getElementById("externalDomainCard").classList.toggle("hidden", !showExternal);
-      document.getElementById("portfolioExternalBlock").classList.toggle("hidden", !showExternal);
+      const externalCard = document.getElementById("externalDomainCard");
+const portfolioExternalBlock = document.getElementById("portfolioExternalBlock");
+
+if (externalCard){
+  externalCard.classList.toggle("eps-disabled", !showExternal);
+  externalCard.classList.toggle("eps-enabled", showExternal);
+}
+
+if (portfolioExternalBlock){
+  portfolioExternalBlock.classList.toggle("eps-disabled", !showExternal);
+  portfolioExternalBlock.classList.toggle("eps-enabled", showExternal);
+}
       document.getElementById("communityTypeReadout").textContent = getCommunityTypeLabel();
     }
 
