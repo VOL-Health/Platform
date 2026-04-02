@@ -146,7 +146,6 @@
       font-size:11px;
       font-weight:700;
       letter-spacing:0.04em;
-      text-transform:none;
       margin-bottom:12px;
     }
 
@@ -172,10 +171,6 @@
       gap:12px;
       margin:0 0 14px;
       align-items:stretch;
-    }
-
-    .system-spine a{
-      text-decoration:none;
     }
 
     .spine-card{
@@ -233,7 +228,7 @@
 
     .context-bar{
       display:grid;
-      grid-template-columns:minmax(250px, 300px) minmax(320px, 1fr) auto;
+      grid-template-columns:160px 320px minmax(240px, 1fr) auto;
       gap:16px;
       align-items:end;
       margin:0 0 16px;
@@ -249,13 +244,15 @@
       min-width:0;
     }
 
-    .context-mode{
-      min-width:0;
-      align-self:end;
+    .context-bar > .context-field.context-community-type{
+      padding-right:48px;
+    }
+
+    .context-bar > .context-field.context-actions{
+      justify-self:end;
     }
 
     .context-actions{
-      margin-top:0;
       align-self:end;
       min-width:max-content;
     }
@@ -269,7 +266,8 @@
       margin-bottom:10px;
     }
 
-    .context-field input{
+    .context-field input[type="text"],
+    .context-field input[type="number"]{
       width:100%;
       padding:10px 12px;
       border-radius:12px;
@@ -292,34 +290,51 @@
     .inline-mode-options{
       display:flex;
       align-items:center;
-      gap:22px;
-      flex-wrap:nowrap;
-      min-height:48px;
+      gap:16px;
+      flex-wrap:wrap;
       margin:0;
     }
 
-    .inline-mode-options label{
+    .inline-mode-options label,
+    .community-type-options label{
       display:inline-flex;
       align-items:center;
       gap:8px;
       margin:0;
       white-space:nowrap;
-      font-size:14px;
+      font-size:13px;
       color:#f5f6ff;
-      text-transform:none;
-      letter-spacing:0;
       line-height:1;
       cursor:pointer;
       font-weight:600;
+      text-transform:none;
+      letter-spacing:0;
     }
 
-    .mode-options input{
+    .community-type-options{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:12px;
+      margin:0;
+    }
+
+    .community-type-options input,
+    .inline-mode-options input{
       margin:0;
       accent-color:var(--green);
       flex:0 0 auto;
       width:16px;
       height:16px;
-      transform:translateY(0);
+    }
+
+    .context-option-note{
+      display:inline;
+      margin-left:6px;
+      color:rgba(160,170,200,0.75);
+      font-size:10.5px;
+      line-height:1.2;
+      font-weight:500;
     }
 
     .btn-row{
@@ -406,6 +421,69 @@
     }
 
     .hidden{ display:none !important; }
+
+    .recommendation-banner{
+      margin:0 0 16px;
+      padding:16px 18px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+    }
+
+    .recommendation-banner-copy{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
+    }
+
+    .recommendation-banner-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      margin-bottom:4px;
+      width:max-content;
+    }
+
+    .recommendation-banner-title{
+      margin:0;
+      font-size:20px;
+      font-weight:800;
+      line-height:1.2;
+      color:#f5f6ff;
+    }
+
+    .recommendation-banner-subtitle{
+      margin:0;
+      color:rgba(255,255,255,0.80);
+      font-size:14px;
+      line-height:1.55;
+      max-width:760px;
+    }
+
+    .recommendation-banner-actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    .recommendation-helper{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.5;
+    }
 
     .portfolio-panel{
       background:var(--panel);
@@ -554,14 +632,7 @@
       border-radius:20px;
       padding:18px;
       box-shadow:var(--shadow);
-      transition:transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
       min-width:0;
-    }
-
-    .card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 22px 48px rgba(0,0,0,0.36);
-      border-color:rgba(255,255,255,0.16);
     }
 
     .domain-head{
@@ -745,14 +816,12 @@
       margin-top:6px;
     }
 
-    .summary h4,
-    .map-card h4{
+    .summary h4{
       margin:0 0 12px;
       font-size:18px;
     }
 
-    .summary p,
-    .map-card p{
+    .summary p{
       color:var(--muted-2);
       font-size:13px;
       line-height:1.55;
@@ -786,61 +855,6 @@
       flex:0 0 auto;
     }
 
-    .summary-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-
-    .single-axis-map-shell{
-      border:1px solid rgba(255,255,255,0.10);
-      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.18));
-      border-radius:20px;
-      padding:10px;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.03),
-        inset 0 -20px 40px rgba(0,0,0,0.16);
-      margin:12px 0 12px;
-    }
-
-    .single-axis-map-shell svg{
-      width:100%;
-      height:auto;
-      display:block;
-      border-radius:16px;
-    }
-
-    .single-axis-zone-readout{
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-      border-radius:16px;
-      padding:14px 14px 15px;
-    }
-
-    .single-axis-zone-label{
-      color:rgba(255,255,255,0.62);
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:0.10em;
-      font-weight:800;
-      margin-bottom:8px;
-    }
-
-    .single-axis-zone-value{
-      font-size:16px;
-      font-weight:900;
-      color:#eef4ff;
-      margin-bottom:6px;
-      line-height:1.2;
-    }
-
-    .single-axis-zone-note{
-      color:#c4cae8;
-      font-size:13px;
-      line-height:1.5;
-    }
-
     .prototype-note{
       margin-top:20px;
       width:100%;
@@ -866,34 +880,175 @@
       opacity:0.9;
     }
 
+    .sticky-cta{
+      position:fixed;
+      right:22px;
+      bottom:22px;
+      z-index:1200;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(8,16,35,0.94);
+      box-shadow:0 24px 60px rgba(0,0,0,0.34);
+      backdrop-filter:blur(10px);
+    }
+
+    .sticky-cta-copy{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .sticky-cta-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .sticky-cta-text{
+      font-size:14px;
+      font-weight:700;
+      color:#eef4ff;
+      white-space:nowrap;
+    }
+
+    .sticky-cta .btn{
+      padding:11px 16px;
+    }
+
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      z-index:1400;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(3,8,18,0.68);
+      backdrop-filter:blur(6px);
+    }
+
+    .modal-panel{
+      width:min(720px, 100%);
+      max-height:min(92vh, 900px);
+      overflow:auto;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:linear-gradient(180deg, rgba(11,24,48,0.98), rgba(8,16,35,0.98));
+      box-shadow:0 28px 72px rgba(0,0,0,0.42);
+      padding:22px;
+    }
+
+    .modal-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:16px;
+    }
+
+    .modal-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      margin-bottom:10px;
+    }
+
+    .modal-title{
+      margin:0 0 6px;
+      font-size:24px;
+      font-weight:800;
+      line-height:1.15;
+    }
+
+    .modal-subtitle{
+      margin:0;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    .modal-close{
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      font-size:20px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+    }
+
+    .modal-form-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:14px;
+    }
+
+    .modal-field-full{
+      grid-column:1 / -1;
+    }
+
+    .modal-required{
+      color:#8cb2ff;
+      margin-left:4px;
+    }
+
+    .modal-status{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#dfe8ff;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .modal-status.error{
+      border-color:rgba(240,97,97,0.30);
+      background:rgba(240,97,97,0.10);
+      color:#ffd8d8;
+    }
+
+    .modal-status.success{
+      border-color:rgba(53,198,122,0.30);
+      background:rgba(53,198,122,0.10);
+      color:#d9ffea;
+    }
+
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
     @media (max-width: 1220px){
-      .driver-grid{
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-      }
-
-      .results-grid{
-        grid-template-columns:1fr;
-      }
-
-      .context-bar{
-        grid-template-columns:1fr;
-      }
-
-      .context-actions{
-        min-width:0;
-      }
-
-      .context-actions .btn-row{
-        width:100%;
-      }
-
-      .portfolio-summary{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .system-spine{
-        grid-template-columns:repeat(2, minmax(0,1fr));
-      }
+      .driver-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .results-grid{ grid-template-columns:1fr; }
+      .context-bar{ grid-template-columns:1fr; }
+      .portfolio-summary{ grid-template-columns:1fr 1fr; }
+      .system-spine{ grid-template-columns:repeat(2, minmax(0,1fr)); }
     }
 
     @media (max-width: 920px){
@@ -901,26 +1056,12 @@
         flex-direction:column;
         align-items:flex-start;
       }
-
-      .platform-nav{
-        justify-content:flex-start;
-      }
-
+      .platform-nav{ justify-content:flex-start; }
       .system-spine,
       .driver-grid,
-      .portfolio-summary{
-        grid-template-columns:1fr;
-      }
-
-      .portfolio-size-row{
-        grid-template-columns:1fr;
-      }
-
-      .inline-mode-options{
-        flex-wrap:wrap;
-        gap:14px;
-        min-height:auto;
-      }
+      .portfolio-summary{ grid-template-columns:1fr; }
+      .portfolio-size-row{ grid-template-columns:1fr; }
+      .inline-mode-options{ flex-wrap:wrap; gap:12px; }
     }
 
     @media (max-width: 640px){
@@ -928,57 +1069,38 @@
         width:min(1320px, calc(100% - 20px));
         margin:14px auto 28px;
       }
-
-      .platform-header{
-        padding:14px 10px 0;
-      }
-
-      .page{
-        padding:8px 10px 24px;
-      }
-
+      .platform-header{ padding:14px 10px 0; }
+      .page{ padding:8px 10px 24px; }
       .platform-page-intro,
       .card,
-      .portfolio-panel{
-        padding:14px;
-      }
-
-      .score-hero .score{
-        font-size:56px;
-      }
-
-      .mini-grid{
-        grid-template-columns:1fr;
-      }
-
-      .summary-actions{
-        flex-direction:column;
-      }
-
-      .summary-actions .btn{
-        width:100%;
-      }
-
+      .portfolio-panel{ padding:14px; }
+      .score-hero .score{ font-size:56px; }
+      .mini-grid{ grid-template-columns:1fr; }
       .btn-row{
         flex-direction:column;
         align-items:stretch;
       }
-
       .btn-row .btn-link,
-      .btn-row .btn{
-        width:100%;
+      .btn-row .btn{ width:100%; }
+      .sticky-cta{
+        left:10px;
+        right:10px;
+        bottom:10px;
+        justify-content:space-between;
+        gap:10px;
       }
+      .sticky-cta-text{ white-space:normal; }
+      .modal-panel{ padding:18px; }
+      .modal-form-grid{ grid-template-columns:1fr; }
+      .modal-actions{
+        flex-direction:column-reverse;
+      }
+      .modal-actions .btn{ width:100%; }
     }
 
     select option{
       background:#0f1f3b;
       color:#eef4ff;
-    }
-
-    select option:hover,
-    select option:checked{
-      background:#2c6cff;
-      color:#ffffff;
     }
   </style>
 </head>
@@ -1039,9 +1161,9 @@
       </section>
 
       <section class="context-bar">
-        <div class="context-field context-mode">
+        <div class="context-field">
           <label>Mode</label>
-          <div class="mode-options inline-mode-options">
+          <div class="inline-mode-options">
             <label>
               <input type="radio" name="mode" value="single" checked />
               Single Community
@@ -1049,6 +1171,22 @@
             <label>
               <input type="radio" name="mode" value="portfolio" />
               Portfolio View
+            </label>
+          </div>
+        </div>
+
+        <div class="context-field context-community-type">
+          <label>Community Type</label>
+          <div class="community-type-options">
+            <label>
+              <input type="radio" name="communityType" value="al_mc" checked />
+              AL / MC
+              <span class="context-option-note">External Pressure Signals excluded</span>
+            </label>
+            <label>
+              <input type="radio" name="communityType" value="snf_hybrid" />
+              SNF / Hybrid / CCRC
+              <span class="context-option-note">External Pressure Signals included</span>
             </label>
           </div>
         </div>
@@ -1067,9 +1205,26 @@
         </div>
       </section>
 
+      <section class="recommendation-banner hidden" id="viRecommendationBanner">
+        <div class="recommendation-banner-copy">
+          <div class="recommendation-banner-kicker">VOL HEALTH™ COMBINED FLOW</div>
+          <h2 class="recommendation-banner-title" id="viBannerTitle">WSI saved for your community</h2>
+          <p class="recommendation-banner-subtitle" id="viBannerSubtitle">Complete VI to unlock combined recommendations.</p>
+        </div>
+        <div class="recommendation-banner-actions">
+          <div class="recommendation-helper" id="viBannerHelper">
+            Recommendations are generated after both VI and WSI are complete.
+          </div>
+          <button class="btn green" id="openViRecommendationModalBanner" type="button">Complete VI</button>
+        </div>
+      </section>
+
       <section class="portfolio-panel hidden" id="portfolioPanel">
         <h3>Portfolio Context &amp; Volatility Signals</h3>
-        <p>Enter how many communities fall into each band. Low band means no meaningful extra volatility above endemic baseline. The tool converts this into portfolio-wide extra-volatility values across the same ten VI drivers.</p>
+        <p>
+          Enter how many communities fall into each band. Low band means no meaningful extra volatility above endemic baseline.
+          The tool converts this into portfolio-wide values across the same ten VI drivers.
+        </p>
 
         <div class="portfolio-size-row">
           <div class="field">
@@ -1088,22 +1243,22 @@
             <thead>
               <tr>
                 <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
+                <th>Low</th>
+                <th>Mid</th>
+                <th>High</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="metric-cell">Census volatility<span class="band-note">Low: endemic baseline only • Mid: moderate extra swings • High: material occupancy instability</span></td>
+                <td class="metric-cell">Census volatility<span class="band-note">Low: baseline only • Mid: moderate extra swings • High: material occupancy instability</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="census" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="census" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="census" data-band="high" /></td>
                 <td class="row-total" id="total-census">20 / 20</td>
               </tr>
               <tr>
-                <td class="metric-cell">Acuity variability<span class="band-note">Low: endemic baseline only • Mid: intermittent shifts • High: frequent or major care intensity changes</span></td>
+                <td class="metric-cell">Acuity variability<span class="band-note">Low: baseline only • Mid: intermittent shifts • High: major care intensity changes</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="acuity" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="acuity" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="acuity" data-band="high" /></td>
@@ -1119,15 +1274,15 @@
             <thead>
               <tr>
                 <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
+                <th>Low</th>
+                <th>Mid</th>
+                <th>High</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="metric-cell">Leadership bandwidth strain<span class="band-note">Low: leadership has normal room • Mid: stretched • High: overloaded and reactive</span></td>
+                <td class="metric-cell">Leadership bandwidth strain<span class="band-note">Low: normal room • Mid: stretched • High: overloaded and reactive</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="leadership" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="leadership" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="leadership" data-band="high" /></td>
@@ -1157,29 +1312,29 @@
             <thead>
               <tr>
                 <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
+                <th>Low</th>
+                <th>Mid</th>
+                <th>High</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="metric-cell">Schedule stress<span class="band-note">Low: endemic baseline only • Mid: occasional strain • High: recurring schedule instability</span></td>
+                <td class="metric-cell">Schedule stress<span class="band-note">Low: baseline only • Mid: occasional strain • High: recurring instability</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="schedule" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="schedule" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="schedule" data-band="high" /></td>
                 <td class="row-total" id="total-schedule">20 / 20</td>
               </tr>
               <tr>
-                <td class="metric-cell">Coverage fragility<span class="band-note">Low: adequate baseline buffer • Mid: thin coverage • High: fragile daily coverage model</span></td>
+                <td class="metric-cell">Coverage fragility<span class="band-note">Low: adequate buffer • Mid: thin coverage • High: fragile daily model</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="coverage" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="coverage" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="coverage" data-band="high" /></td>
                 <td class="row-total" id="total-coverage">20 / 20</td>
               </tr>
               <tr>
-                <td class="metric-cell">Overtime pressure<span class="band-note">Low: little extra stretch beyond endemic baseline • Mid: moderate OT dependence • High: sustained schedule stretch</span></td>
+                <td class="metric-cell">Overtime pressure<span class="band-note">Low: little stretch • Mid: moderate OT dependence • High: sustained schedule stretch</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="overtime" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="overtime" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="overtime" data-band="high" /></td>
@@ -1189,28 +1344,28 @@
           </table>
         </div>
 
-        <div class="portfolio-block">
+        <div class="portfolio-block" id="portfolioExternalBlock">
           <h4>External Pressure Signals</h4>
           <table class="portfolio-table">
             <thead>
               <tr>
                 <th>Metric</th>
-                <th>Low band</th>
-                <th>Mid band</th>
-                <th>High band</th>
+                <th>Low</th>
+                <th>Mid</th>
+                <th>High</th>
                 <th>Total</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="metric-cell">Survey exposure<span class="band-note">Low: limited extra exposure • Mid: moderate sensitivity • High: elevated regulatory pressure</span></td>
+                <td class="metric-cell">Survey exposure<span class="band-note">Low: limited exposure • Mid: moderate sensitivity • High: elevated regulatory pressure</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="survey" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="survey" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="survey" data-band="high" /></td>
                 <td class="row-total" id="total-survey">20 / 20</td>
               </tr>
               <tr>
-                <td class="metric-cell">Reimbursement pressure<span class="band-note">Low: normal economics • Mid: constrained economics • High: meaningful reimbursement compression</span></td>
+                <td class="metric-cell">Reimbursement pressure<span class="band-note">Low: normal economics • Mid: constrained economics • High: meaningful compression</span></td>
                 <td><input type="number" min="0" value="20" data-portfolio-driver="reimbursement" data-band="low" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="reimbursement" data-band="mid" /></td>
                 <td><input type="number" min="0" value="0" data-portfolio-driver="reimbursement" data-band="high" /></td>
@@ -1231,7 +1386,7 @@
           </div>
           <div class="mini">
             <div class="k">Primary Drag</div>
-            <div class="v" id="portfolioDominant">Resident Demand Mix</div>
+            <div class="v" id="portfolioDominant">Resident Demand</div>
           </div>
           <div class="mini">
             <div class="k">Margin Signal</div>
@@ -1244,13 +1399,13 @@
         </div>
 
         <div class="portfolio-actions">
-          <button class="btn primary" id="portfolioRunWsiBtn" type="button">Run WSI</button>
+          <button class="btn primary" id="portfolioRunWsiBtn" type="button">Continue to WSI</button>
           <button class="btn secondary" id="portfolioReturnPlatformBtn" type="button">Return to Platform</button>
         </div>
       </section>
 
       <section class="driver-grid" id="singleViewMain">
-        <article class="card domain" data-domain="resident">
+        <article class="card">
           <div class="domain-head">
             <div>
               <h3>Resident Demand Volatility</h3>
@@ -1284,7 +1439,7 @@
           </div>
         </article>
 
-        <article class="card domain" data-domain="operations">
+        <article class="card">
           <div class="domain-head">
             <div>
               <h3>Operational System Strain</h3>
@@ -1309,7 +1464,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Workflow Disruption</p>
-                <p class="driver-desc">Execution friction beyond ordinary day-to-day variation.</p>
+                <p class="driver-desc">Execution friction beyond normal noise, including reactive operating interruptions.</p>
               </div>
               <div class="driver-value"><span id="workflowVal">0</span>/10</div>
             </div>
@@ -1321,7 +1476,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Care Coordination Strain</p>
-                <p class="driver-desc">Cross-functional strain beyond normal operating complexity.</p>
+                <p class="driver-desc">Extra friction in handoffs, team coordination, and cross-functional execution.</p>
               </div>
               <div class="driver-value"><span id="coordinationVal">0</span>/10</div>
             </div>
@@ -1330,11 +1485,11 @@
           </div>
         </article>
 
-        <article class="card domain" data-domain="workforce">
+        <article class="card">
           <div class="domain-head">
             <div>
-              <h3>Workforce Strain Signals</h3>
-              <p>Early signals that the labor system is already feeling environmental pressure.</p>
+              <h3>Workforce Strain</h3>
+              <p>Signals that labor absorption capacity is being stretched beyond the normal endemic burden.</p>
             </div>
             <div class="domain-score"><strong id="workforceScore">80</strong><span>Baseline</span></div>
           </div>
@@ -1343,7 +1498,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Schedule Stress</p>
-                <p class="driver-desc">Extra difficulty in maintaining coverage beyond the normal endemic baseline.</p>
+                <p class="driver-desc">Extra scheduling complexity, call-off sensitivity, and thin daily flexibility.</p>
               </div>
               <div class="driver-value"><span id="scheduleVal">0</span>/10</div>
             </div>
@@ -1355,7 +1510,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Coverage Fragility</p>
-                <p class="driver-desc">Loss of routine staffing buffer beyond normal operating conditions.</p>
+                <p class="driver-desc">Extra reliance on patching holes, thin staffing buffers, and brittle shift coverage.</p>
               </div>
               <div class="driver-value"><span id="coverageVal">0</span>/10</div>
             </div>
@@ -1367,7 +1522,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Overtime Pressure</p>
-                <p class="driver-desc">Internal stretch beyond the normal endemic staffing burden.</p>
+                <p class="driver-desc">Extra schedule stretch and labor drag beyond normal operating variation.</p>
               </div>
               <div class="driver-value"><span id="overtimeVal">0</span>/10</div>
             </div>
@@ -1376,11 +1531,11 @@
           </div>
         </article>
 
-        <article class="card domain" data-domain="external">
+        <article class="card" id="externalDomainCard">
           <div class="domain-head">
             <div>
-              <h3>External Pressure Signals</h3>
-              <p>Outside forces that amplify instability and reduce operational room to maneuver.</p>
+              <h3>External Pressure</h3>
+              <p>Regulatory and reimbursement drag that can amplify instability for SNF / Hybrid / CCRC communities.</p>
             </div>
             <div class="domain-score"><strong id="externalScore">80</strong><span>Baseline</span></div>
           </div>
@@ -1389,7 +1544,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Survey Exposure</p>
-                <p class="driver-desc">Extra regulatory pressure beyond what a healthy system normally expects.</p>
+                <p class="driver-desc">Extra survey sensitivity and staffing-related regulatory pressure.</p>
               </div>
               <div class="driver-value"><span id="surveyVal">0</span>/10</div>
             </div>
@@ -1401,7 +1556,7 @@
             <div class="driver-row">
               <div>
                 <p class="driver-title">Reimbursement Pressure</p>
-                <p class="driver-desc">Economic compression beyond normal endemic variability.</p>
+                <p class="driver-desc">Extra reimbursement compression or external economic pressure affecting operating room.</p>
               </div>
               <div class="driver-value"><span id="reimbursementVal">0</span>/10</div>
             </div>
@@ -1412,724 +1567,1039 @@
       </section>
 
       <section class="results-grid">
-        <section class="card score-hero">
-          <div class="eyebrow">Baseline Stability Capacity</div>
-
+        <article class="card score-hero">
+          <div class="eyebrow">Current Volatility Position</div>
           <div class="score-main">
-            <p class="score" id="viScore">80</p>
+            <div class="score" id="viScore">80</div>
             <div class="tier" id="viTier">High Natural Stability</div>
           </div>
 
           <div class="mini-grid">
             <div class="mini">
               <div class="k">Volatility Drag</div>
-              <div class="v" id="volatilityDrag">0 pts</div>
+              <div class="v" id="viDrag">0</div>
+              <div class="subv">Extra pressure above endemic baseline.</div>
             </div>
-
             <div class="mini">
-              <div class="k">Projected Stability Gain</div>
-              <div class="v" id="projectedGain">8 pts</div>
+              <div class="k">Projected Stabilized Score</div>
+              <div class="v" id="viStabilized">80</div>
+              <div class="subv">Directional “if stabilized” view.</div>
             </div>
-
             <div class="mini">
               <div class="k">Primary Drag</div>
-              <div class="v" id="dominantDomain">Resident Demand</div>
+              <div class="v" id="viDominant">Resident Demand</div>
+              <div class="subv">Most visible source of instability right now.</div>
             </div>
-
             <div class="mini">
-              <div class="k">Stabilized Score</div>
-              <div class="v" id="stabilizedScore">88 / 100</div>
-            </div>
-
-            <div class="mini" style="grid-column:1 / -1;">
-              <div class="k">Margin Pressure Signal</div>
-              <div class="v" id="marginSignal">Contained</div>
-              <div class="subv" id="marginSignalText">
-                This profile reflects only endemic baseline volatility. At this level, margin pressure should remain largely contained unless extra instability emerges.
-              </div>
+              <div class="k">Margin Signal</div>
+              <div class="v" id="viMargin">Contained</div>
+              <div class="subv" id="viMarginText">This profile reflects only endemic baseline volatility.</div>
             </div>
           </div>
-        </section>
+        </article>
 
-        <section class="card summary">
-          <h4>Diagnostic Summary</h4>
-          <p id="summaryText">
-            This community is currently sitting at the theoretical best baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where additional pressure begins to erode stability.
+        <article class="card summary">
+          <h4>Interpretation</h4>
+          <p id="viSummary">
+            This community is currently sitting at the best realistic baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet.
           </p>
 
-          <div class="bullet-list" id="driverHighlights"></div>
-
-          <div class="summary-actions">
-            <button class="btn primary" id="runWsiBtn" type="button">Run WSI</button>
-            <button class="btn secondary" id="returnPlatformBtn" type="button">Return to Platform</button>
+          <div class="bullet-list" id="viBullets">
+            <div class="bullet"><span class="dot"></span><span>VI is built to detect extra volatility forming above the normal endemic operating baseline.</span></div>
+            <div class="bullet"><span class="dot"></span><span>Low extra volatility means the operation is still largely inside managed baseline conditions.</span></div>
+            <div class="bullet"><span class="dot"></span><span>Combined recommendations become available after WSI is also saved.</span></div>
           </div>
-        </section>
+        </article>
 
-        <section class="card map-card">
-          <h4>VI Preview Map</h4>
-          <p>VI controls the vertical position. As extra volatility rises, the community moves downward from stable baseline conditions into pressured and exposed territory.</p>
+        <article class="card summary">
+          <h4>Assessment Readiness</h4>
+          <p id="assessmentReadinessText">
+            Save this VI assessment to create or update the current assessment row, then continue to WSI to complete the combined diagnostic flow.
+          </p>
 
-          <div class="single-axis-map-shell">
-            <svg id="viPreviewSvg" viewBox="0 0 320 280" role="img" aria-label="VI preview map"></svg>
-          </div>
-
-          <div class="single-axis-zone-readout">
-            <div class="single-axis-zone-label">Current VI zone</div>
-            <div class="single-axis-zone-value" id="viPreviewZone">Stable Baseline</div>
-            <div class="single-axis-zone-note" id="viPreviewNote">
-              Baseline stability is still largely intact. Extra volatility remains limited.
+          <div class="mini-grid">
+            <div class="mini">
+              <div class="k">Assessment Session ID</div>
+              <div class="v" id="sessionIdDisplay">—</div>
+            </div>
+            <div class="mini">
+              <div class="k">Community Type Logic</div>
+              <div class="v" id="communityTypeReadout">AL / MC</div>
+            </div>
+            <div class="mini">
+              <div class="k">Mode</div>
+              <div class="v" id="modeReadout">Single Community</div>
+            </div>
+            <div class="mini">
+              <div class="k">Saved State</div>
+              <div class="v" id="savedStateReadout">VI not yet saved</div>
             </div>
           </div>
-        </section>
+        </article>
       </section>
 
       <div class="prototype-note">
         <strong>Prototype concept for internal discussion and testing.</strong>
-        Built by Hudson Keel as a directional framework for detecting environmental instability in senior living operations.
+        Built by Hudson Keel as a directional framework for senior living volatility detection and operating stability interpretation.
         <span class="small">
-          VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, and strategic response alignment. It does not represent a finalized commercial product.
+          VOL Health™ is a working internal model designed to support volatility intelligence, workforce stability analysis, strategic response alignment, and visual pattern interpretation. It does not represent a finalized commercial product.
         </span>
       </div>
     </div>
   </div>
 
+  <div class="sticky-cta" id="stickyCta">
+    <div class="sticky-cta-copy">
+      <div class="sticky-cta-label">Finished with VI?</div>
+      <div class="sticky-cta-text">Save this VI assessment, then continue to WSI.</div>
+    </div>
+    <button class="btn green" id="openRecommendationModal" type="button">Save VI &amp; Continue to WSI</button>
+  </div>
+
+  <div class="modal-backdrop hidden" id="recommendationModal">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">VOL HEALTH™ VI SAVE FLOW</div>
+          <h3 class="modal-title" id="recommendationModalTitle">Save VI Assessment</h3>
+          <p class="modal-subtitle">
+            Save this Volatility Intelligence assessment, then continue to WSI to complete the workforce view required for combined recommendations.
+          </p>
+        </div>
+        <button class="modal-close" id="closeRecommendationModal" type="button" aria-label="Close">×</button>
+      </div>
+
+      <form id="recommendationForm">
+        <div class="modal-form-grid">
+          <div class="field modal-field-full">
+            <label>Community Name<span class="modal-required">*</span></label>
+            <input type="text" id="modalCommunityName" name="community_name" required />
+          </div>
+
+          <div class="field">
+            <label>Operator</label>
+            <input type="text" id="modalOperator" name="operator" />
+          </div>
+
+          <div class="field">
+            <label>Submitted By</label>
+            <input type="text" id="modalSubmittedBy" name="submitted_by" />
+          </div>
+
+          <div class="field">
+            <label>City</label>
+            <input type="text" id="modalCity" name="city" />
+          </div>
+
+          <div class="field">
+            <label>State</label>
+            <input type="text" id="modalState" name="state" />
+          </div>
+
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="modalEmail" name="email" />
+          </div>
+
+          <div class="field">
+            <label>Role / Title</label>
+            <input type="text" id="modalRoleTitle" name="role_title" />
+          </div>
+        </div>
+
+        <div class="modal-status hidden" id="recommendationStatus"></div>
+
+        <div class="modal-actions">
+          <button class="btn secondary" id="cancelRecommendationModal" type="button">Cancel</button>
+          <button class="btn green" id="submitRecommendationBtn" type="submit">Save VI &amp; Go to WSI</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
-    const ENDEMIC_BASELINE = 80;
-    const MAX_FINAL_STABILITY = 95;
     const MAP_STORAGE_KEY = "volHealthMapData";
+    const LEGACY_CONTEXT_KEY = "volHealthAssessmentContext";
+    const FLOW_SESSION_KEY = "volHealthActiveAssessmentFlow";
+    const FLOW_TTL_MS = 6 * 60 * 60 * 1000;
 
-    const sliders = [...document.querySelectorAll('input[type="range"]')];
-    const portfolioInputs = [...document.querySelectorAll('[data-portfolio-driver]')];
-    const modeInputs = document.querySelectorAll("input[name='mode']");
-    const portfolioPanel = document.getElementById('portfolioPanel');
-    const singleViewMain = document.getElementById('singleViewMain');
+    const ASSESSMENT_CONTEXT_KEYS = [
+      "assessment_session_id",
+      "community_name",
+      "operator",
+      "city",
+      "state",
+      "submitted_by",
+      "email",
+      "role_title",
+      "vi_record_id",
+      "wsi_record_id",
+      "vi_submitted",
+      "wsi_submitted"
+    ];
 
-    const weights = {
-      census: 1.15,
-      acuity: 1.20,
-      leadership: 1.10,
-      workflow: 1.00,
-      coordination: 1.00,
-      schedule: 0.90,
-      coverage: 1.05,
-      overtime: 1.00,
-      survey: 0.80,
-      reimbursement: 0.80
+    const DRIVER_META = {
+      census: { title: "Census Volatility", domain: "resident" },
+      acuity: { title: "Acuity Variability", domain: "resident" },
+      leadership: { title: "Leadership Bandwidth", domain: "operations" },
+      workflow: { title: "Workflow Disruption", domain: "operations" },
+      coordination: { title: "Care Coordination Strain", domain: "operations" },
+      schedule: { title: "Schedule Stress", domain: "workforce" },
+      coverage: { title: "Coverage Fragility", domain: "workforce" },
+      overtime: { title: "Overtime Pressure", domain: "workforce" },
+      survey: { title: "Survey Exposure", domain: "external" },
+      reimbursement: { title: "Reimbursement Pressure", domain: "external" }
     };
 
-    const driverNames = {
-      census: 'Census volatility',
-      acuity: 'Acuity variability',
-      leadership: 'Leadership bandwidth strain',
-      workflow: 'Workflow disruption',
-      coordination: 'Care coordination strain',
-      schedule: 'Schedule stress',
-      coverage: 'Coverage fragility',
-      overtime: 'Overtime pressure',
-      survey: 'Survey exposure',
-      reimbursement: 'Reimbursement pressure'
+    const DOMAIN_KEYS = {
+      resident: ["census", "acuity"],
+      operations: ["leadership", "workflow", "coordination"],
+      workforce: ["schedule", "coverage", "overtime"],
+      external: ["survey", "reimbursement"]
     };
+
+    const DEFAULT_SINGLE_VALUES = {
+      census: 0,
+      acuity: 0,
+      leadership: 0,
+      workflow: 0,
+      coordination: 0,
+      schedule: 0,
+      coverage: 0,
+      overtime: 0,
+      survey: 0,
+      reimbursement: 0
+    };
+
+    function clamp(value, min, max){
+      value = Number(value);
+      if (Number.isNaN(value)) return min;
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function safeNumber(value, fallback = 0){
+      const num = Number(value);
+      return Number.isFinite(num) ? num : fallback;
+    }
+
+    function cleanText(value){
+      if (value === null || value === undefined) return "";
+      return String(value).trim();
+    }
+
+    function formatDateTime(date = new Date()){
+      return new Date(date).toLocaleString();
+    }
 
     function readMapData(){
       try{
-        const parsed = JSON.parse(localStorage.getItem(MAP_STORAGE_KEY) || "{}");
+        const raw = localStorage.getItem(MAP_STORAGE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
         return parsed && typeof parsed === "object" ? parsed : {};
       }catch(err){
         return {};
       }
     }
 
-    function getEntityName(){
-      return (document.getElementById("entityName")?.value || "").trim();
+    function writeMapData(next){
+      const current = readMapData();
+      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify({
+        ...current,
+        ...next
+      }));
     }
 
-    function buildMapLabel(existing){
-      const explicit = getEntityName();
-      if (explicit) return explicit;
-      if (existing.label && String(existing.label).trim()) return String(existing.label).trim();
-      return "VI Community";
+    function getStoredContext(){
+      const context = {};
+      ASSESSMENT_CONTEXT_KEYS.forEach((key) => {
+        const value = localStorage.getItem(key);
+        if (value !== null && value !== "") context[key] = value;
+      });
+
+      try{
+        const legacy = JSON.parse(localStorage.getItem(LEGACY_CONTEXT_KEY) || "{}");
+        if (legacy && typeof legacy === "object"){
+          Object.entries(legacy).forEach(([key, value]) => {
+            if ((context[key] === undefined || context[key] === "") && value) {
+              context[key] = value;
+            }
+          });
+        }
+      }catch(err){}
+
+      const mapData = readMapData();
+      if (!context.community_name && mapData.label) context.community_name = mapData.label;
+      return context;
     }
 
-    function getMode() {
+    function persistAssessmentContext(data = {}){
+      const normalized = {
+        assessment_session_id: cleanText(data.assessment_session_id),
+        community_name: cleanText(data.community_name),
+        operator: cleanText(data.operator),
+        city: cleanText(data.city),
+        state: cleanText(data.state),
+        submitted_by: cleanText(data.submitted_by),
+        email: cleanText(data.email),
+        role_title: cleanText(data.role_title),
+        vi_record_id: cleanText(data.vi_record_id),
+        wsi_record_id: cleanText(data.wsi_record_id),
+        vi_submitted: data.vi_submitted === true || data.vi_submitted === "true" ? "true" : "",
+        wsi_submitted: data.wsi_submitted === true || data.wsi_submitted === "true" ? "true" : ""
+      };
+
+      Object.entries(normalized).forEach(([key, value]) => {
+        if (value) localStorage.setItem(key, value);
+        else localStorage.removeItem(key);
+      });
+
+      const merged = { ...getStoredContext(), ...normalized };
+      if (Object.values(merged).some(value => cleanText(value))){
+        localStorage.setItem(LEGACY_CONTEXT_KEY, JSON.stringify(merged));
+      } else {
+        localStorage.removeItem(LEGACY_CONTEXT_KEY);
+      }
+
+      return normalized;
+    }
+
+    function updateFlowSession(data = {}){
+      const now = Date.now();
+      const payload = {
+        assessment_session_id: cleanText(data.assessment_session_id),
+        community_name: cleanText(data.community_name),
+        operator: cleanText(data.operator),
+        city: cleanText(data.city),
+        state: cleanText(data.state),
+        submitted_by: cleanText(data.submitted_by),
+        email: cleanText(data.email),
+        role_title: cleanText(data.role_title),
+        vi_record_id: cleanText(data.vi_record_id),
+        wsi_record_id: cleanText(data.wsi_record_id),
+        vi_submitted: data.vi_submitted === true || data.vi_submitted === "true",
+        wsi_submitted: data.wsi_submitted === true || data.wsi_submitted === "true",
+        updated_at: now,
+        expires_at: now + FLOW_TTL_MS
+      };
+      sessionStorage.setItem(FLOW_SESSION_KEY, JSON.stringify(payload));
+    }
+
+    function ensureAssessmentSessionId(){
+      const current = cleanText(localStorage.getItem("assessment_session_id"));
+      if (current) return current;
+
+      const generated = `vol-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      localStorage.setItem("assessment_session_id", generated);
+      persistAssessmentContext({ ...getStoredContext(), assessment_session_id: generated });
+      updateFlowSession({ ...getStoredContext(), assessment_session_id: generated });
+      return generated;
+    }
+
+    function hasConfirmedVI(context = getStoredContext()){
+      return !!cleanText(context.vi_record_id) || context.vi_submitted === true || context.vi_submitted === "true";
+    }
+
+    function hasConfirmedWSI(context = getStoredContext()){
+      return !!cleanText(context.wsi_record_id) || context.wsi_submitted === true || context.wsi_submitted === "true";
+    }
+
+    function getMode(){
       const checked = document.querySelector("input[name='mode']:checked");
       return checked ? checked.value : "single";
     }
 
-    function saveVIMapData(partial) {
-      const existing = readMapData();
-
-      const merged = {
-        ...existing,
-        ...partial,
-        label: buildMapLabel(existing),
-        mode: getMode() === "portfolio" ? "Portfolio View" : "Single Community",
-        updatedAt: new Date().toISOString()
-      };
-
-      localStorage.setItem(MAP_STORAGE_KEY, JSON.stringify(merged));
-      return merged;
+    function getModeLabel(){
+      return getMode() === "portfolio" ? "Portfolio View" : "Single Community";
     }
 
-    function usageImpactPct(val){
-      if (val === 'conservative') return 0.35;
-      if (val === 'aggressive') return 0.65;
-      return 0.50;
+    function getCommunityType(){
+      const checked = document.querySelector("input[name='communityType']:checked");
+      return checked ? checked.value : "al_mc";
     }
 
-    function tierFor(stability){
-      if (stability < 35) return 'Exposed Stability';
-      if (stability < 55) return 'Pressured Stability';
-      if (stability < 70) return 'Managed Stability';
-      return 'High Natural Stability';
+    function getCommunityTypeLabel(){
+      return getCommunityType() === "snf_hybrid" ? "SNF / Hybrid / CCRC" : "AL / MC";
     }
 
-    function scoreColor(stability){
-      if (stability >= 70) return 'var(--green)';
-      if (stability >= 55) return 'var(--amber)';
-      if (stability >= 35) return 'var(--orange)';
-      return 'var(--red)';
+    function includesExternalSignals(){
+      return getCommunityType() === "snf_hybrid";
+    }
+
+    function getEntityName(){
+      return cleanText(document.getElementById("entityName")?.value) || "Community";
+    }
+
+    function toggleModeView(){
+      const portfolio = getMode() === "portfolio";
+      document.getElementById("portfolioPanel").classList.toggle("hidden", !portfolio);
+      document.getElementById("singleViewMain").classList.toggle("hidden", portfolio);
+    }
+
+    function toggleCommunityTypeView(){
+      const showExternal = includesExternalSignals();
+      document.getElementById("externalDomainCard").classList.toggle("hidden", !showExternal);
+      document.getElementById("portfolioExternalBlock").classList.toggle("hidden", !showExternal);
+      document.getElementById("communityTypeReadout").textContent = getCommunityTypeLabel();
+    }
+
+    function tierFor(score){
+      if (score >= 78) return "High Natural Stability";
+      if (score >= 68) return "Managed Stability";
+      if (score >= 58) return "Strained Stability";
+      if (score >= 48) return "Reactive Operation";
+      return "Exposed Operation";
     }
 
     function marginSignalFor(drag){
       if (drag <= 5){
         return {
-          label:'Contained',
-          text:'This profile reflects only endemic baseline volatility. At this level, margin pressure should remain largely contained unless extra instability emerges.'
+          label:"Contained",
+          text:"This profile reflects only endemic baseline volatility. At this level, margin pressure should remain largely contained unless extra instability emerges."
         };
       }
       if (drag <= 20){
         return {
-          label:'Building',
-          text:'Extra volatility is beginning to consume operating room. Efficiency leakage and leadership drag may start becoming visible if this pressure persists.'
+          label:"Building",
+          text:"Extra volatility is beginning to consume operating room. Efficiency leakage and leadership drag may start becoming visible if this pressure persists."
         };
       }
       if (drag <= 40){
         return {
-          label:'Meaningful',
-          text:'Volatility drag at this level is likely pressuring labor efficiency, leadership bandwidth, and operating margin in a noticeable way.'
+          label:"Meaningful",
+          text:"Volatility drag at this level is likely pressuring labor efficiency, leadership bandwidth, and operating margin in a noticeable way."
         };
       }
       return {
-        label:'Severe',
-        text:'Volatility drag at this level is likely producing material operational friction with meaningful risk to margin, consistency, and resident experience.'
+        label:"Severe",
+        text:"Volatility drag at this level is likely producing material operational friction with meaningful risk to margin, consistency, and resident experience."
       };
     }
 
     function domainTitle(key){
       const titles = {
-        resident:'Resident Demand',
-        operations:'Operational System',
-        workforce:'Workforce Strain',
-        external:'External Pressure'
+        resident:"Resident Demand",
+        operations:"Operational System",
+        workforce:"Workforce Strain",
+        external:"External Pressure"
       };
       return titles[key] || key;
     }
 
-    function summaryFor(stability, dominantDomain, drag, mode){
+    function summaryFor(stability, dominantDomain, drag, modeLabel){
       if (drag === 0){
-        return mode === 'Portfolio View'
-          ? 'This portfolio is currently sitting at the theoretical best baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where portfolio pressure begins to erode stability.'
-          : 'This community is currently sitting at the theoretical best baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where additional pressure begins to erode stability.';
+        return modeLabel === "Portfolio View"
+          ? "This portfolio is currently sitting at the best realistic baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where portfolio pressure begins to erode control."
+          : "This community is currently sitting at the best realistic baseline state. Endemic volatility still exists, but no meaningful extra instability has been entered yet. VI is ready to detect where additional pressure begins to erode control.";
+      }
+
+      if (stability >= 75){
+        return modeLabel === "Portfolio View"
+          ? `This portfolio is still operating within managed stability, but extra volatility is now visibly building through ${dominantDomain.toLowerCase()} strain. Teams may still feel fine, but avoidable stability loss has already begun.`
+          : `This community is still operating within managed stability, but extra volatility is now visibly building through ${dominantDomain.toLowerCase()} strain. Teams may still feel fine, but avoidable stability loss has already begun.`;
+      }
+
+      if (stability >= 65){
+        return modeLabel === "Portfolio View"
+          ? `This portfolio has entered strained stability. Extra volatility is now clearly showing up through ${dominantDomain.toLowerCase()} pressure, and early intervention should be considered before the operation becomes increasingly reactive.`
+          : `This community has entered strained stability. Extra volatility is now clearly showing up through ${dominantDomain.toLowerCase()} pressure, and early intervention should be considered before the operation becomes increasingly reactive.`;
       }
 
       if (stability >= 55){
-        return mode === 'Portfolio View'
-          ? `This portfolio is still operating with moderate baseline stability, but extra volatility is now clearly showing up through ${dominantDomain.toLowerCase()} stress. This is the zone where early intervention can still preserve operating control before instability spreads further.`
-          : `This community is still operating with moderate baseline stability, but extra volatility is now clearly showing up through ${dominantDomain.toLowerCase()} stress. This is the zone where early intervention can still preserve operating control before instability spreads further.`;
+        return modeLabel === "Portfolio View"
+          ? `This portfolio is operating reactively. Extra volatility is materially reducing operating room, and ${dominantDomain.toLowerCase()} is now a meaningful drag on baseline stability.`
+          : `This community is operating reactively. Extra volatility is materially reducing operating room, and ${dominantDomain.toLowerCase()} is now a meaningful drag on baseline stability.`;
       }
 
-      if (stability >= 35){
-        return mode === 'Portfolio View'
-          ? `This portfolio is now operating under pressured stability. Extra volatility is materially reducing operating room, and ${dominantDomain.toLowerCase()} is emerging as the primary drag on baseline performance.`
-          : `This community is now operating under pressured stability. Extra volatility is materially reducing operating room, and ${dominantDomain.toLowerCase()} is emerging as the primary drag on baseline performance.`;
-      }
-
-      return mode === 'Portfolio View'
-        ? `This portfolio is now operating in an exposed stability state. Extra volatility has risen to a level that is likely already reducing consistency, efficiency, and leadership capacity, with ${dominantDomain.toLowerCase()} acting as the most visible drag.`
-        : `This community is now operating in an exposed stability state. Extra volatility has risen to a level that is likely already reducing consistency, efficiency, and leadership capacity, with ${dominantDomain.toLowerCase()} acting as the most visible drag.`;
+      return modeLabel === "Portfolio View"
+        ? `This portfolio is now operating in an exposed state. Extra volatility has risen to a level that is materially eroding consistency, leadership capacity, and operating resilience, with ${dominantDomain.toLowerCase()} acting as the most visible drag.`
+        : `This community is now operating in an exposed state. Extra volatility has risen to a level that is materially eroding consistency, leadership capacity, and operating resilience, with ${dominantDomain.toLowerCase()} acting as the most visible drag.`;
     }
 
-    function toggleModeUI(){
-      const isPortfolio = getMode() === 'portfolio';
-      portfolioPanel.classList.toggle('hidden', !isPortfolio);
-      singleViewMain.classList.toggle('hidden', isPortfolio);
-    }
-
-    function clampNumber(value, min, max){
-      const num = Number(value);
-      if (!Number.isFinite(num)) return min;
-      return Math.min(Math.max(num, min), max);
-    }
-
-    function weightedPortfolioAverage(driverKey){
-      const total = clampNumber(document.getElementById('portfolioSize')?.value || 20, 1, 999);
-      const low = clampNumber(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="low"]`)?.value || 0, 0, total);
-      const mid = clampNumber(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="mid"]`)?.value || 0, 0, total);
-      const high = clampNumber(document.querySelector(`[data-portfolio-driver="${driverKey}"][data-band="high"]`)?.value || 0, 0, total);
-
-      return ((low * 0) + (mid * 5) + (high * 10)) / total;
-    }
-
-    function updateRowSums(){
-      const total = clampNumber(document.getElementById('portfolioSize')?.value || 20, 1, 999);
-
-      Object.keys(weights).forEach(key => {
-        const low = clampNumber(document.querySelector(`[data-portfolio-driver="${key}"][data-band="low"]`)?.value || 0, 0, total);
-        const mid = clampNumber(document.querySelector(`[data-portfolio-driver="${key}"][data-band="mid"]`)?.value || 0, 0, total);
-        const high = clampNumber(document.querySelector(`[data-portfolio-driver="${key}"][data-band="high"]`)?.value || 0, 0, total);
-        const rowTotal = low + mid + high;
-
-        const totalEl = document.getElementById(`total-${key}`);
-        if (totalEl){
-          totalEl.textContent = `${rowTotal} / ${total}`;
-          totalEl.classList.toggle('bad', rowTotal !== total);
-        }
-      });
-    }
-
-    function collectValues(){
-      const mode = getMode();
-
-      if (mode === 'portfolio'){
-        return {
-          census: weightedPortfolioAverage('census'),
-          acuity: weightedPortfolioAverage('acuity'),
-          leadership: weightedPortfolioAverage('leadership'),
-          workflow: weightedPortfolioAverage('workflow'),
-          coordination: weightedPortfolioAverage('coordination'),
-          schedule: weightedPortfolioAverage('schedule'),
-          coverage: weightedPortfolioAverage('coverage'),
-          overtime: weightedPortfolioAverage('overtime'),
-          survey: weightedPortfolioAverage('survey'),
-          reimbursement: weightedPortfolioAverage('reimbursement')
-        };
-      }
-
+    function getSingleInputs(){
       const values = {};
-      sliders.forEach(slider => {
-        values[slider.dataset.driver] = Number(slider.value || 0);
+      document.querySelectorAll("input[type='range'][data-driver]").forEach((input) => {
+        values[input.dataset.driver] = clamp(input.value, 0, 10);
       });
+
+      if (!includesExternalSignals()){
+        values.survey = 0;
+        values.reimbursement = 0;
+      }
+
+      return values;
+    }
+
+    function getPortfolioDriverValue(driver){
+      const totalCommunities = Math.max(1, safeNumber(document.getElementById("portfolioSize")?.value, 20));
+      const low = safeNumber(document.querySelector(`[data-portfolio-driver='${driver}'][data-band='low']`)?.value, 0);
+      const mid = safeNumber(document.querySelector(`[data-portfolio-driver='${driver}'][data-band='mid']`)?.value, 0);
+      const high = safeNumber(document.querySelector(`[data-portfolio-driver='${driver}'][data-band='high']`)?.value, 0);
+
+      const weighted = ((low * 0) + (mid * 5) + (high * 10)) / totalCommunities;
+      return clamp(weighted, 0, 10);
+    }
+
+    function getPortfolioInputs(){
+      const values = {};
+      Object.keys(DRIVER_META).forEach((driver) => {
+        values[driver] = getPortfolioDriverValue(driver);
+      });
+
+      if (!includesExternalSignals()){
+        values.survey = 0;
+        values.reimbursement = 0;
+      }
+
       return values;
     }
 
     function calculateMetrics(){
-      const mode = getMode() === 'portfolio' ? 'Portfolio View' : 'Single Community';
-      const values = collectValues();
+      const mode = getMode();
+      const modeLabel = getModeLabel();
+      const values = mode === "portfolio" ? getPortfolioInputs() : getSingleInputs();
 
-      const residentWeighted =
-        (values.census * weights.census) +
-        (values.acuity * weights.acuity);
+      const residentAvg = (values.census + values.acuity) / 2;
+      const operationsAvg = (values.leadership + values.workflow + values.coordination) / 3;
+      const workforceAvg = (values.schedule + values.coverage + values.overtime) / 3;
+      const externalAvg = includesExternalSignals()
+        ? (values.survey + values.reimbursement) / 2
+        : 0;
 
-      const operationsWeighted =
-        (values.leadership * weights.leadership) +
-        (values.workflow * weights.workflow) +
-        (values.coordination * weights.coordination);
-
-      const workforceWeighted =
-        (values.schedule * weights.schedule) +
-        (values.coverage * weights.coverage) +
-        (values.overtime * weights.overtime);
-
-      const externalWeighted =
-        (values.survey * weights.survey) +
-        (values.reimbursement * weights.reimbursement);
-
-      const residentMax = (10 * weights.census) + (10 * weights.acuity);
-      const operationsMax = (10 * weights.leadership) + (10 * weights.workflow) + (10 * weights.coordination);
-      const workforceMax = (10 * weights.schedule) + (10 * weights.coverage) + (10 * weights.overtime);
-      const externalMax = (10 * weights.survey) + (10 * weights.reimbursement);
-
-      const domainScores = {
-        resident: Math.max(0, Math.round(ENDEMIC_BASELINE - ((residentWeighted / residentMax) * ENDEMIC_BASELINE))),
-        operations: Math.max(0, Math.round(ENDEMIC_BASELINE - ((operationsWeighted / operationsMax) * ENDEMIC_BASELINE))),
-        workforce: Math.max(0, Math.round(ENDEMIC_BASELINE - ((workforceWeighted / workforceMax) * ENDEMIC_BASELINE))),
-        external: Math.max(0, Math.round(ENDEMIC_BASELINE - ((externalWeighted / externalMax) * ENDEMIC_BASELINE)))
+      const domainAverages = {
+        resident: residentAvg,
+        operations: operationsAvg,
+        workforce: workforceAvg,
+        external: externalAvg
       };
 
-      const totalWeighted = Object.keys(values).reduce((sum, d) => sum + (values[d] * weights[d]), 0);
-      const maxWeighted = Object.keys(values).reduce((sum, d) => sum + (10 * weights[d]), 0);
-      const extraVolNormalized = maxWeighted === 0 ? 0 : Math.round((totalWeighted / maxWeighted) * 100);
+      const activeDomains = includesExternalSignals()
+        ? ["resident", "operations", "workforce", "external"]
+        : ["resident", "operations", "workforce"];
 
-      const stabilityPre = Math.max(0, Math.round(ENDEMIC_BASELINE - ((extraVolNormalized / 100) * ENDEMIC_BASELINE)));
-      const volatilityDrag = ENDEMIC_BASELINE - stabilityPre;
+      const dragRaw = activeDomains.reduce((sum, key) => sum + domainAverages[key], 0);
+      const drag = Math.round((dragRaw / activeDomains.length) * 5);
+      const viScoreCurrent = clamp(Math.round(80 - drag), 0, 100);
+      const projectedGain = Math.max(0, Math.round(drag * 0.45));
+      const viScoreStabilized = clamp(Math.round(viScoreCurrent + projectedGain), 0, 95);
 
-      const usage = 'moderate';
-      const recoveryPct = usageImpactPct(usage);
-      const recoverableGap = MAX_FINAL_STABILITY - stabilityPre;
-      const impactScore = Math.round(recoverableGap * recoveryPct);
-      const finalScore = Math.min(MAX_FINAL_STABILITY, stabilityPre + impactScore);
+      const dominantDomainKey = activeDomains
+        .sort((a, b) => domainAverages[b] - domainAverages[a])[0];
 
-      const dominant = Object.entries(domainScores).sort((a,b) => a[1] - b[1])[0][0];
-      const topDrivers = Object.entries(values)
-        .map(([k,v]) => ({ key:k, val:Math.round(v * weights[k] * 10) }))
-        .sort((a,b) => b.val - a.val)
-        .slice(0,3);
+      const dominantDomain = domainTitle(dominantDomainKey);
+      const summary = summaryFor(viScoreCurrent, dominantDomain, drag, modeLabel);
+      const margin = marginSignalFor(drag);
 
       return {
         mode,
+        modeLabel,
+        communityType: getCommunityType(),
+        communityTypeLabel: getCommunityTypeLabel(),
+        includesExternal: includesExternalSignals(),
+        entityName: getEntityName(),
         values,
-        domainScores,
-        stabilityPre,
-        volatilityDrag,
-        impactScore,
-        finalScore,
-        dominant,
-        topDrivers
+        domainAverages,
+        viScoreCurrent,
+        viScoreStabilized,
+        drag,
+        projectedGain,
+        dominantDomain,
+        dominantDomainKey,
+        summary,
+        margin
       };
     }
 
-    function viPreviewZone(score){
-      const safe = Number(score) || 0;
+    function buildBullets(metrics){
+      const bullets = [];
 
-      if (safe >= 70){
-        return {
-          title:"Stable Baseline",
-          note:"Baseline stability is still largely intact. Extra volatility remains limited.",
-          color:"#35c67a"
-        };
+      bullets.push(`Primary drag is currently showing up through ${metrics.dominantDomain.toLowerCase()}.`);
+      bullets.push(`Current VI score is ${metrics.viScoreCurrent}, with a modeled stabilized view of ${metrics.viScoreStabilized}.`);
+
+      if (!metrics.includesExternal){
+        bullets.push("External Pressure Signals are excluded from scoring for AL / MC communities.");
+      } else {
+        bullets.push("External Pressure Signals are included in scoring for SNF / Hybrid / CCRC communities.");
       }
 
-      if (safe >= 35){
-        return {
-          title:"Pressured Stability",
-          note:"The building is still functioning, but extra volatility is materially eroding baseline stability.",
-          color:"#f6b44b"
-        };
+      bullets.push("Combined recommendations become available after WSI is also saved to the same assessment session.");
+
+      return bullets.slice(0, 4);
+    }
+
+    function renderBullets(metrics){
+      const container = document.getElementById("viBullets");
+      const bullets = buildBullets(metrics);
+      container.innerHTML = bullets.map(text => `
+        <div class="bullet">
+          <span class="dot"></span>
+          <span>${text}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderPortfolioTotals(){
+      const totalCommunities = Math.max(1, safeNumber(document.getElementById("portfolioSize")?.value, 20));
+
+      Object.keys(DRIVER_META).forEach((driver) => {
+        const low = safeNumber(document.querySelector(`[data-portfolio-driver='${driver}'][data-band='low']`)?.value, 0);
+        const mid = safeNumber(document.querySelector(`[data-portfolio-driver='${driver}'][data-band='mid']`)?.value, 0);
+        const high = safeNumber(document.querySelector(`[data-portfolio-driver='${driver}'][data-band='high']`)?.value, 0);
+        const total = low + mid + high;
+        const cell = document.getElementById(`total-${driver}`);
+        if (!cell) return;
+        cell.textContent = `${total} / ${totalCommunities}`;
+        cell.classList.toggle("bad", total !== totalCommunities);
+      });
+    }
+
+    function updateStoredMap(metrics){
+      const now = formatDateTime();
+      writeMapData({
+        label: metrics.entityName,
+        source: "Saved VI calculator data",
+        mode: metrics.modeLabel,
+        communityType: metrics.communityTypeLabel,
+        updatedAt: now,
+        vi: metrics.viScoreCurrent,
+        viStabilized: metrics.viScoreStabilized,
+        viSubmitted: hasConfirmedVI(),
+        viDominantDomain: metrics.dominantDomain,
+        currentStory: metrics.summary,
+        projectedGain: metrics.projectedGain,
+        volatilityDrag: metrics.drag
+      });
+    }
+
+    function renderResults(){
+      const metrics = calculateMetrics();
+
+      document.getElementById("residentScore").textContent = clamp(Math.round(80 - (metrics.domainAverages.resident * 5)), 0, 100);
+      document.getElementById("operationsScore").textContent = clamp(Math.round(80 - (metrics.domainAverages.operations * 5)), 0, 100);
+      document.getElementById("workforceScore").textContent = clamp(Math.round(80 - (metrics.domainAverages.workforce * 5)), 0, 100);
+      document.getElementById("externalScore").textContent = metrics.includesExternal
+        ? clamp(Math.round(80 - (metrics.domainAverages.external * 5)), 0, 100)
+        : 80;
+
+      document.getElementById("viScore").textContent = metrics.viScoreCurrent;
+      document.getElementById("viTier").textContent = tierFor(metrics.viScoreCurrent);
+      document.getElementById("viDrag").textContent = metrics.drag;
+      document.getElementById("viStabilized").textContent = metrics.viScoreStabilized;
+      document.getElementById("viDominant").textContent = metrics.dominantDomain;
+      document.getElementById("viMargin").textContent = metrics.margin.label;
+      document.getElementById("viMarginText").textContent = metrics.margin.text;
+      document.getElementById("viSummary").textContent = metrics.summary;
+      document.getElementById("communityTypeReadout").textContent = metrics.communityTypeLabel;
+      document.getElementById("modeReadout").textContent = metrics.modeLabel;
+
+      document.getElementById("portfolioViScore").textContent = metrics.viScoreCurrent;
+      document.getElementById("portfolioTier").textContent = tierFor(metrics.viScoreCurrent);
+      document.getElementById("portfolioDominant").textContent = metrics.dominantDomain;
+      document.getElementById("portfolioMargin").textContent = metrics.margin.label;
+      document.getElementById("portfolioSummaryText").textContent = metrics.summary;
+
+      renderBullets(metrics);
+      renderPortfolioTotals();
+      updateStoredMap(metrics);
+      updateAssessmentReadiness();
+      return metrics;
+    }
+
+    function updateAssessmentReadiness(){
+      const context = getStoredContext();
+      const viSaved = hasConfirmedVI(context);
+      const wsiSaved = hasConfirmedWSI(context);
+      const sessionId = ensureAssessmentSessionId();
+
+      document.getElementById("sessionIdDisplay").textContent = sessionId;
+      document.getElementById("savedStateReadout").textContent =
+        viSaved && wsiSaved ? "VI + WSI saved" :
+        viSaved ? "VI saved" :
+        wsiSaved ? "WSI saved" :
+        "VI not yet saved";
+
+      const readinessText = document.getElementById("assessmentReadinessText");
+      if (viSaved && wsiSaved){
+        readinessText.textContent = "Both VI and WSI are already saved to this assessment session. The next action is recommendation delivery on the WSI side.";
+      } else if (wsiSaved && !viSaved){
+        readinessText.textContent = "WSI is already saved to this assessment session. Save VI now to complete the combined diagnostic row.";
+      } else if (viSaved && !wsiSaved){
+        readinessText.textContent = "VI is already saved to this assessment session. Continue to WSI to complete the combined diagnostic row.";
+      } else {
+        readinessText.textContent = "Save this VI assessment to create or update the current assessment row, then continue to WSI to complete the combined diagnostic flow.";
       }
+    }
+
+    function hydrateVIFlowUI(){
+      const context = getStoredContext();
+      const viSaved = hasConfirmedVI(context);
+      const wsiSaved = hasConfirmedWSI(context);
+      const communityName = cleanText(context.community_name || getEntityName() || "this community");
+
+      const banner = document.getElementById("viRecommendationBanner");
+      const bannerTitle = document.getElementById("viBannerTitle");
+      const bannerSubtitle = document.getElementById("viBannerSubtitle");
+      const bannerBtn = document.getElementById("openViRecommendationModalBanner");
+      const bannerHelper = document.getElementById("viBannerHelper");
+
+      const stickyLabel = document.querySelector("#stickyCta .sticky-cta-label");
+      const stickyText = document.querySelector("#stickyCta .sticky-cta-text");
+      const stickyBtn = document.getElementById("openRecommendationModal");
+
+      const modalTitle = document.getElementById("recommendationModalTitle");
+      const modalSubtitle = document.querySelector("#recommendationModal .modal-subtitle");
+
+      if (wsiSaved && !viSaved){
+        banner.classList.remove("hidden");
+        bannerTitle.textContent = `WSI saved for ${communityName}`;
+        bannerSubtitle.textContent = "Complete VI to lock both sides of the assessment into one usable row.";
+        bannerHelper.textContent = "Saving VI now should complete the combined VI + WSI row for this session.";
+        bannerBtn.textContent = "Complete VI";
+
+        stickyLabel.textContent = "WSI already saved";
+        stickyText.textContent = "Complete VI to finish the combined assessment row.";
+        stickyBtn.textContent = "Complete VI";
+
+        modalTitle.textContent = "Complete VI Assessment";
+        modalSubtitle.textContent = "Save this Volatility Intelligence assessment to complete the VI side of the system and lock both diagnostic layers into the same assessment session.";
+      } else if (viSaved && wsiSaved){
+        banner.classList.remove("hidden");
+        bannerTitle.textContent = `VI + WSI saved for ${communityName}`;
+        bannerSubtitle.textContent = "Both diagnostic layers are already saved for this assessment session.";
+        bannerHelper.textContent = "The next action is to use the WSI page as the recommendation handoff point.";
+        bannerBtn.textContent = "Go to WSI";
+
+        stickyLabel.textContent = "Assessment complete";
+        stickyText.textContent = "Both VI and WSI are saved. Continue to WSI for recommendation flow.";
+        stickyBtn.textContent = "Go to WSI";
+
+        modalTitle.textContent = "VI Already Saved";
+        modalSubtitle.textContent = "This assessment session already has VI saved. Use the WSI page to continue the combined recommendation flow.";
+      } else {
+        banner.classList.add("hidden");
+
+        stickyLabel.textContent = "Finished with VI?";
+        stickyText.textContent = "Save this VI assessment, then continue to WSI.";
+        stickyBtn.textContent = "Save VI & Continue to WSI";
+
+        modalTitle.textContent = "Save VI Assessment";
+        modalSubtitle.textContent = "Save this Volatility Intelligence assessment, then continue to WSI to complete the workforce view required for combined recommendations.";
+      }
+    }
+
+    function setRecommendationStatus(message, type = ""){
+      const el = document.getElementById("recommendationStatus");
+      if (!message){
+        el.textContent = "";
+        el.className = "modal-status hidden";
+        return;
+      }
+
+      el.textContent = message;
+      el.className = `modal-status ${type || ""}`.trim();
+    }
+
+    function openRecommendationModal(){
+      const context = getStoredContext();
+      document.getElementById("modalCommunityName").value = cleanText(context.community_name || getEntityName());
+      document.getElementById("modalOperator").value = cleanText(context.operator);
+      document.getElementById("modalCity").value = cleanText(context.city);
+      document.getElementById("modalState").value = cleanText(context.state);
+      document.getElementById("modalSubmittedBy").value = cleanText(context.submitted_by);
+      document.getElementById("modalEmail").value = cleanText(context.email);
+      document.getElementById("modalRoleTitle").value = cleanText(context.role_title);
+
+      setRecommendationStatus("", "");
+      document.getElementById("recommendationModal").classList.remove("hidden");
+    }
+
+    function closeRecommendationModal(){
+      document.getElementById("recommendationModal").classList.add("hidden");
+    }
+
+    function buildVIPayload(metrics, capture){
+      const assessmentSessionId = ensureAssessmentSessionId();
+      const communityName = cleanText(capture.community_name || metrics.entityName || getEntityName());
 
       return {
-        title:"Exposed Operations",
-        note:"Extra volatility is now materially reducing baseline stability and increasing operational exposure.",
-        color:"#f06161"
+        assessment_session_id: assessmentSessionId,
+        community_name: communityName,
+        entity_name: communityName,
+        operator: cleanText(capture.operator),
+        city: cleanText(capture.city),
+        state: cleanText(capture.state),
+        submitted_by: cleanText(capture.submitted_by),
+        email: cleanText(capture.email),
+        role_title: cleanText(capture.role_title),
+        vi_score_current: metrics.viScoreCurrent,
+        vi_score_stabilized: metrics.viScoreStabilized,
+        volatility_drag: metrics.drag,
+        projected_gain: metrics.projectedGain,
+        dominant_domain: metrics.dominantDomain,
+        vi_interpretation: metrics.summary
       };
     }
 
-    function viScoreToPreviewY(score){
-      const safe = clampNumber(score, 0, 100);
-      const top = 26;
-      const bottom = 254;
-      return bottom - ((safe / 100) * (bottom - top));
-    }
-
-    function escapeSvgText(value){
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
-    function renderVIPreviewMap(currentScore, stabilizedScore, label){
-      const svg = document.getElementById("viPreviewSvg");
-      if (!svg) return;
-
-      const current = clampNumber(currentScore, 0, 100);
-      const stabilized = clampNumber(stabilizedScore, 0, 100);
-
-      const currentY = viScoreToPreviewY(current);
-      const stabilizedY = viScoreToPreviewY(stabilized);
-
-      const currentZone = viPreviewZone(current);
-      const stabilizedZone = viPreviewZone(stabilized);
-
-      const pointLabel = escapeSvgText(label || getEntityName() || "Community A");
-
-      svg.innerHTML = `
-        <defs>
-          <linearGradient id="viPreviewBg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#0c1224"/>
-            <stop offset="100%" stop-color="#141c33"/>
-          </linearGradient>
-
-          <filter id="viPreviewGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="5" result="blur"/>
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-
-          <filter id="viPreviewSoftGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3.5" result="blur"/>
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-
-        <rect x="0" y="0" width="320" height="280" rx="18" fill="url(#viPreviewBg)" stroke="rgba(255,255,255,0.08)"/>
-
-        <rect x="84" y="26" width="150" height="68.4" fill="rgba(46,139,87,0.16)"/>
-        <rect x="84" y="94.4" width="150" height="79.8" fill="rgba(242,183,5,0.18)"/>
-        <rect x="84" y="174.2" width="150" height="79.8" fill="rgba(230,57,70,0.20)"/>
-
-        <g stroke="rgba(255,255,255,0.26)" stroke-width="2">
-          <line x1="84" y1="254" x2="84" y2="26"/>
-        </g>
-
-        <g stroke="rgba(255,255,255,0.11)" stroke-width="1">
-          <line x1="84" y1="26" x2="234" y2="26"/>
-          <line x1="84" y1="71.6" x2="234" y2="71.6"/>
-          <line x1="84" y1="117.2" x2="234" y2="117.2"/>
-          <line x1="84" y1="162.8" x2="234" y2="162.8"/>
-          <line x1="84" y1="208.4" x2="234" y2="208.4"/>
-          <line x1="84" y1="254" x2="234" y2="254"/>
-        </g>
-
-        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-size="11" fill="rgba(255,255,255,0.58)">
-          <text x="70" y="30" text-anchor="end">100</text>
-          <text x="70" y="75.6" text-anchor="end">80</text>
-          <text x="70" y="121.2" text-anchor="end">60</text>
-          <text x="70" y="166.8" text-anchor="end">40</text>
-          <text x="70" y="212.4" text-anchor="end">20</text>
-          <text x="70" y="258" text-anchor="end">0</text>
-        </g>
-
-        <g font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="800" font-size="11.5">
-          <text x="96" y="52" fill="#8be39b">Stable Baseline</text>
-          <text x="96" y="129" fill="#ffe74e">Pressured Stability</text>
-          <text x="96" y="206" fill="#ff6b73">Exposed Operations</text>
-        </g>
-
-        <text
-          x="34"
-          y="148"
-          transform="rotate(-90 34 148)"
-          fill="rgba(255,255,255,0.72)"
-          font-size="11"
-          font-weight="700"
-          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
-          VI (Baseline Stability)
-        </text>
-
-        <g stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="5 4">
-          <line x1="170" y1="${currentY}" x2="194" y2="${stabilizedY}"/>
-        </g>
-
-        <circle cx="194" cy="${stabilizedY}" r="11" fill="${stabilizedZone.color}" opacity="0.16" filter="url(#viPreviewSoftGlow)"></circle>
-        <circle cx="194" cy="${stabilizedY}" r="6.5" fill="none" stroke="${stabilizedZone.color}" stroke-width="2.2"></circle>
-
-        <circle cx="170" cy="${currentY}" r="13" fill="${currentZone.color}" opacity="0.20" filter="url(#viPreviewGlow)"></circle>
-        <circle cx="170" cy="${currentY}" r="7.5" fill="${currentZone.color}" stroke="#ffffff" stroke-width="2.2"></circle>
-
-        <text
-          x="184"
-          y="${currentY - 14}"
-          fill="#eef4ff"
-          font-size="12.5"
-          font-weight="800"
-          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
-          ${pointLabel}
-        </text>
-
-        <text
-          x="184"
-          y="${currentY + 10}"
-          fill="rgba(255,255,255,0.70)"
-          font-size="10.5"
-          font-weight="700"
-          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
-          Current ${current}
-        </text>
-
-        <text
-          x="208"
-          y="${stabilizedY + 4}"
-          fill="rgba(255,255,255,0.66)"
-          font-size="10.5"
-          font-weight="700"
-          font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial">
-          Stabilized ${stabilized}
-        </text>
-      `;
-
-      const zoneValue = document.getElementById("viPreviewZone");
-      const zoneNote = document.getElementById("viPreviewNote");
-
-      if (zoneValue) zoneValue.textContent = currentZone.title;
-      if (zoneNote) zoneNote.textContent = currentZone.note;
-    }
-
-    function update(){
-      toggleModeUI();
-      updateRowSums();
-
-      const metrics = calculateMetrics();
-      const {
-        mode,
-        domainScores,
-        stabilityPre,
-        volatilityDrag,
-        impactScore,
-        finalScore,
-        dominant,
-        topDrivers
-      } = metrics;
-
-      document.getElementById('residentScore').textContent = domainScores.resident;
-      document.getElementById('operationsScore').textContent = domainScores.operations;
-      document.getElementById('workforceScore').textContent = domainScores.workforce;
-      document.getElementById('externalScore').textContent = domainScores.external;
-
-      document.getElementById('viScore').textContent = stabilityPre;
-      document.getElementById('viTier').textContent = tierFor(stabilityPre);
-      document.getElementById('volatilityDrag').textContent = `${volatilityDrag} pts`;
-      document.getElementById('projectedGain').textContent = `${impactScore} pts`;
-      document.getElementById('stabilizedScore').textContent = `${finalScore} / 100`;
-      document.getElementById('dominantDomain').textContent =
-        mode === 'Portfolio View' ? `${domainTitle(dominant)} Mix` : domainTitle(dominant);
-
-      const color = scoreColor(stabilityPre);
-      document.querySelector('.score-hero .score').style.color = color;
-      document.getElementById('viTier').style.borderColor = color;
-      document.getElementById('viTier').style.color = color;
-
-      const marginSignal = marginSignalFor(volatilityDrag);
-      document.getElementById('marginSignal').textContent = marginSignal.label;
-      document.getElementById('marginSignalText').textContent = marginSignal.text;
-
-      document.getElementById('summaryText').textContent = summaryFor(
-        stabilityPre,
-        domainTitle(dominant),
-        volatilityDrag,
-        mode
-      );
-
-      const portfolioScoreEl = document.getElementById('portfolioViScore');
-      const portfolioTierEl = document.getElementById('portfolioTier');
-      const portfolioDominantEl = document.getElementById('portfolioDominant');
-      const portfolioMarginEl = document.getElementById('portfolioMargin');
-      const portfolioSummaryEl = document.getElementById('portfolioSummaryText');
-
-      if (portfolioScoreEl) portfolioScoreEl.textContent = stabilityPre;
-      if (portfolioTierEl) portfolioTierEl.textContent = tierFor(stabilityPre);
-      if (portfolioDominantEl) portfolioDominantEl.textContent = `${domainTitle(dominant)} Mix`;
-      if (portfolioMarginEl) portfolioMarginEl.textContent = marginSignal.label;
-      if (portfolioSummaryEl) portfolioSummaryEl.textContent = summaryFor(
-        stabilityPre,
-        domainTitle(dominant),
-        volatilityDrag,
-        'Portfolio View'
-      );
-
-      saveVIMapData({
-        vi: Number(stabilityPre),
-        viCurrent: Number(stabilityPre),
-        viStabilized: Number(finalScore),
-        viVolatilityDrag: Number(volatilityDrag),
-        viDominantDomain: domainTitle(dominant),
-        viSource: "vi",
-        viUpdated: new Date().toISOString()
+    async function sendVIToBackend(data){
+      const response = await fetch("/api/vi", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
       });
 
-      const highlights = document.getElementById('driverHighlights');
-      highlights.innerHTML = '';
-
-      if (volatilityDrag === 0){
-        const row = document.createElement('div');
-        row.className = 'bullet';
-        row.innerHTML = `<div class="dot" style="background:var(--green)"></div><div><strong>Theoretical best baseline state</strong><br><span style="color:var(--muted)">No material extra volatility has been entered yet. All current pressure is treated as endemic baseline only.</span></div>`;
-        highlights.appendChild(row);
-      }else{
-        topDrivers.forEach(d => {
-          const row = document.createElement('div');
-          row.className = 'bullet';
-          row.innerHTML = `<div class="dot" style="background:${color}"></div><div><strong>${driverNames[d.key]}</strong><br><span style="color:var(--muted)">${mode === 'Portfolio View' ? 'High contribution across the portfolio mix.' : 'High contribution to current extra-volatility pattern.'}</span></div>`;
-          highlights.appendChild(row);
-        });
+      let result = null;
+      try{
+        result = await response.json();
+      }catch(err){
+        result = null;
       }
 
-      renderVIPreviewMap(
-        stabilityPre,
-        finalScore,
-        buildMapLabel(readMapData())
-      );
+      if (!response.ok){
+        const message = result?.error || result?.message || `Request failed with status ${response.status}`;
+        throw new Error(message);
+      }
+
+      return result;
     }
 
-    function navigateTo(candidates){
-      for (const path of candidates){
-        try{
-          window.location.href = path;
-          return;
-        }catch(e){}
-      }
+    function navigateToWsi(){
+      window.location.href = "wsi.html";
     }
 
     function resetSingleDefaults(){
-      sliders.forEach(s => {
-        s.value = 0;
-        const span = document.getElementById(`${s.dataset.driver}Val`);
-        if (span) span.textContent = '0';
+      document.querySelectorAll("input[type='range'][data-driver]").forEach((input) => {
+        const driver = input.dataset.driver;
+        input.value = DEFAULT_SINGLE_VALUES[driver] ?? 0;
+        const span = document.getElementById(`${driver}Val`);
+        if (span) span.textContent = input.value;
       });
     }
 
-    function resetPortfolioDefaults(){
-      const total = Number(document.getElementById('portfolioSize')?.value || 20);
-      Object.keys(weights).forEach(key => {
-        const low = document.querySelector(`[data-portfolio-driver="${key}"][data-band="low"]`);
-        const mid = document.querySelector(`[data-portfolio-driver="${key}"][data-band="mid"]`);
-        const high = document.querySelector(`[data-portfolio-driver="${key}"][data-band="high"]`);
-        if (low) low.value = total;
-        if (mid) mid.value = 0;
-        if (high) high.value = 0;
+    function hydrateFromStoredState(){
+      const context = getStoredContext();
+      const mapData = readMapData();
+
+      if (context.community_name){
+        document.getElementById("entityName").value = context.community_name;
+      } else if (mapData.label){
+        document.getElementById("entityName").value = mapData.label;
+      }
+
+      if (mapData.mode === "Portfolio View"){
+        const portfolioMode = document.querySelector("input[name='mode'][value='portfolio']");
+        if (portfolioMode) portfolioMode.checked = true;
+      }
+
+      if (mapData.communityType === "SNF / Hybrid / CCRC"){
+        const snfType = document.querySelector("input[name='communityType'][value='snf_hybrid']");
+        if (snfType) snfType.checked = true;
+      }
+
+      if (mapData.viInputs && typeof mapData.viInputs === "object"){
+        Object.entries(mapData.viInputs).forEach(([driver, value]) => {
+          const input = document.querySelector(`input[type='range'][data-driver='${driver}']`);
+          const span = document.getElementById(`${driver}Val`);
+          if (input && Number.isFinite(Number(value))){
+            input.value = clamp(value, 0, 10);
+            if (span) span.textContent = input.value;
+          }
+        });
+      } else {
+        resetSingleDefaults();
+      }
+    }
+
+    function syncDriverLabels(){
+      document.querySelectorAll("input[type='range'][data-driver]").forEach((input) => {
+        const span = document.getElementById(`${input.dataset.driver}Val`);
+        if (span) span.textContent = input.value;
       });
     }
 
-    sliders.forEach(slider => {
-      slider.addEventListener('input', () => {
+    function persistCurrentVisualState(){
+      const metrics = calculateMetrics();
+      const currentInputs = getSingleInputs();
+
+      writeMapData({
+        label: metrics.entityName,
+        mode: metrics.modeLabel,
+        communityType: metrics.communityTypeLabel,
+        vi: metrics.viScoreCurrent,
+        viStabilized: metrics.viScoreStabilized,
+        viInputs: currentInputs,
+        viDominantDomain: metrics.dominantDomain,
+        currentStory: metrics.summary,
+        volatilityDrag: metrics.drag,
+        projectedGain: metrics.projectedGain,
+        updatedAt: formatDateTime(),
+        source: hasConfirmedVI() ? "Saved VI calculator data" : "VI working draft"
+      });
+    }
+
+    function update(){
+      toggleModeView();
+      toggleCommunityTypeView();
+      const metrics = renderResults();
+      persistCurrentVisualState();
+      hydrateVIFlowUI();
+      updateFlowSession({
+        ...getStoredContext(),
+        assessment_session_id: ensureAssessmentSessionId()
+      });
+      return metrics;
+    }
+
+    document.querySelectorAll("input[type='range'][data-driver]").forEach((slider) => {
+      slider.addEventListener("input", () => {
         const span = document.getElementById(`${slider.dataset.driver}Val`);
         if (span) span.textContent = slider.value;
         update();
       });
     });
 
-    portfolioInputs.forEach(input => {
-      input.addEventListener('input', update);
+    document.querySelectorAll("[data-portfolio-driver]").forEach((input) => {
+      input.addEventListener("input", update);
     });
 
-    document.getElementById('portfolioSize')?.addEventListener('input', update);
+    document.getElementById("portfolioSize")?.addEventListener("input", update);
 
-    modeInputs.forEach(input => {
-      input.addEventListener('change', update);
+    document.querySelectorAll("input[name='mode']").forEach((input) => {
+      input.addEventListener("change", update);
     });
 
-    document.getElementById('entityName')?.addEventListener('input', () => {
+    document.querySelectorAll("input[name='communityType']").forEach((input) => {
+      input.addEventListener("change", update);
+    });
+
+    document.getElementById("entityName")?.addEventListener("input", () => {
+      const context = getStoredContext();
+      persistAssessmentContext({
+        ...context,
+        community_name: getEntityName(),
+        assessment_session_id: ensureAssessmentSessionId()
+      });
       update();
     });
 
-    const runWsiBtn = document.getElementById('runWsiBtn');
-    if (runWsiBtn){
-      runWsiBtn.addEventListener('click', () => {
-        navigateTo(['wsi.html', 'workforce-stability-index.html', 'workforce-stability.html', 'calculator.html#wsi']);
-      });
-    }
+    document.getElementById("openRecommendationModal")?.addEventListener("click", () => {
+      const context = getStoredContext();
+      if (hasConfirmedVI(context) && hasConfirmedWSI(context)){
+        navigateToWsi();
+        return;
+      }
+      openRecommendationModal();
+    });
 
-    const portfolioRunWsiBtn = document.getElementById('portfolioRunWsiBtn');
-    if (portfolioRunWsiBtn){
-      portfolioRunWsiBtn.addEventListener('click', () => {
-        navigateTo(['wsi.html', 'workforce-stability-index.html', 'workforce-stability.html', 'calculator.html#wsi']);
-      });
-    }
+    document.getElementById("openViRecommendationModalBanner")?.addEventListener("click", () => {
+      const context = getStoredContext();
+      if (hasConfirmedVI(context) && hasConfirmedWSI(context)){
+        navigateToWsi();
+        return;
+      }
+      openRecommendationModal();
+    });
 
-    const returnPlatformBtn = document.getElementById('returnPlatformBtn');
-    if (returnPlatformBtn){
-      returnPlatformBtn.addEventListener('click', () => {
-        navigateTo(['index.html', 'platform.html', 'home.html']);
-      });
-    }
+    document.getElementById("closeRecommendationModal")?.addEventListener("click", closeRecommendationModal);
+    document.getElementById("cancelRecommendationModal")?.addEventListener("click", closeRecommendationModal);
 
-    const portfolioReturnPlatformBtn = document.getElementById('portfolioReturnPlatformBtn');
-    if (portfolioReturnPlatformBtn){
-      portfolioReturnPlatformBtn.addEventListener('click', () => {
-        navigateTo(['index.html', 'platform.html', 'home.html']);
-      });
-    }
+    document.getElementById("recommendationModal")?.addEventListener("click", (event) => {
+      if (event.target === document.getElementById("recommendationModal")){
+        closeRecommendationModal();
+      }
+    });
 
-    resetSingleDefaults();
-    resetPortfolioDefaults();
-    updateRowSums();
+    document.addEventListener("keydown", (event) => {
+      const modal = document.getElementById("recommendationModal");
+      if (event.key === "Escape" && modal && !modal.classList.contains("hidden")){
+        closeRecommendationModal();
+      }
+    });
+
+    document.getElementById("recommendationForm")?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+
+      const submitBtn = document.getElementById("submitRecommendationBtn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Saving VI...";
+
+      const formData = new FormData(form);
+      const capture = Object.fromEntries(formData.entries());
+      const metrics = calculateMetrics();
+      const payload = buildVIPayload(metrics, capture);
+
+      setRecommendationStatus("Saving VI assessment and preparing your transition to WSI...", "");
+
+      try{
+        const result = await sendVIToBackend(payload);
+        const recordId = cleanText(result?.record_id || result?.recordId);
+        const mergedContext = {
+          ...getStoredContext(),
+          ...capture,
+          community_name: cleanText(capture.community_name || getEntityName()),
+          assessment_session_id: cleanText(result?.assessment_session_id || payload.assessment_session_id),
+          vi_record_id: recordId,
+          vi_submitted: "true",
+          wsi_record_id: cleanText(getStoredContext().wsi_record_id),
+          wsi_submitted: getStoredContext().wsi_submitted || ""
+        };
+
+        persistAssessmentContext(mergedContext);
+        updateFlowSession(mergedContext);
+
+        writeMapData({
+          label: mergedContext.community_name,
+          source: "Saved VI calculator data",
+          updatedAt: formatDateTime(),
+          mode: metrics.modeLabel,
+          communityType: metrics.communityTypeLabel,
+          vi: metrics.viScoreCurrent,
+          viStabilized: metrics.viScoreStabilized,
+          viSubmitted: true,
+          viRecordId: recordId,
+          assessmentSessionId: mergedContext.assessment_session_id,
+          viDominantDomain: metrics.dominantDomain,
+          currentStory: metrics.summary,
+          projectedGain: metrics.projectedGain,
+          volatilityDrag: metrics.drag,
+          viInputs: metrics.values
+        });
+
+        const wsiAlreadySaved = hasConfirmedWSI(mergedContext);
+        setRecommendationStatus(
+          wsiAlreadySaved
+            ? "VI assessment saved. Both VI and WSI are now available inside the same assessment session."
+            : "VI assessment saved. Continuing to WSI so both VI and WSI can be used for combined recommendations.",
+          "success"
+        );
+
+        updateAssessmentReadiness();
+        hydrateVIFlowUI();
+
+        setTimeout(() => {
+          closeRecommendationModal();
+          navigateToWsi();
+        }, 900);
+      }catch(error){
+        console.error("Error sending VI:", error);
+        setRecommendationStatus(error?.message || "Unable to save this VI assessment right now.", "error");
+      }finally{
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Save VI & Go to WSI";
+      }
+    });
+
+    document.getElementById("portfolioRunWsiBtn")?.addEventListener("click", navigateToWsi);
+    document.getElementById("portfolioReturnPlatformBtn")?.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    hydrateFromStoredState();
+    syncDriverLabels();
+    ensureAssessmentSessionId();
     update();
   </script>
 </body>
