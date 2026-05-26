@@ -1,0 +1,389 @@
+(function(root, factory){
+  const api = factory();
+  if(typeof module === "object" && module.exports){
+    module.exports = api;
+  }
+  root.VolDecisionReplay = api;
+})(typeof globalThis !== "undefined" ? globalThis : this, function(){
+  const MODES = new Set(["without", "with"]);
+
+  function num(row, key, fallback){
+    const value = row && row[key];
+    if(value === null || value === undefined || value === "") return fallback || 0;
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : (fallback || 0);
+  }
+
+  function normalizeMode(mode){
+    const normalized = String(mode || "with").toLowerCase().replace(/\s+/g, "-");
+    if(normalized === "without-vol" || normalized === "without") return "without";
+    if(normalized === "with-vol" || normalized === "with") return "with";
+    return MODES.has(normalized) ? normalized : "with";
+  }
+
+  function patternFor(row){
+    return row.dominant_operating_risk || row.dominant_pattern || "Contained Variability";
+  }
+
+  function values(row){
+    return {
+      week: num(row, "week"),
+      vi: num(row, "vi_score_current"),
+      wsi: num(row, "wsi_score"),
+      openShifts: num(row, "open_shifts", num(row, "open_shifts_per_week")),
+      calloffs: num(row, "last_minute_calloffs", num(row, "last_minute_calloffs_per_week")),
+      overtime: num(row, "overtime_hours"),
+      agencyPct: num(row, "agency_shift_pct", num(row, "agency_shift_percent") / 100),
+      scheduleChanges: num(row, "schedule_changes"),
+      rebuilds: num(row, "schedule_rebuild_events"),
+      bandwidth: num(row, "leadership_bandwidth_score", 80),
+      acuity: num(row, "acuity_variability"),
+      transfers: num(row, "hospital_transfers"),
+      falls: num(row, "falls"),
+      complaints: num(row, "family_complaints"),
+      drag: num(row, "estimated_volatility_drag")
+    };
+  }
+
+  function pressureScore(row, previous){
+    const v = values(row);
+    const p = previous ? values(previous) : v;
+    const scoreGaps = Math.max(0, 80 - v.vi) + Math.max(0, 80 - v.wsi);
+    const laborPressure = (v.openShifts * 4) + (v.calloffs * 5) + (v.overtime * 0.28) + (v.agencyPct * 120);
+    const leadershipPressure = Math.max(0, 80 - v.bandwidth) * 0.9 + (v.rebuilds * 3.5);
+    const demandPressure = (v.acuity * 3.2) + (v.transfers * 3) + (v.falls * 2) + (v.complaints * 2);
+    const financialPressure = v.drag / 650;
+    const acceleration = Math.max(0, v.openShifts - p.openShifts) * 3 +
+      Math.max(0, v.calloffs - p.calloffs) * 4 +
+      Math.max(0, v.overtime - p.overtime) * 0.35 +
+      Math.max(0, v.agencyPct - p.agencyPct) * 180 +
+      Math.max(0, p.bandwidth - v.bandwidth) * 1.1;
+
+    return scoreGaps + laborPressure + leadershipPressure + demandPressure + financialPressure + acceleration;
+  }
+
+  const actionLibrary = {
+    "Contained Variability": {
+      signal_detected: "Recurring variability remains low.",
+      why_it_matters: "Small assignment drift can become avoidable schedule churn.",
+      recommended_action: "Reduce weekend assignment variability to preserve staffing consistency.",
+      likely_effect: "~3-5% modeled drag reduction.",
+      watch_metric: "Weekend call-offs and open shifts.",
+      urgency: "Low leverage"
+    },
+    "Workforce Absorption Strain": {
+      signal_detected: "Coverage strain emerging beneath stable staffing.",
+      why_it_matters: "OT dependence likely compounds if the same shifts keep absorbing gaps.",
+      recommended_action: "Add temporary evening flex coverage before OT dependence compounds.",
+      likely_effect: "~8-15% modeled drag reduction.",
+      watch_metric: "Call-offs, overtime hours, and schedule rebuilds.",
+      urgency: "Moderate leverage"
+    },
+    "Leadership-Constrained Execution": {
+      signal_detected: "Execution capacity becoming the constraint.",
+      why_it_matters: "Schedule recovery likely slows if ED/DON remain the daily rebuild path.",
+      recommended_action: "Assign one owner for daily staffing recovery so ED/DON are not rebuilding the schedule.",
+      likely_effect: "~8-15% modeled drag reduction.",
+      watch_metric: "Manager hours on staffing and incident follow-up lag.",
+      urgency: "Moderate leverage"
+    },
+    "Agency Dependency With Financial Drag": {
+      signal_detected: "Agency dependence becoming structural.",
+      why_it_matters: "Labor drag likely becomes normalized if recurring agency shifts are not replaced.",
+      recommended_action: "Replace recurring agency shifts with dedicated PRN blocks immediately.",
+      likely_effect: "~15-25% modeled drag reduction.",
+      watch_metric: "Agency shift percent and agency cost by recurring shift.",
+      urgency: "High leverage"
+    },
+    "Recovery Stabilization": {
+      signal_detected: "Recovery improving but not yet durable.",
+      why_it_matters: "Recovery likely slips if demand pressure returns before staffing stabilizes.",
+      recommended_action: "Hold staffing structure steady before reopening census pressure.",
+      likely_effect: "~8-15% modeled drag reduction.",
+      watch_metric: "Call-offs, overtime hours, and WSI.",
+      urgency: "Moderate leverage"
+    },
+    "Schedule Fragility": {
+      signal_detected: "Schedule churn creating operating fragility.",
+      why_it_matters: "Next-week coverage likely weakens if rebuilds keep replacing structure.",
+      recommended_action: "Stabilize recurring evening coverage to reduce schedule churn.",
+      likely_effect: "~3-5% modeled drag reduction.",
+      watch_metric: "Schedule changes and rebuild events.",
+      urgency: "Low leverage"
+    },
+    "Acuity-Driven Compression": {
+      signal_detected: "Acuity compressing available coverage.",
+      why_it_matters: "Evening strain likely compounds if med-tech backup stays thin.",
+      recommended_action: "Stabilize med-tech backup coverage before accepting additional move-ins.",
+      likely_effect: "~8-15% modeled drag reduction.",
+      watch_metric: "Acuity variability, hospital transfers, and med-tech backup coverage.",
+      urgency: "Moderate leverage"
+    }
+  };
+
+  function fallbackWindow(row){
+    const pattern = patternFor(row);
+    return actionLibrary[pattern] || actionLibrary["Contained Variability"];
+  }
+
+  function windowType(row, index, total){
+    const pattern = patternFor(row);
+    const v = values(row);
+    if(v.vi >= 78 && v.wsi >= 78 && v.drag < 4000) return "stabilization_watch";
+    if(pattern === "Contained Variability") return "stabilization_watch";
+    if(pattern === "Recovery Stabilization" || index >= total - 2) return "stabilization_watch";
+    return "escalation_window";
+  }
+
+  function labelFor(type){
+    if(type === "critical_window" || type === "recommended_action") return "Critical Stabilization";
+    if(type === "stabilization_watch" || type === "optimization_opportunity") return "Optimization Opportunity";
+    return "Escalation Prevention";
+  }
+
+  function urgencyFor(row, type){
+    const copy = fallbackWindow(row);
+    if(type === "critical_window") return "High leverage";
+    if(type === "escalation_window") return "Moderate leverage";
+    if(type === "optimization_opportunity"){
+      return values(row).drag >= 4000 ? "Moderate leverage" : "Low leverage";
+    }
+    if(type === "stabilization_watch"){
+      const v = values(row);
+      return v.vi >= 78 && v.wsi >= 78 && v.drag < 4000 ? "Low leverage" : "Moderate leverage";
+    }
+    return copy.urgency || "Moderate leverage";
+  }
+
+  function tierTypeFor(row){
+    const v = values(row);
+    if(v.agencyPct >= 0.16 || v.drag >= 12000 || v.bandwidth <= 52) return "critical_window";
+    if(v.drag >= 6500 || v.overtime >= 75 || v.calloffs >= 6 || v.openShifts >= 8 || v.acuity >= 7) return "escalation_window";
+    return "optimization_opportunity";
+  }
+
+  function optimizationCopy(row){
+    const pattern = patternFor(row);
+    const v = values(row);
+    if(v.agencyPct >= 0.08){
+      return {
+        signal_detected: "Predictable external coverage use.",
+        why_it_matters: "Predictable gaps create a light-touch PRN alignment opportunity.",
+        recommended_action: "Consolidate PRN usage around predictable call-off windows.",
+        likely_effect: "~3-5% modeled drag reduction.",
+        watch_metric: "Recurring PRN and agency-covered shifts."
+      };
+    }
+    if(v.scheduleChanges >= 10 || pattern === "Schedule Fragility"){
+      return {
+        signal_detected: "Schedule churn creating avoidable friction.",
+        why_it_matters: "Recurring churn adds drag even before escalation pressure builds.",
+        recommended_action: "Stabilize recurring evening coverage to reduce schedule churn.",
+        likely_effect: "~3-5% modeled drag reduction.",
+        watch_metric: "Schedule changes and rebuild events."
+      };
+    }
+    if(v.openShifts >= 3 || v.calloffs >= 3){
+      return {
+        signal_detected: "Recurring coverage friction present.",
+        why_it_matters: "Repeat gaps create small but preventable operating drag.",
+        recommended_action: "Consolidate PRN usage around predictable call-off windows.",
+        likely_effect: "~3-5% modeled drag reduction.",
+        watch_metric: "Call-offs and repeat open shifts."
+      };
+    }
+    return {
+      signal_detected: "Low-grade assignment variability.",
+      why_it_matters: "Assignment variability can erode consistency even when scores remain stable.",
+      recommended_action: "Reduce weekend assignment variability to preserve staffing consistency.",
+      likely_effect: "~3-5% modeled drag reduction.",
+      watch_metric: "Weekend assignment changes."
+    };
+  }
+
+  function operationalCopy(row, type){
+    const v = values(row);
+    if(type === "optimization_opportunity") return optimizationCopy(row);
+
+    if(type === "critical_window"){
+      if(v.agencyPct >= 0.12 || v.drag >= 12000){
+        return {
+          signal_detected: "Agency dependence becoming structurally embedded.",
+          why_it_matters: "Recurring external coverage likely converts staffing friction into structural labor drag.",
+          recommended_action: "Replace recurring agency shifts with dedicated PRN blocks immediately.",
+          likely_effect: "~15-25% modeled drag reduction.",
+          watch_metric: "Agency shift percent and recurring agency-covered shifts."
+        };
+      }
+      return {
+        signal_detected: "Leadership bandwidth can no longer absorb schedule recovery.",
+        why_it_matters: "Follow-through likely deteriorates when ED/DON remain the recovery path.",
+        recommended_action: "Assign one staffing recovery owner before follow-through deteriorates further.",
+        likely_effect: "~15-25% modeled drag reduction.",
+        watch_metric: "Manager hours on staffing and schedule rebuilds."
+      };
+    }
+
+    if(v.acuity >= 7 || v.transfers >= 4){
+      return {
+        signal_detected: "Acuity compression increasing evening caregiver pressure.",
+        why_it_matters: "Evening coverage likely tightens further if med-tech backup remains thin.",
+        recommended_action: "Stabilize med-tech backup coverage before schedule rebuilds increase.",
+        likely_effect: "~8-15% modeled drag reduction.",
+        watch_metric: "Acuity variability and med-tech backup coverage."
+      };
+    }
+    if(v.overtime >= 60 || v.calloffs >= 3 || v.openShifts >= 4){
+      return {
+        signal_detected: "OT beginning to absorb open staffing strain.",
+        why_it_matters: "Overtime likely becomes the default coverage valve if recurring gaps are not covered.",
+        recommended_action: "Add temporary evening flex coverage before agency dependence rises.",
+        likely_effect: "~8-15% modeled drag reduction.",
+        watch_metric: "Overtime hours, call-offs, and open shifts."
+      };
+    }
+    if(v.bandwidth <= 60 || v.rebuilds >= 5){
+      return {
+        signal_detected: "Leadership bandwidth tightening around schedule recovery.",
+        why_it_matters: "Execution likely slows if ownership stays spread across ED/DON and daily exceptions.",
+        recommended_action: "Assign one staffing recovery owner before follow-through deteriorates.",
+        likely_effect: "~8-15% modeled drag reduction.",
+        watch_metric: "Manager hours on staffing and schedule rebuilds."
+      };
+    }
+    return {
+      signal_detected: "Schedule churn beginning to compound.",
+      why_it_matters: "Schedule churn likely creates preventable rebuild work before coverage stabilizes.",
+      recommended_action: "Stabilize recurring evening coverage to reduce schedule churn.",
+      likely_effect: "~8-15% modeled drag reduction.",
+      watch_metric: "Schedule changes and rebuild events."
+    };
+  }
+
+  function withoutVolRead(row, isHindsight){
+    if(!isHindsight) return optimizationCopy(row).signal_detected;
+    const pattern = patternFor(row);
+    if(pattern === "Agency Dependency With Financial Drag") return "Agency drag visible after cost compounds.";
+    if(pattern === "Leadership-Constrained Execution") return "Leadership strain visible after rebuilds repeat.";
+    if(pattern === "Recovery Stabilization") return "Recovery visible, durability unclear.";
+    return "Staffing pressure visible after OT and rebuilds rise.";
+  }
+
+  function candidateRows(sorted){
+    const scored = sorted.map((row, index) => ({
+      row,
+      index,
+      score: pressureScore(row, sorted[index - 1])
+    }));
+    return scored
+      .filter((item) => item.index > 0)
+      .sort((a, b) => b.score - a.score);
+  }
+
+  function chooseWindows(sorted){
+    const selected = [];
+    const usedTypes = new Set();
+    const candidates = candidateRows(sorted);
+
+    for(const item of candidates){
+      const type = windowType(item.row, item.index, sorted.length);
+      const pattern = patternFor(item.row);
+      const notAdjacent = selected.every((prior) => Math.abs(num(prior.row, "week") - num(item.row, "week")) > 1);
+      const addsPattern = !usedTypes.has(pattern);
+      if((notAdjacent || addsPattern) && (addsPattern || selected.length < 2)){
+        selected.push(item);
+        usedTypes.add(pattern);
+      }
+      if(selected.length >= 3) break;
+    }
+
+    if(selected.length < 2 && candidates.length){
+      for(const item of candidates){
+        if(!selected.includes(item)){
+          selected.push(item);
+        }
+        if(selected.length >= Math.min(3, candidates.length)) break;
+      }
+    }
+
+    return selected
+      .slice(0, 3)
+      .sort((a, b) => num(a.row, "week") - num(b.row, "week"))
+      .map((item) => {
+        const type = tierTypeFor(item.row);
+        const copy = operationalCopy(item.row, type);
+        return {
+          week: num(item.row, "week"),
+          type,
+          label: labelFor(type),
+          signal_detected: copy.signal_detected,
+          why_it_matters: copy.why_it_matters,
+          recommended_action: copy.recommended_action,
+          likely_effect: copy.likely_effect,
+          watch_metric: copy.watch_metric,
+          intervention_urgency: urgencyFor(item.row, type)
+        };
+      });
+  }
+
+  function buildDecisionReplay(weeklySignals, mode){
+    const replayMode = normalizeMode(mode);
+    const sorted = Array.isArray(weeklySignals)
+      ? [...weeklySignals].sort((a, b) => num(a, "week") - num(b, "week"))
+      : [];
+    const windows = replayMode === "with" ? chooseWindows(sorted) : [];
+    const windowByWeek = new Map(windows.map((window) => [window.week, window]));
+    const drag = sorted.reduce((sum, row) => sum + num(row, "estimated_volatility_drag"), 0);
+    const hindsightStart = Math.max(0, sorted.length - 3);
+
+    const enrichedRows = sorted.map((row, index) => {
+      const window = windowByWeek.get(num(row, "week"));
+      if(replayMode === "with" && window){
+        return {
+          ...row,
+          replay_mode: replayMode,
+          decision_marker: window.label,
+          intervention_urgency: window.intervention_urgency,
+          trend_statement: window.signal_detected,
+          consequence_statement: window.why_it_matters,
+          vol_read: window.signal_detected,
+          recommended_action: window.recommended_action,
+          likely_effect: window.likely_effect,
+          watch_metric: window.watch_metric,
+          row_highlight_type: window.type
+        };
+      }
+
+      const isHindsight = replayMode === "without" && index >= hindsightStart && pressureScore(row, sorted[index - 1]) >= 95;
+      const type = replayMode === "with" ? tierTypeFor(row) : "";
+      const copy = replayMode === "with" ? operationalCopy(row, type) : fallbackWindow(row);
+      return {
+        ...row,
+        replay_mode: replayMode,
+        decision_marker: replayMode === "with" ? labelFor(type) : (isHindsight ? "Hindsight Note" : ""),
+        intervention_urgency: replayMode === "with" ? urgencyFor(row, type) : "",
+        trend_statement: replayMode === "without" ? withoutVolRead(row, isHindsight) : copy.signal_detected,
+        consequence_statement: "",
+        vol_read: replayMode === "without" ? withoutVolRead(row, isHindsight) : copy.signal_detected,
+        recommended_action: replayMode === "with" ? copy.recommended_action : "",
+        likely_effect: replayMode === "with" ? copy.likely_effect : "",
+        watch_metric: replayMode === "with" ? copy.watch_metric : "",
+        row_highlight_type: replayMode === "without" && isHindsight ? "hindsight" : ""
+      };
+    });
+
+    const summary = replayMode === "with"
+      ? "VOL continuously synthesizes operating friction into optimization opportunities, escalation prevention steps, and stabilization actions."
+      : "Signals were present, but fragmented. Intervention timing likely lagged until pressure became visible through overtime, agency use, or leadership strain.";
+
+    return {
+      mode: replayMode,
+      summary,
+      cumulative_drag: drag,
+      intervention_windows: windows,
+      enriched_rows: enrichedRows
+    };
+  }
+
+  return { buildDecisionReplay };
+});

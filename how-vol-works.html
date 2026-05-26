@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOL Health | How VOL Works</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#070b16;
+      --panel:#0d1224;
+      --panel-2:#111831;
+      --border:rgba(255,255,255,0.11);
+      --text:#eef4ff;
+      --muted:rgba(255,255,255,0.70);
+      --blue:#2c6cff;
+      --green:#35c67a;
+      --green-2:#7ce7b5;
+      --amber:#f6b44b;
+      --shadow:0 18px 50px rgba(0,0,0,0.34);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Montserrat, Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(44,108,255,0.20), transparent 32%),
+        radial-gradient(circle at 86% 8%, rgba(53,198,122,0.13), transparent 28%),
+        linear-gradient(180deg, #080d1b 0%, var(--bg) 54%, #050814 100%);
+      color:var(--text);
+    }
+    a{ color:inherit; text-decoration:none; }
+    button, input, textarea{ font:inherit; }
+    .shell{ width:min(1280px, calc(100% - 32px)); margin:18px auto 44px; }
+    .platform-header{ padding:14px 14px 0; }
+    .platform-header-top{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
+    .platform-brand{ min-width:0; }
+    .vol-logo-horizontal{
+      --vol-logo-color:rgba(255,255,255,0.94);
+      --vol-logo-glow:0 0 0.16em rgba(79,130,255,0.16);
+      display:inline-flex; align-items:center; gap:0.08em;
+      font-size:clamp(34px, 4.2vw, 56px);
+      font-weight:300; letter-spacing:0.08em; line-height:1;
+      color:var(--vol-logo-color); white-space:nowrap;
+    }
+    .logo-o{
+      width:0.76em; height:0.76em; border-radius:50%;
+      border:0.065em solid #4f82ff; display:inline-block; position:relative;
+      transform:translateY(0.035em);
+      box-shadow:inset 0 0 0.20em rgba(79,130,255,0.20), var(--vol-logo-glow);
+    }
+    .logo-o::after{
+      content:""; position:absolute; inset:-0.08em; border-radius:50%;
+      border-top:0.035em solid rgba(255,255,255,0.26);
+      border-right:0.035em solid rgba(79,130,255,0.68);
+      border-bottom:0.035em solid transparent; border-left:0.035em solid transparent;
+      transform:rotate(-28deg);
+    }
+    .logo-gap{ width:0.26em; }
+    .platform-nav{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
+    .nav-pill{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:9px 13px; border-radius:999px; border:1px solid var(--border);
+      background:rgba(255,255,255,0.045); color:rgba(255,255,255,0.76);
+      font-size:11px; font-weight:800; letter-spacing:0.03em; text-transform:uppercase;
+      white-space:nowrap; transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
+    }
+    .nav-pill:hover{ background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.22); transform:translateY(-1px); }
+    .nav-pill.active{ color:#06111d; border-color:rgba(53,198,122,0.75); background:linear-gradient(135deg, var(--green), var(--green-2)); }
+    .nav-dropdown{ position:relative; display:inline-flex; align-items:center; }
+    .nav-pill-button{ cursor:pointer; }
+    .nav-caret{ margin-left:6px; color:rgba(143,215,255,0.82); font-size:10px; }
+    .dropdown-menu{
+      position:absolute; top:calc(100% + 10px); right:0; z-index:20; width:230px;
+      padding:8px; border:1px solid rgba(255,255,255,0.13); border-radius:18px;
+      background:linear-gradient(180deg, rgba(13,18,36,0.98), rgba(8,13,28,0.96));
+      box-shadow:0 22px 54px rgba(0,0,0,0.42), 0 0 34px rgba(44,108,255,0.10);
+      opacity:0; visibility:hidden; pointer-events:none;
+      transform:translateY(8px) scale(0.98); transform-origin:top right;
+      transition:opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+    }
+    .nav-dropdown:hover .dropdown-menu, .nav-dropdown:focus-within .dropdown-menu{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0) scale(1); }
+    .dropdown-link{ display:flex; padding:10px 11px; border-radius:12px; color:rgba(255,255,255,0.76); font-size:12px; font-weight:700; letter-spacing:0.01em; text-transform:none; }
+    .dropdown-link:hover, .dropdown-link:focus{ outline:none; color:#fff; background:rgba(255,255,255,0.07); }
+    .page{ padding:24px 14px 0; }
+    .hero-panel, .story-section, .leadership-panel{
+      border:1px solid var(--border);
+      background:rgba(13,18,36,0.78);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+    }
+    .hero-panel{ padding:30px; margin-bottom:18px; }
+    .page-kicker{ color:#8fd7ff; font-size:11px; font-weight:900; letter-spacing:0.13em; text-transform:uppercase; }
+    .page-title{ margin:15px 0 0; max-width:1000px; font-size:clamp(32px, 4.5vw, 64px); line-height:1.05; font-weight:650; letter-spacing:0; }
+    .page-subtitle{ margin:20px 0 0; max-width:920px; color:var(--muted); font-size:clamp(16px, 1.4vw, 19px); line-height:1.64; font-weight:500; }
+    .story-spine{ margin-top:20px; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; }
+    .spine-step{ padding:11px 12px; border:1px solid rgba(255,255,255,0.10); border-radius:999px; color:rgba(255,255,255,0.72); background:rgba(255,255,255,0.04); font-size:11px; font-weight:800; text-align:center; text-transform:uppercase; letter-spacing:0.04em; }
+    .story-section{ margin-top:18px; padding:24px; overflow:hidden; }
+    .section-grid{ display:grid; grid-template-columns:minmax(0, 0.9fr) minmax(0, 1.1fr); gap:22px; align-items:center; }
+    .section-number{ color:rgba(143,215,255,0.72); font-size:12px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; }
+    .section-title{ margin:12px 0 0; font-size:clamp(24px, 2.7vw, 38px); line-height:1.14; font-weight:650; }
+    .section-copy{ margin:16px 0 0; max-width:560px; color:rgba(255,255,255,0.72); font-size:15px; line-height:1.76; font-weight:500; }
+    .signal-board{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:22px 26px;
+      min-height:318px;
+      padding:30px 18px 28px;
+      border-radius:20px;
+      background:
+        radial-gradient(ellipse at 23% 32%, rgba(44,108,255,0.075), transparent 28%),
+        radial-gradient(ellipse at 56% 58%, rgba(53,198,122,0.070), transparent 30%),
+        radial-gradient(ellipse at 74% 34%, rgba(143,215,255,0.040), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.020), rgba(255,255,255,0.010));
+      overflow:hidden;
+    }
+    .signal-board::before{
+      content:"";
+      position:absolute;
+      left:5%;
+      right:5%;
+      bottom:22px;
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.12), rgba(53,198,122,0.10), transparent);
+      pointer-events:none;
+    }
+    .signal-board::after{
+      content:"";
+      position:absolute;
+      left:10%;
+      right:12%;
+      top:18%;
+      bottom:16%;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,0.035);
+      background:linear-gradient(135deg, rgba(255,255,255,0.018), transparent 42%, rgba(53,198,122,0.018));
+      pointer-events:none;
+    }
+    .signal-node{
+      position:relative;
+      z-index:1;
+      flex:0 1 170px;
+      min-height:118px; padding:18px 17px; border-radius:17px; border:1px solid rgba(255,255,255,0.14);
+      background:
+        linear-gradient(180deg, rgba(17,24,46,0.96), rgba(11,17,34,0.94));
+      box-shadow:0 18px 26px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.055);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .signal-node::before{
+      content:"";
+      position:absolute;
+      inset:-14px -18px;
+      z-index:-1;
+      border-radius:24px;
+      background:radial-gradient(ellipse at center, rgba(44,108,255,0.055), transparent 68%);
+      opacity:0.72;
+      pointer-events:none;
+    }
+    .signal-node.priority::before{ inset:-22px -28px; background:radial-gradient(ellipse at center, rgba(53,198,122,0.075), transparent 70%); opacity:0.84; }
+    .signal-node.wide{ flex-basis:210px; }
+    .signal-node.mid{ flex-basis:188px; }
+    .signal-node.narrow{ flex-basis:158px; }
+    .signal-node.lift{ transform:translateY(-10px); }
+    .signal-node.drop{ transform:translateY(12px); }
+    .signal-node.soft-lift{ transform:translateY(-6px); }
+    .signal-node.soft-drop{ transform:translateY(8px); }
+    .signal-node.leadership-zone{ transform:translateY(22px); }
+    .signal-label{ font-size:14px; line-height:1.3; font-weight:800; color:#fff; }
+    .signal-line{ margin-top:18px; width:min(120px, 78%); height:3px; border-radius:99px; background:linear-gradient(90deg, rgba(44,108,255,0.70), rgba(53,198,122,0.62)); }
+    .signal-note{ margin-top:12px; color:rgba(255,255,255,0.54); font-size:11px; line-height:1.35; font-weight:700; }
+    .pattern-map{ position:relative; min-height:360px; border-radius:20px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.025); overflow:hidden; }
+    .pattern-map::before{
+      content:"";
+      position:absolute;
+      z-index:0;
+      left:38%;
+      top:42%;
+      width:170px;
+      height:110px;
+      border-radius:50%;
+      background:radial-gradient(ellipse at center, rgba(53,198,122,0.055), transparent 70%);
+      pointer-events:none;
+    }
+    .relationship-path{
+      position:absolute;
+      z-index:1;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      overflow:visible;
+    }
+    .relationship-path path{
+      fill:none;
+      stroke:rgba(143,215,255,0.28);
+      stroke-width:1.15;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      vector-effect:non-scaling-stroke;
+    }
+    .relationship-path path.green{ stroke:rgba(53,198,122,0.24); }
+    .cluster{ position:absolute; z-index:3; width:178px; padding:16px; border-radius:18px; border:1px solid rgba(255,255,255,0.12); background:rgba(13,18,36,0.96); box-shadow:0 14px 28px rgba(0,0,0,0.22); }
+    .cluster strong{ display:block; font-size:12px; line-height:1.28; margin-bottom:9px; }
+    .cluster span{ display:inline-flex; margin:3px 3px 0 0; padding:5px 7px; border-radius:999px; background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.66); font-size:10px; font-weight:700; }
+    .cluster.one{ left:34px; top:44px; }
+    .cluster.two{ right:34px; top:58px; }
+    .cluster.three{ left:38%; bottom:42px; transform:translateX(-50%); }
+    .flow-panel{ display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:12px; align-items:center; }
+    .flow-card{ min-height:150px; padding:18px; border-radius:18px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.045); }
+    .flow-card strong{ display:block; font-size:16px; line-height:1.3; margin-bottom:11px; }
+    .flow-card span{ color:rgba(255,255,255,0.68); font-size:13px; line-height:1.62; font-weight:500; }
+    .flow-arrow{ color:#8fd7ff; font-weight:900; }
+    .leadership-panel{ margin-top:18px; padding:26px; background:linear-gradient(135deg, rgba(53,198,122,0.10), rgba(13,18,36,0.82) 42%, rgba(44,108,255,0.12)); }
+    .leadership-inner{ display:grid; grid-template-columns:minmax(0, 0.95fr) minmax(0, 1.05fr); gap:22px; align-items:center; }
+    .leader-orbit{ min-height:315px; position:relative; border-radius:20px; border:1px solid rgba(255,255,255,0.10); background:radial-gradient(circle at center, rgba(53,198,122,0.14), transparent 36%), rgba(255,255,255,0.025); }
+    .leader-core{ position:absolute; left:50%; top:50%; transform:translate(-50%, -50%); width:150px; height:150px; border-radius:50%; border:1px solid rgba(124,231,181,0.55); display:grid; place-items:center; text-align:center; color:#fff; font-weight:800; background:rgba(13,18,36,0.88); box-shadow:0 0 42px rgba(53,198,122,0.14); }
+    .leader-tag{ position:absolute; padding:9px 11px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.055); color:rgba(255,255,255,0.72); font-size:11px; font-weight:800; }
+    .leader-tag.a{ left:29%; top:35%; transform:translate(-50%, -50%); }
+    .leader-tag.b{ left:62%; top:17%; transform:translate(-50%, -50%); }
+    .leader-tag.c{ left:43%; top:84%; transform:translate(-50%, -50%); }
+    .leader-tag.d{ left:76%; top:61%; transform:translate(-50%, -50%); }
+    @media (max-width:980px){
+      .platform-header-top{ flex-direction:column; align-items:flex-start; width:100%; }
+      .platform-nav{ justify-content:flex-start; width:100%; }
+      .nav-dropdown{ width:100%; flex-direction:column; align-items:stretch; }
+      .nav-dropdown .nav-pill{ width:100%; justify-content:space-between; }
+      .dropdown-menu{ position:static; width:100%; margin-top:8px; opacity:1; visibility:visible; pointer-events:auto; transform:none; box-shadow:0 14px 32px rgba(0,0,0,0.24); }
+      .section-grid, .leadership-inner{ grid-template-columns:1fr; }
+      .story-spine{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+      .signal-board{ justify-content:flex-start; min-height:auto; }
+      .signal-node{ flex:1 1 calc(50% - 26px); transform:none !important; }
+      .flow-panel{ grid-template-columns:1fr; }
+      .flow-arrow{ text-align:center; transform:rotate(90deg); }
+    }
+    @media (max-width:640px){
+      .shell{ width:min(1280px, calc(100% - 20px)); margin:14px auto 28px; }
+      .platform-header{ padding:14px 10px 0; }
+      .page{ padding:16px 10px 0; }
+      .hero-panel, .story-section, .leadership-panel{ padding:17px; }
+      .story-spine{ grid-template-columns:1fr; }
+      .signal-board{ padding:16px 0; background:transparent; }
+      .signal-board::before,
+      .signal-board::after{ display:none; }
+      .signal-node::before{ display:none; }
+      .signal-node{ flex-basis:100%; }
+      .nav-pill{ font-size:10px; padding:8px 10px; }
+      .pattern-map{ min-height:430px; }
+      .relationship-path{ display:none; }
+      .cluster{ position:relative; left:auto !important; right:auto !important; top:auto !important; bottom:auto !important; transform:none !important; width:auto; margin:14px; }
+      .leader-orbit{ min-height:340px; }
+      .leader-tag.a{ left:50%; top:50%; transform:translate(-50%, -50%) translate(-112px, -110px); }
+      .leader-tag.b{ left:50%; top:50%; transform:translate(-50%, -50%) translate(112px, -84px); }
+      .leader-tag.c{ left:50%; top:50%; transform:translate(-50%, -50%) translate(-104px, 108px); }
+      .leader-tag.d{ left:50%; top:50%; transform:translate(-50%, -50%) translate(112px, 96px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="platform-header">
+      <div class="platform-header-top">
+        <a class="platform-brand" href="/" aria-label="VOL Health home">
+          <div class="vol-logo-horizontal" aria-label="VOL Health">
+            <span>V</span><span class="logo-o" aria-hidden="true"></span><span>L</span><span class="logo-gap" aria-hidden="true"></span><span>H</span><span>E</span><span>A</span><span>L</span><span>T</span><span>H</span>
+          </div>
+        </a>
+        <nav class="platform-nav">
+          <a href="/" class="nav-pill">VOL rEDi</a>
+          <a href="data-demo.html" class="nav-pill">Data Demo</a>
+          <a href="shai.html" class="nav-pill">SHAI</a>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button active" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Company navigation">
+              <a class="dropdown-link" href="/how-vol-works">How VOL Works</a>
+              <a class="dropdown-link" href="/about-vol">About VOL</a>
+              <a class="dropdown-link" href="/contact">Contact Us</a>
+              <a class="dropdown-link" href="/leadership">Leadership</a>
+              <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
+              <a class="dropdown-link" href="/terms-of-use">Terms of Use</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main class="page">
+      <section class="hero-panel">
+        <div class="page-kicker">How VOL Works</div>
+        <h1 class="page-title">Fragmentation becomes directional clarity.</h1>
+        <p class="page-subtitle">VOL helps senior living leaders see how operational pressure forms, spreads, and compounds across the community before instability becomes embedded. VOL rEDi turns that visibility into daily operational rEDiness.</p>
+        <div class="story-spine" aria-label="How VOL works story">
+          <div class="spine-step">Fragmentation</div>
+          <div class="spine-step">Relationships</div>
+          <div class="spine-step">Directional Clarity</div>
+          <div class="spine-step">Leadership Confidence</div>
+        </div>
+      </section>
+
+      <section class="story-section">
+        <div class="section-grid">
+          <div>
+            <div class="section-number">Section 1</div>
+            <h2 class="section-title">Operational signals already exist.</h2>
+            <p class="section-copy">The challenge is rarely a lack of information. The challenge is understanding how instability moves through the system.</p>
+          </div>
+          <div class="signal-board" aria-label="Fragmented operational signals">
+            <div class="signal-node wide lift priority"><div class="signal-label">Coverage Pressure</div><div class="signal-line"></div><div class="signal-note">gaps / call-offs</div></div>
+            <div class="signal-node mid soft-drop"><div class="signal-label">Workflow Friction</div><div class="signal-line"></div><div class="signal-note">handoffs / delays</div></div>
+            <div class="signal-node wide soft-lift"><div class="signal-label">Demand Variability</div><div class="signal-line"></div><div class="signal-note">census / service load</div></div>
+            <div class="signal-node narrow drop priority"><div class="signal-label">Care Complexity</div><div class="signal-line"></div><div class="signal-note">acuity / resident needs</div></div>
+            <div class="signal-node mid lift"><div class="signal-label">Recovery Burden</div><div class="signal-line"></div><div class="signal-note">overtime / fatigue</div></div>
+            <div class="signal-node wide soft-drop"><div class="signal-label">Coverage Dependency</div><div class="signal-line"></div><div class="signal-note">agency / external support</div></div>
+            <div class="signal-node mid leadership-zone priority"><div class="signal-label">Leadership Load</div><div class="signal-line"></div><div class="signal-note">focus / follow-up strain</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-section">
+        <div class="section-grid">
+          <div>
+            <div class="section-number">Section 2</div>
+            <h2 class="section-title">VOL synthesizes patterns.</h2>
+            <p class="section-copy">VOL connects operational layers so leaders can see relationships, pressure clusters, instability dynamics, and where attention is being pulled across the community.</p>
+          </div>
+          <div class="pattern-map" aria-label="Connected operational patterns">
+            <svg class="relationship-path" viewBox="0 0 640 360" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M212 112 L428 124"></path>
+              <path class="green" d="M128 132 L238 242"></path>
+              <path d="M332 257 L487 150"></path>
+            </svg>
+            <div class="cluster one"><strong>Coverage Pressure</strong><span>staffing</span><span>agency</span><span>overtime</span></div>
+            <div class="cluster two"><strong>Resident Flow</strong><span>census</span><span>acuity</span><span>service load</span></div>
+            <div class="cluster three"><strong>Leadership Load</strong><span>workflow</span><span>follow-up</span><span>strain</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-section">
+        <div class="section-grid">
+          <div>
+            <div class="section-number">Section 3</div>
+            <h2 class="section-title">Prioritization before escalation.</h2>
+            <p class="section-copy">VOL helps identify where pressure is building before instability becomes embedded, giving leaders earlier visibility and better intervention timing.</p>
+          </div>
+          <div class="flow-panel" aria-label="Signal to prioritization to action">
+            <div class="flow-card"><strong>Signal</strong><span>Operating activity starts showing repeated pressure, friction, or drift.</span></div>
+            <div class="flow-arrow">-></div>
+            <div class="flow-card"><strong>Prioritization</strong><span>VOL clarifies which patterns need leadership attention first.</span></div>
+            <div class="flow-arrow">-></div>
+            <div class="flow-card"><strong>Action</strong><span>Teams intervene earlier with clearer timing, ownership, and context.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="leadership-panel">
+        <div class="leadership-inner">
+          <div>
+            <div class="section-number">Section 4</div>
+            <h2 class="section-title">Leadership support, not replacement.</h2>
+            <p class="section-copy">VOL is designed to support operational leadership, not replace it. Community leaders still understand the human context, culture, and nuance behind every decision. VOL helps make emerging operational patterns easier to see and prioritize earlier.</p>
+          </div>
+          <div class="leader-orbit" aria-label="Human leadership supported by clearer signals">
+            <div class="leader-core">Human<br>Leadership</div>
+            <div class="leader-tag a">Context</div>
+            <div class="leader-tag b">Culture</div>
+            <div class="leader-tag c">Timing</div>
+            <div class="leader-tag d">Confidence</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

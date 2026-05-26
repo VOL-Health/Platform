@@ -1,0 +1,1161 @@
+(function(){
+  const demos = [
+    {
+      id: "maple-glen",
+      name: "Maple Glen Assisted Living",
+      scenario: "Stable / Low Volatility",
+      severity: "stable",
+      file: "data/demo-maple-glen.json"
+    },
+    {
+      id: "cedar-ridge",
+      name: "Cedar Ridge Assisted Living",
+      scenario: "Workforce Absorption Strain",
+      severity: "strained",
+      file: "data/demo-cedar-ridge.json"
+    },
+    {
+      id: "willow-creek",
+      name: "Willow Creek Assisted Living",
+      scenario: "Leadership Turnover Drag",
+      severity: "high",
+      file: "data/demo-willow-creek.json"
+    },
+    {
+      id: "river-bend",
+      name: "River Bend Assisted Living",
+      scenario: "Agency-Reliant Financial Pressure",
+      severity: "critical",
+      file: "data/demo-river-bend.json"
+    },
+    {
+      id: "oak-hollow",
+      name: "Oak Hollow Assisted Living",
+      scenario: "Recovery / Stabilization",
+      severity: "recovery",
+      file: "data/demo-oak-hollow.json"
+    }
+  ];
+
+  const state = {
+    selectedId: demos[0].id,
+    dataById: new Map(),
+    replayMode: "with"
+  };
+
+  const cardsEl = document.getElementById("communityCards");
+  const outputEl = document.getElementById("demoOutput");
+  const buildWeeklyIntelligence = window.VolIntelligence?.buildWeeklyIntelligence || ((weeklySignals) => weeklySignals || []);
+  const buildDecisionReplay = window.VolDecisionReplay?.buildDecisionReplay || ((weeklySignals, mode) => ({
+    mode: mode || "with",
+    summary: "",
+    cumulative_drag: cumulativeDrag(weeklySignals || []),
+    intervention_windows: [],
+    enriched_rows: weeklySignals || []
+  }));
+  const projectStabilizedPath = window.VolStabilizationModel?.projectStabilizedPath || (({ weeklySignals }) => ({
+    actual_drag: cumulativeDrag(weeklySignals || []),
+    projected_drag_low: cumulativeDrag(weeklySignals || []),
+    projected_drag_high: cumulativeDrag(weeklySignals || []),
+    projected_reduction_pct_low: 0,
+    projected_reduction_pct_high: 0,
+    projected_effects: { actual_path: {}, stabilized_path: {} },
+    assumptions: []
+  }));
+
+  function escapeHtml(value){
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function formatNumber(value){
+    if(value === null || value === undefined || value === "") return "n/a";
+    return new Intl.NumberFormat("en-US").format(Number(value));
+  }
+
+  function formatCurrency(value){
+    if(value === null || value === undefined || value === "") return "n/a";
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    }).format(Number(value));
+  }
+
+  function formatPercent(value){
+    if(value === null || value === undefined || value === "") return "n/a";
+    const numeric = Number(value);
+    const display = numeric <= 1 ? numeric * 100 : numeric;
+    return `${display.toFixed(display >= 10 ? 0 : 1)}%`;
+  }
+
+  function formatDate(value){
+    if(!value) return "n/a";
+    const date = new Date(`${value}T00:00:00`);
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric"
+    }).format(date);
+  }
+
+  function sortWeeks(weeks){
+    return [...weeks].sort((a, b) => Number(a.week || 0) - Number(b.week || 0));
+  }
+
+  function getLatestWeek(weeks){
+    const sorted = sortWeeks(weeks);
+    return sorted[sorted.length - 1] || {};
+  }
+
+  function pressureLanguage(latest){
+    const agency = Number(latest.agency_shift_pct ?? 0);
+    const overtime = Number(latest.overtime_hours ?? 0);
+    const calloffs = Number(latest.last_minute_calloffs ?? latest.last_minute_calloffs_per_week ?? 0);
+    const openShifts = Number(latest.open_shifts ?? latest.open_shifts_per_week ?? 0);
+
+    if(agency >= 0.18){
+      return "Coverage is being stabilized through agency usage, which protects the schedule but pushes labor economics out of balance.";
+    }
+    if(overtime >= 70 || openShifts >= 12){
+      return "The schedule is absorbing demand through overtime and repeated gap management, creating strain before the week starts.";
+    }
+    if(calloffs >= 5){
+      return "Repeated short-notice disruption is forcing leaders to spend bandwidth on coverage instead of operating rhythm.";
+    }
+    if(Number(latest.vi_score_current ?? 100) >= 80 && Number(latest.wsi_score ?? 100) >= 80){
+      return "The community is holding a stable operating rhythm with contained schedule and acuity variation.";
+    }
+    return "Operating pressure is present but not yet concentrated in one metric, so leaders should review repeat open shifts before next week's schedule is posted.";
+  }
+
+  function mattersLanguage(latest){
+    const drag = Number(latest.estimated_volatility_drag ?? 0);
+    const bandwidth = Number(latest.leadership_bandwidth_score ?? 100);
+    const economicPressure = latest.economic_pressure || "Moderate";
+
+    if(drag >= 9000){
+      return `The latest week shows ${formatCurrency(drag)} in estimated volatility drag, making instability visible as an economic decision.`;
+    }
+    if(bandwidth <= 55){
+      return "Leadership capacity is becoming the constraint, so even manageable staffing issues can linger and compound.";
+    }
+    if(String(economicPressure).toLowerCase().includes("high")){
+      return "The labor model is protecting care coverage at a cost level that needs executive visibility.";
+    }
+    return "The signal matters because low-grade volatility can look operationally normal until it becomes recurring labor cost or leadership drag.";
+  }
+
+  function nextActionLanguage(latest){
+    const agency = Number(latest.agency_shift_pct ?? 0);
+    const overtime = Number(latest.overtime_hours ?? 0);
+    const openShifts = Number(latest.open_shifts ?? latest.open_shifts_per_week ?? 0);
+    const calloffs = Number(latest.last_minute_calloffs ?? latest.last_minute_calloffs_per_week ?? 0);
+    const bandwidth = Number(latest.leadership_bandwidth_score ?? 100);
+    const acuity = Number(latest.acuity_variability ?? 0);
+
+    if(agency >= 0.18) return "Rebuild consistent weekday coverage before reducing agency support.";
+    if(agency >= 0.10) return "Convert repeat agency-covered shifts into named internal assignments.";
+    if(overtime >= 70 && openShifts >= 10) return "Stabilize weekend med-tech coverage before overtime dependence returns.";
+    if(overtime >= 70) return "Cap repeat overtime by assigning open shifts to specific recruiting and schedule repair owners.";
+    if(calloffs >= 5) return "Reduce leadership time spent on same-day staffing recovery.";
+    if(bandwidth <= 55) return "Clear ED and DON time for daily follow-up on staffing repairs.";
+    if(acuity >= 8) return "Rebalance caregiver assignments before acuity swings force reactive scheduling.";
+    if(Number(latest.vi_score_current ?? 100) >= 80 && Number(latest.wsi_score ?? 100) >= 80) return "Lock core caregiver assignments and watch weekend variance.";
+    return "Reduce reactive schedule rebuilds by locking core caregiver assignments.";
+  }
+
+  function buildExecutiveSummary(latest){
+    return {
+      pattern: latest.dominant_operating_risk || latest.dominant_pattern || "Operating Stability Pattern",
+      happening: pressureLanguage(latest),
+      matters: mattersLanguage(latest),
+      action: latest.recommended_action || nextActionLanguage(latest)
+    };
+  }
+
+  function cumulativeDrag(weeks){
+    return sortWeeks(weeks).reduce((sum, week) => sum + Number(week.estimated_volatility_drag || 0), 0);
+  }
+
+  function baselineGap(week){
+    const viGap = 80 - Number(week.vi_score_current || 0);
+    const wsiGap = 80 - Number(week.wsi_score || 0);
+    return Math.max(0, Math.round((viGap + wsiGap) / 2));
+  }
+
+  function directionForWeeks(weeks){
+    const sorted = sortWeeks(weeks);
+    if(sorted.length < 2) return "Stable";
+    const latest = sorted[sorted.length - 1];
+    const previous = sorted[sorted.length - 2];
+    const delta = (Number(latest.vi_score_current || 0) + Number(latest.wsi_score || 0)) -
+      (Number(previous.vi_score_current || 0) + Number(previous.wsi_score || 0));
+    if(delta >= 3) return "Improving";
+    if(delta <= -3) return "Deteriorating";
+    return "Stable";
+  }
+
+  function trendDirection(current, previous){
+    if(!previous) return "→ Stable";
+    const delta = (Number(current.vi_score_current || 0) + Number(current.wsi_score || 0)) -
+      (Number(previous.vi_score_current || 0) + Number(previous.wsi_score || 0));
+    if(delta >= 3) return "↗ Improving";
+    if(delta <= -3) return "↘ Deteriorating";
+    return "→ Stable";
+  }
+
+  function severityFor(latest){
+    const vi = Number(latest.vi_score_current || 0);
+    const wsi = Number(latest.wsi_score || 0);
+    const drag = Number(latest.estimated_volatility_drag || 0);
+    const agency = Number(latest.agency_shift_pct || 0);
+    if(vi < 60 || wsi < 60 || drag >= 12000 || agency >= 0.16) return "Critical";
+    if(vi < 70 || wsi < 70 || drag >= 8000) return "High";
+    if(vi < 80 || wsi < 80 || drag >= 4000) return "Building";
+    return "Controlled";
+  }
+
+  function operationalState(latest){
+    const agency = Number(latest.agency_shift_pct || 0);
+    const overtime = Number(latest.overtime_hours || 0);
+    const bandwidth = Number(latest.leadership_bandwidth_score || 100);
+    if(agency >= 0.16) return "Agency dependence embedded";
+    if(overtime >= 70) return "Overtime masking workforce fragility";
+    if(bandwidth <= 55) return "Leadership-constrained execution";
+    if(Number(latest.vi_score_current || 0) >= 80 && Number(latest.wsi_score || 0) >= 80) return "Operational strain contained";
+    return "Workforce absorption building";
+  }
+
+  function executiveInterpretation(demo, latest){
+    const copy = {
+      "maple-glen": "Operational strain appears contained with workforce capacity remaining stable and volatility drag held to a manageable level.",
+      "cedar-ridge": "Workforce absorption is recovering, but earlier erosion shows where open shifts and overtime can compound if leadership releases focus too early.",
+      "willow-creek": "Leadership disruption is creating recurring operating variability, making execution capacity the primary constraint on stabilization.",
+      "river-bend": "Agency dependence has become structurally embedded in the operating model, converting coverage pressure into recurring financial drag.",
+      "oak-hollow": "Recovery is visible in both workforce stability and operating pressure, but leadership should hold census pressure until core coverage stays consistent."
+    };
+    return copy[demo.id] || pressureLanguage(latest);
+  }
+
+  function topIntervention(demo, latest){
+    if(demo.id === "river-bend") return "Replace repeat agency shifts with named weekday coverage owners";
+    if(demo.id === "willow-creek") return "Reduce same-day staffing recovery work for ED and DON";
+    if(demo.id === "cedar-ridge") return "Stabilize weekend med-tech and caregiver coverage";
+    if(demo.id === "oak-hollow") return "Protect staffing gains before reopening census growth pressure";
+    return "Lock core caregiver assignments and review call-off clusters";
+  }
+
+  function leadershipPriority(demo){
+    const priorities = {
+      "maple-glen": "Keep weekend coverage named and avoid unnecessary schedule churn.",
+      "cedar-ridge": "Repair recurring open shifts before they convert into overtime fatigue.",
+      "willow-creek": "Give regional support to daily staffing follow-through until leadership bandwidth recovers.",
+      "river-bend": "Set shift-level agency replacement targets with weekly accountability.",
+      "oak-hollow": "Hold census growth pressure until core coverage stays consistent for several weeks."
+    };
+    return priorities[demo.id] || "Assign ownership for the repeat shifts creating the most weekly instability.";
+  }
+
+  function scoreClass(value){
+    const score = Number(value || 0);
+    if(score >= 80) return "score-good";
+    if(score >= 65) return "score-amber";
+    return "score-red";
+  }
+
+  function dragClass(value){
+    const drag = Number(value || 0);
+    if(drag >= 9000) return "drag-severe";
+    if(drag >= 4000) return "drag-moderate";
+    return "drag-low";
+  }
+
+  function leadershipImpact(week){
+    const agency = Number(week.agency_shift_pct || 0);
+    const overtime = Number(week.overtime_hours || 0);
+    const bandwidth = Number(week.leadership_bandwidth_score || 100);
+    if(agency >= 0.16) return "Agency dependence compounding";
+    if(overtime >= 70) return "Coverage absorbing strain";
+    if(bandwidth <= 55) return "Leadership execution narrowing";
+    if(Number(week.vi_score_current || 0) >= 80 && Number(week.wsi_score || 0) >= 80) return "Leadership stabilization improving";
+    return "Workflow pressure rising";
+  }
+
+  function keySignalInterpretation(week){
+    const agency = Number(week.agency_shift_pct || 0);
+    const overtime = Number(week.overtime_hours || 0);
+    if(agency >= 0.16) return "External labor is no longer acting like an exception.";
+    if(overtime >= 70) return "Overtime is absorbing instability before it shows up as agency.";
+    if(Number(week.last_minute_calloffs || 0) >= 5) return "Short-notice disruption is weakening schedule reliability.";
+    return "Weekly movement is within the current operating pattern.";
+  }
+
+  function sentenceCasePattern(value){
+    const text = String(value || "Operating stability pattern").trim();
+    if(!text) return "Operating stability pattern";
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
+  function rowSeverityClass(week){
+    const vi = Number(week.vi_score_current || 0);
+    const wsi = Number(week.wsi_score || 0);
+    const drag = Number(week.estimated_volatility_drag || 0);
+    if(vi < 65 || wsi < 65 || drag >= 9000) return "row-severe";
+    if(vi < 80 || wsi < 80 || drag >= 4000) return "row-building";
+    return "row-stable";
+  }
+
+  function renderExecutiveIntelligenceSummary(demo, weeks){
+    const sorted = sortWeeks(weeks);
+    const latest = getLatestWeek(sorted);
+    const summary = buildExecutiveSummary(latest);
+    return `
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Executive Intelligence Summary</h2>
+            <p>Directional operating signal, financial drag, and leadership focus for the selected community.</p>
+          </div>
+        </div>
+        <article class="executive-intel-card">
+          <div class="exec-intel-main">
+            <div class="exec-left">
+              <div class="exec-interpretation-strip">
+                <div>
+                  <span>Pattern</span>
+                  <strong>${escapeHtml(sentenceCasePattern(summary.pattern))}</strong>
+                </div>
+                <div>
+                  <span>State</span>
+                  <strong>${escapeHtml(operationalState(latest))}</strong>
+                </div>
+                <div>
+                  <span>Direction</span>
+                  <strong>${escapeHtml(directionForWeeks(sorted))}</strong>
+                </div>
+                <div>
+                  <span>Severity</span>
+                  <strong>${escapeHtml(severityFor(latest))}</strong>
+                </div>
+              </div>
+            </div>
+            <div class="exec-right">
+              <div class="exec-metric">
+                <span>Current weekly volatility drag</span>
+                <strong>${escapeHtml(formatCurrency(latest.estimated_volatility_drag))}</strong>
+              </div>
+              <div class="exec-metric">
+                <span>12-week cumulative volatility drag</span>
+                <strong>${escapeHtml(formatCurrency(cumulativeDrag(sorted)))}</strong>
+              </div>
+              <div class="exec-metric">
+                <span>Latest VI / WSI</span>
+                <strong>${escapeHtml(latest.vi_score_current)} / ${escapeHtml(latest.wsi_score)}</strong>
+              </div>
+              <div class="exec-metric">
+                <span>Avg Gap to Baseline</span>
+                <strong>${escapeHtml(baselineGap(latest))} pts</strong>
+                <em>Average distance from VI / WSI 80 target</em>
+              </div>
+            </div>
+          </div>
+          <p class="exec-interpretation">${escapeHtml(executiveInterpretation(demo, latest))}</p>
+          <div class="exec-cta-grid">
+            <div>
+              <div class="label">Recommended operational focus</div>
+              <strong>${escapeHtml(summary.action)}</strong>
+            </div>
+            <div>
+              <div class="label">Top intervention area</div>
+              <strong>${escapeHtml(topIntervention(demo, latest))}</strong>
+            </div>
+            <div>
+              <div class="label">Suggested leadership priority</div>
+              <strong>${escapeHtml(leadershipPriority(demo))}</strong>
+            </div>
+          </div>
+          <div class="exec-booking-row">
+            <a class="btn primary" href="https://calendly.com/hud-volhealth/30min" target="_blank" rel="noopener">Book a guided data review</a>
+          </div>
+        </article>
+      </section>
+    `;
+  }
+
+  function renderCards(){
+    cardsEl.innerHTML = demos.map((demo, index) => `
+      <button class="community-card severity-${escapeHtml(demo.severity)} ${demo.id === state.selectedId ? "active" : ""}" type="button" data-demo-id="${escapeHtml(demo.id)}" aria-pressed="${demo.id === state.selectedId}">
+        <span class="eyebrow">Demo ${index + 1}</span>
+        <strong>${escapeHtml(demo.name)}</strong>
+        <span class="scenario-tag">${escapeHtml(demo.scenario)}</span>
+      </button>
+    `).join("");
+  }
+
+  function metricCard(label, value, note){
+    return `
+      <article class="metric-card">
+        <div class="label">${escapeHtml(label)}</div>
+        <div class="metric-value">${escapeHtml(value)}</div>
+        <div class="metric-note">${escapeHtml(note)}</div>
+      </article>
+    `;
+  }
+
+  function profileCell(label, value){
+    return `
+      <div class="profile-cell">
+        <div class="label">${escapeHtml(label)}</div>
+        <div class="value">${escapeHtml(value)}</div>
+      </div>
+    `;
+  }
+
+  function summaryItem(label, copy){
+    return `
+      <article class="summary-item">
+        <div class="label">${escapeHtml(label)}</div>
+        <p>${escapeHtml(copy)}</p>
+      </article>
+    `;
+  }
+
+  function renderDecisionBadge(label, urgency){
+    if(!label && !urgency) return "";
+    return `
+      <span class="decision-badge-row">
+        ${label ? `<span class="decision-badge">${escapeHtml(label)}</span>` : ""}
+        ${urgency ? `<span class="urgency-tag">${escapeHtml(urgency)}</span>` : ""}
+      </span>
+    `;
+  }
+
+  function renderDecisionDetails(week){
+    if(!week.recommended_action && !week.consequence_statement && !week.likely_effect && !week.watch_metric){
+      return `<div class="decision-row-details calm"><p>No intervention needed.</p></div>`;
+    }
+    return `
+      <div class="decision-row-details">
+        ${week.consequence_statement ? `<p><b>Consequence</b> ${escapeHtml(week.consequence_statement)}</p>` : ""}
+        ${week.recommended_action ? `<p><b>Action</b> ${escapeHtml(week.recommended_action)}</p>` : ""}
+        ${week.likely_effect ? `<p><b>Effect</b> ${escapeHtml(week.likely_effect)}</p>` : ""}
+        ${week.watch_metric ? `<p><b>Metric</b> ${escapeHtml(week.watch_metric)}</p>` : ""}
+      </div>
+    `;
+  }
+
+  function renderTrendRows(weeks){
+    const sorted = sortWeeks(weeks);
+    const latestWeek = sorted[sorted.length - 1]?.week;
+    return sorted.map((week, index) => {
+      const previous = sorted[index - 1];
+      const pattern = week.dominant_operating_risk || week.dominant_pattern;
+      const patternShift = week.pattern_shift_detected ||
+        (previous && (previous.dominant_operating_risk || previous.dominant_pattern) !== pattern);
+      const rowClass = [
+        week.week === latestWeek ? "latest-row" : "",
+        week.row_highlight_type || week.replay_mode !== "with" ? rowSeverityClass(week) : "row-calm",
+        week.row_highlight_type ? `decision-${week.row_highlight_type}` : ""
+      ].filter(Boolean).join(" ");
+      return `
+      <tr class="${escapeHtml(rowClass)}">
+        <td class="week-cell">
+          <strong>Week ${escapeHtml(week.week)}</strong>
+          <span>${escapeHtml(formatDate(week.week_start))}</span>
+        </td>
+        <td class="score-cluster">
+          <span><b>VI</b><i class="score-pill ${scoreClass(week.vi_score_current)}">${escapeHtml(week.vi_score_current)}</i></span>
+          <span><b>WSI</b><i class="score-pill ${scoreClass(week.wsi_score)}">${escapeHtml(week.wsi_score)}</i></span>
+        </td>
+        <td class="pattern-cell" tabindex="0">
+          ${renderDecisionBadge(week.decision_marker, week.intervention_urgency)}
+          <strong>${escapeHtml(week.trend_statement || week.vol_read || sentenceCasePattern(pattern))}</strong>
+          ${!week.decision_marker ? `<span class="pattern-direction">${escapeHtml(week.trend_direction || trendDirection(week, previous))}</span>` : ""}
+          ${patternShift && week.decision_marker ? `<span class="pattern-shift">Pattern shift</span>` : ""}
+          ${week.decision_marker ? `
+            <div class="row-intel-popover">
+              <strong>${escapeHtml(week.recommended_action || nextActionLanguage(week))}</strong>
+              ${week.consequence_statement ? `<p>${escapeHtml(week.consequence_statement)}</p>` : ""}
+              ${week.likely_effect ? `<p><b>Effect:</b> ${escapeHtml(week.likely_effect)}</p>` : ""}
+              ${week.watch_metric ? `<p><b>Metric:</b> ${escapeHtml(week.watch_metric)}</p>` : ""}
+            </div>
+          ` : ""}
+        </td>
+        <td class="vol-read-cell">
+          ${renderDecisionDetails(week)}
+        </td>
+        <td class="coverage-cell">
+          <div class="coverage-labels" aria-hidden="true">
+            <span>Open</span>
+            <span>CO</span>
+            <span>OT</span>
+            <span>Agency</span>
+          </div>
+          <div class="coverage-values">
+            <span>${escapeHtml(week.open_shifts ?? week.open_shifts_per_week)}</span>
+            <span>${escapeHtml(week.last_minute_calloffs ?? week.last_minute_calloffs_per_week ?? "n/a")}</span>
+            <span>${escapeHtml(week.overtime_hours)}</span>
+            <span>${escapeHtml(formatPercent(week.agency_shift_pct))}</span>
+          </div>
+        </td>
+        <td class="drag-cell"><span class="${dragClass(week.estimated_volatility_drag)}">${escapeHtml(formatCurrency(week.estimated_volatility_drag))}</span></td>
+      </tr>
+    `}).join("");
+  }
+
+  function pressureScore(week){
+    const viGap = 90 - Number(week.vi_score_current || 0);
+    const wsiGap = 90 - Number(week.wsi_score || 0);
+    const drag = Math.min(12, Number(week.estimated_volatility_drag || 0) / 1400);
+    return viGap + wsiGap + drag;
+  }
+
+  function interpretationFor(demo){
+    const interpretations = {
+      "maple-glen": "Stable operating rhythm with workforce capacity holding above baseline.",
+      "cedar-ridge": "Workforce strain emerged mid-period, then began to recover.",
+      "willow-creek": "Leadership disruption produced recurring instability week to week.",
+      "river-bend": "Sustained decline signals structural agency and cost pressure.",
+      "oak-hollow": "Recovery is moving the community back toward baseline stability."
+    };
+    return interpretations[demo.id] || "Operating stability movement is visible across VI and WSI.";
+  }
+
+  function trendDisplayWeeks(weeks, demo){
+    const patterns = {
+      "maple-glen": {
+        vi: [82, 83, 83, 82, 81, 82, 81, 82, 82, 83, 84, 84],
+        wsi: [84, 84, 85, 84, 83, 82, 81, 82, 83, 84, 84, 85]
+      },
+      "cedar-ridge": {
+        vi: [78, 76, 73, 70, 67, 64, 62, 63, 65, 67, 69, 71],
+        wsi: [77, 74, 71, 67, 63, 60, 58, 59, 61, 64, 66, 68]
+      },
+      "willow-creek": {
+        vi: [74, 66, 72, 61, 69, 58, 67, 60, 66, 57, 64, 61],
+        wsi: [72, 64, 69, 58, 65, 55, 63, 57, 61, 54, 60, 57]
+      },
+      "river-bend": {
+        vi: [66, 63, 60, 57, 55, 53, 51, 50, 49, 48, 47, 46],
+        wsi: [64, 61, 58, 55, 53, 51, 49, 48, 47, 46, 45, 44]
+      },
+      "oak-hollow": {
+        vi: [58, 60, 62, 64, 67, 69, 71, 73, 75, 77, 79, 81],
+        wsi: [56, 58, 60, 62, 65, 67, 70, 72, 74, 76, 78, 80]
+      }
+    };
+    const pattern = patterns[demo.id];
+    if(!pattern) return weeks;
+
+    return weeks.map((week, index) => {
+      const viTarget = pattern.vi[index] ?? week.vi_score_current;
+      const wsiTarget = pattern.wsi[index] ?? week.wsi_score;
+      return {
+        ...week,
+        vi_score_current: Math.round((Number(week.vi_score_current) * 0.35) + (viTarget * 0.65)),
+        wsi_score: Math.round((Number(week.wsi_score) * 0.35) + (wsiTarget * 0.65))
+      };
+    });
+  }
+
+  function renderOperatingFingerprint(weeks, demo){
+    const sourceWeeks = sortWeeks(weeks).filter((week) => (
+      Number.isFinite(Number(week.wsi_score)) && Number.isFinite(Number(week.vi_score_current))
+    ));
+
+    if(!sourceWeeks.length){
+      return `<div class="loading-state">Operating trend data is not available for this community.</div>`;
+    }
+
+    const sorted = trendDisplayWeeks(sourceWeeks, demo);
+    const pressure = sorted.reduce((worst, week) => (
+      pressureScore(week) > pressureScore(worst) ? week : worst
+    ), sorted[0]);
+    const latest = sorted[sorted.length - 1];
+    const width = 1120;
+    const height = 224;
+    const chart = { left: 40, right: 1092, top: 22, bottom: 164 };
+    const minScore = 40;
+    const maxScore = 90;
+    const scoreToX = (week) => {
+      const weekNumber = Math.max(1, Math.min(12, Number(week.week) || 1));
+      return chart.left + ((weekNumber - 1) / 11) * (chart.right - chart.left);
+    };
+    const scoreToY = (score) => {
+      const safeScore = Math.max(minScore, Math.min(maxScore, Number(score) || minScore));
+      return chart.bottom - ((safeScore - minScore) / (maxScore - minScore)) * (chart.bottom - chart.top);
+    };
+    const linePath = (field) => sorted.map((week, index) => {
+      const command = index === 0 ? "M" : "L";
+      return `${command} ${scoreToX(week).toFixed(1)} ${scoreToY(week[field]).toFixed(1)}`;
+    }).join(" ");
+    const baselineY = scoreToY(80);
+    const stabilizedY = scoreToY(85);
+    const pressureX = scoreToX(pressure);
+    const pressureY = scoreToY(Math.min(Number(pressure.vi_score_current), Number(pressure.wsi_score)));
+    const latestX = scoreToX(latest);
+    const latestVIY = scoreToY(latest.vi_score_current);
+    const latestWSIY = scoreToY(latest.wsi_score);
+
+    return `
+      <div class="fingerprint-chart-shell">
+        <svg class="fingerprint-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Operating fingerprint trend showing VI current and WSI current across weeks 1 through 12.">
+          <defs>
+            <linearGradient id="stabilizedZone" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#35c67a" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#35c67a" stop-opacity="0.04"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="0" y="0" width="${width}" height="${height}" rx="18" fill="#0d1224" stroke="rgba(255,255,255,0.10)"/>
+          <rect x="${chart.left}" y="${chart.top}" width="${chart.right - chart.left}" height="${stabilizedY - chart.top}" fill="url(#stabilizedZone)"/>
+
+          <line x1="${chart.left}" y1="${baselineY}" x2="${chart.right}" y2="${baselineY}" stroke="rgba(255,255,255,0.45)" stroke-width="1.6" stroke-dasharray="7 8"/>
+
+          <path class="fingerprint-line vi-line" d="${linePath("vi_score_current")}"/>
+          <path class="fingerprint-line wsi-line" d="${linePath("wsi_score")}"/>
+
+          <line x1="${pressureX}" y1="${chart.top}" x2="${pressureX}" y2="${chart.bottom}" class="pressure-marker"/>
+          <circle cx="${pressureX.toFixed(1)}" cy="${pressureY.toFixed(1)}" r="5" class="pressure-dot"/>
+          <text x="${Math.min(chart.right - 132, pressureX + 10)}" y="${Math.max(chart.top + 20, pressureY - 12)}" class="pressure-label">Pressure point</text>
+
+          <circle cx="${latestX.toFixed(1)}" cy="${latestVIY.toFixed(1)}" r="6.5" fill="#35c67a" stroke="#ffffff" stroke-width="1.8"/>
+          <circle cx="${latestX.toFixed(1)}" cy="${latestWSIY.toFixed(1)}" r="6.5" fill="#2c6cff" stroke="#ffffff" stroke-width="1.8"/>
+
+          <g class="fingerprint-axis">
+            <line x1="${chart.left}" y1="${chart.bottom}" x2="${chart.right}" y2="${chart.bottom}"/>
+            <line x1="${chart.left}" y1="${chart.top}" x2="${chart.left}" y2="${chart.bottom}"/>
+          </g>
+
+          <g class="fingerprint-ticks">
+            <text x="16" y="${scoreToY(90) + 4}">90</text>
+            <text x="16" y="${baselineY + 4}">80</text>
+            <text x="16" y="${scoreToY(70) + 4}">70</text>
+            <text x="16" y="${scoreToY(60) + 4}">60</text>
+            <text x="16" y="${scoreToY(50) + 4}">50</text>
+            <text x="16" y="${chart.bottom + 4}">40</text>
+            ${sorted.map((week) => `
+              <text x="${scoreToX(week).toFixed(1)}" y="${chart.bottom + 28}" text-anchor="middle">${escapeHtml(week.week)}</text>
+            `).join("")}
+          </g>
+
+          <text x="${width / 2}" y="${height - 8}" class="fingerprint-axis-label" text-anchor="middle">Weeks 1-12</text>
+          <text x="18" y="116" class="fingerprint-axis-label" transform="rotate(-90 18 116)" text-anchor="middle">Stability score</text>
+        </svg>
+
+        <div class="fingerprint-legend">
+          <span><i class="legend-vi"></i> VI current</span>
+          <span><i class="legend-wsi"></i> WSI current</span>
+          <span><i class="legend-baseline"></i> Baseline 80</span>
+        </div>
+        <p class="fingerprint-interpretation">${escapeHtml(interpretationFor(demo))}</p>
+      </div>
+    `;
+  }
+
+  function intelligenceEventsFor(demo){
+    const events = {
+      "maple-glen": [
+        {
+          week: 3,
+          signal: "Low volatility held despite mild acuity movement",
+          interpretation: "Schedule routines were absorbing normal demand variation without creating downstream labor pressure.",
+          mattered: "The community was stable, but VOL still watched for small shifts that can be hidden inside otherwise healthy metrics.",
+          action: "Keep core caregiver assignments locked and review weekend coverage variance.",
+          outcome: "Stability remained above baseline and leadership bandwidth stayed available for proactive management."
+        },
+        {
+          week: 7,
+          signal: "Overtime rose while agency stayed contained",
+          interpretation: "Internal coverage absorbed a short-term staffing fluctuation before it became structural agency dependence.",
+          mattered: "This protected labor economics while preserving care continuity.",
+          action: "Review repeat open shifts and confirm whether the same roles were carrying the extra hours.",
+          outcome: "The pattern normalized without turning into a broader workforce absorption problem."
+        }
+      ],
+      "cedar-ridge": [
+        {
+          week: 4,
+          signal: "Open shifts and overtime began rising together",
+          interpretation: "Workforce absorption was weakening before the operating score fully deteriorated.",
+          mattered: "The early signal showed staffing strain was becoming a system pattern, not a single difficult week.",
+          action: "Prioritize recurring open shifts by role and protect the highest-fragility shifts first.",
+          outcome: "Leadership could intervene before the erosion became permanent instability."
+        },
+        {
+          week: 7,
+          signal: "WSI reached its lowest point while VI remained under pressure",
+          interpretation: "The workforce was no longer absorbing operating volatility at the prior rate.",
+          mattered: "Without action, coverage gaps would likely convert into overtime fatigue or agency dependency.",
+          action: "Reset the recruiting focus around schedule-critical roles and reduce nonessential shift churn.",
+          outcome: "The trend began stabilizing in the following weeks."
+        },
+        {
+          week: 11,
+          signal: "Workforce score improved while volatility remained elevated",
+          interpretation: "The operating system was recovering, but not yet back to baseline resilience.",
+          mattered: "Leadership needed to keep pressure on the root cause instead of declaring recovery too early.",
+          action: "Continue targeted coverage repair until WSI and VI move together.",
+          outcome: "The community moved from erosion toward controlled stabilization."
+        }
+      ],
+      "willow-creek": [
+        {
+          week: 2,
+          signal: "Sharp week-to-week score movement appeared early",
+          interpretation: "Instability was oscillating rather than following a clean decline or recovery path.",
+          mattered: "Jagged movement often indicates leadership-constrained execution, not just staffing volume.",
+          action: "Separate operational follow-through issues from pure coverage shortages.",
+          outcome: "The leadership drag pattern became visible before it was buried in weekly noise."
+        },
+        {
+          week: 6,
+          signal: "Leadership bandwidth and workflow disruption compressed together",
+          interpretation: "Execution capacity was becoming the bottleneck for stabilization.",
+          mattered: "Even correct staffing actions can fail when leaders lack bandwidth to sustain them.",
+          action: "Remove low-value administrative load and assign single-owner follow-up for schedule repairs.",
+          outcome: "The next actions became more targeted around leadership capacity, not just staffing counts."
+        },
+        {
+          week: 10,
+          signal: "Recurring instability returned after temporary improvement",
+          interpretation: "The community was experiencing relapse risk because the underlying execution pattern was still open.",
+          mattered: "This prevented leadership from mistaking a short improvement for true stabilization.",
+          action: "Assign one owner for open staffing escalations before adding new initiatives.",
+          outcome: "The pattern was reframed as recurring operational instability requiring disciplined execution support."
+        }
+      ],
+      "river-bend": [
+        {
+          week: 3,
+          signal: "Agency percentage and overtime pressure rose in parallel",
+          interpretation: "External labor was beginning to become part of the operating model rather than an exception.",
+          mattered: "Agency use can preserve coverage while quietly creating structural financial drag.",
+          action: "Identify repeat agency-covered shifts and assign internal replacement targets.",
+          outcome: "Leadership could see the cost pattern before it was normalized as unavoidable."
+        },
+        {
+          week: 6,
+          signal: "Estimated volatility drag crossed a sustained high-pressure level",
+          interpretation: "Instability was no longer only operational; it had become an economic signal.",
+          mattered: "This changed the decision from staffing cleanup to executive labor model intervention.",
+          action: "Set an agency reduction path tied to priority shifts, not broad hiring goals.",
+          outcome: "The operating conversation shifted from weekly coverage to structural cost recovery."
+        },
+        {
+          week: 10,
+          signal: "Scores remained low despite continued coverage",
+          interpretation: "Coverage was being maintained, but the system was not becoming more stable.",
+          mattered: "This showed that filling shifts alone was not restoring resilience.",
+          action: "Rebuild core coverage on the most fragile shifts and reduce dependency before adding new demand.",
+          outcome: "VOL identified sustained instability that required executive action, not routine schedule management."
+        }
+      ],
+      "oak-hollow": [
+        {
+          week: 3,
+          signal: "Early recovery appeared in WSI before full operating stability returned",
+          interpretation: "Workforce capacity was improving ahead of the broader VI signal.",
+          mattered: "This suggested recovery was real, but still fragile.",
+          action: "Protect the staffing improvements and avoid adding new workflow burden too soon.",
+          outcome: "The recovery path continued instead of being disrupted by premature change."
+        },
+        {
+          week: 7,
+          signal: "VI and WSI began moving upward together",
+          interpretation: "The community was transitioning from isolated improvement to system stabilization.",
+          mattered: "When both signals move together, leadership can shift from emergency response to operating discipline.",
+          action: "Keep the repaired caregiver assignments in place and close repeat call-off clusters.",
+          outcome: "The trend moved steadily toward baseline."
+        },
+        {
+          week: 12,
+          signal: "Latest week approached baseline stability",
+          interpretation: "Recovery had become visible as an operating pattern, not a one-week rebound.",
+          mattered: "Leadership could now focus on sustaining the gains rather than chasing urgent symptoms.",
+          action: "Hold weekly coverage review and avoid reopening census growth pressure too quickly.",
+          outcome: "The community showed a credible stabilization trajectory."
+        }
+      ]
+    };
+
+    return events[demo.id] || [];
+  }
+
+  function renderIntelligenceTimeline(demo){
+    const events = intelligenceEventsFor(demo);
+    if(!events.length){
+      return `<div class="loading-state">Operational intelligence events are not available for this community.</div>`;
+    }
+
+    return `
+      <div class="intelligence-panel">
+        <div class="intelligence-flow" aria-hidden="true">
+          <span>Signal detected</span>
+          <span>Why it mattered</span>
+          <span>Decision</span>
+          <span>Outcome</span>
+        </div>
+        <div class="timeline-list">
+          ${events.map((event, index) => `
+            <details class="timeline-event" ${index === 0 ? "open" : ""}>
+              <summary>
+                <span class="timeline-week">Week ${escapeHtml(event.week)}</span>
+                <span class="timeline-signal">${escapeHtml(event.signal)}</span>
+                <span class="timeline-toggle">View intelligence</span>
+              </summary>
+              <div class="timeline-body">
+                <div class="intel-cell">
+                  <div class="label">Why it mattered</div>
+                  <p>${escapeHtml(event.mattered)}</p>
+                </div>
+                <div class="intel-cell">
+                  <div class="label">Recommended leadership action</div>
+                  <p>${escapeHtml(event.action)}</p>
+                </div>
+                <div class="intel-cell">
+                  <div class="label">Subsequent operational outcome</div>
+                  <p>${escapeHtml(event.outcome)}</p>
+                </div>
+              </div>
+            </details>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderReplayModeToggle(activeMode){
+    const modes = [
+      { id: "without", label: "Without VOL" },
+      { id: "with", label: "With VOL" }
+    ];
+    return `
+      <div class="decision-toggle" role="group" aria-label="Decision Replay mode">
+        ${modes.map((mode) => `
+          <button
+            type="button"
+            class="decision-toggle-btn ${activeMode === mode.id ? "active" : ""}"
+            data-replay-mode="${escapeHtml(mode.id)}"
+            aria-pressed="${activeMode === mode.id}"
+          >${escapeHtml(mode.label)}</button>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function renderInterventionWindow(window, index){
+    return `
+      <article class="decision-window">
+        <div class="decision-window-head">
+          <span>Week ${escapeHtml(window.week)}</span>
+          <strong>${escapeHtml(window.label)}</strong>
+        </div>
+        <div class="decision-window-grid">
+          <div>
+            <div class="label">Signal detected</div>
+            <p>${escapeHtml(window.signal_detected)}</p>
+          </div>
+          <div>
+            <div class="label">Why it mattered</div>
+            <p>${escapeHtml(window.why_it_matters)}</p>
+          </div>
+          <div>
+            <div class="label">Recommended action</div>
+            <p>${escapeHtml(window.recommended_action)}</p>
+          </div>
+          <div>
+            <div class="label">Likely operating effect</div>
+            <p>${escapeHtml(window.likely_effect)}</p>
+          </div>
+          <div>
+            <div class="label">Follow-up metric</div>
+            <p>${escapeHtml(window.watch_metric)}</p>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderDecisionReplay(replay){
+    const windows = replay.intervention_windows || [];
+    return `
+      <section>
+        <div class="section-head decision-section-head">
+          <div>
+            <h2>Decision Replay</h2>
+            <p>Same data. Different visibility. Earlier action changes the stabilization path.</p>
+          </div>
+          ${renderReplayModeToggle(replay.mode)}
+        </div>
+        <div class="panel decision-replay-panel mode-${escapeHtml(replay.mode)}">
+          <div class="decision-summary">
+            <div>
+              <span>${replay.mode === "with" ? "With VOL" : "Without VOL"}</span>
+              <p>${escapeHtml(replay.summary)}</p>
+            </div>
+            <div class="decision-drag">
+              <span>Cumulative drag</span>
+              <strong>${escapeHtml(formatCurrency(replay.cumulative_drag))}</strong>
+            </div>
+          </div>
+          ${replay.mode === "with" ? `
+            <div class="decision-window-list">
+              ${windows.map(renderInterventionWindow).join("")}
+            </div>
+          ` : `
+            <div class="decision-without-note">
+              <strong>What leadership likely sees first</strong>
+              <p>Weekly metrics are available, but the cross-signal pattern is not elevated until strain is already visible through labor cost, agency dependence, or repeated leadership workflow disruption.</p>
+            </div>
+          `}
+        </div>
+      </section>
+    `;
+  }
+
+  function renderEffectItem(label, value){
+    return `
+      <div class="path-effect-item">
+        <span>${escapeHtml(label)}</span>
+        <strong>${escapeHtml(value || "n/a")}</strong>
+      </div>
+    `;
+  }
+
+  function interventionTypeFor(window){
+    const text = `${window?.type || ""} ${window?.recommended_action || ""} ${window?.label || ""}`.toLowerCase();
+    if(text.includes("agency") || text.includes("prn")) return "PRN block replacement";
+    if(text.includes("owner") || text.includes("ed/don") || text.includes("leadership")) return "Leadership recovery ownership";
+    if(text.includes("flex")) return "Temporary flex coverage";
+    if(text.includes("caregiver") || text.includes("weekend")) return "Weekend caregiver stabilization";
+    if(text.includes("critical")) return "PRN block replacement";
+    return "Targeted stabilization action";
+  }
+
+  function renderProjectedStabilizedPath(model){
+    const actual = model.projected_effects?.actual_path || {};
+    const stabilized = model.projected_effects?.stabilized_path || {};
+    const interventionWeek = model.projected_effects?.intervention_week || "n/a";
+    const interventionType = model.projected_effects?.intervention_type || "Targeted stabilization action";
+    return `
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Projected Stabilized Path</h2>
+            <p>Modeled stabilization path if earlier action occurred during the escalation window.</p>
+          </div>
+        </div>
+        <div class="panel stabilized-path-panel">
+          <div class="stabilized-path-grid">
+            <article class="path-column actual-path">
+              <div class="path-column-head">
+                <span>Actual Path</span>
+                <strong>${escapeHtml(formatCurrency(model.actual_drag))}</strong>
+                <em>Cumulative volatility drag</em>
+              </div>
+              <div class="path-effect-list">
+                ${renderEffectItem("OT trend", actual.ot_trend)}
+                ${renderEffectItem("Agency trend", actual.agency_trend)}
+                ${renderEffectItem("Leadership pressure", actual.leadership_pressure)}
+                ${renderEffectItem("Workforce strain progression", actual.workforce_strain_progression)}
+              </div>
+              <p class="path-note">Escalation windows were identified only after operational strain became visible through OT and agency growth.</p>
+            </article>
+
+            <article class="path-column projected-path">
+              <div class="path-column-head">
+                <span>Projected Stabilized Path</span>
+                <strong>${escapeHtml(formatCurrency(model.projected_drag_low))}-${escapeHtml(formatCurrency(model.projected_drag_high))}</strong>
+                <em>Modeled drag range from Week ${escapeHtml(interventionWeek)} intervention</em>
+              </div>
+              <div class="projected-reduction-callout">
+                <span>Projected drag reduction</span>
+                <strong>${escapeHtml(model.projected_reduction_pct_low)}-${escapeHtml(model.projected_reduction_pct_high)}%</strong>
+              </div>
+              <div class="path-effect-list">
+                ${renderEffectItem("Intervention type", interventionType)}
+                ${renderEffectItem("Projected OT reduction", stabilized.projected_ot_reduction)}
+                ${renderEffectItem("Projected agency reduction", stabilized.projected_agency_reduction)}
+                ${renderEffectItem("Projected rebuild reduction", stabilized.projected_rebuild_reduction)}
+                ${renderEffectItem("Stabilization trajectory", stabilized.projected_stabilization_trajectory)}
+                ${renderEffectItem("Leadership relief", stabilized.projected_leadership_relief)}
+              </div>
+              <p class="path-note">Earlier stabilization actions likely would have reduced cumulative volatility drag and slowed workforce strain acceleration.</p>
+            </article>
+          </div>
+          <div class="model-assumptions">
+            <span>Model assumptions</span>
+            ${model.assumptions.map((assumption) => `<p>${escapeHtml(assumption)}</p>`).join("")}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  function renderDemo(demo, payload){
+    const normalized = payload.normalized || {};
+    const profile = normalized.community_profile || {};
+    const weeks = buildWeeklyIntelligence(normalized.weekly_operational_signals || []);
+    const replay = buildDecisionReplay(weeks, state.replayMode);
+    const replayWeeks = replay.enriched_rows || weeks;
+    const interventionWindow = replay.intervention_windows?.[0] || {};
+    const stabilizedModel = projectStabilizedPath({
+      weeklySignals: weeks,
+      interventionWeek: interventionWindow.week || 1,
+      interventionType: interventionTypeFor(interventionWindow)
+    });
+    const latest = getLatestWeek(weeks);
+
+    outputEl.innerHTML = `
+      ${renderExecutiveIntelligenceSummary(demo, weeks)}
+
+      ${renderDecisionReplay(replay)}
+
+      ${renderProjectedStabilizedPath(stabilizedModel)}
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Weekly Trend Table</h2>
+            <p>${state.replayMode === "with"
+              ? "VOL highlights intervention rows where earlier action could change the stabilization path."
+              : "The same weekly data remains mostly metric-focused, with weak hindsight notes after strain compounds."}</p>
+          </div>
+        </div>
+        <div class="panel trend-table-panel">
+          <div class="drag-summary">
+            <span>12-Week Volatility Drag</span>
+            <strong>${escapeHtml(formatCurrency(replay.cumulative_drag))}</strong>
+            <em>Modeled cumulative business impact from instability signals.</em>
+          </div>
+          <div class="table-wrap">
+            <table class="trend-table">
+              <thead>
+                <tr>
+                  <th>Week</th>
+                  <th>VI / WSI</th>
+                  <th>Trend</th>
+                  <th>Consequence / Action</th>
+                  <th>Coverage</th>
+                  <th>Financial Drag</th>
+                </tr>
+              </thead>
+              <tbody>${renderTrendRows(replayWeeks)}</tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Operational Stability Trend</h2>
+            <p>How workforce stability and operating pressure evolved over twelve weeks.</p>
+          </div>
+        </div>
+        <div class="panel fingerprint-panel">
+          ${renderOperatingFingerprint(weeks, demo)}
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Operational Intelligence Timeline</h2>
+            <p>Critical inflection moments where VOL converts weekly movement into leadership action.</p>
+          </div>
+        </div>
+        ${renderIntelligenceTimeline(demo)}
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Raw supporting metrics</h2>
+            <p>Supporting evidence from the latest normalized weekly signal row.</p>
+          </div>
+        </div>
+        <div class="metric-grid">
+          ${metricCard("Open shifts", formatNumber(latest.open_shifts ?? latest.open_shifts_per_week), "Uncovered weekly schedule demand")}
+          ${metricCard("Call-offs", formatNumber(latest.last_minute_calloffs ?? latest.last_minute_calloffs_per_week), "Short-notice coverage disruption")}
+          ${metricCard("Overtime hours", formatNumber(latest.overtime_hours), "Internal labor absorption pressure")}
+          ${metricCard("Agency %", formatPercent(latest.agency_shift_pct), "External coverage dependency")}
+          ${metricCard("Total labor cost", formatCurrency(latest.total_labor_cost), "Regular, overtime, agency, and recruiting cost")}
+          ${metricCard("Estimated volatility drag", formatCurrency(latest.estimated_volatility_drag), "Modeled weekly economic drag from instability")}
+          ${metricCard("Leadership bandwidth", formatNumber(latest.leadership_bandwidth_score), "Available management capacity")}
+          ${metricCard("Acuity variability", formatNumber(latest.acuity_variability), "Care-demand variation signal")}
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div>
+            <h2>Supporting operating context</h2>
+            <p>Community profile and scenario metadata behind the synthetic operating pattern.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="profile-grid">
+            ${profileCell("Scenario", profile.scenario_label || demo.scenario)}
+            ${profileCell("Market", profile.market || "Synthetic market")}
+            ${profileCell("Licensed units", formatNumber(profile.licensed_units))}
+            ${profileCell("Starting census", formatNumber(profile.starting_occupied_residents))}
+            ${profileCell("Community type", profile.community_type || "Assisted Living")}
+            ${profileCell("Ownership", profile.ownership_style || "Synthetic operator")}
+            ${profileCell("Bottleneck", profile.primary_operational_bottleneck || latest.dominant_pattern || "n/a")}
+            ${profileCell("Leadership context", profile.leadership_context || latest.leadership_context || "n/a")}
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  async function selectDemo(id){
+    state.selectedId = id;
+    renderCards();
+    const demo = demos.find((item) => item.id === id);
+    if(!demo) return;
+
+    outputEl.innerHTML = `<div class="loading-state">Loading ${escapeHtml(demo.name)}...</div>`;
+
+    try{
+      if(!state.dataById.has(id)){
+        const response = await fetch(demo.file);
+        if(!response.ok) throw new Error(`Unable to load ${demo.file}`);
+        const payload = await response.json();
+        state.dataById.set(id, payload);
+      }
+      renderDemo(demo, state.dataById.get(id));
+    }catch(error){
+      outputEl.innerHTML = `
+        <div class="error-state">
+          Demo data could not be loaded. Run this page from the local site/server so the browser can fetch files from /data.
+        </div>
+      `;
+      console.error(error);
+    }
+  }
+
+  cardsEl.addEventListener("click", (event) => {
+    const card = event.target.closest("[data-demo-id]");
+    if(!card) return;
+    selectDemo(card.getAttribute("data-demo-id"));
+  });
+
+  outputEl.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-replay-mode]");
+    if(!button) return;
+    state.replayMode = button.getAttribute("data-replay-mode") || "with";
+    const demo = demos.find((item) => item.id === state.selectedId);
+    const payload = state.dataById.get(state.selectedId);
+    if(demo && payload) renderDemo(demo, payload);
+  });
+
+  renderCards();
+  selectDemo(state.selectedId);
+})();

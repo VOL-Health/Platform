@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VOL Health | SHAI Stability Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#07111f;
+      --bg-2:#0c1830;
+      --panel:rgba(13,18,36,0.96);
+      --panel-2:rgba(17,24,46,0.94);
+      --line:rgba(255,255,255,0.10);
+      --text:#eef4ff;
+      --muted:#9fb2d2;
+      --blue:#2c6cff;
+      --green:#35c67a;
+      --green-2:#28a862;
+      --amber:#f6b44b;
+      --red:#f06161;
+      --gray:#7f879d;
+      --gray-2:#62697c;
+      --shadow:0 14px 34px rgba(0,0,0,0.34);
+      --radius-xl:20px;
+      --radius-lg:18px;
+      --radius-md:14px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ min-height:100%; }
+
+    body{
+      margin:0;
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(44,108,255,0.16), transparent 32%),
+        radial-gradient(circle at top right, rgba(53,198,122,0.12), transparent 28%),
+        linear-gradient(180deg, #06101e 0%, #081424 45%, #06101d 100%);
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font-family:inherit;
+    }
+
+    a{ color:inherit; }
+
+    .wrap{
+      width:min(1280px, calc(100% - 28px));
+      margin:22px auto 40px;
+    }
+
+    .platform-header{
+      margin-bottom:4px;
+      padding:12px 14px 0;
+    }
+
+    .platform-header-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:22px;
+      margin-bottom:12px;
+    }
+
+    .platform-brand{
+      min-width:0;
+    }
+    .vol-logo-horizontal{
+      --vol-logo-font-weight:300;
+      --vol-logo-letter-spacing:0.08em;
+      --vol-logo-color:rgba(255,255,255,0.94);
+      --vol-logo-glow:0 0 0.16em rgba(79,130,255,0.16);
+      display:inline-flex;
+      align-items:center;
+      gap:0.08em;
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
+      font-size:clamp(34px, 4.2vw, 56px);
+      font-weight:var(--vol-logo-font-weight);
+      letter-spacing:var(--vol-logo-letter-spacing);
+      line-height:1;
+      color:var(--vol-logo-color);
+      white-space:nowrap;
+    }
+
+    .logo-letter{
+      color:var(--vol-logo-color);
+      font-weight:inherit;
+    }
+
+    .logo-o{
+      width:0.76em;
+      height:0.76em;
+      border-radius:50%;
+      border:0.065em solid #4f82ff;
+      box-sizing:border-box;
+      display:inline-block;
+      position:relative;
+      transform:translateY(0.035em);
+      box-shadow:
+        inset 0 0 0.20em rgba(79,130,255,0.20),
+        var(--vol-logo-glow);
+    }
+
+    .logo-o::after{
+      content:"";
+      position:absolute;
+      inset:-0.08em;
+      border-radius:50%;
+      border-top:0.035em solid rgba(255,255,255,0.26);
+      border-right:0.035em solid rgba(79,130,255,0.68);
+      border-bottom:0.035em solid transparent;
+      border-left:0.035em solid transparent;
+      transform:rotate(-28deg);
+    }
+
+    .logo-gap{
+      width:0.26em;
+    }
+
+    .platform-brand-sub{
+      margin-top:4px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.22em;
+      color:rgba(255,255,255,0.78);
+    }
+
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:#eef4ff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.04em;
+      white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .nav-pill:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
+    }
+
+    .nav-pill.active{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.45);
+      color:#ffffff;
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.28),
+        0 4px 14px rgba(44,108,255,0.20);
+    }
+
+    .nav-dropdown{ position:relative; display:inline-flex; align-items:center; }
+    .nav-pill-button{ cursor:pointer; }
+    .nav-caret{ margin-left:6px; color:rgba(143,215,255,0.82); font-size:10px; line-height:1; }
+    .dropdown-menu{
+      position:absolute;
+      top:calc(100% + 10px);
+      right:0;
+      z-index:20;
+      width:230px;
+      padding:8px;
+      border:1px solid rgba(255,255,255,0.13);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(13,18,36,0.98), rgba(8,13,28,0.96));
+      box-shadow:0 22px 54px rgba(0,0,0,0.42), 0 0 34px rgba(44,108,255,0.10);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transform:translateY(8px) scale(0.98);
+      transform-origin:top right;
+      transition:opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateY(0) scale(1);
+    }
+    .dropdown-link{
+      display:flex;
+      align-items:center;
+      padding:10px 11px;
+      border-radius:12px;
+      color:rgba(255,255,255,0.76);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.01em;
+      transition:background 0.14s ease, color 0.14s ease, transform 0.14s ease;
+    }
+    .dropdown-link:hover,
+    .dropdown-link:focus{
+      outline:none;
+      color:#ffffff;
+      background:rgba(255,255,255,0.07);
+      transform:translateX(2px);
+    }
+
+    .platform-page-intro{
+      padding:14px 18px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:linear-gradient(180deg, rgba(8,16,35,0.88), rgba(8,16,35,0.62));
+      margin-bottom:6px;
+    }
+
+    .page-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.35);
+      background:rgba(44,108,255,0.12);
+      color:#dbe6ff;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      text-transform:none;
+      margin-bottom:12px;
+    }
+
+    .page-title{
+      margin:0 0 6px;
+      max-width:1100px;
+      font-size:clamp(22px, 2.6vw, 32px);
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.01em;
+    }
+
+    .page-subtitle{
+      margin-top:4px;
+      max-width:1120px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.5;
+    }
+
+    .signal-flow{
+      margin:0 0 14px;
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.035);
+    }
+
+    .signal-flow-label{
+      color:rgba(159,178,210,0.92);
+      font-size:11px;
+      line-height:1.25;
+      font-weight:700;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .signal-flow-label-arrow{
+      color:rgba(120,164,255,0.96);
+      font-family:inherit;
+      font-weight:inherit;
+      line-height:1;
+      margin:0 0.38em;
+    }
+
+    .signal-flow-track{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);
+      align-items:center;
+      column-gap:8px;
+      row-gap:10px;
+    }
+
+    .signal-flow-step{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      min-height:34px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(10,20,42,0.64);
+      color:rgba(255,255,255,0.78);
+      font-size:12.5px;
+      line-height:1.25;
+      font-weight:400;
+      text-align:center;
+      text-decoration:none;
+      white-space:normal;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease, box-shadow 0.14s ease, color 0.14s ease;
+    }
+
+    .signal-flow-step:hover,
+    .signal-flow-step:focus-visible{
+      background:rgba(44,108,255,0.16);
+      border-color:rgba(44,108,255,0.55);
+      color:#ffffff;
+      transform:translateY(-1px);
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.22),
+        0 8px 20px rgba(44,108,255,0.16);
+      outline:none;
+    }
+
+    .signal-flow-step.active{
+      background:rgba(44,108,255,0.22);
+      border-color:rgba(120,164,255,0.62);
+      color:#ffffff;
+      box-shadow:
+        0 0 0 1px rgba(44,108,255,0.24),
+        inset 0 0 18px rgba(79,130,255,0.12);
+    }
+
+    .signal-flow-step strong{
+      color:rgba(255,255,255,0.94);
+      font-weight:700;
+    }
+
+    .signal-flow-step span{
+      color:rgba(159,178,210,0.92);
+      font-weight:500;
+    }
+
+    .signal-flow-step.active strong,
+    .signal-flow-step:hover strong,
+    .signal-flow-step:focus-visible strong{
+      color:#ffffff;
+    }
+
+    .signal-flow-arrow{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:18px;
+      color:rgba(120,164,255,0.9);
+      font-size:16px;
+      font-weight:700;
+      line-height:1;
+      justify-self:center;
+      text-shadow:0 0 12px rgba(79,130,255,0.28);
+      transform:translateY(-0.5px);
+      transition:color 0.14s ease, text-shadow 0.14s ease, transform 0.14s ease;
+    }
+
+    .signal-flow-track:hover .signal-flow-arrow,
+    .signal-flow-track:focus-within .signal-flow-arrow{
+      color:rgba(149,185,255,0.98);
+      text-shadow:0 0 14px rgba(79,130,255,0.38);
+      transform:translateY(-0.5px) scale(1.04);
+    }
+
+    @media (max-width:1100px){
+      .signal-flow-track{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+      .signal-flow-arrow{
+        display:none;
+      }
+    }
+
+    @media (max-width:640px){
+      .signal-flow-track{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .page{
+      padding:8px 14px 32px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.015) 24%, rgba(255,255,255,0.025) 100%);
+      border-radius:22px;
+    }
+
+    .system-spine{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0, 1fr));
+      gap:12px;
+      margin:0 0 14px;
+    }
+
+    .system-spine a{
+      text-decoration:none;
+    }
+
+    .spine-card{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      background:rgba(16,23,44,0.92);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:16px 18px;
+      min-height:104px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      transition:
+        transform 0.14s ease,
+        box-shadow 0.14s ease,
+        border-color 0.14s ease,
+        background 0.14s ease;
+      cursor:pointer;
+      color:inherit;
+    }
+
+    .spine-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 44px rgba(0,0,0,0.34);
+      border-color:rgba(44,108,255,0.35);
+    }
+
+    .spine-card.active{
+      border-color:rgba(44,108,255,0.45);
+      background:linear-gradient(180deg, rgba(44,108,255,0.14), rgba(13,18,36,0.96));
+    }
+
+    .spine-card .step{
+      font-size:11px;
+      color:#9fb2d2;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:6px;
+    }
+
+    .spine-card strong{
+      display:block;
+      font-size:17px;
+      margin-bottom:6px;
+      color:#f5f6ff;
+    }
+
+    .spine-card span{
+      color:#c4cae8;
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .context-bar{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:12px;
+      margin:0 0 14px;
+      padding:14px 16px;
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+    }
+
+    .release-roadmap{
+      margin:0 0 14px;
+      padding:18px;
+      border-radius:20px;
+      border:1px solid rgba(120,164,255,0.24);
+      background:
+        linear-gradient(135deg, rgba(44,108,255,0.13), rgba(17,24,46,0.95) 42%, rgba(9,16,32,0.94)),
+        rgba(17,24,46,0.94);
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+    }
+
+    .release-head{
+      display:grid;
+      grid-template-columns:minmax(0, 0.82fr) minmax(0, 1.18fr);
+      gap:18px;
+      align-items:start;
+      margin-bottom:16px;
+    }
+
+    .release-kicker{
+      color:rgba(159,178,210,0.94);
+      font-size:11px;
+      line-height:1.25;
+      font-weight:700;
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .release-title{
+      margin:0;
+      font-size:clamp(20px, 2.2vw, 28px);
+      line-height:1.12;
+      font-weight:800;
+      color:rgba(255,255,255,0.94);
+    }
+
+    .release-body{
+      margin:0;
+      color:rgba(255,255,255,0.78);
+      font-size:13.5px;
+      line-height:1.58;
+    }
+
+    .release-columns{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .release-column{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      border-radius:18px;
+      padding:14px;
+      min-width:0;
+    }
+
+    .release-column-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:10px;
+    }
+
+    .release-column-title{
+      margin:0;
+      font-size:13px;
+      line-height:1.25;
+      font-weight:800;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.90);
+    }
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:rgba(255,255,255,0.72);
+      font-size:10.5px;
+      line-height:1.2;
+      font-weight:700;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .status-pill.active-release{
+      border-color:rgba(53,198,122,0.30);
+      background:rgba(53,198,122,0.08);
+      color:rgba(211,255,232,0.86);
+    }
+
+    .status-pill.roadmap-release{
+      border-color:rgba(120,164,255,0.34);
+      background:rgba(44,108,255,0.10);
+      color:rgba(220,231,255,0.88);
+    }
+
+    .release-list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:8px;
+    }
+
+    .release-list li{
+      position:relative;
+      padding-left:17px;
+      color:rgba(255,255,255,0.78);
+      font-size:12.8px;
+      line-height:1.42;
+    }
+
+    .release-list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0.56em;
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:rgba(120,164,255,0.76);
+      box-shadow:0 0 12px rgba(44,108,255,0.22);
+    }
+
+    .release-trust-note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.035);
+      color:rgba(255,255,255,0.72);
+      font-size:12.5px;
+      line-height:1.52;
+    }
+
+    .context-main{
+      min-width:0;
+    }
+
+    .context-field{
+      margin-bottom:10px;
+    }
+
+    .context-actions{
+      display:flex;
+      align-items:flex-start;
+      margin-top:6px;
+    }
+
+    .context-field label{
+      display:block;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:8px;
+    }
+
+    .inline-mode-options{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin:0;
+    }
+
+    .inline-mode-options label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:14px;
+      color:#f5f6ff;
+      text-transform:none;
+      letter-spacing:0;
+      margin:0;
+    }
+
+    .inline-mode-options input{
+      accent-color:var(--green);
+    }
+
+    .btn-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn,
+    .btn-link{
+      border:none;
+      background:var(--blue);
+      color:#fff;
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.06em;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
+      box-shadow:none;
+      transition:filter 0.12s ease, transform 0.12s ease;
+    }
+
+    .btn:hover,
+    .btn-link:hover{
+      filter:brightness(1.05);
+      transform:translateY(-1px);
+    }
+
+    .btn.primary,
+    .btn-link.primary{
+      background:linear-gradient(180deg, #7c859b, #62697c);
+      border:1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn.secondary,
+    .btn-link.secondary{
+      background:#39415a;
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn.ghost,
+    .btn-link.ghost{
+      background:transparent;
+      border:1px solid #33406f;
+      color:#dce5ff;
+    }
+
+    .btn.gray,
+    .btn-link.gray{
+      background:linear-gradient(180deg, #7c859b, #62697c);
+      border:1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn.green,
+    .btn-link.green{
+      background:linear-gradient(90deg, var(--green), #34c08a);
+      border:1px solid rgba(255,255,255,0.10);
+    }
+
+    input[type="text"]{
+      width:100%;
+      padding:11px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#050814;
+      color:#f5f6ff;
+      font-size:14px;
+      outline:none;
+    }
+
+    input[type="text"]:focus{
+      border-color:var(--blue);
+      box-shadow:0 0 0 2px rgba(31,87,184,0.45);
+    }
+
+    .tabs-card{
+      background:rgba(14,20,40,0.90);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.26);
+      padding:14px;
+      margin-bottom:14px;
+    }
+
+    .tabs-bar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .tabs-left{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .tab-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.82);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .tab-btn:hover{
+      background:rgba(255,255,255,0.06);
+    }
+
+    .tab-btn.active{
+      background:rgba(127,135,157,0.22);
+      border-color:rgba(255,255,255,0.16);
+      color:#fff;
+    }
+
+    .tab-hint{
+      color:rgba(255,255,255,0.62);
+      font-size:12px;
+    }
+
+    .tab-panel{
+      display:none;
+    }
+
+    .tab-panel.active{
+      display:block;
+    }
+
+    .layout-grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .sidebar-section{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .card{
+      background:rgba(17,24,46,0.94);
+      border-radius:20px;
+      box-shadow:0 14px 34px rgba(0,0,0,0.28);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.11);
+    }
+
+    .card-header{
+      padding:0 0 10px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      margin-bottom:10px;
+    }
+
+    .card-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.90);
+      margin:0;
+    }
+
+    .card-title-badge{
+      margin-top:4px;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+      padding:6px 10px;
+      display:inline-block;
+      white-space:normal;
+      max-width:100%;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.80);
+    }
+
+    .card-sub{
+      color:rgba(255,255,255,0.76);
+      font-size:12.5px;
+      line-height:1.45;
+      margin-bottom:12px;
+    }
+
+    .search-shell{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      border-radius:18px;
+      padding:14px;
+      margin-bottom:14px;
+    }
+
+    .search-label{
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.72);
+      margin-bottom:10px;
+    }
+
+    .search-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .search-input-wrap{
+      flex:1 1 420px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+    }
+
+    .search-icon{
+      opacity:0.85;
+    }
+
+    .search-input{
+      width:100%;
+      background:transparent;
+      border:none;
+      outline:none;
+      color:rgba(255,255,255,0.92);
+      font-size:14px;
+    }
+
+    .search-input::placeholder{
+      color:rgba(255,255,255,0.45);
+    }
+
+    .prompt-chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      font-size:12px;
+      color:rgba(255,255,255,0.78);
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .chip:hover{
+      background:rgba(255,255,255,0.06);
+    }
+
+    .candidate-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .candidate-card,
+    .shift-card,
+    .recommendation,
+    .insight-card,
+    .usage-card{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .candidate-row-top{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .candidate-main{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .candidate-avatar{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.10);
+      font-weight:700;
+      flex:0 0 auto;
+    }
+
+    .candidate-name-role{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .candidate-name-role strong{
+      font-size:14px;
+    }
+
+    .candidate-name-role span{
+      color:rgba(255,255,255,0.70);
+      font-size:12px;
+    }
+
+    .candidate-tag-elig{
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.03);
+      color:rgba(255,255,255,0.80);
+      font-size:12px;
+      font-weight:700;
+      padding:8px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .candidate-tag-elig.pending{
+      border-color:rgba(242,183,5,0.35);
+      background:rgba(242,183,5,0.08);
+    }
+
+    .candidate-stats{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color:rgba(255,255,255,0.78);
+      font-size:12.5px;
+      line-height:1.35;
+    }
+
+    .candidate-meta{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      color:rgba(255,255,255,0.70);
+      font-size:12px;
+    }
+
+    .fit{
+      font-weight:700;
+    }
+
+    .insight-card,
+    .usage-card{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      margin-top:12px;
+    }
+
+    .insight-icon,
+    .usage-icon{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.10);
+      flex:0 0 auto;
+      opacity:0.95;
+    }
+
+    .insight-sub,
+    .usage-sub{
+      margin-top:6px;
+      color:rgba(255,255,255,0.75);
+      font-size:12.5px;
+      line-height:1.45;
+    }
+
+    .summary-metrics{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .metric-box{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.18);
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .metric-label{
+      color:rgba(255,255,255,0.62);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      font-weight:700;
+    }
+
+    .metric-value{
+      font-size:18px;
+      font-weight:700;
+      margin-top:6px;
+    }
+
+    .metric-sub{
+      color:rgba(255,255,255,0.70);
+      font-size:12px;
+      margin-top:4px;
+      line-height:1.35;
+    }
+
+    .sidebar-note{
+      margin-top:12px;
+      color:rgba(255,255,255,0.72);
+      font-size:12.5px;
+      line-height:1.5;
+    }
+
+    .actions-bar{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .section{
+      margin-top:0;
+    }
+
+    .section-title{
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.10em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.72);
+      margin:0 0 10px;
+    }
+
+    .shift-title{
+      font-size:14px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .shift-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      color:rgba(255,255,255,0.72);
+      font-size:12px;
+      margin-top:4px;
+      margin-bottom:8px;
+    }
+
+    .recommendation{
+      color:rgba(255,255,255,0.78);
+      font-size:12.5px;
+      line-height:1.45;
+    }
+
+    .rec-warn{
+      border-color:rgba(242,183,5,0.35);
+      background:rgba(242,183,5,0.08);
+    }
+
+    .rec-info{
+      border-color:rgba(31,87,184,0.35);
+      background:rgba(31,87,184,0.08);
+    }
+
+    .progress-bar{
+      height:10px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.06);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.10);
+      margin-top:8px;
+    }
+
+    .progress-bar-fill{
+      height:100%;
+      width:65%;
+      background:rgba(46,139,87,0.65);
+    }
+
+    .demo-note{
+      margin-top:18px;
+      width:100%;
+      max-width:none;
+      padding:16px 18px;
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;
+      background:rgba(255,255,255,0.03);
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .demo-note strong{
+      color:#eef4ff;
+      font-weight:700;
+    }
+
+    .demo-note .small{
+      display:block;
+      margin-top:6px;
+      font-size:12px;
+      opacity:0.9;
+    }
+
+    /* UI system hierarchy pass: calmer cards, readouts, and labels. */
+    .main-grid,
+    .tabs-left,
+    .candidate-main,
+    .candidate-stats,
+    .insight-card,
+    .usage-card,
+    .actions-bar{ gap:16px; }
+
+    .card,
+    .search-shell,
+    .demo-note,
+    .insight-card,
+    .usage-card{ padding:18px; }
+
+    .page-kicker,
+    .card-title,
+    .card-title-badge,
+    .search-label,
+    .metric-label,
+    .section-title,
+    .tab-btn{
+      color:rgba(255,255,255,0.62);
+      font-weight:700;
+    }
+
+    .card-sub,
+    .candidate-stats,
+    .candidate-meta,
+    .metric-sub,
+    .sidebar-note,
+    .demo-note{
+      color:rgba(255,255,255,0.78);
+      font-weight:400;
+      line-height:1.55;
+    }
+
+    .candidate-avatar,
+    .candidate-tag-elig,
+    .fit,
+    .metric-value,
+    .shift-title{ font-weight:700; }
+
+    .btn,
+    .btn-link,
+    .nav-pill{ font-weight:600; }
+
+    /* Final UI polish pass: consistent calm hierarchy on dark surfaces. */
+    .page-title,
+    .card-title,
+    .section-title,
+    .candidate-name,
+    .shift-title,
+    .insight-title,
+    .usage-title{
+      font-weight:700;
+      color:rgba(255,255,255,0.92);
+    }
+
+    .btn,
+    .btn-link,
+    .nav-pill,
+    .tab-btn{
+      font-weight:600;
+    }
+
+    .page-kicker,
+    .spine-card .step,
+    .search-label,
+    .metric-label,
+    .card-title-badge,
+    .candidate-tag,
+    .chip,
+    .fit{
+      color:rgba(255,255,255,0.62);
+      font-weight:700;
+      line-height:1.25;
+    }
+
+    .spine-card strong,
+    .metric-value,
+    .candidate-avatar,
+    .candidate-tag-elig{
+      font-weight:700;
+      color:rgba(255,255,255,0.90);
+    }
+
+    .page-subtitle,
+    .spine-card span,
+    .card-sub,
+    .candidate-meta,
+    .candidate-stats,
+    .metric-sub,
+    .sidebar-note,
+    .recommendation,
+    .tab-hint,
+    .demo-note{
+      color:rgba(255,255,255,0.78);
+      font-weight:400;
+      line-height:1.58;
+    }
+
+    @media (max-width: 980px){
+      .platform-header-top{
+        flex-direction:column;
+        align-items:flex-start;
+        width:100%;
+      }
+
+      .platform-nav{
+        justify-content:flex-start;
+        width:100%;
+      }
+
+      .nav-dropdown{ width:100%; flex-direction:column; align-items:stretch; }
+      .nav-dropdown .nav-pill{ width:100%; justify-content:space-between; }
+      .dropdown-menu{
+        position:static;
+        width:100%;
+        margin-top:8px;
+        opacity:1;
+        visibility:visible;
+        pointer-events:auto;
+        transform:none;
+        box-shadow:0 14px 32px rgba(0,0,0,0.24);
+      }
+
+      .system-spine{
+        grid-template-columns:1fr;
+      }
+
+      .signal-flow-track{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+
+      .signal-flow-arrow{
+        display:none;
+      }
+
+      .context-bar{
+        grid-template-columns:1fr;
+      }
+
+      .release-head,
+      .release-columns{
+        grid-template-columns:1fr;
+      }
+
+      .layout-grid{
+        grid-template-columns:1fr;
+      }
+
+      .summary-metrics{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 820px){
+      html, body{
+        max-width:100%;
+        overflow-x:hidden;
+      }
+
+      .signal-flow-track{
+        grid-template-columns:1fr;
+      }
+
+      .wrap{
+        width:calc(100% - 20px);
+        margin:14px auto 28px;
+      }
+
+      .page{
+        padding:8px 8px 24px;
+      }
+
+      .tabs-card,
+      .card,
+      .platform-page-intro,
+      .release-roadmap,
+      .context-bar,
+      .search-shell,
+      .demo-note{
+        padding-left:14px;
+        padding-right:14px;
+      }
+
+      .search-row,
+      .candidate-row-top,
+      .candidate-main{
+        min-width:0;
+      }
+
+      .search-input-wrap{
+        flex:1 1 100%;
+        min-width:0;
+      }
+
+      .search-button{
+        width:100%;
+      }
+
+      .candidate-row-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .candidate-main{
+        width:100%;
+        min-width:0;
+      }
+
+      .candidate-name-role,
+      .candidate-stats,
+      .candidate-meta,
+      .card-sub{
+        min-width:0;
+        overflow-wrap:break-word;
+      }
+
+      .candidate-tag-elig{
+        white-space:normal;
+        max-width:100%;
+      }
+
+      .btn,
+      .btn-link,
+      .chip,
+      .card-title-badge{
+        max-width:100%;
+      }
+
+      .actions-bar .btn{
+        width:100%;
+        white-space:normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="platform-header">
+      <div class="platform-header-top">
+        <div class="platform-brand">
+          <div class="vol-logo-horizontal" aria-label="VOL Health">
+            <span class="logo-letter">V</span>
+            <span class="logo-o" aria-hidden="true"></span>
+            <span class="logo-letter">L</span>
+            <span class="logo-gap" aria-hidden="true"></span>
+            <span class="logo-letter">H</span>
+            <span class="logo-letter">E</span>
+            <span class="logo-letter">A</span>
+            <span class="logo-letter">L</span>
+            <span class="logo-letter">T</span>
+            <span class="logo-letter">H</span>
+          </div>
+        </div>
+
+        <nav class="platform-nav">
+          <a href="/" class="nav-pill">VOL rEDi</a>
+          <a href="redi-brief.html" class="nav-pill">rEDi Brief</a>
+          <a href="data-demo.html" class="nav-pill">Data Demo</a>
+          <a href="shai.html" class="nav-pill active">SHAI</a>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Company navigation">
+              <a class="dropdown-link" href="/how-vol-works">How VOL Works</a>
+              <a class="dropdown-link" href="/about-vol">About VOL</a>
+              <a class="dropdown-link" href="/contact">Contact Us</a>
+              <a class="dropdown-link" href="/leadership">Leadership</a>
+              <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
+              <a class="dropdown-link" href="/terms-of-use">Terms of Use</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="platform-page-intro">
+        <div class="page-kicker">VOL HEALTH™ ALIGNMENT LAYER</div>
+        <h1 class="page-title">Strategic HR Alignment Intelligence</h1>
+        <p class="page-subtitle">
+          SHAI is the operational alignment and stabilization layer behind VOL, helping operators, schedulers, and providers move from signal detection to the right next response.
+        </p>
+      </div>
+    </header>
+
+    <div class="page">
+      <div class="signal-flow" aria-label="VOL Health signal to decision flow">
+        <div class="signal-flow-label">Signal <span class="signal-flow-label-arrow" aria-hidden="true">&rarr;</span> Decision</div>
+        <div class="signal-flow-track" style="grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);">
+          <a class="signal-flow-step" href="/"><strong>VOL rEDi</strong><span>surface the readiness signal</span></a>
+          <span class="signal-flow-arrow" aria-hidden="true">&rarr;</span>
+          <a class="signal-flow-step" href="data-demo.html"><strong>Review context</strong><span>with demo data</span></a>
+          <span class="signal-flow-arrow" aria-hidden="true">&rarr;</span>
+          <a class="signal-flow-step active" href="shai.html" aria-current="page"><strong>Synthesize decision</strong><span>with SHAI</span></a>
+        </div>
+      </div>
+
+      <section class="release-roadmap" aria-labelledby="releaseRoadmapTitle">
+        <div class="release-head">
+          <div>
+            <div class="release-kicker">Product Maturity</div>
+            <h2 class="release-title" id="releaseRoadmapTitle">Current Release + Roadmap</h2>
+          </div>
+          <p class="release-body">
+            SHAI is the evolving operational alignment layer of VOL Health. Today, it helps translate operating signals into prioritized stabilization guidance, executive recommendations, and clearer next actions. VOL rEDi is the lightweight operational readiness layer that demonstrates SHAI&apos;s practical direction: turning synthesized operating context into clear next actions for senior living leadership teams. Over time, SHAI is being developed to support deeper workflow coordination, external operating data sources, strategic partner integrations, and workforce response planning.
+          </p>
+        </div>
+
+        <div class="release-columns">
+          <div class="release-column">
+            <div class="release-column-head">
+              <h3 class="release-column-title">Current Release</h3>
+              <span class="status-pill active-release">Active product layer</span>
+            </div>
+            <ul class="release-list">
+              <li>Interprets operating signals</li>
+              <li>Identifies dominant instability patterns</li>
+              <li>Prioritizes stabilization actions</li>
+              <li>Supports executive decision alignment</li>
+              <li>Connects operational strain to economic consequences</li>
+            </ul>
+          </div>
+
+          <div class="release-column">
+            <div class="release-column-head">
+              <h3 class="release-column-title">In Development</h3>
+              <span class="status-pill roadmap-release">Roadmap capability</span>
+            </div>
+            <ul class="release-list">
+              <li>Strategic partner integrations</li>
+              <li>Workforce and community traffic signal layers</li>
+              <li>Shift-level intervention planning</li>
+              <li>Labor elasticity visibility</li>
+              <li>Staffing ecosystem coordination</li>
+              <li>Future workforce response orchestration</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="release-trust-note">
+          SHAI does not currently function as a staffing agency, marketplace, or automated labor-dispatch system. The current release is focused on signal interpretation, action prioritization, and executive stabilization guidance. Expanded workforce coordination and partner-enabled signal capabilities are under active development.
+        </div>
+      </section>
+
+      <section class="tabs-card">
+        <div class="tabs-bar">
+          <div class="tabs-left">
+            <button class="tab-btn" id="tabBtn-wfi" type="button" onclick="setTab('wfi')">Operator Layer</button>
+            <button class="tab-btn" id="tabBtn-provider" type="button" onclick="setTab('provider')">Provider Layer</button>
+          </div>
+          <div class="tab-hint">Directional preview only. Live integrations are not yet connected.</div>
+        </div>
+
+        <div class="tab-panel" id="panel-wfi">
+          <section class="search-shell">
+            <div class="search-label">Ask SHAI about stabilization priorities and workforce planning</div>
+            <div class="search-row">
+              <div class="search-input-wrap">
+                <div class="search-icon">🔍</div>
+                <input
+                  class="search-input"
+                  type="text"
+                  placeholder='e.g. "Which workforce actions should we prioritize for weekend memory-care stability?"' />
+              </div>
+              <button class="btn primary search-button" type="button">Ask SHAI</button>
+            </div>
+
+            <div class="prompt-chips">
+              <div class="chip">Prioritize weekend memory-care stabilization</div>
+              <div class="chip">Which intervention should we review first?</div>
+              <div class="chip">Where could retention pathways reduce drag?</div>
+              <div class="chip">Caregivers who reduce PBJ/OT risk</div>
+              <div class="chip">Overnight risk patterns for buildings like mine</div>
+            </div>
+          </section>
+
+          <section class="layout-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">🧠 SHAI Answer <span class="card-title-badge">Decision Support</span></div>
+              </div>
+
+              <div class="card-sub">
+                Prompt: “Which workforce actions should we prioritize for weekend memory-care stability?”
+              </div>
+
+              <div class="card-sub">
+                SHAI identified <strong>12 workforce-planning signals</strong> that may support stabilization:
+                <ul style="margin:8px 0 0 18px; padding:0; font-size:13px; color:rgba(255,255,255,0.78); line-height:1.45;">
+                  <li>8 relate to memory-care experience patterns from the last 90 days</li>
+                  <li>5 indicate lower call-off risk across recent staffing history</li>
+                  <li>3 point to retention or full-time conversion opportunities</li>
+                  <li>4 align with communities that show similar stability profiles</li>
+                </ul>
+              </div>
+
+              <div class="card-sub">
+                <span class="card-title-badge" style="background:rgba(127,135,157,0.18);">Prioritized by reliability &amp; experience signals</span>
+                <span class="card-title-badge" style="background:rgba(127,135,157,0.18);">Workforce coordination capability in development</span>
+                <span class="card-title-badge" style="background:rgba(127,135,157,0.18);">Similarity to your community factored in</span>
+              </div>
+
+              <div class="candidate-list">
+                <div class="candidate-card">
+                  <div class="candidate-row-top">
+                    <div class="candidate-main">
+                      <div class="candidate-avatar">A</div>
+                      <div class="candidate-name-role">
+                        <strong>Caregiver A</strong>
+                        <span>CNA · Memory Care Focus</span>
+                      </div>
+                    </div>
+                    <div class="candidate-tag-elig pending">Needs 28 more hours for retention pathway review</div>
+                  </div>
+
+                  <div class="candidate-stats">
+                    <span><strong>94/100</strong> reliability · last 60 days</span>
+                    <span>152 hours in memory care</span>
+                    <span>13 shifts completed · 0 no-shows</span>
+                  </div>
+
+                  <div class="candidate-meta">
+                    <span class="chip fit">Fit: ★★★★☆ · similar communities</span>
+                    <span class="chip">Weekend &amp; overnight capable</span>
+                    <span class="chip">Coordination signal</span>
+                  </div>
+                </div>
+
+                <div class="candidate-card">
+                  <div class="candidate-row-top">
+                    <div class="candidate-main">
+                      <div class="candidate-avatar">B</div>
+                      <div class="candidate-name-role">
+                        <strong>Caregiver B</strong>
+                        <span>CNA · Night-Shift Specialist</span>
+                      </div>
+                    </div>
+                    <div class="candidate-tag-elig">Retention pathway signal · 182 hours met</div>
+                  </div>
+
+                  <div class="candidate-stats">
+                    <span><strong>88/100</strong> reliability · last 60 days</span>
+                    <span>7 shifts · 0 call-offs</span>
+                    <span>High-acuity AL &amp; MC experience</span>
+                  </div>
+
+                  <div class="candidate-meta">
+                    <span class="chip fit">Fit: ★★★★★</span>
+                    <span class="chip">Strong request-back history</span>
+                    <span class="chip">Coordination signal</span>
+                  </div>
+                </div>
+
+                <div class="candidate-card">
+                  <div class="candidate-row-top">
+                    <div class="candidate-main">
+                      <div class="candidate-avatar">C</div>
+                      <div class="candidate-name-role">
+                        <strong>Caregiver C</strong>
+                        <span>CNA · Weekend Stability</span>
+                      </div>
+                    </div>
+                    <div class="candidate-tag-elig pending">Retention pathway not ready yet</div>
+                  </div>
+
+                  <div class="candidate-stats">
+                    <span><strong>79/100</strong> reliability · last 30 days</span>
+                    <span>5 shifts · 1 late</span>
+                    <span>Dementia &amp; AL experience</span>
+                  </div>
+
+                  <div class="candidate-meta">
+                    <span class="chip fit">Fit: ★★★☆☆</span>
+                    <span class="chip">Weekend coverage priority</span>
+                    <span class="chip">Coordination signal</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="insight-card">
+                <div class="insight-icon">ⓘ</div>
+                <div>
+                  <strong>Stability Insight</strong>
+                  <div class="insight-sub">
+                    Prioritizing a reliability profile with a Fit Score of ★★★★☆ or higher for weekend memory-care planning is projected to reduce <strong>weekend volatility by 18 points</strong> and save approximately <strong>$28,600/year</strong>, based on your current VOL Health profile.
+                  </div>
+                </div>
+              </div>
+
+              <div class="usage-card">
+                <div class="usage-icon">⚡</div>
+                <div>
+                  <div><strong>Powered by VOL Health usage</strong></div>
+                  <div class="usage-sub">
+                    This decision-support layer stays active while you maintain consistent VOL Health usage. If usage drops, SHAI can still guide decisions, but refreshed signal context and current stability interpretation will gradually freeze.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <aside class="sidebar-section">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">VOL Health Snapshot</div>
+                </div>
+
+                <div class="card-sub">
+                  Economic impact of instability, based on your current pattern of OT, PRN usage, vacancies, and turnover.
+                </div>
+
+                <div class="summary-metrics">
+                  <div class="metric-box">
+                    <div class="metric-label">Volatility Cost</div>
+                    <div class="metric-value">$184,000</div>
+                    <div class="metric-sub">OT + PRN + leadership drag · yearly estimate</div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-label">Workforce Drag</div>
+                    <div class="metric-value">$236,000</div>
+                    <div class="metric-sub">Turnover + vacancy drag · yearly estimate</div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-label">Stabilizable Upside</div>
+                    <div class="metric-value">$312,000</div>
+                    <div class="metric-sub">Conservative savings potential from SHAI-guided stabilization planning</div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-label">Suggested Tier</div>
+                    <div class="metric-sub">
+                      <span class="chip"><span style="width:9px;height:9px;border-radius:99px;background:var(--amber);display:inline-block;"></span> Core Stability · AI-Enabled</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sidebar-note">
+                  SHAI uses your VOL Health stability profile to prioritize intervention pathways that reduce volatility and drag, not just add labor spend.
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Next Best Actions</div>
+                </div>
+
+                <div class="card-sub">
+                  Turn SHAI recommendations into clearer workforce-planning and stabilization decisions.
+                </div>
+
+                <div class="actions-bar">
+                  <button class="btn ghost" type="button">Save stabilization view for scheduler</button>
+                  <button class="btn ghost" type="button">Review weekend coverage options</button>
+                  <button class="btn ghost" type="button">Review retention pathway signals</button>
+                  <button class="btn ghost" type="button">View stability impact report</button>
+                </div>
+
+                <div class="sidebar-note">
+                  EDs, DONs, and schedulers can share these planning views and impact reports across your leadership team to align on stabilization decisions quickly.
+                </div>
+              </div>
+            </aside>
+          </section>
+        </div>
+
+        <div class="tab-panel" id="panel-provider">
+          <section class="layout-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Best-Fit Shifts</div>
+              </div>
+
+              <div class="card-sub">
+                SHAI helps identify shift patterns that may match your reliability, history, and skill profile.
+              </div>
+
+              <section class="section">
+                <div class="shift-card">
+                  <div class="shift-title">Memory Care · Evening Shift</div>
+                  <div class="shift-meta">
+                    <span>4pm–10pm · Fri, Feb 14</span>
+                    <span class="chip">High Fit</span>
+                  </div>
+                  <div class="shift-meta">
+                    <span>Strong request-back history</span>
+                    <span>12 miles away</span>
+                  </div>
+                  <button class="btn primary" type="button">Review Fit</button>
+                </div>
+
+                <div class="shift-card">
+                  <div class="shift-title">Assisted Living · Weekend Double</div>
+                  <div class="shift-meta">
+                    <span>Sat 7am–7pm</span>
+                    <span class="chip">Stability Bonus Eligible</span>
+                  </div>
+                  <div class="shift-meta">
+                    <span>You’ve had 3 perfect weekends here</span>
+                    <span>9 miles away</span>
+                  </div>
+                  <button class="btn primary" type="button">Review Fit</button>
+                </div>
+
+                <div class="shift-card">
+                  <div class="shift-title">Skilled Nursing · Night Shift</div>
+                  <div class="shift-meta">
+                    <span>11pm–7am · Tues</span>
+                    <span class="chip">Pro Match</span>
+                  </div>
+                  <div class="shift-meta">
+                    <span>Great reliability on nights</span>
+                    <span>14 miles away</span>
+                  </div>
+                  <button class="btn primary" type="button">Review Fit</button>
+                </div>
+              </section>
+            </div>
+
+            <aside class="sidebar-section">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Your Performance + Progress</div>
+                </div>
+
+                <div class="summary-metrics">
+                  <div class="metric-box">
+                    <div class="metric-label">Reliability</div>
+                    <div class="metric-value">92 / 100</div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-label">Stability Streak</div>
+                    <div class="metric-value">17 shifts</div>
+                    <div class="progress-bar"><div class="progress-bar-fill" style="width:82%;"></div></div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-label">Pathway Readiness</div>
+                    <div class="metric-value">148 / 182 hrs</div>
+                    <div class="progress-bar"><div class="progress-bar-fill" style="width:81%;"></div></div>
+                  </div>
+
+                  <div class="metric-box">
+                    <div class="metric-label">Career Track</div>
+                    <div class="metric-value">Memory Care Pro</div>
+                    <div class="metric-sub">Gold Reliability Level in progress</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">SHAI Recommendations</div>
+                </div>
+
+                <div class="recommendation">
+                  You are <strong>34 hours away</strong> from a stronger <strong>retention pathway signal</strong> at two communities where you’ve performed exceptionally well.
+                  <br><br>
+                  Based on your strengths in night shift and memory care, SHAI suggests reviewing:
+                  <ul style="margin:6px 0 6px 20px;">
+                    <li>2 night shifts this week</li>
+                    <li>1 weekend shift next week</li>
+                  </ul>
+                  This will elevate your reliability score to <strong>94/100</strong> and strengthen your retention pathway readiness.
+                </div>
+
+                <div class="recommendation rec-warn" style="margin-top:10px;">
+                  SHAI has detected a slight increase in late check-ins and a 3-week streak of heavy workloads.
+                  <br><br>
+                  Recommendation:
+                  <ul style="margin:6px 0 6px 20px;">
+                    <li>Choose lighter shifts for the next 5–7 days</li>
+                    <li>Avoid double shifts this weekend</li>
+                    <li>Consider an AL shift instead of MC to prevent fatigue</li>
+                  </ul>
+                </div>
+
+                <div class="recommendation rec-info" style="margin-top:10px;">
+                  You are on track for the <strong>Memory Care Pro badge</strong> and <strong>Gold Reliability Level</strong>. These support preferred opportunity visibility, stronger Fit Score visibility, and clearer retention pathway opportunities.
+                </div>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </section>
+
+      <div class="demo-note">
+        <strong>Built to turn operating insight into aligned action.</strong>
+        SHAI helps senior living teams translate VOL Health patterns into clearer staffing, scheduling, and leadership decisions.
+        <span class="small">
+          VOL Health&trade; and SHAI&trade; are continuously refined through operator feedback and real-world implementation.
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "vol_shai_last_tab";
+
+    function setTab(tab){
+      const panels = {
+        wfi: document.getElementById("panel-wfi"),
+        provider: document.getElementById("panel-provider")
+      };
+      const btns = {
+        wfi: document.getElementById("tabBtn-wfi"),
+        provider: document.getElementById("tabBtn-provider")
+      };
+
+      Object.keys(panels).forEach(k => {
+        if(!panels[k] || !btns[k]) return;
+        const on = (k === tab);
+        panels[k].classList.toggle("active", on);
+        btns[k].classList.toggle("active", on);
+      });
+
+      const label = document.getElementById("viewLabel");
+      if(label) label.textContent = tab === "provider" ? "Provider Layer" : "Operator Layer";
+
+      try{ localStorage.setItem(STORAGE_KEY, tab); }catch(e){}
+    }
+
+    (function init(){
+      let tab = "wfi";
+      try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if(saved === "provider" || saved === "wfi") tab = saved;
+      }catch(e){}
+      setTab(tab);
+    })();
+  </script>
+
+<script>
+(function(){
+  const KEY='volHealthMapData';
+  function read(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ return {}; } }
+  function money(n){ return '$' + Math.round(Number(n)||0).toLocaleString(); }
+  function topDrivers(saved){ return Array.isArray(saved.viTopDrivers) ? saved.viTopDrivers : []; }
+  function computeActions(saved){
+    const actions=['Save stabilization view for scheduler','Review weekend coverage options','Review retention pathway signals','View stability impact report'];
+    const drivers=topDrivers(saved).join(' | ');
+    const archetype=String(saved.wsiArchetype||'');
+    if(/Leadership|Workflow/i.test(drivers)) actions[0]='Reduce workflow friction before adding more labor spend';
+    if(/Coverage|Overtime/i.test(drivers) || /Burnout/i.test(archetype)) actions[1]='Prioritize dependable weekend and open-shift coverage planning';
+    if(/Pipeline|vacanc/i.test(String(saved.wsiPrimaryConstraint||'')) || /vacancy/i.test(drivers)) actions[2]='Review retention pathway and vacancy signals';
+    return actions;
+  }
+  function suggestedTier(saved){
+    const vi=Number(saved.vi)||0, wsi=Number(saved.wsi)||0;
+    if(vi>=70 && wsi>=70) return 'Core Stability · AI-Enabled';
+    if(vi>=55 && wsi>=45) return 'Stability Build · AI-Enabled';
+    return 'Stability Recovery · Guided';
+  }
+  function apply(){
+    const saved=read();
+    const root=document.getElementById('panel-wfi'); if(!root) return;
+    const metrics=root.querySelectorAll('.metric-box');
+    if(metrics.length>=4){
+      metrics[0].querySelector('.metric-value').textContent = money(saved.wsiVolatilityCost || 184000);
+      metrics[1].querySelector('.metric-value').textContent = money(saved.wsiWorkforceDragCost || 236000);
+      metrics[2].querySelector('.metric-value').textContent = money(saved.wsiStabilizableUpside || 312000);
+      const sub=metrics[3].querySelector('.metric-sub');
+      if(sub) sub.innerHTML = `<span class="chip"><span style="width:9px;height:9px;border-radius:99px;background:var(--amber);display:inline-block;"></span> ${suggestedTier(saved)}</span>`;
+    }
+    const notes=root.querySelectorAll('.sidebar-note');
+    if(notes[0] && ((saved.vi||0) || (saved.wsi||0))){
+      notes[0].textContent = "SHAI uses your VOL Health stability profile to prioritize intervention pathways that reduce volatility and drag, not just add labor spend. Current state: stability profile loaded.";
+    }
+    const actions=computeActions(saved);
+    root.querySelectorAll('.actions-bar .btn').forEach((btn,i)=>{ if(actions[i]) btn.textContent=actions[i]; });
+    const prompt=root.querySelector('.card-sub');
+    if(prompt && saved.label){ prompt.textContent = `Prompt: “Which workforce actions should we prioritize to reduce instability for ${saved.label} this month?”`; }
+    const insight=root.querySelector('.insight-sub');
+    if(insight && ((saved.vi||0) || (saved.wsi||0))){
+      const drivers=topDrivers(saved);
+      const top=drivers.length ? drivers.slice(0,2).join(' and ') : 'your highest-friction shifts';
+      const uplift=Math.max(8, Math.round(((Number(saved.viStabilized)||0)-(Number(saved.vi)||0))||12));
+      const upside=money(saved.wsiStabilizableUpside || 28600);
+      insight.innerHTML = `Prioritizing a reliability profile with a Fit Score of ★★★★☆ or higher for <strong>${top}</strong> is projected to improve your baseline stability story by <strong>${uplift} points</strong> and save approximately <strong>${upside}/year</strong>, based on your current VOL Health profile.`;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function(){ setTimeout(apply, 30); });
+})();
+</script>
+
+</body>
+</html>

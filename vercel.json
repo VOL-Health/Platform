@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "crons": [
+    { "path": "/api/process-followups", "schedule": "0 13 * * *" }
+  ],
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/about-vol", "destination": "/about-vol.html" },
+    { "source": "/auth/callback", "destination": "/auth-callback.html" },
+    { "source": "/auth-proof", "destination": "/auth-proof.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/how-vol-works", "destination": "/how-vol-works.html" },
+    { "source": "/leadership", "destination": "/leadership.html" },
+    { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
+    { "source": "/terms-of-use", "destination": "/terms-of-use.html" }
+  ]
+}

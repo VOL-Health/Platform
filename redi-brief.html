@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOL Health | rEDi Brief</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#070b16;
+      --panel:#0d1224;
+      --panel-2:#111831;
+      --border:rgba(255,255,255,0.11);
+      --text:#ffffff;
+      --muted:rgba(255,255,255,0.68);
+      --soft:rgba(255,255,255,0.055);
+      --blue:#2c6cff;
+      --blue-soft:#8fd7ff;
+      --green:#35c67a;
+      --green-2:#7ce7b5;
+      --amber:#f6b44b;
+      --shadow:0 22px 64px rgba(0,0,0,0.36);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Montserrat, Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(44,108,255,0.22), transparent 32%),
+        radial-gradient(circle at 82% 6%, rgba(53,198,122,0.14), transparent 30%),
+        linear-gradient(180deg, #080d1b 0%, var(--bg) 54%, #050814 100%);
+      color:var(--text);
+    }
+
+    a{ color:inherit; text-decoration:none; }
+
+    .shell{
+      width:min(1280px, calc(100% - 32px));
+      margin:18px auto 38px;
+    }
+
+    .platform-header{ padding:14px 14px 0; }
+
+    .platform-header-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .platform-brand{ min-width:0; }
+
+    .vol-logo-horizontal{
+      --vol-logo-font-weight:300;
+      --vol-logo-letter-spacing:0.08em;
+      --vol-logo-color:rgba(255,255,255,0.94);
+      --vol-logo-glow:0 0 0.16em rgba(79,130,255,0.16);
+      display:inline-flex;
+      align-items:center;
+      gap:0.08em;
+      font-family:Montserrat, Inter, Arial, sans-serif;
+      font-size:clamp(34px, 4.2vw, 56px);
+      font-weight:var(--vol-logo-font-weight);
+      letter-spacing:var(--vol-logo-letter-spacing);
+      line-height:1;
+      color:var(--vol-logo-color);
+      white-space:nowrap;
+    }
+
+    .logo-letter{ color:var(--vol-logo-color); font-weight:inherit; }
+
+    .logo-o{
+      width:0.76em;
+      height:0.76em;
+      border-radius:50%;
+      border:0.065em solid #4f82ff;
+      box-sizing:border-box;
+      display:inline-block;
+      position:relative;
+      transform:translateY(0.035em);
+      box-shadow:inset 0 0 0.20em rgba(79,130,255,0.20), var(--vol-logo-glow);
+    }
+
+    .logo-o::after{
+      content:"";
+      position:absolute;
+      inset:-0.08em;
+      border-radius:50%;
+      border-top:0.035em solid rgba(255,255,255,0.26);
+      border-right:0.035em solid rgba(79,130,255,0.68);
+      border-bottom:0.035em solid transparent;
+      border-left:0.035em solid transparent;
+      transform:rotate(-28deg);
+    }
+
+    .logo-gap{ width:0.26em; }
+
+    .platform-nav{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .nav-pill{
+      padding:9px 13px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.045);
+      color:rgba(255,255,255,0.72);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:0.03em;
+      text-transform:uppercase;
+    }
+
+    .nav-pill.active{
+      color:#06111d;
+      border-color:rgba(53,198,122,0.75);
+      background:linear-gradient(135deg, var(--green), var(--green-2));
+    }
+
+    .nav-dropdown{ position:relative; display:inline-flex; align-items:center; }
+    .nav-pill-button{ cursor:pointer; }
+    .nav-caret{ margin-left:6px; color:rgba(143,215,255,0.82); font-size:10px; line-height:1; }
+    .dropdown-menu{
+      position:absolute;
+      top:calc(100% + 10px);
+      right:0;
+      z-index:20;
+      width:230px;
+      padding:8px;
+      border:1px solid rgba(255,255,255,0.13);
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(13,18,36,0.98), rgba(8,13,28,0.96));
+      box-shadow:0 22px 54px rgba(0,0,0,0.42), 0 0 34px rgba(44,108,255,0.10);
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+      transform:translateY(8px) scale(0.98);
+      transform-origin:top right;
+      transition:opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+    }
+    .nav-dropdown:hover .dropdown-menu,
+    .nav-dropdown:focus-within .dropdown-menu{
+      opacity:1;
+      visibility:visible;
+      pointer-events:auto;
+      transform:translateY(0) scale(1);
+    }
+    .dropdown-link{
+      display:flex;
+      align-items:center;
+      padding:10px 11px;
+      border-radius:12px;
+      color:rgba(255,255,255,0.76);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:0.01em;
+      transition:background 0.14s ease, color 0.14s ease, transform 0.14s ease;
+    }
+    .dropdown-link:hover,
+    .dropdown-link:focus{
+      outline:none;
+      color:#fff;
+      background:rgba(255,255,255,0.07);
+      transform:translateX(2px);
+    }
+
+    .page{ padding:28px 14px 0; }
+
+    .hero{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 360px;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .card,
+    .hero-panel,
+    .brief-panel,
+    .cta-banner{
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(13,18,36,0.86), rgba(9,14,29,0.82));
+      box-shadow:var(--shadow);
+    }
+
+    .hero-panel{
+      min-height:384px;
+      border-radius:24px;
+      padding:34px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-panel::before{
+      content:"";
+      position:absolute;
+      inset:auto -80px -120px auto;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(53,198,122,0.16), transparent 67%);
+      pointer-events:none;
+    }
+
+    .kicker{
+      color:var(--blue-soft);
+      font-size:11px;
+      line-height:1.2;
+      font-weight:900;
+      letter-spacing:0.13em;
+      text-transform:uppercase;
+    }
+
+    h1{
+      margin:16px 0 0;
+      font-size:clamp(54px, 7vw, 96px);
+      line-height:0.92;
+      letter-spacing:0;
+    }
+
+    .hero-headline{
+      margin:20px 0 0;
+      max-width:760px;
+      color:rgba(255,255,255,0.92);
+      font-size:clamp(26px, 3vw, 44px);
+      line-height:1.06;
+      font-weight:850;
+      letter-spacing:0;
+    }
+
+    .hero-copy{
+      margin:18px 0 0;
+      max-width:820px;
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.7;
+      font-weight:600;
+    }
+
+    .hero-actions{
+      margin-top:26px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      border-radius:999px;
+      border:1px solid rgba(53,198,122,0.34);
+      background:rgba(53,198,122,0.10);
+      color:#dffbea;
+      padding:9px 13px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:0.02em;
+    }
+
+    .status-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 16px rgba(53,198,122,0.7);
+    }
+
+    .hero-side{
+      border-radius:24px;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:384px;
+    }
+
+    .side-title{
+      margin:0;
+      font-size:19px;
+      line-height:1.2;
+    }
+
+    .side-list{
+      margin:22px 0 0;
+      display:grid;
+      gap:10px;
+    }
+
+    .side-item{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      border:1px solid rgba(255,255,255,0.09);
+      background:rgba(255,255,255,0.045);
+      border-radius:14px;
+      padding:12px;
+      color:rgba(255,255,255,0.82);
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .side-item span:last-child{ color:var(--green-2); }
+
+    .section{
+      margin-top:18px;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:16px;
+      margin:0 0 12px;
+      padding:0 2px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:22px;
+      line-height:1.15;
+    }
+
+    .section-head p{
+      margin:7px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+      font-weight:600;
+    }
+
+    .signal-grid{
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0, 1fr));
+      gap:12px;
+    }
+
+    .signal-card{
+      min-height:142px;
+      border-radius:18px;
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .signal-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-top:2px solid rgba(143,215,255,0.24);
+      pointer-events:none;
+    }
+
+    .signal-icon{
+      width:36px;
+      height:36px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:rgba(44,108,255,0.14);
+      border:1px solid rgba(143,215,255,0.20);
+      color:var(--blue-soft);
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .signal-card h3{
+      margin:16px 0 0;
+      font-size:15px;
+      line-height:1.2;
+    }
+
+    .signal-card p{
+      margin:9px 0 0;
+      color:rgba(255,255,255,0.64);
+      font-size:12px;
+      line-height:1.5;
+      font-weight:600;
+    }
+
+    .brief-panel{
+      border-radius:26px;
+      padding:26px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .brief-panel::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border:1px solid rgba(53,198,122,0.14);
+      border-radius:26px;
+      pointer-events:none;
+    }
+
+    .brief-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:18px;
+      margin-bottom:22px;
+    }
+
+    .brief-title h2{
+      margin:8px 0 0;
+      font-size:34px;
+      line-height:1;
+    }
+
+    .date-line{
+      margin:9px 0 0;
+      color:rgba(255,255,255,0.62);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .generated-pill{
+      border:1px solid rgba(143,215,255,0.24);
+      background:rgba(44,108,255,0.12);
+      color:#dfeeff;
+      border-radius:999px;
+      padding:9px 13px;
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:0.05em;
+      white-space:nowrap;
+    }
+
+    .priority-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .priority-row{
+      display:grid;
+      grid-template-columns:64px 210px minmax(0, 1fr);
+      gap:16px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,0.095);
+      background:rgba(255,255,255,0.042);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .rank{
+      color:#06111d;
+      background:linear-gradient(135deg, var(--green), var(--green-2));
+      border-radius:15px;
+      height:46px;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      font-weight:900;
+    }
+
+    .priority-signal{
+      color:#ffffff;
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+    }
+
+    .priority-copy{
+      margin:0;
+      color:rgba(255,255,255,0.76);
+      font-size:13px;
+      line-height:1.55;
+      font-weight:600;
+    }
+
+    .brief-footer{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1.1fr 0.9fr;
+      gap:14px;
+    }
+
+    .action-card{
+      border-radius:20px;
+      padding:22px;
+    }
+
+    .action-card h2{
+      margin:0;
+      font-size:20px;
+      line-height:1.2;
+    }
+
+    .action-card p{
+      margin:12px 0 0;
+      color:rgba(255,255,255,0.72);
+      font-size:14px;
+      line-height:1.7;
+      font-weight:600;
+    }
+
+    .readiness-card{
+      border-radius:20px;
+      padding:22px;
+      display:grid;
+      gap:12px;
+    }
+
+    .readiness-line{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      padding-bottom:10px;
+      font-size:12px;
+      font-weight:800;
+      color:rgba(255,255,255,0.66);
+    }
+
+    .readiness-line:last-child{
+      border-bottom:0;
+      padding-bottom:0;
+    }
+
+    .readiness-line strong{ color:#fff; }
+
+    .outcome-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+
+    .outcome-card{
+      border-radius:20px;
+      padding:22px;
+      min-height:154px;
+    }
+
+    .outcome-card h3{
+      margin:0;
+      font-size:18px;
+      line-height:1.2;
+    }
+
+    .outcome-card p{
+      margin:12px 0 0;
+      color:rgba(255,255,255,0.66);
+      font-size:13px;
+      line-height:1.6;
+      font-weight:600;
+    }
+
+    .cta-banner{
+      margin-top:18px;
+      border-radius:24px;
+      padding:30px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      background:
+        linear-gradient(135deg, rgba(44,108,255,0.18), rgba(53,198,122,0.12)),
+        rgba(13,18,36,0.86);
+    }
+
+    .cta-banner h2{
+      margin:0;
+      font-size:30px;
+      line-height:1.08;
+    }
+
+    .cta-banner p{
+      margin:10px 0 0;
+      max-width:760px;
+      color:rgba(255,255,255,0.70);
+      font-size:14px;
+      line-height:1.65;
+      font-weight:600;
+    }
+
+    .cta-chip{
+      flex:0 0 auto;
+      border-radius:999px;
+      padding:12px 15px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.14);
+      color:#dffbea;
+      font-size:12px;
+      font-weight:900;
+    }
+
+    @media (max-width:1080px){
+      .hero{ grid-template-columns:1fr; }
+      .signal-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .brief-footer{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width:760px){
+      .shell{ width:min(100% - 20px, 1280px); }
+      .platform-header-top{ align-items:flex-start; flex-direction:column; }
+      .platform-nav{ justify-content:flex-start; }
+      .hero-panel,
+      .brief-panel,
+      .cta-banner{ padding:20px; }
+      .signal-grid,
+      .outcome-grid{ grid-template-columns:1fr; }
+      .brief-top,
+      .cta-banner{ flex-direction:column; align-items:flex-start; }
+      .priority-row{ grid-template-columns:52px 1fr; }
+      .priority-copy{ grid-column:1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="platform-header">
+      <div class="platform-header-top">
+        <div class="platform-brand">
+          <a class="vol-logo-horizontal" href="/" aria-label="VOL Health">
+            <span class="logo-letter">V</span>
+            <span class="logo-o" aria-hidden="true"></span>
+            <span class="logo-letter">L</span>
+            <span class="logo-gap" aria-hidden="true"></span>
+            <span class="logo-letter">H</span>
+            <span class="logo-letter">E</span>
+            <span class="logo-letter">A</span>
+            <span class="logo-letter">L</span>
+            <span class="logo-letter">T</span>
+            <span class="logo-letter">H</span>
+          </a>
+        </div>
+
+        <nav class="platform-nav">
+          <a href="/" class="nav-pill">VOL rEDi</a>
+          <a href="redi-brief.html" class="nav-pill active">rEDi Brief</a>
+          <a href="data-demo.html" class="nav-pill">Data Demo</a>
+          <a href="shai.html" class="nav-pill">SHAI</a>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Company navigation">
+              <a class="dropdown-link" href="/how-vol-works">How VOL Works</a>
+              <a class="dropdown-link" href="/about-vol">About VOL</a>
+              <a class="dropdown-link" href="/contact">Contact Us</a>
+              <a class="dropdown-link" href="/leadership">Leadership</a>
+              <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
+              <a class="dropdown-link" href="/terms-of-use">Terms of Use</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero">
+        <div class="hero-panel">
+          <div class="kicker">VOL rEDi Brief</div>
+          <h1>rEDi Brief</h1>
+          <div class="hero-headline">The morning briefing that helps leaders start with clarity.</div>
+          <p class="hero-copy">Every morning, VOL synthesizes staffing pressure, resident care changes, workflow strain, and leadership risk into a short prioritized brief for the day ahead.</p>
+          <p class="hero-copy">VOL rEDi Brief turns daily operational noise into a prioritized leadership brief, showing what needs attention first, why it matters, and where action should begin.</p>
+          <div class="hero-actions">
+            <div class="status-pill"><span class="status-dot"></span> Coming soon: Daily operating brief</div>
+          </div>
+        </div>
+
+        <aside class="card hero-side">
+          <div>
+            <div class="kicker">Morning Readiness Layer</div>
+            <h2 class="side-title">A concise operating read before the day starts moving.</h2>
+          </div>
+          <div class="side-list">
+            <div class="side-item"><span>Brief window</span><span>7:00 AM</span></div>
+            <div class="side-item"><span>Primary lens</span><span>Operational stability</span></div>
+            <div class="side-item"><span>Leadership focus</span><span>Top 5 actions</span></div>
+            <div class="side-item"><span>Output</span><span>Daily rEDi Brief</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <h2>Signals Synthesized</h2>
+            <p>The brief connects the daily signals that usually sit across separate systems, conversations, and handoffs.</p>
+          </div>
+        </div>
+        <div class="signal-grid">
+          <article class="card signal-card">
+            <div class="signal-icon">S</div>
+            <h3>Staffing</h3>
+            <p>Open shifts, call-offs, overtime pressure, and dependency patterns.</p>
+          </article>
+          <article class="card signal-card">
+            <div class="signal-icon">R</div>
+            <h3>Resident Care Changes</h3>
+            <p>Changing support needs, acuity movement, and assignment pressure.</p>
+          </article>
+          <article class="card signal-card">
+            <div class="signal-icon">F</div>
+            <h3>Service Recovery</h3>
+            <p>Family concerns, resident requests, and unresolved follow-through.</p>
+          </article>
+          <article class="card signal-card">
+            <div class="signal-icon">W</div>
+            <h3>Workflow Risk</h3>
+            <p>Handoff friction, coordination gaps, and recurring execution drag.</p>
+          </article>
+          <article class="card signal-card">
+            <div class="signal-icon">L</div>
+            <h3>Leadership Bandwidth</h3>
+            <p>Where management time is being absorbed by recovery work.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <article class="brief-panel">
+          <div class="brief-top">
+            <div class="brief-title">
+              <div class="kicker">Daily Brief Preview</div>
+              <h2>Today’s rEDi Brief</h2>
+              <div class="date-line">Monday May 5 • 7:00 AM Brief</div>
+            </div>
+            <div class="generated-pill">Generated by VOL</div>
+          </div>
+
+          <div class="priority-list">
+            <div class="priority-row">
+              <div class="rank">01</div>
+              <div class="priority-signal">Coverage Pressure</div>
+              <p class="priority-copy">South Terrace evening coverage is thin after two call-offs. Confirm replacement coverage before 10:00 AM and protect med pass continuity.</p>
+            </div>
+            <div class="priority-row">
+              <div class="rank">02</div>
+              <div class="priority-signal">Resident Care Shift</div>
+              <p class="priority-copy">Two residents show increased assistance needs this week. Review care assignments before lunch and rebalance caregiver workload.</p>
+            </div>
+            <div class="priority-row">
+              <div class="rank">03</div>
+              <div class="priority-signal">Service Recovery</div>
+              <p class="priority-copy">Family concern remains open from yesterday. Assign one leadership owner and close the loop before afternoon rounds.</p>
+            </div>
+            <div class="priority-row">
+              <div class="rank">04</div>
+              <div class="priority-signal">Leadership Bandwidth</div>
+              <p class="priority-copy">ED and nurse leader time is being pulled into same-day staffing recovery. Remove routine backfill coordination from leadership where possible.</p>
+            </div>
+            <div class="priority-row">
+              <div class="rank">05</div>
+              <div class="priority-signal">Workflow Risk</div>
+              <p class="priority-copy">Care coordination notes show repeated handoff friction between shifts. Review shift handoff process in today’s standup.</p>
+            </div>
+          </div>
+
+          <div class="brief-footer">
+            <section class="card action-card">
+              <div class="kicker">Leadership Action Briefing</div>
+              <h2>Protect coverage first, then prevent the pressure from spreading.</h2>
+              <p>Today’s brief points to a coverage-driven stability risk. The highest-value move is to protect evening coverage first, then rebalance care assignments before workflow strain spreads into service recovery and leadership overload.</p>
+            </section>
+            <section class="card readiness-card">
+              <div class="readiness-line"><span>Current Pattern</span><strong>Coverage-driven strain</strong></div>
+              <div class="readiness-line"><span>Hidden Tradeoff</span><strong>Coverage vs. burnout</strong></div>
+              <div class="readiness-line"><span>Decision Window</span><strong>Before 10:00 AM</strong></div>
+              <div class="readiness-line"><span>Primary Owner</span><strong>ED / Scheduler</strong></div>
+            </section>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <div class="outcome-grid">
+          <article class="card outcome-card">
+            <h3>See what matters sooner</h3>
+            <p>Bring the most important operating signals into view before they become visible breakdowns.</p>
+          </article>
+          <article class="card outcome-card">
+            <h3>Prioritize with confidence</h3>
+            <p>Turn fragmented updates into a short leadership sequence that clarifies what needs attention first.</p>
+          </article>
+          <article class="card outcome-card">
+            <h3>Strengthen stability over time</h3>
+            <p>Reduce repeated recovery work by learning where pressure is forming and what absorbs it.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-banner">
+        <div>
+          <h2>Signal → Prioritization → Action, every morning.</h2>
+          <p>rEDi Brief is designed to help leadership focus on the few decisions most likely to protect staff capacity, resident experience, and operational stability.</p>
+        </div>
+        <div class="cta-chip">Future Daily Deliverable</div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
