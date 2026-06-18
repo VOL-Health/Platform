@@ -13,14 +13,14 @@
     button,input,select,textarea{ font:inherit; }
 
     /* Shell & Header */
-    .shell{ width:min(1340px, calc(100% - 40px)); margin:18px auto 48px; }
+    .shell{ width:min(1280px, calc(100% - 32px)); margin:18px auto 34px; }
     .platform-header{ padding:14px 14px 0; }
     .platform-header-top{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
     .vol-logo-horizontal{ display:inline-flex; align-items:center; gap:0.08em; font-size:clamp(34px,4.2vw,56px); font-weight:300; letter-spacing:0.08em; line-height:1; color:rgba(255,255,255,0.94); white-space:nowrap; }
     .logo-o{ width:0.76em; height:0.76em; border-radius:50%; border:0.065em solid #4f82ff; display:inline-block; transform:translateY(0.035em); box-shadow:inset 0 0 0.20em rgba(79,130,255,0.20); }
     .logo-gap{ width:0.26em; }
     .platform-nav{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
-    .nav-pill{ display:inline-flex; align-items:center; justify-content:center; padding:9px 13px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,0.045); color:rgba(255,255,255,0.76); font-size:11px; font-weight:800; letter-spacing:0.03em; text-transform:uppercase; white-space:nowrap; }
+    .nav-pill{ display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.82); font-size:12px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase; white-space:nowrap; transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease; }
     .nav-pill.active{ color:#06111d; border-color:rgba(53,198,122,0.75); background:linear-gradient(135deg,var(--green),var(--green-2)); }
     .nav-dropdown{ position:relative; display:inline-flex; align-items:center; }
     .nav-pill-button{ cursor:pointer; }
@@ -35,43 +35,42 @@
 
     /* Hero */
     .pilot-hero{
-      padding:clamp(40px,6vw,72px) 0 clamp(32px,4vw,52px);
-      max-width:740px;
+      padding:clamp(20px,3vw,36px) 0 clamp(16px,2vw,28px);
     }
     .kicker{
-      color:#8fd7ff;
+      color:rgba(143,215,255,0.78);
       font-size:11px;
       font-weight:900;
-      letter-spacing:0.13em;
+      letter-spacing:0.10em;
       text-transform:uppercase;
-      margin:0 0 16px;
+      margin:0 0 10px;
     }
     .pilot-hero h1{
-      margin:0 0 24px;
-      font-size:clamp(30px,3.8vw,54px);
-      line-height:1.08;
-      font-weight:800;
-      color:#ffffff;
+      margin:0 0 14px;
+      font-size:clamp(28px,3vw,42px);
+      line-height:1.15;
+      font-weight:700;
+      letter-spacing:-0.01em;
+      color:rgba(255,255,255,0.94);
     }
     .pilot-hero p{
-      color:var(--muted);
-      font-size:clamp(15px,1.1vw,17px);
-      line-height:1.76;
+      color:rgba(255,255,255,0.68);
+      font-size:clamp(14px,1.1vw,16px);
+      line-height:1.62;
       font-weight:500;
-      max-width:640px;
       margin:0 0 14px;
     }
     .pilot-hero p:last-child{ margin-bottom:0; }
 
     /* Pilot cards */
     .pilot-section{
-      padding-bottom:clamp(36px,5vw,60px);
+      padding-bottom:clamp(18px,2.5vw,30px);
     }
     .pilot-section-label{
-      color:#8fd7ff;
+      color:rgba(143,215,255,0.78);
       font-size:11px;
       font-weight:900;
-      letter-spacing:0.13em;
+      letter-spacing:0.10em;
       text-transform:uppercase;
       margin:0 0 20px;
     }
@@ -124,7 +123,7 @@
 
     /* Form section */
     .pilot-form-section{
-      padding-bottom:clamp(40px,5vw,72px);
+      padding-bottom:clamp(20px,2.5vw,36px);
     }
     .pilot-form-wrap{
       border:1px solid var(--border);
@@ -135,12 +134,12 @@
       max-width:660px;
     }
     .pilot-form-kicker{
-      color:#8fd7ff;
+      color:rgba(143,215,255,0.78);
       font-size:11px;
       font-weight:900;
-      letter-spacing:0.13em;
+      letter-spacing:0.10em;
       text-transform:uppercase;
-      margin:0 0 14px;
+      margin:0 0 10px;
     }
     .pilot-form-title{
       color:#ffffff;
@@ -267,14 +266,35 @@
       .field-row{ grid-template-columns:1fr; }
     }
     @media(max-width:640px){
-      .shell{ width:min(1180px, calc(100% - 20px)); margin:14px auto 28px; }
+      .shell{ width:calc(100% - 20px); margin:14px auto 28px; }
       .page{ padding:16px 10px 0; }
       .pilot-form-wrap{ padding:20px; }
       .nav-pill{ font-size:10px; padding:8px 10px; }
     }
   </style>
 </head>
-<body><div class="shell"><header class="platform-header"><div class="platform-header-top"><a href="/" aria-label="VOL Health home"><div class="vol-logo-horizontal"><span>V</span><span class="logo-o"></span><span>L</span><span class="logo-gap"></span><span>H</span><span>E</span><span>A</span><span>L</span><span>T</span><span>H</span></div></a><nav class="platform-nav"><a href="/redi" class="nav-pill">VOL rEDi</a><a href="redi-brief.html" class="nav-pill">rEDi Brief</a><a href="advisor.html" class="nav-pill">OpAdvisor</a><a href="data-demo.html" class="nav-pill">Data Demo</a><a href="shai.html" class="nav-pill">SHAI</a><div class="nav-dropdown"><button class="nav-pill nav-pill-button active" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button><div class="dropdown-menu" aria-label="Company navigation"><a class="dropdown-link" href="/how-vol-works">How VOL Works</a><a class="dropdown-link" href="/about-vol">About VOL</a><a class="dropdown-link" href="/contact">Contact Us</a><a class="dropdown-link" href="/leadership">Leadership</a><a class="dropdown-link" href="/privacy-policy">Privacy Policy</a><a class="dropdown-link" href="/terms-of-use">Terms of Use</a></div></div></nav></div></header>
+<body><div class="shell"><header class="platform-header"><div class="platform-header-top"><a href="/" aria-label="VOL Health home"><div class="vol-logo-horizontal"><span>V</span><span class="logo-o"></span><span>L</span><span class="logo-gap"></span><span>H</span><span>E</span><span>A</span><span>L</span><span>T</span><span>H</span></div></a><nav class="platform-nav">
+          <a href="/" class="nav-pill">VOL Signal</a>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Platform <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Platform navigation">
+              <a class="dropdown-link" href="/redi">VOL rEDi</a>
+              <a class="dropdown-link" href="/redi-brief">rEDi Brief</a>
+              <a class="dropdown-link" href="/advisor">OpAdvisor</a>
+              <a class="dropdown-link" href="/data-demo">Data Demo</a>
+              <a class="dropdown-link" href="/shai">SHAI</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button active" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Company navigation">
+              <a class="dropdown-link" href="/contact">Contact Us</a>
+              <a class="dropdown-link" href="/leadership">Leadership</a>
+              <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
+              <a class="dropdown-link" href="/terms-of-use">Terms of Use</a>
+            </div>
+          </div>
+        </nav></div></header>
 
   <main class="page">
 

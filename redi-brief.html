@@ -6,29 +6,29 @@
   <title>VOL Health | rEDi Brief</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#070b16;
       --bg-2:#0a1020;
-      --panel:#11182a;
-      --panel-2:#151d31;
+      --panel:rgba(13,18,36,0.78);
+      --panel-2:rgba(13,18,36,0.78);
       --panel-3:#edf3f8;
-      --ink:#f5f8fb;
-      --ink-soft:#dce5ee;
-      --muted:rgba(225,234,244,0.68);
-      --muted-2:rgba(225,234,244,0.52);
+      --ink:#ffffff;
+      --ink-soft:rgba(255,255,255,0.82);
+      --muted:rgba(255,255,255,0.68);
+      --muted-2:rgba(255,255,255,0.52);
       --dark-text:#172234;
-      --line:rgba(255,255,255,0.105);
-      --line-soft:rgba(255,255,255,0.075);
-      --blue:#4f82ff;
+      --line:rgba(255,255,255,0.10);
+      --line-soft:rgba(255,255,255,0.07);
+      --blue:#2c6cff;
       --blue-soft:#9ec2ff;
-      --green:#45c58a;
-      --green-soft:#9be7c5;
+      --green:#35c67a;
+      --green-2:#7ce7b5;
       --cream:#f8fbff;
       --rose:#fff3f1;
       --rose-line:#e8c9c4;
-      --shadow:0 24px 70px rgba(0,0,0,0.30);
+      --shadow:0 18px 50px rgba(0,0,0,0.34);
     }
 
     *{ box-sizing:border-box; }
@@ -38,19 +38,18 @@
       min-height:100vh;
       color:var(--ink);
       background:
-        radial-gradient(circle at 18% -6%, rgba(79,130,255,0.18), transparent 34%),
-        radial-gradient(circle at 88% 2%, rgba(69,197,138,0.10), transparent 30%),
+        radial-gradient(circle at 18% -6%, rgba(44,108,255,0.18), transparent 34%),
+        radial-gradient(circle at 88% 2%, rgba(53,198,122,0.10), transparent 30%),
         linear-gradient(180deg, #081020 0%, var(--bg) 46%, #050814 100%);
-      font-family:Inter, Arial, sans-serif;
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
       -webkit-font-smoothing:antialiased;
-      text-rendering:geometricPrecision;
     }
 
     a{ color:inherit; text-decoration:none; }
 
     .shell{
-      width:min(1160px, calc(100% - 40px));
-      margin:0 auto;
+      width:min(1280px, calc(100% - 32px));
+      margin:18px auto 34px;
     }
 
     .site-header{
@@ -61,18 +60,56 @@
       padding:24px 0 22px;
     }
 
-    .brand{
+    .vol-logo-horizontal{
+      --vol-logo-font-weight:300;
+      --vol-logo-letter-spacing:0.08em;
+      --vol-logo-color:rgba(255,255,255,0.94);
+      --vol-logo-glow:0 0 0.16em rgba(79,130,255,0.16);
       display:inline-flex;
       align-items:center;
-      height:46px;
+      gap:0.08em;
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
+      font-size:clamp(34px, 4.2vw, 56px);
+      font-weight:var(--vol-logo-font-weight);
+      letter-spacing:var(--vol-logo-letter-spacing);
+      line-height:1;
+      color:var(--vol-logo-color);
+      white-space:nowrap;
     }
 
-    .brand-logo{
-      display:block;
-      width:auto;
-      height:42px;
-      max-width:210px;
-      object-fit:contain;
+    .logo-letter{
+      color:var(--vol-logo-color);
+      font-weight:inherit;
+    }
+
+    .logo-o{
+      width:0.76em;
+      height:0.76em;
+      border-radius:50%;
+      border:0.065em solid #4f82ff;
+      box-sizing:border-box;
+      display:inline-block;
+      position:relative;
+      transform:translateY(0.035em);
+      box-shadow:
+        inset 0 0 0.20em rgba(79,130,255,0.20),
+        var(--vol-logo-glow);
+    }
+
+    .logo-o::after{
+      content:"";
+      position:absolute;
+      inset:-0.08em;
+      border-radius:50%;
+      border-top:0.035em solid rgba(255,255,255,0.26);
+      border-right:0.035em solid rgba(79,130,255,0.68);
+      border-bottom:0.035em solid transparent;
+      border-left:0.035em solid transparent;
+      transform:rotate(-28deg);
+    }
+
+    .logo-gap{
+      width:0.26em;
     }
 
     .platform-nav{
@@ -84,26 +121,29 @@
     }
 
     .nav-pill{
-      padding:8px 11px;
+      padding:10px 14px;
       border-radius:999px;
-      border:1px solid transparent;
-      color:rgba(233,240,249,0.66);
-      font-size:11px;
-      font-weight:800;
+      border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04);
+      color:rgba(255,255,255,0.82);
+      font-size:12px;
+      font-weight:600;
       letter-spacing:0.03em;
       text-transform:uppercase;
+      white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
     }
 
     .nav-pill:hover{
-      border-color:rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.045);
-      color:rgba(255,255,255,0.88);
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
     }
 
     .nav-pill.active{
-      color:#eaf2ff;
-      border-color:rgba(79,130,255,0.32);
-      background:rgba(79,130,255,0.12);
+      color:#06111d;
+      border-color:rgba(53,198,122,0.75);
+      background:linear-gradient(135deg, #35c67a, #7ce7b5);
     }
 
     .nav-dropdown{
@@ -113,20 +153,17 @@
     }
 
     .nav-pill-button{
-      cursor:default;
+      cursor:pointer;
       font-family:inherit;
       appearance:none;
       -webkit-appearance:none;
-      border:1px solid rgba(255,255,255,0.12);
-      background:rgba(255,255,255,0.04);
-      color:#eef4ff;
     }
 
     .nav-pill-button:hover,
     .nav-dropdown:focus-within .nav-pill-button{
-      border-color:rgba(255,255,255,0.16);
-      background:rgba(255,255,255,0.075);
-      color:#ffffff;
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.24);
+      transform:translateY(-1px);
     }
 
     .nav-caret{
@@ -184,47 +221,36 @@
 
     .hero{
       position:relative;
-      padding:64px 0 82px;
+      padding:32px 0 40px;
       border-top:1px solid var(--line-soft);
       border-bottom:1px solid var(--line-soft);
     }
 
-    .hero-microcopy{
-      position:absolute;
-      top:64px;
-      right:0;
-      max-width:250px;
-      color:rgba(220,232,246,0.58);
-      font-size:12px;
-      line-height:1.55;
-      font-weight:700;
-      text-align:right;
-    }
-
     .eyebrow{
-      color:var(--blue-soft);
+      color:rgba(143,215,255,0.78);
       font-size:11px;
-      font-weight:800;
-      letter-spacing:0.12em;
+      font-weight:900;
+      letter-spacing:0.10em;
       text-transform:uppercase;
+      margin:0 0 10px;
     }
 
     h1{
-      max-width:760px;
       margin:14px 0 0;
-      color:rgba(248,251,255,0.90);
-      font-family:"Libre Baskerville", Georgia, serif;
-      font-size:clamp(42px, 6.3vw, 76px);
-      line-height:0.98;
-      letter-spacing:-0.02em;
+      color:rgba(255,255,255,0.91);
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
+      font-size:clamp(28px, 3vw, 42px);
+      font-weight:700;
+      line-height:1.15;
+      letter-spacing:-0.01em;
     }
 
     .hero-copy{
-      max-width:710px;
       margin:22px 0 0;
-      color:var(--muted);
-      font-size:17px;
-      line-height:1.72;
+      color:rgba(255,255,255,0.68);
+      font-size:clamp(14px, 1.1vw, 16px);
+      line-height:1.62;
+      font-weight:500;
     }
 
     .coming-pill{
@@ -249,16 +275,16 @@
     }
 
     .section{
-      padding:54px 0;
+      padding:27px 0;
       border-bottom:1px solid var(--line-soft);
     }
 
     .section-label{
-      margin:0 0 18px;
-      color:rgba(220,232,246,0.58);
+      margin:0 0 14px;
+      color:rgba(143,215,255,0.78);
       font-size:11px;
-      font-weight:800;
-      letter-spacing:0.12em;
+      font-weight:900;
+      letter-spacing:0.10em;
       text-transform:uppercase;
     }
 
@@ -271,9 +297,10 @@
     .signal-card{
       min-height:142px;
       border:1px solid var(--line);
-      background:rgba(17,24,42,0.72);
-      border-radius:12px;
-      padding:18px;
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:20px;
     }
 
     .signal-icon{
@@ -282,39 +309,40 @@
       border-radius:50%;
       display:grid;
       place-items:center;
-      border:1px solid rgba(79,130,255,0.28);
+      border:1px solid rgba(44,108,255,0.28);
       color:var(--blue-soft);
-      background:rgba(79,130,255,0.10);
+      background:rgba(44,108,255,0.10);
       font-size:10px;
       font-weight:900;
     }
 
     .signal-card h3{
-      margin:18px 0 0;
-      color:rgba(248,251,255,0.88);
+      margin:14px 0 0;
+      color:rgba(255,255,255,0.88);
       font-size:14px;
+      font-weight:700;
       line-height:1.2;
     }
 
     .signal-card p{
       margin:8px 0 0;
-      color:rgba(225,234,244,0.62);
+      color:rgba(255,255,255,0.68);
       font-size:12px;
-      line-height:1.58;
+      line-height:1.6;
     }
 
     .preview-section{
-      padding:60px 0 66px;
+      padding:30px 0 33px;
       border-bottom:1px solid var(--line-soft);
     }
 
     .brief-card{
       max-width:940px;
       margin:0 auto;
-      border:1px solid rgba(255,255,255,0.12);
-      background:linear-gradient(180deg, rgba(21,29,49,0.94), rgba(15,22,38,0.94));
-      border-radius:18px;
+      border:1px solid var(--line);
+      background:var(--panel);
       box-shadow:var(--shadow);
+      border-radius:22px;
       padding:24px;
     }
 
@@ -455,61 +483,69 @@
     .metric-tile{
       min-height:150px;
       border:1px solid var(--line);
-      background:rgba(17,24,42,0.62);
-      border-radius:13px;
-      padding:20px;
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:22px;
     }
 
     .metric-number{
-      color:var(--blue-soft);
-      font-family:"Libre Baskerville", Georgia, serif;
-      font-size:34px;
-      line-height:1;
-      font-weight:700;
+      color:rgba(255,255,255,0.92);
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
+      font-size:28px;
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.01em;
     }
 
-    .metric-tile:nth-child(2) .metric-number{ color:rgba(248,251,255,0.88); }
-    .metric-tile:nth-child(3) .metric-number{ color:var(--green-soft); }
+    .metric-tile:nth-child(2) .metric-number{ color:rgba(255,255,255,0.92); }
+    .metric-tile:nth-child(3) .metric-number{ color:var(--green-2); }
 
     .metric-tile h3{
       margin:10px 0 0;
-      color:rgba(248,251,255,0.86);
-      font-size:15px;
-      line-height:1.25;
+      color:rgba(255,255,255,0.88);
+      font-size:18px;
+      font-weight:800;
+      line-height:1.2;
     }
 
     .metric-tile p{
       margin:10px 0 0;
-      max-width:300px;
-      color:rgba(225,234,244,0.60);
-      font-size:12px;
+      color:rgba(255,255,255,0.68);
+      font-size:13px;
+      font-weight:500;
       line-height:1.6;
     }
 
     .closing{
-      margin:0 calc(50% - 50vw);
-      background:#081020;
-      color:#fff;
+      margin-top:14px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
       text-align:center;
-      padding:58px 24px 52px;
-      border-top:1px solid rgba(255,255,255,0.08);
+      padding:28px 28px 26px;
     }
 
     .closing h2{
-      max-width:740px;
-      margin:0 auto;
-      color:rgba(248,251,255,0.92);
-      font-family:"Libre Baskerville", Georgia, serif;
-      font-size:clamp(28px, 4vw, 44px);
-      line-height:1.05;
-      letter-spacing:-0.015em;
+      margin:0;
+      color:rgba(255,255,255,0.91);
+      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
+      font-size:clamp(28px, 3vw, 42px);
+      font-weight:700;
+      line-height:1.15;
+      letter-spacing:-0.01em;
+      white-space:nowrap;
+      text-align:center;
+      width:100%;
     }
 
     .closing p{
-      margin:16px auto 0;
-      color:rgba(225,234,244,0.70);
-      font-size:14px;
-      line-height:1.65;
+      margin:14px 0 0;
+      color:rgba(255,255,255,0.68);
+      font-size:clamp(14px, 1.1vw, 16px);
+      font-weight:500;
+      line-height:1.62;
     }
 
     .redi-mark{
@@ -537,7 +573,6 @@
     @media (max-width:980px){
       .site-header{ align-items:flex-start; flex-direction:column; }
       .platform-nav{ justify-content:flex-start; }
-      .hero-microcopy{ position:static; margin-top:22px; text-align:left; }
       .signal-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
       .priority-item{ grid-template-columns:42px minmax(0, 1fr); }
       .priority-copy{ grid-column:1 / -1; }
@@ -546,12 +581,10 @@
 
     @media (max-width:640px){
       .shell{ width:min(100% - 24px, 1160px); }
-      .brand{ height:40px; }
-      .brand-logo{ height:38px; max-width:190px; }
       .redi-logo{ height:24px; max-width:160px; }
-      .hero{ padding:38px 0 50px; }
+      .hero{ padding:20px 0 24px; }
       .section,
-      .preview-section{ padding:38px 0; }
+      .preview-section{ padding:20px 0; }
       .signal-grid{ grid-template-columns:1fr; }
       .brief-card{ padding:14px; }
       .brief-paper{ padding:20px; }
@@ -562,33 +595,47 @@
 <body>
   <div class="shell">
     <header class="site-header">
-      <a class="brand" href="/">
-        <img class="brand-logo" src="public/images/vol-health-logo-transparent.svg" alt="VOL Health">
+      <a href="/" aria-label="VOL Health home">
+        <div class="vol-logo-horizontal" aria-label="VOL Health">
+          <span class="logo-letter">V</span>
+          <span class="logo-o" aria-hidden="true"></span>
+          <span class="logo-letter">L</span>
+          <span class="logo-gap" aria-hidden="true"></span>
+          <span class="logo-letter">H</span>
+          <span class="logo-letter">E</span>
+          <span class="logo-letter">A</span>
+          <span class="logo-letter">L</span>
+          <span class="logo-letter">T</span>
+          <span class="logo-letter">H</span>
+        </div>
       </a>
 
       <nav class="platform-nav">
-        <a href="/redi" class="nav-pill">VOL rEDi</a>
-        <a href="redi-brief.html" class="nav-pill active">rEDi Brief</a>
-        <a href="advisor.html" class="nav-pill">OpAdvisor</a>
-        <a href="data-demo.html" class="nav-pill">Data Demo</a>
-        <a href="shai.html" class="nav-pill">SHAI</a>
-        <div class="nav-dropdown">
-          <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
-          <div class="dropdown-menu" aria-label="Company navigation">
-            <a class="dropdown-link" href="/how-vol-works">How VOL Works</a>
-            <a class="dropdown-link" href="/about-vol">About VOL</a>
-            <a class="dropdown-link" href="/contact">Contact Us</a>
-            <a class="dropdown-link" href="/leadership">Leadership</a>
-            <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
-            <a class="dropdown-link" href="/terms-of-use">Terms of Use</a>
+          <a href="/" class="nav-pill">VOL Signal</a>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button active" type="button" aria-haspopup="true">Platform <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Platform navigation">
+              <a class="dropdown-link" href="/redi">VOL rEDi</a>
+              <a class="dropdown-link" href="/redi-brief">rEDi Brief</a>
+              <a class="dropdown-link" href="/advisor">OpAdvisor</a>
+              <a class="dropdown-link" href="/data-demo">Data Demo</a>
+              <a class="dropdown-link" href="/shai">SHAI</a>
+            </div>
           </div>
-        </div>
-      </nav>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Company navigation">
+              <a class="dropdown-link" href="/contact">Contact Us</a>
+              <a class="dropdown-link" href="/leadership">Leadership</a>
+              <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
+              <a class="dropdown-link" href="/terms-of-use">Terms of Use</a>
+            </div>
+          </div>
+        </nav>
     </header>
 
     <main>
       <section class="hero">
-        <div class="hero-microcopy">Senior living leadership, sharpened daily.</div>
         <div class="eyebrow">Signal &rarr; Prioritization &rarr; Action</div>
         <h1>The morning briefing that helps leaders start with clarity.</h1>
         <p class="hero-copy">rEDi Brief delivers your daily operational readiness brief, synthesizing staffing pressure, resident care movement, workflow strain, and leadership risk into a short prioritized brief for the day ahead.</p>
@@ -697,7 +744,7 @@
       </section>
 
       <section class="closing">
-        <h2>Senior living leadership is complex enough. Your morning briefing shouldn&rsquo;t be.</h2>
+        <h2>Senior living leadership is complex enough.<br>Your morning briefing shouldn&rsquo;t be.</h2>
         <p><strong>rEDi Brief</strong> | Signal to action every morning</p>
         <div class="redi-mark" aria-label="VOL rEDi">
           <img class="redi-logo" src="public/images/VOL-rEDi-transparent.svg" alt="VOL rEDi">
@@ -710,9 +757,9 @@
     </main>
   <style>
     .vol-footer-cta{margin-top:18px;padding:32px 28px;border-radius:22px;border:1px solid rgba(255,255,255,0.10);background:rgba(13,18,36,0.78);}
-    .vol-footer-kicker{margin:0 0 12px;color:#8fd7ff;font-size:11px;font-weight:900;letter-spacing:0.13em;text-transform:uppercase;}
+    .vol-footer-kicker{margin:0 0 10px;color:rgba(143,215,255,0.78);font-size:11px;font-weight:900;letter-spacing:0.10em;text-transform:uppercase;}
     .vol-footer-headline{margin:0 0 12px;color:#ffffff;font-size:21px;font-weight:800;line-height:1.3;}
-    .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;max-width:560px;}
+    .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;}
     .vol-footer-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
     .vol-footer-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;background:#2C6CFF;color:#ffffff;font-size:13px;font-weight:800;text-decoration:none;border:1px solid rgba(44,108,255,0.5);transition:filter 0.12s ease;}
     .vol-footer-btn-primary:hover{filter:brightness(1.1);}

@@ -8,13 +8,22 @@
   ],
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
+    { "source": "/redi", "destination": "/redi.html" },
     { "source": "/about-vol", "destination": "/about-vol.html" },
+    { "source": "/advisor", "destination": "/advisor.html" },
     { "source": "/auth/callback", "destination": "/auth-callback.html" },
     { "source": "/auth-proof", "destination": "/auth-proof.html" },
     { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/daily-signals", "destination": "/daily-signals.html" },
+    { "source": "/data-demo", "destination": "/data-demo.html" },
     { "source": "/how-vol-works", "destination": "/how-vol-works.html" },
     { "source": "/leadership", "destination": "/leadership.html" },
+    { "source": "/map", "destination": "/map.html" },
     { "source": "/privacy-policy", "destination": "/privacy-policy.html" },
-    { "source": "/terms-of-use", "destination": "/terms-of-use.html" }
+    { "source": "/redi-brief", "destination": "/redi-brief.html" },
+    { "source": "/shai", "destination": "/shai.html" },
+    { "source": "/terms-of-use", "destination": "/terms-of-use.html" },
+    { "source": "/volatility-index", "destination": "/volatility-index.html" },
+    { "source": "/wsi", "destination": "/wsi.html" }
   ]
 }

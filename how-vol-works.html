@@ -34,7 +34,7 @@
     }
     a{ color:inherit; text-decoration:none; }
     button, input, textarea{ font:inherit; }
-    .shell{ width:min(1280px, calc(100% - 32px)); margin:18px auto 44px; }
+    .shell{ width:min(1280px, calc(100% - 32px)); margin:18px auto 34px; }
     .platform-header{ padding:14px 14px 0; }
     .platform-header-top{ display:flex; align-items:center; justify-content:space-between; gap:18px; }
     .platform-brand{ min-width:0; }
@@ -63,12 +63,12 @@
     .platform-nav{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
     .nav-pill{
       display:inline-flex; align-items:center; justify-content:center;
-      padding:9px 13px; border-radius:999px; border:1px solid var(--border);
-      background:rgba(255,255,255,0.045); color:rgba(255,255,255,0.76);
-      font-size:11px; font-weight:800; letter-spacing:0.03em; text-transform:uppercase;
+      padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,0.12);
+      background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.82);
+      font-size:12px; font-weight:600; letter-spacing:0.03em; text-transform:uppercase;
       white-space:nowrap; transition:background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
     }
-    .nav-pill:hover{ background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.22); transform:translateY(-1px); }
+    .nav-pill:hover{ background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.24); transform:translateY(-1px); }
     .nav-pill.active{ color:#06111d; border-color:rgba(53,198,122,0.75); background:linear-gradient(135deg, var(--green), var(--green-2)); }
     .nav-dropdown{ position:relative; display:inline-flex; align-items:center; }
     .nav-pill-button{ cursor:pointer; }
@@ -93,16 +93,16 @@
       border-radius:22px;
     }
     .hero-panel{ padding:30px; margin-bottom:18px; }
-    .page-kicker{ color:#8fd7ff; font-size:11px; font-weight:900; letter-spacing:0.13em; text-transform:uppercase; }
-    .page-title{ margin:15px 0 0; max-width:1000px; font-size:clamp(32px, 4.5vw, 64px); line-height:1.05; font-weight:650; letter-spacing:0; }
-    .page-subtitle{ margin:20px 0 0; max-width:920px; color:var(--muted); font-size:clamp(16px, 1.4vw, 19px); line-height:1.64; font-weight:500; }
+    .page-kicker{ color:rgba(143,215,255,0.78); font-size:11px; font-weight:900; letter-spacing:0.10em; text-transform:uppercase; margin:0 0 10px; }
+    .page-title{ margin:0 0 14px; font-size:clamp(28px, 3vw, 42px); line-height:1.15; font-weight:700; letter-spacing:-0.01em; color:rgba(255,255,255,0.94); }
+    .page-subtitle{ margin:0 0 12px; color:rgba(255,255,255,0.68); font-size:clamp(14px, 1.1vw, 16px); line-height:1.62; font-weight:500; }
     .story-spine{ margin-top:20px; display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:10px; }
     .spine-step{ padding:11px 12px; border:1px solid rgba(255,255,255,0.10); border-radius:999px; color:rgba(255,255,255,0.72); background:rgba(255,255,255,0.04); font-size:11px; font-weight:800; text-align:center; text-transform:uppercase; letter-spacing:0.04em; }
     .story-section{ margin-top:18px; padding:24px; overflow:hidden; }
     .section-grid{ display:grid; grid-template-columns:minmax(0, 0.9fr) minmax(0, 1.1fr); gap:22px; align-items:center; }
-    .section-number{ color:rgba(143,215,255,0.72); font-size:12px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; }
-    .section-title{ margin:12px 0 0; font-size:clamp(24px, 2.7vw, 38px); line-height:1.14; font-weight:650; }
-    .section-copy{ margin:16px 0 0; max-width:560px; color:rgba(255,255,255,0.72); font-size:15px; line-height:1.76; font-weight:500; }
+    .section-number{ color:rgba(143,215,255,0.78); font-size:11px; font-weight:900; letter-spacing:0.10em; text-transform:uppercase; margin:0 0 10px; }
+    .section-title{ margin:0 0 12px; font-size:clamp(20px, 2.2vw, 30px); line-height:1.2; font-weight:700; color:rgba(255,255,255,0.92); }
+    .section-copy{ margin:0; color:rgba(255,255,255,0.68); font-size:clamp(14px, 1.1vw, 16px); line-height:1.62; font-weight:500; }
     .signal-board{
       position:relative;
       display:flex;
@@ -273,16 +273,20 @@
           </div>
         </a>
         <nav class="platform-nav">
-          <a href="/redi" class="nav-pill">VOL rEDi</a>
-          <a href="redi-brief.html" class="nav-pill">rEDi Brief</a>
-          <a href="advisor.html" class="nav-pill">OpAdvisor</a>
-          <a href="data-demo.html" class="nav-pill">Data Demo</a>
-          <a href="shai.html" class="nav-pill">SHAI</a>
+          <a href="/" class="nav-pill active">VOL Signal</a>
           <div class="nav-dropdown">
-            <button class="nav-pill nav-pill-button active" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
+            <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Platform <span class="nav-caret">▼</span></button>
+            <div class="dropdown-menu" aria-label="Platform navigation">
+              <a class="dropdown-link" href="/redi">VOL rEDi</a>
+              <a class="dropdown-link" href="/redi-brief">rEDi Brief</a>
+              <a class="dropdown-link" href="/advisor">OpAdvisor</a>
+              <a class="dropdown-link" href="/data-demo">Data Demo</a>
+              <a class="dropdown-link" href="/shai">SHAI</a>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <button class="nav-pill nav-pill-button" type="button" aria-haspopup="true">Company <span class="nav-caret">▼</span></button>
             <div class="dropdown-menu" aria-label="Company navigation">
-              <a class="dropdown-link" href="/how-vol-works">How VOL Works</a>
-              <a class="dropdown-link" href="/about-vol">About VOL</a>
               <a class="dropdown-link" href="/contact">Contact Us</a>
               <a class="dropdown-link" href="/leadership">Leadership</a>
               <a class="dropdown-link" href="/privacy-policy">Privacy Policy</a>
@@ -382,7 +386,7 @@
     .vol-footer-cta{margin-top:18px;padding:32px 28px;border-radius:22px;border:1px solid rgba(255,255,255,0.10);background:rgba(13,18,36,0.78);}
     .vol-footer-kicker{margin:0 0 12px;color:#8fd7ff;font-size:11px;font-weight:900;letter-spacing:0.13em;text-transform:uppercase;}
     .vol-footer-headline{margin:0 0 12px;color:#ffffff;font-size:21px;font-weight:800;line-height:1.3;}
-    .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;max-width:560px;}
+    .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;}
     .vol-footer-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
     .vol-footer-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;background:#2C6CFF;color:#ffffff;font-size:13px;font-weight:800;text-decoration:none;border:1px solid rgba(44,108,255,0.5);transition:filter 0.12s ease;}
     .vol-footer-btn-primary:hover{filter:brightness(1.1);}
