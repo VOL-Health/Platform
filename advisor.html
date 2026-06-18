@@ -255,11 +255,16 @@
       min-height:140px;
       padding:16px;
       border-radius:18px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.035);
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);
       color:inherit;
       cursor:pointer;
       transition:border-color 0.16s ease, background 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .disruption-tile.tile-available{
+      border-color:rgba(53,198,122,0.35);
+      background:rgba(53,198,122,0.05);
     }
 
     .disruption-tile:hover{
@@ -293,13 +298,19 @@
       align-self:flex-start;
       padding:5px 8px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.12);
-      background:rgba(255,255,255,0.045);
-      color:rgba(255,255,255,0.56);
+      border:1px solid rgba(255,255,255,0.15);
+      background:transparent;
+      color:rgba(255,255,255,0.45);
       font-size:9.5px;
       font-weight:900;
       letter-spacing:0.06em;
       text-transform:uppercase;
+    }
+
+    .disruption-tile.tile-available .tile-tag{
+      border-color:rgba(53,198,122,0.40);
+      background:rgba(53,198,122,0.15);
+      color:#35c67a;
     }
 
     .disruption-tile.active .tile-tag{
@@ -980,12 +991,12 @@
         <h2>What operational issue are you working through?</h2>
         <p class="section-helper">Select the issue below to generate a tailored response brief.</p>
         <div class="disruption-grid" id="disruptionGrid">
-          <button class="disruption-tile" type="button" data-disruption="infrastructure">
+          <button class="disruption-tile tile-available" type="button" data-disruption="infrastructure">
             <strong>Building &amp; Infrastructure Disruption</strong>
             <span>Water leaks, water outages, power, HVAC, elevator failures.</span>
             <span class="tile-tag">Available</span>
           </button>
-          <button class="disruption-tile" type="button" data-disruption="staffing">
+          <button class="disruption-tile tile-available" type="button" data-disruption="staffing">
             <strong>Staffing Coverage Crisis</strong>
             <span>Call-offs, shift gaps, sudden coverage shortfalls.</span>
             <span class="tile-tag">Available</span>
@@ -1000,7 +1011,7 @@
             <span>Outbreak signs, illness clusters, reporting needs.</span>
             <span class="tile-tag">Request This Workflow</span>
           </button>
-          <button class="disruption-tile" type="button" data-disruption="survey">
+          <button class="disruption-tile tile-available" type="button" data-disruption="survey">
             <strong>Survey / Regulatory Arrival</strong>
             <span>Unannounced state survey or regulatory visit.</span>
             <span class="tile-tag">Available</span>
