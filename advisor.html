@@ -1753,8 +1753,8 @@
               "Surveyors indicate they are referring findings to law enforcement or adult protective services — cease cooperation beyond legal requirements and contact legal counsel immediately.",
               "Any surveyor statement that suggests immediate jeopardy — call regional and legal counsel before responding."
             ],
+            documentationPreamble: "All documentation from the Annual Survey list — surveyor names and credentials, entrance conference notes, movement log, records provided with timestamps, staff and residents interviewed, exit conference notes — plus these complaint-specific additions:",
             documentation: [
-              "All documentation from the Annual Survey list — surveyor names and credentials, entrance conference notes, movement log, records provided with timestamps, staff and residents interviewed, exit conference notes — plus these complaint-specific additions:",
               "Exact language of the complaint as disclosed in the entrance conference",
               "Your own internal record review — what you found and when you reviewed it",
               "Names of staff working during the dates in question",
@@ -1806,8 +1806,8 @@
               "A surveyor requests to see documentation that doesn't exist or wasn't part of your POC — do not create or compile new documentation in response. Consult legal counsel first.",
               "The exit conference includes findings beyond the original deficiency — document every word of the exit conference and contact regional and legal immediately after."
             ],
+            documentationPreamble: "All documentation from the Annual Survey list — surveyor names and credentials, entrance conference notes, movement log, records provided with timestamps, staff and residents interviewed, exit conference notes — plus these revisit-specific additions:",
             documentation: [
-              "All documentation from the Annual Survey list — surveyor names and credentials, entrance conference notes, movement log, records provided with timestamps, staff and residents interviewed, exit conference notes — plus these revisit-specific additions:",
               "POC implementation evidence provided to surveyors with timestamps",
               "Staff observed during survey and which corrected practices were demonstrated",
               "Surveyor questions and your responses during the entrance conference",
@@ -2223,6 +2223,7 @@
       html += `
         <div class="brief-section">
           <div class="brief-label"><span class="brief-num">8</span> Documentation Reminders</div>
+          ${content.documentationPreamble ? `<p style="font-size:13px;color:rgba(255,255,255,0.55);font-style:italic;margin-bottom:8px;margin-top:0;">${escapeHtml(content.documentationPreamble)}</p>` : ""}
           ${renderList(content.documentation)}
         </div>
       `;
