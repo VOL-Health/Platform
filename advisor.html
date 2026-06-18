@@ -988,7 +988,7 @@
           <button class="disruption-tile" type="button" data-disruption="staffing">
             <strong>Staffing Coverage Crisis</strong>
             <span>Call-offs, shift gaps, sudden coverage shortfalls.</span>
-            <span class="tile-tag">Request This Workflow</span>
+            <span class="tile-tag">Available</span>
           </button>
           <button class="disruption-tile" type="button" data-disruption="family">
             <strong>Family Escalation</strong>
@@ -1003,7 +1003,7 @@
           <button class="disruption-tile" type="button" data-disruption="survey">
             <strong>Survey / Regulatory Arrival</strong>
             <span>Unannounced state survey or regulatory visit.</span>
-            <span class="tile-tag">Request This Workflow</span>
+            <span class="tile-tag">Available</span>
           </button>
         </div>
 
@@ -1014,7 +1014,7 @@
 
       <section class="builder-panel hidden" id="builderPanel">
         <div class="builder-section">
-          <div class="builder-label">Operational issue</div>
+          <div class="builder-label" id="issueLabel">Operational issue</div>
           <div class="option-group" id="subOptionGroup">
             <button class="option-pill active" type="button" data-sub="water-outage">Water Leak / Water Outage</button>
             <button class="option-pill" type="button" data-sub="power-outage">Power Outage</button>
@@ -1024,7 +1024,7 @@
         </div>
 
         <div class="builder-section" id="scopeSection">
-          <div class="builder-label">Scope</div>
+          <div class="builder-label" id="scopeLabel">Scope</div>
           <div class="option-group" id="scopeGroup">
             <button class="option-pill" type="button" data-scope="whole-building">Whole Building</button>
             <button class="option-pill" type="button" data-scope="wing">One Wing / Floor / Neighborhood</button>
@@ -1033,7 +1033,7 @@
         </div>
 
         <div class="builder-section">
-          <div class="builder-label">Estimated duration</div>
+          <div class="builder-label" id="durationLabel">Estimated duration</div>
           <div class="option-group" id="durationGroup">
             <button class="option-pill" type="button" data-duration="unknown">Unknown</button>
             <button class="option-pill" type="button" data-duration="under2">Under 2 Hours</button>
@@ -1484,12 +1484,398 @@
             ]
           }
         }
+      },
+      staffing: {
+        label: "Staffing Coverage Crisis",
+        issues: {
+          "staffing-crisis": {
+            label: "Staffing Coverage Crisis",
+            relatedWorkflows: ["Building & Infrastructure Disruption", "Family Escalation", "Infectious Disease Concern"],
+            variants: {
+              "single-shift": {
+                label: "Single shift gap",
+                operationalImpact: "A single shift gap is manageable but only if it's caught early and ownership is assigned immediately. The risk isn't the gap itself — it's the 45 minutes lost to informal scrambling before anyone takes clear accountability. In senior living, a single uncovered shift in memory care or a high-acuity wing carries resident safety implications that a hospitality or retail coverage gap simply doesn't. The staff who do show up absorb the load silently, which creates a compounding effect that doesn't show up until the next call-off.",
+                immediatePriorities: [
+                  "Confirm the gap is real and the timeframe — has the employee called off, not shown, or is this a schedule error? Don't mobilize resources for a miscommunication.",
+                  "Assign one person as the coverage coordinator for this gap — the charge nurse, scheduler, or supervisor on duty. Single ownership, single point of contact.",
+                  "Work the internal list first in this order: voluntary overtime from off-going shift, part-time staff who can extend, float pool or cross-trained staff from adjacent departments, then agency as the last resort."
+                ],
+                notify: [
+                  { when: "Immediately", who: "Charge nurse or supervisor on duty, scheduler" },
+                  { when: "15–30 min", who: "Department director if coverage isn't resolved within the first 15 minutes" },
+                  { when: "30–60 min", who: "DON or Executive Director if memory care, skilled nursing, or a high-acuity neighborhood is affected and coverage remains unresolved" },
+                  { when: "As needed", who: "Agency contact if internal options are exhausted — call early, not late" }
+                ],
+                vendorNeeds: [
+                  "Primary agency partner — call early for better availability",
+                  "Secondary agency contact if primary can't staff within your window",
+                  "Internal float pool roster — confirm it's current and accessible to the supervisor on duty",
+                  "On-call list — verify staff have been contacted in the correct order per policy"
+                ],
+                whatToSay: {
+                  staff: "We have an open shift in [department] for [time]. I'm looking for anyone available to pick it up — [overtime rate/incentive if applicable]. Please respond to [point person] directly by [time] so we can confirm coverage. We appreciate anyone who can help.",
+                  residents: "No resident communication needed for a single shift gap unless care routines will be visibly affected. If staffing is visibly thin, a brief reassurance from the charge nurse during rounds is appropriate: \"We have a full team caring for you today — let us know if you need anything.\"",
+                  family: "No proactive family communication needed unless a resident has a scheduled procedure, appointment, or specific care need that could be affected. If needed: \"We wanted to let you know we're managing a staffing adjustment today and we've confirmed [resident]'s [care need] is covered and on schedule.\"",
+                  leadership: "Coverage gap in [department], [shift time]. [Employee] called off at [time]. Currently working internal options — off-going staff, part-time availability, float pool. Agency contacted as backup. Point person is [name]. Will confirm coverage by [time] or escalate."
+                },
+                commonMistakes: [
+                  "Waiting too long to call agency because you're confident internal coverage will come through — agency availability drops fast, especially evenings and weekends. Call them while you're still working internal options.",
+                  "Assigning coverage scrambling to the charge nurse who is also responsible for clinical oversight during the shift — split attention at shift start is a patient safety issue. Separate the coverage coordination from the clinical lead role when possible.",
+                  "Not documenting the call-off and coverage resolution — pattern data on who calls off, when, and how gaps are covered is exactly what VOL needs to surface predictive signals.",
+                  "Offering overtime verbally without confirming the employee actually accepted — a \"probably\" is not a confirmed shift."
+                ],
+                watchFor: [
+                  "Coverage isn't confirmed within 45 minutes of shift start → escalate to DON or ED immediately",
+                  "The same position calls off for the second time this week → flag to scheduler and department director as a pattern signal",
+                  "Agency declines or has no available staff → escalate immediately, consider whether a supervisor needs to work the floor",
+                  "Staff covering the gap are already at or near overtime thresholds for the week → flag to scheduler before approving additional hours",
+                  "Resident in the affected area has a scheduled procedure or critical care need during the gap → confirm care continuity with the clinical lead before shift start"
+                ],
+                documentation: [
+                  "Employee name, position, shift, and time call-off was received",
+                  "Reason given for call-off (if provided)",
+                  "Internal coverage options contacted, times, and responses",
+                  "Agency contacted — time, representative name, outcome",
+                  "Who ultimately covered the shift and how (OT, agency, supervisor)",
+                  "Total time from call-off notification to confirmed coverage",
+                  "Any resident care impacts or adjustments made during the gap"
+                ]
+              },
+              "multi-shift": {
+                label: "Multiple shifts / departments affected",
+                operationalImpact: "When coverage gaps span more than one shift or department simultaneously, the operational risk multiplies faster than the numbers suggest. Staff who cover one gap are less available for the next. Leadership bandwidth gets consumed by coordination instead of oversight. Residents and families begin to notice — not because of any single gap but because the cumulative effect of thin staffing changes the texture of the day. Agency costs escalate quickly. And the staff who show up reliably start asking themselves whether they want to keep doing so.",
+                immediatePriorities: [
+                  "Map the full scope immediately — how many shifts, which departments, what timeframes. You cannot triage what you haven't measured. Put it on paper or a whiteboard before you start making calls.",
+                  "Activate your staffing contingency protocol if one exists. If it doesn't, this event is the reason to build one afterward.",
+                  "Prioritize coverage by acuity and regulatory requirement first — memory care, skilled nursing, and any department with a minimum staffing ratio requirement gets coverage before others. Document your prioritization rationale."
+                ],
+                notify: [
+                  { when: "Immediately", who: "DON, Executive Director, all department directors affected" },
+                  { when: "15–30 min", who: "Regional director or VP of Operations — multi-department gaps cross the threshold of individual community management" },
+                  { when: "30–60 min", who: "Agency partners — multiple contacts simultaneously, not sequentially" },
+                  { when: "As needed", who: "Families of residents with high acuity needs or scheduled care events if service delivery will be affected" }
+                ],
+                vendorNeeds: [
+                  "All agency partners simultaneously — do not work them sequentially when multiple shifts need filling",
+                  "Consider a staffing agency that specializes in your care type if your primary partner can't cover the volume",
+                  "Identify whether any community leadership staff (coordinator level or above) are available and willing to work the floor in a support capacity",
+                  "Confirm whether your staffing software or scheduling platform has an emergency broadcast feature — use it"
+                ],
+                whatToSay: {
+                  staff: "We're working through a significant staffing challenge today across [departments]. I want to be transparent with you — we're actively covering the gaps and your leadership team is fully engaged. If you're able to help with additional hours today or this week, please reach out to [point person]. We're grateful for every person who steps up.",
+                  residents: "You may notice our team looks a little different today. We want you to know your care is our first priority and we have staff covering every neighborhood. If you need anything at all, please don't hesitate to use your call system or ask anyone you see.",
+                  family: "We want to be proactive with you today. We're managing some staffing adjustments across [community name] and we want you to know that [resident]'s care needs are being covered. Our leadership team is actively managing the situation. If you have any concerns about [resident] specifically, please call [point person] directly at [number].",
+                  leadership: "Multi-department coverage situation at [community]. Affected: [departments and shifts]. Coverage coordination underway — prioritizing by acuity. Agency contacted. Regional [name] notified at [time]. Current coverage status: [X of Y shifts confirmed]. Next update by [time]."
+                },
+                commonMistakes: [
+                  "Communicating to families before you have a clear picture — a vague \"we're having staffing issues\" message to families without specifics or reassurance creates panic that's harder to manage than the staffing gap itself.",
+                  "Pulling supervisors and coordinators to floor coverage without maintaining at least one leadership presence per neighborhood — clinical oversight cannot go dark during a multi-department gap.",
+                  "Not activating the regional or corporate support line because you're trying to solve it internally — regional leaders need to know when you're in a multi-department situation, not after you've resolved it.",
+                  "Forgetting to track cumulative agency costs in real time — a multi-shift agency response can generate significant unplanned expense that ownership needs visibility into same day."
+                ],
+                watchFor: [
+                  "Any department drops below minimum staffing ratio → regulatory notification may be required depending on your state and care type — consult your compliance protocol immediately",
+                  "A third call-off arrives during an already active multi-gap situation → this is now a potential infectious illness cluster or coordinated pattern — flag to DON and HR",
+                  "Agency exhausts available staff across your primary and secondary contacts → contact regional immediately for emergency staffing support",
+                  "Any resident incident or near-miss during the gap period → document separately and notify risk management regardless of severity",
+                  "Staff morale visibly deteriorating during the event → schedule a brief all-staff acknowledgment within 24 hours of resolution"
+                ],
+                documentation: [
+                  "Full gap inventory: each position, department, shift, and time call-off received",
+                  "Prioritization rationale — which departments were covered first and why",
+                  "All internal and external coverage contacts with times and outcomes",
+                  "Final coverage resolution for each gap",
+                  "Total agency hours and estimated cost",
+                  "Regional notification time and response",
+                  "Any resident care adjustments or family communications with timestamps",
+                  "Post-event debrief scheduled (yes/no, when)"
+                ]
+              },
+              "full-crisis": {
+                label: "Full coverage crisis",
+                operationalImpact: "A full coverage crisis — defined as a situation where confirmed gaps across multiple departments simultaneously threaten the community's ability to provide safe resident care — is a leadership event, not a scheduling event. The scheduler cannot solve this alone. The DON cannot solve this alone. It requires the Executive Director's full presence, immediate regional engagement, and a command structure that keeps clinical oversight intact while coverage is being sourced. The two risks that escalate fastest in a full coverage crisis are resident safety incidents and staff walkouts from the staff who did show up. Both require active leadership attention simultaneously.",
+                immediatePriorities: [
+                  "The Executive Director assumes command — this is not a situation to manage from a distance or delegate entirely. Be physically present in the building.",
+                  "Establish a coverage command center — a single room, a single whiteboard, a single point of coordination. Every gap, every contact, every confirmed fill gets tracked in one place.",
+                  "Activate your emergency staffing protocol and your regional emergency contact simultaneously — do not wait to see if you can solve it internally before calling regional. Call regional first, solve it in parallel."
+                ],
+                notify: [
+                  { when: "Immediately", who: "Regional VP, DON, all department directors, all agency partners simultaneously" },
+                  { when: "15–30 min", who: "Ownership/corporate — a full coverage crisis is a material operational event" },
+                  { when: "30–60 min", who: "Consider whether any off-duty leadership staff can be called in for floor support" },
+                  { when: "As needed", who: "State survey agency if minimum staffing ratios cannot be maintained — your compliance protocol governs this threshold" }
+                ],
+                vendorNeeds: [
+                  "All agency partners simultaneously and immediately",
+                  "Regional staffing support — most regional operators maintain an emergency staffing resource for exactly this situation",
+                  "Consider whether leadership staff from a sister community can provide temporary support",
+                  "Your liability and risk management contact — not to report an incident but to keep them informed that a situation is being actively managed"
+                ],
+                whatToSay: {
+                  staff: "I want to acknowledge what you're doing today. You showed up and that matters more than I can express right now. We are actively getting you support — agency staff are on the way and our leadership team is here. We will not forget who was here today. Please tell me what you need to get through this shift.",
+                  residents: "We want you to know that taking care of you is exactly what we're focused on right now. Our team is here and we have additional support coming. Please use your call system any time you need us — we are here.",
+                  family: "I'm [name], the Executive Director at [community]. I'm calling personally because we believe in being transparent with our families. We're managing a significant staffing situation today and I want you to hear from me directly that [resident] is safe and being cared for. I'm personally overseeing operations today. If you have any concerns, please call me directly at [number].",
+                  leadership: "[Community name] is in a full coverage crisis as of [time]. Gaps confirmed in [departments]. ED is on site and in command. Agency activated across all contacts. Current coverage: [X of Y critical shifts confirmed]. Regulatory threshold: [at risk / not at risk]. Request [specific support needed]. Next update in 60 minutes."
+                },
+                commonMistakes: [
+                  "The Executive Director managing the crisis remotely — your physical presence in the building during a full coverage crisis is not optional. It signals safety to staff and residents and keeps decision-making fast.",
+                  "Waiting to notify regional until you know the outcome — regional needs to know when you're in crisis, not when you've resolved it.",
+                  "Staff who showed up leaving because they felt unseen — acknowledge them early and often. A staff walkout during a coverage crisis is the scenario that moves from operational to regulatory.",
+                  "Not establishing a single command point — parallel uncoordinated scrambling by multiple leaders creates confusion about what's covered and what isn't.",
+                  "Letting family communication wait — a family who hears about a staffing crisis from their resident before hearing from the community will never fully trust you again."
+                ],
+                watchFor: [
+                  "Any shift drops to zero confirmed coverage → this is an immediate safety event — call 911 if residents cannot be safely supervised and contact your state agency",
+                  "A resident incident of any kind during the crisis → separate documentation, risk management notification, and regulatory reporting as required — do not let incident documentation fall through the cracks during a high-stress event",
+                  "Staff threatening to leave mid-shift → ED engages personally and immediately — this is the single highest-risk escalation during a coverage crisis",
+                  "Crisis extends beyond 12 hours → consider whether temporary census reduction or resident transfer protocols need to be activated",
+                  "Media or family member threatens to contact state agency → notify regional and risk management immediately, do not respond to media without guidance"
+                ],
+                documentation: [
+                  "Time crisis declared and by whom",
+                  "Full gap inventory with timestamps",
+                  "Command structure established — who owned what",
+                  "All agency contacts — times, representatives, outcomes",
+                  "Regional notification time and response",
+                  "Ownership/corporate notification time and response",
+                  "Every shift: final coverage status, who covered, how",
+                  "Any regulatory thresholds approached or breached with compliance protocol followed",
+                  "Any resident incidents during the crisis period",
+                  "Family communications log with timestamps",
+                  "Post-crisis debrief date scheduled — mandatory within 48 hours",
+                  "Staffing pattern analysis request submitted to scheduler/HR"
+                ]
+              }
+            }
+          }
+        }
+      },
+      survey: {
+        label: "Survey / Regulatory Arrival",
+        issues: {
+          "annual-survey": {
+            label: "Annual Survey",
+            relatedWorkflows: ["Staffing Coverage Crisis", "Family Escalation", "Building & Infrastructure Disruption"],
+            operationalImpact: "An annual survey arrival — even when expected — compresses leadership bandwidth immediately. The building has been in readiness posture but the moment surveyors walk through the door, the posture shifts from preparation to performance. Every interaction between staff and surveyors is now consequential. Leaders who are managing the survey are simultaneously less available for normal operational oversight, which means the building can drift in the areas no one is watching. The communities that do well in surveys aren't the ones that prepared the hardest the week before — they're the ones whose daily operations are close enough to survey-ready that the arrival changes very little.",
+            immediatePriorities: [
+              "Greet surveyors professionally and calmly at the front — the tone of the first five minutes sets the relational context for the entire survey.",
+              "Notify the DON and Executive Director immediately — both need to be physically present in the building within 15 minutes of arrival.",
+              "Activate your survey response team per your established protocol — assign one person to accompany each surveyor at all times.",
+              "Pull your most recent mock survey results and QA reports — surveyors will request records and you want to know what they'll find before they find it.",
+              "Notify regional director — not as an escalation but as a standard protocol notification."
+            ],
+            notify: [
+              { when: "Immediately", who: "DON, Executive Director, Charge Nurse, Dietary Manager, Maintenance Director" },
+              { when: "15 minutes", who: "Regional Director — standard survey notification" },
+              { when: "30 minutes", who: "Ownership/corporate per your notification protocol" },
+              { when: "As appropriate", who: "Department heads whose areas are likely to be reviewed first based on your known risk areas" }
+            ],
+            vendorNeeds: [
+              "No external vendors needed at this stage.",
+              "Ensure medical records are accessible and organized — records requests will come quickly.",
+              "Confirm your survey binder or readiness documentation is current and at the front desk.",
+              "Verify your QAPI documentation, incident logs, and care plan documentation are accessible."
+            ],
+            whatToSay: {
+              staff: "State surveyors have arrived for our annual survey. This is what we've been preparing for. Stay calm, be yourself, and do your job exactly as you always do. If a surveyor speaks to you, answer their questions honestly and directly. You don't need to volunteer additional information beyond what's asked. If you're unsure about something, it's completely appropriate to say 'I'd need to check on that' rather than guessing. Come to me or [DON name] if you have any questions.",
+              residents: "Some visitors from the state are here today doing a routine review of our community. They may ask to speak with you or observe during care. You are always welcome to speak with them privately if you'd like — that is your right. If you have any questions or concerns, please let me know.",
+              family: "We want you to know that our state annual survey is underway today at [community name]. This is a routine regulatory process that all communities go through. Our team is fully engaged and operations are running normally. We'll keep you informed as appropriate.",
+              leadership: "To surveyors: \"Good morning, welcome to [community name]. I'm [name], the [title]. We're glad you're here. Please come in — I'll get our Executive Director and Director of Nursing so we can get your entrance conference scheduled. Can I get you anything while we get set up?\" Regional update: \"Annual survey began at [time]. Surveyors are [number], appeared [routine/focused]. Entrance conference scheduled for [time]. DON and ED on site. Survey readiness binder current. No known immediate concerns. Will update after entrance conference.\""
+            },
+            commonMistakes: [
+              "Over-explaining or over-communicating to surveyors during the entrance conference — answer what's asked, don't volunteer.",
+              "Staff who are nervous becoming visibly evasive or overly formal — this reads as a red flag to experienced surveyors.",
+              "Pulling key leaders away from their departments to manage the survey — their job is to keep their departments running, not to shadow surveyors.",
+              "Failing to document surveyor movements and observations in real time — you need a record of what was observed, when, and where.",
+              "Not notifying families whose residents are interviewed or whose care is directly observed — proactive communication prevents complaint calls."
+            ],
+            watchFor: [
+              "Surveyors spending extended time in one specific area or requesting the same records repeatedly — they may have a focus area from a complaint. Notify DON and ED immediately.",
+              "A surveyor requests to speak privately with a specific resident or staff member — this is their right, but document the time, name, and location.",
+              "A surveyor's tone or questioning becomes adversarial — notify regional immediately, do not engage defensively.",
+              "Any immediate jeopardy language used by a surveyor — stop everything and call regional and legal counsel immediately.",
+              "A staff member makes a statement to a surveyor that you're concerned about — document it and notify your risk management contact."
+            ],
+            documentation: [
+              "Surveyor names, agency, credentials, and arrival time",
+              "Entrance conference time, attendees, and topics covered",
+              "Surveyor movements log — areas visited, times, observations noted",
+              "Records requested and provided with timestamps",
+              "Staff interviewed by surveyors — names and approximate topics",
+              "Residents interviewed or observed",
+              "Any verbal findings or concerns raised during the survey",
+              "Exit conference time, attendees, and preliminary findings",
+              "Regional notification times and responses"
+            ]
+          },
+          "complaint-investigation": {
+            label: "Complaint Investigation",
+            relatedWorkflows: ["Staffing Coverage Crisis", "Family Escalation", "Building & Infrastructure Disruption"],
+            operationalImpact: "A complaint-driven survey is categorically different from an annual survey — and most leadership teams don't treat it that way until they're already in trouble. The surveyor who walks through the door has a specific allegation. They know something you may not know they know. Their questions will be targeted, their record requests will be specific, and their observations will be focused. The instinct to be helpful and transparent — which serves you well in an annual survey — can work against you here if it means volunteering information beyond the scope of the complaint. This is the scenario where having clear, calm, legally informed communication discipline matters most.",
+            immediatePriorities: [
+              "Greet surveyors professionally — same as any survey arrival, do not signal that you know or suspect this is complaint-driven until they disclose it.",
+              "Notify DON, ED, and regional simultaneously — do not handle a complaint-driven survey without regional awareness from minute one.",
+              "Ask clearly and calmly during the entrance conference: 'Can you share the nature of the concern that prompted this visit?' — you have the right to understand the scope.",
+              "Once the complaint area is identified, pull all relevant records, incident reports, and care documentation for that resident or area before surveyors request them — reviewing your own documentation before they see it is appropriate and important.",
+              "Contact your risk management and legal counsel — not to obstruct the survey but to ensure your response is legally appropriate."
+            ],
+            notify: [
+              { when: "Immediately", who: "DON, Executive Director, Regional Director simultaneously — this notification cannot wait" },
+              { when: "15 minutes", who: "Ownership/corporate and risk management" },
+              { when: "30 minutes", who: "Legal counsel if the complaint involves a serious allegation (abuse, neglect, elopement, serious injury)" },
+              { when: "As appropriate", who: "Department director whose area is the subject of the complaint — they need to know but should not alter records or coach staff" }
+            ],
+            vendorNeeds: [
+              "Risk management contact — immediate notification.",
+              "Legal counsel contact — have the number ready before the entrance conference.",
+              "Your most recent care plans, incident reports, and shift notes for the resident or area in question.",
+              "Any grievance or complaint logs that may reference this resident or allegation.",
+              "Staff schedules for the dates in question — surveyors will want to know who was working."
+            ],
+            whatToSay: {
+              staff: "Surveyors are here today conducting a focused review. I want to be direct with you — this visit is related to [general area, not specific allegation] and our team's job is to cooperate fully and honestly. If a surveyor asks to speak with you, answer their questions truthfully and directly. Do not discuss this visit with other staff members before speaking with surveyors — that is important. Come to me or [DON name] immediately after any surveyor conversation.",
+              residents: "Some visitors from the state are here for a review today. They may ask to speak with you. You are always welcome to speak with them privately — that is your right.",
+              family: "Do not contact the family of the complaining resident without guidance from regional and legal counsel. Their contact may have initiated the complaint and any communication with them during the investigation needs to be carefully considered.",
+              leadership: "To surveyors: \"Good morning, welcome to [community name]. I'm [name], [title]. Please come in. Can you tell me more about the purpose of your visit today so we can make sure the right people are available for your entrance conference?\" Regional update: \"Complaint-driven survey in progress as of [time]. Complaint area appears to be [general area]. DON and ED on site. Records being pulled for the relevant period. Risk management notified. Request guidance on legal counsel notification. Will update after entrance conference.\""
+            },
+            commonMistakes: [
+              "Treating a complaint survey like an annual survey — the communication and documentation discipline required is fundamentally different.",
+              "Staff discussing the survey with each other before speaking with surveyors — this creates the appearance of coordination and can significantly worsen the outcome.",
+              "Contacting the family of the complainant before speaking with regional and legal — this can constitute witness tampering in a legal proceeding.",
+              "Altering, adding to, or backdating any records — this transforms a regulatory issue into a criminal one. Do not do this under any circumstances.",
+              "Becoming defensive or adversarial with surveyors — even if you believe the complaint is unfounded, the survey is the process and the process must be respected.",
+              "Not documenting your own record review before the survey begins — you need to know what the records show before surveyors see them."
+            ],
+            watchFor: [
+              "Surveyors request law enforcement accompaniment or arrive with APS investigators — contact legal counsel immediately before any further cooperation.",
+              "The complaint involves an allegation of abuse, neglect, or exploitation — mandatory reporting obligations may apply independently of the survey. Consult legal counsel.",
+              "A staff member is specifically named in the complaint — that individual should be removed from direct care during the investigation per your HR and compliance protocol.",
+              "Surveyors indicate they are referring findings to law enforcement or adult protective services — cease cooperation beyond legal requirements and contact legal counsel immediately.",
+              "Any surveyor statement that suggests immediate jeopardy — call regional and legal counsel before responding."
+            ],
+            documentation: [
+              "All documentation from the Annual Survey list — surveyor names and credentials, entrance conference notes, movement log, records provided with timestamps, staff and residents interviewed, exit conference notes — plus these complaint-specific additions:",
+              "Exact language of the complaint as disclosed in the entrance conference",
+              "Your own internal record review — what you found and when you reviewed it",
+              "Names of staff working during the dates in question",
+              "Any prior grievances or complaints from the same resident or family",
+              "All communications with regional, risk management, and legal counsel with timestamps",
+              "Staff interview log — who spoke with surveyors, when, and general topic"
+            ]
+          },
+          "followup-revisit": {
+            label: "Follow-Up / Revisit",
+            relatedWorkflows: ["Staffing Coverage Crisis", "Family Escalation", "Building & Infrastructure Disruption"],
+            operationalImpact: "A follow-up survey carries a different weight than any other regulatory visit because the outcome is binary — you either corrected the deficiency or you didn't. Surveyors arriving for a revisit are not conducting a broad review; they are specifically verifying whether the plan of correction you submitted was implemented and is being sustained. If the deficiency is not corrected or the correction is not evident, the consequences escalate materially — civil monetary penalties, directed in-service training, temporary management, or in serious cases denial of payment or decertification. Every leader in the building needs to understand before surveyors arrive that this visit has existential stakes.",
+            immediatePriorities: [
+              "Confirm your plan of correction implementation status before surveyors reach the floor — walk the specific areas and processes cited in the deficiency yourself, right now.",
+              "Notify DON, ED, Regional, and ownership simultaneously — a revisit notification to regional is not optional.",
+              "Pull your plan of correction document and your implementation evidence — staff training records, updated care plans, policy revisions, monitoring logs. Have them organized and ready.",
+              "Brief the specific staff whose practice was cited in the deficiency — they will likely be observed or interviewed. They need to demonstrate the corrected practice, not describe it.",
+              "Contact legal counsel — have the number available before the entrance conference."
+            ],
+            notify: [
+              { when: "Immediately", who: "DON, Executive Director, Regional Director, Ownership — simultaneously, not sequentially" },
+              { when: "15 minutes", who: "Legal counsel notification — have them on standby" },
+              { when: "30 minutes", who: "Risk management" },
+              { when: "Before entrance conference", who: "Department director whose area was cited — they need to be prepared to walk surveyors through correction evidence" }
+            ],
+            vendorNeeds: [
+              "Your original plan of correction document.",
+              "Implementation evidence organized by tag number — training sign-in sheets, updated policies, care plan revisions, monitoring logs.",
+              "Staff schedules showing who received corrective training.",
+              "Any quality monitoring data collected since the original survey showing improvement trend."
+            ],
+            whatToSay: {
+              staff: "Our state revisit survey has begun. This visit is specifically about the corrections we made following our last survey in [area]. Your job today is to do your work exactly as we've trained and practiced since the survey. If a surveyor observes you or asks you questions, demonstrate and describe what you do now — the corrected practice. If you're uncertain about anything, come to me or [DON name] before the surveyor moves on. This is not the time to improvise.",
+              residents: "Some visitors from the state are here today for a routine review. They may observe during care or ask to speak with you. You're always welcome to speak with them privately if you'd like.",
+              family: "No proactive family communication needed unless a resident was directly involved in the original deficiency. If so, consult regional and legal before making contact.",
+              leadership: "To surveyors: \"Good morning, welcome back to [community name]. I'm [name], [title]. We've been expecting you and we're prepared to walk you through our plan of correction implementation. Can we set up an entrance conference to get started?\" Regional update: \"Revisit survey began at [time]. Surveyors are [number]. POC implementation evidence organized and ready. Staff in cited areas briefed. Entrance conference in [X] minutes. Legal counsel on standby. Will update after entrance conference with preliminary surveyor focus areas.\""
+            },
+            commonMistakes: [
+              "Staff reverting to pre-correction practices under the stress of being observed — the revisit is specifically testing whether change was sustained, not just implemented.",
+              "Submitting a plan of correction that described intended changes rather than completed ones — if your POC said you would do something by a certain date and you didn't, this visit will find it.",
+              "Not having implementation evidence physically organized and ready — fumbling for training records during a revisit signals disorganization that compounds the original concern.",
+              "Briefing staff on what to say rather than ensuring they know how to do the corrected practice — surveyors observe behavior, not recitations.",
+              "Treating the revisit as routine because you believe you corrected the issue — overconfidence in a revisit is its own risk."
+            ],
+            watchFor: [
+              "A surveyor indicates the correction is not evident or not sustained — contact regional and legal counsel immediately before any further statements.",
+              "Surveyors expand the review beyond the original cited areas — they have found something new. Treat this as a potential complaint-driven element and notify regional immediately.",
+              "Any immediate jeopardy language — stop, call regional and legal counsel before responding.",
+              "A surveyor requests to see documentation that doesn't exist or wasn't part of your POC — do not create or compile new documentation in response. Consult legal counsel first.",
+              "The exit conference includes findings beyond the original deficiency — document every word of the exit conference and contact regional and legal immediately after."
+            ],
+            documentation: [
+              "All documentation from the Annual Survey list — surveyor names and credentials, entrance conference notes, movement log, records provided with timestamps, staff and residents interviewed, exit conference notes — plus these revisit-specific additions:",
+              "POC implementation evidence provided to surveyors with timestamps",
+              "Staff observed during survey and which corrected practices were demonstrated",
+              "Surveyor questions and your responses during the entrance conference",
+              "Any preliminary findings or statements made during the survey",
+              "Verbatim exit conference notes — every finding, every word",
+              "Regional, legal, and risk management communication log with timestamps"
+            ]
+          },
+          "life-safety": {
+            label: "Life Safety / Alternate Regulator",
+            relatedWorkflows: ["Staffing Coverage Crisis", "Family Escalation", "Building & Infrastructure Disruption"],
+            operationalImpact: "A non-CMS regulatory visit is operationally distinct because the person who needs to be in the room is different, the documentation being reviewed is different, and the deficiency consequences follow a different pathway than a state survey. Most communities are well-prepared for state nursing home surveyors and significantly less prepared for a fire marshal or building inspector — which means the anxiety in the building when a non-clinical regulator arrives is often higher than it needs to be, and the response is often less organized than it should be. The good news: these visits are almost always narrower in scope than a nursing home survey.",
+            immediatePriorities: [
+              "Identify the regulatory body and inspector credentials immediately upon arrival — ask to see their identification and document it.",
+              "The Maintenance Director or Facilities Manager is the primary point of contact for fire marshal and building inspector visits — get them to the front within five minutes.",
+              "The Executive Director should be notified immediately but does not need to be the primary escort — this is a facilities event, not a clinical event.",
+              "Pull your most recent fire inspection records, sprinkler system maintenance logs, emergency generator test records, and life safety documentation — these will be the first requests."
+            ],
+            notify: [
+              { when: "Immediately", who: "Maintenance Director/Facilities Manager, Executive Director" },
+              { when: "15 minutes", who: "Regional Director — standard notification" },
+              { when: "30 minutes", who: "Ownership — standard notification" },
+              { when: "As needed", who: "DON only if the visit involves a kitchen health inspection or water system concern with clinical implications" }
+            ],
+            vendorNeeds: [
+              "Current fire inspection certificate and prior inspection records.",
+              "Sprinkler system maintenance and testing logs.",
+              "Emergency generator test records and fuel logs.",
+              "Kitchen health inspection records if health department visit.",
+              "Any outstanding work orders or deferred maintenance items — better to know these before the inspector finds them."
+            ],
+            whatToSay: {
+              staff: "We have a [fire marshal / building inspector / health department] visit underway. This is a routine facilities inspection. Continue your normal work. If an inspector needs access to a resident area, let me or [Maintenance Director name] know before escorting them in.",
+              residents: "Typically no resident communication needed unless the inspection involves resident areas directly. If inspectors need to access resident rooms or common areas, brief the charge nurse: 'Inspectors may be walking through some areas today for a routine facilities check.'",
+              family: "No proactive family communication needed for a routine facilities inspection unless an issue is identified that affects resident care or safety.",
+              leadership: "To inspector: \"Good morning, I'm [name], [title]. Can I see your credentials and get your name for our records? I'll get our Facilities Director right away — they'll be your primary contact for this visit. Can you tell me the focus of today's inspection so we can make sure you have everything you need?\" Regional update: \"[Fire marshal / building inspector / health department] arrived at [time] for unannounced inspection. Maintenance Director on site and serving as primary contact. Preliminary focus appears to be [area]. Life safety documentation being pulled. Will update after inspection.\""
+            },
+            commonMistakes: [
+              "Having a clinical leader serve as the primary escort for a facilities inspection — this signals organizational confusion and can prompt the inspector to expand their scope.",
+              "Not having life safety documentation current and accessible — scrambling to find the last fire inspection certificate during the visit creates a poor impression.",
+              "Allowing inspectors unaccompanied access to any area of the building — one person should accompany every inspector at all times, even for routine visits.",
+              "Not documenting the inspector's findings verbally during the walk — verbal observations during an inspection often become written findings. Capturing them in real time gives you the ability to respond accurately."
+            ],
+            watchFor: [
+              "Inspector identifies an immediate life safety hazard — notify ED and regional immediately. Correction may be required before the inspector leaves the building.",
+              "A fire marshal visit follows a fire or smoke event in the building — treat this as a post-incident investigation and notify regional, risk management, and legal counsel before the entrance conference.",
+              "Inspector requests access to resident care areas beyond their typical scope — ask the purpose, document the request, and notify ED and regional before granting access.",
+              "Any citation or notice of violation issued on site — do not sign anything without regional and legal counsel review."
+            ],
+            documentation: [
+              "Inspector name, agency, credentials, and arrival time",
+              "Nature of inspection as stated at arrival",
+              "Areas inspected with timestamps",
+              "Documentation provided to inspector",
+              "Any verbal findings or observations noted during the inspection",
+              "Any citations or notices issued — exact language",
+              "Maintenance Director debrief notes",
+              "Regional notification time and response",
+              "Follow-up action items and responsible parties"
+            ]
+          }
+        }
       }
     };
 
     const durationNotes = {
       unknown: "No ETA yet — treat this as a 2–4 hour event until you have better information. Activate workarounds now rather than waiting to see how long it takes.",
-      under2: "Likely resolved quickly, but activate the workaround plan immediately — residents and families won't know it's “almost fixed,” only that water is off right now.",
+      under2: "Likely resolved quickly, but activate the workaround plan immediately — residents and families won't know it's \"almost fixed,\" only that water is off right now.",
       "2to4": "This is long enough that residents will notice and families may hear about it. Proactive communication matters here — don't wait for them to ask.",
       over4: "This moves into building-wide impact territory regardless of original scope — escalate communication frequency, confirm regulatory notification requirements, and check in with regional leadership."
     };
@@ -1499,6 +1885,27 @@
       under2: "Under 2 Hours",
       "2to4": "2–4 Hours",
       over4: "Over 4 Hours"
+    };
+
+    const staffingDurationOptions = {
+      "shift-soon": "Shift starts within the hour",
+      "hours-out": "2–4 hours to resolve",
+      "today": "Today but time to work it",
+      "planning": "Planning ahead"
+    };
+
+    const staffingDurationLabels = {
+      "shift-soon": "Shift starts within the hour",
+      "hours-out": "2–4 hours to resolve",
+      "today": "Today — time to work it",
+      "planning": "Planning ahead"
+    };
+
+    const staffingDurationNotes = {
+      "shift-soon": "Immediate coverage window — the gap is imminent. Every minute of scramble time matters. Call agency now while working internal options in parallel.",
+      "hours-out": "You have a working window, but it's short. Don't let confidence in internal coverage delay the agency call — availability drops fast for evening and weekend shifts.",
+      "today": "Same-day resolution with time to work structured options. Use this window to work the internal list properly before defaulting to agency.",
+      "planning": "Proactive planning window — use this time to build a structured coverage plan, stress-test your on-call list, and confirm agency relationships before the gap is critical."
     };
 
     const disclaimer = "Use this brief alongside your organization's emergency procedures, licensure requirements, and local emergency direction. VOL supports decision quality; it does not replace leadership judgment or required protocols.";
@@ -1518,9 +1925,62 @@
     const briefBody = document.getElementById("briefBody");
     const feedbackCard = document.getElementById("feedbackCard");
 
+    let selectedCategory = "infrastructure";
     let selectedIssue = "water-outage";
     let selectedScope = null;
     let selectedDuration = null;
+
+    const scopeOptions = {
+      "water-outage": {
+        "whole-building": "Whole Building",
+        "wing": "One Wing / Floor / Neighborhood",
+        "unit": "Single Unit / Localized Area"
+      },
+      "staffing-crisis": {
+        "single-shift": "Single Shift Gap",
+        "multi-shift": "Multiple Shifts / Departments",
+        "full-crisis": "Full Coverage Crisis"
+      }
+    };
+
+    const categoryIssues = {
+      "infrastructure": {
+        "water-outage": "Water Leak / Water Outage",
+        "power-outage": "Power Outage",
+        "hvac-failure": "HVAC Failure",
+        "elevator-failure": "Elevator Failure"
+      },
+      "staffing": {
+        "staffing-crisis": "Staffing Coverage Crisis"
+      },
+      "survey": {
+        "annual-survey": "Annual Survey",
+        "complaint-investigation": "Complaint Investigation",
+        "followup-revisit": "Follow-Up / Revisit",
+        "life-safety": "Life Safety / Alternate Regulator"
+      }
+    };
+
+    const surveyPrepOptions = {
+      "just-arrived": "Surveyors just arrived",
+      "15-30-min": "We have 15–30 minutes",
+      "in-progress": "Survey is in progress",
+      "exit-imminent": "Exit conference imminent"
+    };
+
+    const surveyPrepLabels = {
+      "just-arrived": "Surveyors just arrived",
+      "15-30-min": "15–30 minutes before arrival",
+      "in-progress": "Survey in progress",
+      "exit-imminent": "Exit conference imminent"
+    };
+
+    const surveyPrepNotes = {
+      "just-arrived": "Surveyors are in the building now. Every action in the next 15 minutes sets the tone for the entire survey. Focus on staying calm, getting the right leaders to the front, and ensuring one person accompanies each surveyor before they reach any resident area.",
+      "15-30-min": "Use this window deliberately. Pull records, brief your team, and assign surveyor escorts now — before the pressure starts. The building that looks calm and organized when surveyors walk in has a significant advantage.",
+      "in-progress": "The survey is live. Your job is to maintain normal operations, keep careful notes of what surveyors are observing, and stay alert for any signals about the focus of their review. Communicate with your team without creating visible huddles.",
+      "exit-imminent": "Exit conference is the final record. Listen carefully and take verbatim notes of every finding — preliminary language matters and often becomes the official finding. Do not respond defensively or make promises about corrections until you've consulted with regional."
+    };
 
     subOptionGroup.addEventListener("click", (e) => {
       const pill = e.target.closest(".option-pill");
@@ -1530,19 +1990,54 @@
       pill.classList.add("active");
       selectedIssue = pill.dataset.sub;
 
-      if (selectedIssue === "water-outage") {
-        scopeSection.classList.remove("hidden");
-      } else {
-        scopeSection.classList.add("hidden");
-        scopeGroup.querySelectorAll(".option-pill").forEach((p) => p.classList.remove("active"));
-        selectedScope = null;
-      }
+      updateScopeSection();
 
       briefOutput.classList.add("hidden");
       feedbackCard.classList.add("hidden");
 
       updateGenerateState();
     });
+
+    function updateDurationSection() {
+      const durationLabel = document.getElementById("durationLabel");
+      const durationGroup = document.getElementById("durationGroup");
+      if (selectedCategory === "staffing") {
+        durationLabel.textContent = "Coverage window";
+        durationGroup.innerHTML = Object.entries(staffingDurationOptions).map(([k, v]) =>
+          `<button class="option-pill" type="button" data-duration="${k}">${v}</button>`
+        ).join("");
+      } else if (selectedCategory === "survey") {
+        durationLabel.textContent = "Preparation status";
+        durationGroup.innerHTML = Object.entries(surveyPrepOptions).map(([k, v]) =>
+          `<button class="option-pill" type="button" data-duration="${k}">${v}</button>`
+        ).join("");
+      } else {
+        durationLabel.textContent = "Estimated duration";
+        durationGroup.innerHTML = `
+          <button class="option-pill" type="button" data-duration="unknown">Unknown</button>
+          <button class="option-pill" type="button" data-duration="under2">Under 2 Hours</button>
+          <button class="option-pill" type="button" data-duration="2to4">2&ndash;4 Hours</button>
+          <button class="option-pill" type="button" data-duration="over4">Over 4 Hours</button>
+        `;
+      }
+      selectedDuration = null;
+    }
+
+    function updateScopeSection() {
+      const scopes = scopeOptions[selectedIssue];
+      if (scopes) {
+        const keys = Object.keys(scopes);
+        scopeGroup.innerHTML = keys.map((k) =>
+          `<button class="option-pill" type="button" data-scope="${k}">${scopes[k]}</button>`
+        ).join("");
+        selectedScope = null;
+        scopeSection.classList.remove("hidden");
+      } else {
+        scopeSection.classList.add("hidden");
+        scopeGroup.innerHTML = "";
+        selectedScope = null;
+      }
+    }
 
     disruptionGrid.addEventListener("click", (e) => {
       const tile = e.target.closest(".disruption-tile");
@@ -1553,9 +2048,27 @@
 
       const type = tile.dataset.disruption;
 
-      if (type === "infrastructure") {
+      if (type === "infrastructure" || type === "staffing" || type === "survey") {
+        selectedCategory = type;
+        const issues = categoryIssues[type];
+        const issueKeys = Object.keys(issues);
+        selectedIssue = issueKeys[0];
+
+        const issueLabel = document.getElementById("issueLabel");
+        if (issueLabel) issueLabel.textContent = type === "survey" ? "Survey type" : "Operational issue";
+
+        subOptionGroup.innerHTML = issueKeys.map((k, i) =>
+          `<button class="option-pill${i === 0 ? " active" : ""}" type="button" data-sub="${k}">${issues[k]}</button>`
+        ).join("");
+
+        updateScopeSection();
+        updateDurationSection();
+
         comingSoonNote.classList.add("hidden");
         builderPanel.classList.remove("hidden");
+        briefOutput.classList.add("hidden");
+        feedbackCard.classList.add("hidden");
+        updateGenerateState();
       } else {
         builderPanel.classList.add("hidden");
         briefOutput.classList.add("hidden");
@@ -1587,16 +2100,18 @@
     });
 
     function updateGenerateState(){
-      const scopeSatisfied = selectedIssue !== "water-outage" || !!selectedScope;
+      const needsScope = !!scopeOptions[selectedIssue];
+      const scopeSatisfied = !needsScope || !!selectedScope;
 
       if (scopeSatisfied && selectedDuration) {
         generateBtn.disabled = false;
         generateHint.textContent = "Ready. Build your Advisor Brief below.";
       } else {
         generateBtn.disabled = true;
-        generateHint.textContent = selectedIssue === "water-outage"
-          ? "Select a scope and estimated duration to continue."
-          : "Select an estimated duration to continue.";
+        generateHint.textContent = needsScope ? "Select a scope and estimated duration to continue." :
+          selectedCategory === "survey"   ? "Select a preparation status to continue." :
+          selectedCategory === "staffing" ? "Select a coverage window to continue." :
+          "Select an estimated duration to continue.";
       }
     }
 
@@ -1718,19 +2233,27 @@
     }
 
     generateBtn.addEventListener("click", () => {
-      const scopeSatisfied = selectedIssue !== "water-outage" || !!selectedScope;
+      const needsScope = !!scopeOptions[selectedIssue];
+      const scopeSatisfied = !needsScope || !!selectedScope;
       if (!scopeSatisfied || !selectedDuration) return;
 
-      const category = advisorContent.infrastructure;
+      const category = advisorContent[selectedCategory];
       const issue = category.issues[selectedIssue];
-      const content = selectedIssue === "water-outage" ? issue.variants[selectedScope] : issue;
+      const content = needsScope ? issue.variants[selectedScope] : issue;
 
       const contextParts = [category.label, issue.label];
-      if (selectedIssue === "water-outage") contextParts.push(content.label);
-      contextParts.push(`Estimated duration: ${durationLabels[selectedDuration]}`);
+      if (needsScope) contextParts.push(content.label);
+      const durationCtxLabel =
+        selectedCategory === "staffing" ? `Coverage window: ${staffingDurationLabels[selectedDuration]}` :
+        selectedCategory === "survey"   ? `Preparation status: ${surveyPrepLabels[selectedDuration]}` :
+        `Estimated duration: ${durationLabels[selectedDuration]}`;
+      contextParts.push(durationCtxLabel);
 
       briefContext.textContent = contextParts.join(" — ");
-      durationNote.textContent = durationNotes[selectedDuration];
+      durationNote.textContent =
+        selectedCategory === "staffing" ? staffingDurationNotes[selectedDuration] :
+        selectedCategory === "survey"   ? surveyPrepNotes[selectedDuration] :
+        durationNotes[selectedDuration];
       briefBody.innerHTML = buildBriefHtml(content, issue.relatedWorkflows);
 
       briefOutput.classList.remove("hidden");
@@ -1803,8 +2326,8 @@
     document.getElementById("feedbackSubmit").addEventListener("click", () => {
       const payload = {
         timestamp: new Date().toISOString(),
-        disruption: `${advisorContent.infrastructure.label} — ${advisorContent.infrastructure.issues[selectedIssue].label}`,
-        scope: selectedIssue === "water-outage" ? selectedScope : null,
+        disruption: `${advisorContent[selectedCategory].label} — ${advisorContent[selectedCategory].issues[selectedIssue].label}`,
+        scope: scopeOptions[selectedIssue] ? selectedScope : null,
         duration: selectedDuration,
         useful: feedbackState.useful,
         wouldHaveHelpedMoveFaster: feedbackState.faster,
