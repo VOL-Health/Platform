@@ -11,3 +11,4 @@ archive/
 
 .DS_Store
 Thumbs.db
+.env*.local

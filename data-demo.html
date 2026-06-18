@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -2152,6 +2152,117 @@
       .score-value{ font-size:36px; }
       .decision-value-grid.secondary-value-grid{ grid-template-columns:1fr; }
     }
+
+    /* Email capture panel */
+    #capturePanel{
+      display:none;
+      margin-top:18px;
+      padding:28px 32px;
+      border-radius:var(--radius-xl);
+      border:1px solid var(--line);
+      background:var(--panel);
+      box-shadow:var(--shadow);
+    }
+    .capture-inner{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+      align-items:start;
+    }
+    .capture-eyebrow{
+      color:#8fd7ff;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:0.13em;
+      text-transform:uppercase;
+      margin:0 0 12px;
+    }
+    .capture-headline{
+      color:#ffffff;
+      font-size:20px;
+      font-weight:800;
+      line-height:1.3;
+      margin:0 0 10px;
+    }
+    .capture-sub{
+      color:var(--muted);
+      font-size:13.5px;
+      font-weight:500;
+      line-height:1.65;
+      margin:0;
+    }
+    .capture-form-col{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .capture-field{ display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+    .capture-label{
+      color:rgba(255,255,255,0.46);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+    .capture-select,
+    .capture-email-input{
+      width:100%;
+      padding:11px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.11);
+      background:rgba(255,255,255,0.04);
+      color:#ffffff;
+      font-size:13.5px;
+      font-weight:500;
+      outline:none;
+      appearance:none;
+      transition:border-color 0.14s ease, box-shadow 0.14s ease;
+    }
+    .capture-select:focus,
+    .capture-email-input:focus{
+      border-color:rgba(44,108,255,0.55);
+      box-shadow:0 0 0 3px rgba(44,108,255,0.10);
+    }
+    .capture-select{ cursor:pointer; }
+    .capture-email-input::placeholder{ color:rgba(255,255,255,0.30); }
+    .capture-submit{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:11px 22px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.50);
+      background:var(--blue);
+      color:#ffffff;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      align-self:flex-start;
+      transition:filter 0.14s ease;
+    }
+    .capture-submit:hover{ filter:brightness(1.1); }
+    .capture-submit:disabled{ opacity:0.52; cursor:not-allowed; filter:none; }
+    .capture-error{
+      display:none;
+      color:rgba(255,168,110,0.90);
+      font-size:12px;
+      font-weight:600;
+      line-height:1.5;
+      margin:0;
+    }
+    .capture-confirmation{
+      display:none;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:600;
+      line-height:1.55;
+      margin:0;
+      padding-top:4px;
+    }
+    @media(max-width:800px){
+      #capturePanel{ padding:22px; }
+      .capture-inner{ grid-template-columns:1fr; gap:20px; }
+    }
   </style>
 </head>
 <body>
@@ -2174,7 +2285,7 @@
         </div>
 
         <nav class="platform-nav">
-          <a href="/" class="nav-pill">VOL rEDi</a>
+          <a href="/redi" class="nav-pill">VOL rEDi</a>
           <a href="redi-brief.html" class="nav-pill">rEDi Brief</a>
           <a href="advisor.html" class="nav-pill">OpAdvisor</a>
           <a href="data-demo.html" class="nav-pill active">Data Demo</a>
@@ -2216,6 +2327,37 @@
         <div class="loading-state">Loading demo data...</div>
       </section>
 
+      <section id="capturePanel" aria-hidden="true">
+        <div class="capture-inner">
+          <div class="capture-copy">
+            <p class="capture-eyebrow">Keep This Insight</p>
+            <h2 class="capture-headline">Which pattern felt most familiar?</h2>
+            <p class="capture-sub">Leave your email and tell us which scenario resonated — we'll send you a brief specific to that stability pattern and what it typically signals next.</p>
+          </div>
+          <div class="capture-form-col">
+            <form id="captureForm" novalidate>
+              <div class="capture-field">
+                <label class="capture-label" for="captureScenario">The scenario that felt most like my community:</label>
+                <select class="capture-select" id="captureScenario">
+                  <option value="" disabled selected>Select a scenario...</option>
+                  <option value="Maple Glen — Stable but watching">Maple Glen — Stable but watching</option>
+                  <option value="Cedar Ridge — Workforce strain emerging">Cedar Ridge — Workforce strain emerging</option>
+                  <option value="Willow Creek — Leadership disruption cycle">Willow Creek — Leadership disruption cycle</option>
+                  <option value="River Bend — Structural decline pressure">River Bend — Structural decline pressure</option>
+                  <option value="Oak Hollow — Recovery in progress">Oak Hollow — Recovery in progress</option>
+                </select>
+              </div>
+              <div class="capture-field">
+                <input class="capture-email-input" type="email" id="captureEmail" placeholder="Your work email">
+              </div>
+              <button class="capture-submit" type="submit" id="captureSubmit">Send Me the Brief</button>
+              <p class="capture-error" id="captureError">Something didn't send — please email us at hud@volhealth.com</p>
+            </form>
+            <p class="capture-confirmation" id="captureConfirmation">Got it — we'll be in touch with your brief shortly.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="cta-panel" aria-labelledby="dataDemoCtaTitle">
         <div>
           <h2 id="dataDemoCtaTitle">Review your operating signal picture with VOL.</h2>
@@ -2227,6 +2369,27 @@
         </div>
       </section>
     </main>
+  <style>
+    .vol-footer-cta{margin-top:18px;padding:32px 28px;border-radius:22px;border:1px solid rgba(255,255,255,0.10);background:rgba(13,18,36,0.78);}
+    .vol-footer-kicker{margin:0 0 12px;color:#8fd7ff;font-size:11px;font-weight:900;letter-spacing:0.13em;text-transform:uppercase;}
+    .vol-footer-headline{margin:0 0 12px;color:#ffffff;font-size:21px;font-weight:800;line-height:1.3;}
+    .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;max-width:560px;}
+    .vol-footer-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
+    .vol-footer-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;background:#2C6CFF;color:#ffffff;font-size:13px;font-weight:800;text-decoration:none;border:1px solid rgba(44,108,255,0.5);transition:filter 0.12s ease;}
+    .vol-footer-btn-primary:hover{filter:brightness(1.1);}
+    .vol-footer-link-secondary{color:rgba(255,255,255,0.54);font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,0.28);transition:color 0.12s ease;}
+    .vol-footer-link-secondary:hover{color:rgba(255,255,255,0.84);}
+    @media(max-width:640px){.vol-footer-cta{padding:22px 16px;}.vol-footer-headline{font-size:18px;}.vol-footer-actions{flex-direction:column;align-items:flex-start;}}
+  </style>
+  <section class="vol-footer-cta">
+    <p class="vol-footer-kicker">Working with VOL</p>
+    <h2 class="vol-footer-headline">Is operational instability something you're navigating right now?</h2>
+    <p class="vol-footer-sub">VOL is being built with a small number of senior living operators. If what you've seen here feels relevant to what you're managing, we'd like to understand what you're seeing.</p>
+    <div class="vol-footer-actions">
+      <a href="/contact" class="vol-footer-btn-primary">Explore a Pilot</a>
+      <a href="/data-demo" class="vol-footer-link-secondary">See it in the Data Demo</a>
+    </div>
+  </section>
   </div>
 
   <script src="lib/vol-intelligence.js"></script>
@@ -2234,5 +2397,63 @@
   <script src="lib/vol-stabilization-model.js"></script>
   <script src="public/demo-community-state.js"></script>
   <script src="data-demo.js"></script>
+  <script>
+    (function(){
+      const panel = document.getElementById("capturePanel");
+      const outputEl = document.getElementById("demoOutput");
+      let submitted = false;
+
+      const observer = new MutationObserver(function(){
+        const hasRealContent = outputEl.innerHTML.trim().length > 0
+          && !outputEl.querySelector(".loading-state")
+          && !outputEl.querySelector(".error-state");
+        if(hasRealContent){
+          panel.style.display = "block";
+          panel.removeAttribute("aria-hidden");
+        }
+      });
+      observer.observe(outputEl, { childList: true });
+
+      document.getElementById("captureForm").addEventListener("submit", async function(e){
+        e.preventDefault();
+        if(submitted) return;
+
+        const btn = document.getElementById("captureSubmit");
+        const errorEl = document.getElementById("captureError");
+        const scenario = document.getElementById("captureScenario").value;
+        const email = document.getElementById("captureEmail").value;
+
+        if(!email || !scenario) return;
+
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+        errorEl.style.display = "none";
+
+        try{
+          const res = await fetch("https://emlxxxjjukjejepzbgey.supabase.co/rest/v1/demo_captures", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer sb_publishable_uM1ymE8VP_VqnYzZ8WvuLA_1-oUp-F2",
+              "apikey": "sb_publishable_uM1ymE8VP_VqnYzZ8WvuLA_1-oUp-F2"
+            },
+            body: JSON.stringify({
+              email: email,
+              scenario_selected: scenario,
+              captured_at: new Date().toISOString()
+            })
+          });
+          if(!res.ok) throw new Error("Failed");
+          submitted = true;
+          document.getElementById("captureForm").style.display = "none";
+          document.getElementById("captureConfirmation").style.display = "block";
+        }catch(_){
+          btn.disabled = false;
+          btn.textContent = "Send Me the Brief";
+          errorEl.style.display = "block";
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -3,50 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VOL Health | VOL rEDi</title>
+  <title>VOL Health — Operational Intelligence for Senior Living</title>
+  <meta name="description" content="VOL helps senior living leadership teams see operational instability forming before it becomes embedded — synthesizing fragmented signals into a clearer operating picture." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#070b16;
-      --panel:#0d1224;
-      --panel-2:#111831;
+      --bg:#07111f;
+      --panel:rgba(13,18,36,0.78);
+      --panel-alt:rgba(10,22,46,0.72);
       --border:rgba(255,255,255,0.10);
-      --text:#ffffff;
-      --muted:rgba(255,255,255,0.68);
-      --soft:rgba(255,255,255,0.045);
+      --border-blue:rgba(44,108,255,0.22);
+      --text:#f3f6ff;
+      --muted:#9fb2d2;
       --blue:#2c6cff;
       --green:#35c67a;
       --green-2:#7ce7b5;
-      --amber:#f6b44b;
       --shadow:0 18px 50px rgba(0,0,0,0.34);
     }
 
     *{ box-sizing:border-box; }
+    html,body{ min-height:100%; }
 
     body{
       margin:0;
-      min-height:100vh;
-      font-family:Montserrat, Inter, Arial, sans-serif;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(44,108,255,0.20), transparent 32%),
-        radial-gradient(circle at 88% 8%, rgba(53,198,122,0.14), transparent 28%),
-        linear-gradient(180deg, #080d1b 0%, var(--bg) 54%, #050814 100%);
+      font-family:"Montserrat","Inter",Arial,Helvetica,sans-serif;
       color:var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(44,108,255,0.20), transparent 32%),
+        radial-gradient(circle at 88% 8%, rgba(53,198,122,0.11), transparent 28%),
+        linear-gradient(180deg,#080d1b 0%,var(--bg) 54%,#050814 100%);
     }
 
     a{ color:inherit; text-decoration:none; }
-    button, input{ font:inherit; }
+    button{ font-family:inherit; }
 
+    /* ── Shell ── */
     .shell{
       width:min(1280px, calc(100% - 32px));
-      margin:18px auto 34px;
+      margin:0 auto 60px;
     }
 
-    .platform-header{
-      padding:14px 14px 0;
-    }
+    /* ── Header / Nav ── */
+    .platform-header{ padding:18px 14px 0; margin-bottom:4px; }
 
     .platform-header-top{
       display:flex;
@@ -55,28 +55,16 @@
       gap:18px;
     }
 
-    .platform-brand{ min-width:0; }
-
     .vol-logo-horizontal{
-      --vol-logo-font-weight:300;
-      --vol-logo-letter-spacing:0.08em;
-      --vol-logo-color:rgba(255,255,255,0.94);
-      --vol-logo-glow:0 0 0.16em rgba(79,130,255,0.16);
       display:inline-flex;
       align-items:center;
       gap:0.08em;
-      font-family:"Montserrat", "Inter", Arial, Helvetica, sans-serif;
-      font-size:clamp(34px, 4.2vw, 56px);
-      font-weight:var(--vol-logo-font-weight);
-      letter-spacing:var(--vol-logo-letter-spacing);
+      font-size:clamp(34px,4.2vw,56px);
+      font-weight:300;
+      letter-spacing:0.08em;
       line-height:1;
-      color:var(--vol-logo-color);
+      color:rgba(255,255,255,0.94);
       white-space:nowrap;
-    }
-
-    .logo-letter{
-      color:var(--vol-logo-color);
-      font-weight:inherit;
     }
 
     .logo-o{
@@ -86,11 +74,9 @@
       border:0.065em solid #4f82ff;
       box-sizing:border-box;
       display:inline-block;
-      position:relative;
       transform:translateY(0.035em);
-      box-shadow:
-        inset 0 0 0.20em rgba(79,130,255,0.20),
-        var(--vol-logo-glow);
+      box-shadow:inset 0 0 0.20em rgba(79,130,255,0.20);
+      position:relative;
     }
 
     .logo-o::after{
@@ -105,9 +91,7 @@
       transform:rotate(-28deg);
     }
 
-    .logo-gap{
-      width:0.26em;
-    }
+    .logo-gap{ width:0.26em; }
 
     .platform-nav{
       display:flex;
@@ -118,26 +102,32 @@
     }
 
     .nav-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       padding:9px 13px;
       border-radius:999px;
       border:1px solid var(--border);
       background:rgba(255,255,255,0.045);
-      color:rgba(255,255,255,0.72);
+      color:rgba(255,255,255,0.76);
       font-size:11px;
       font-weight:800;
       letter-spacing:0.03em;
       text-transform:uppercase;
+      white-space:nowrap;
+      transition:background 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease;
     }
-
+    .nav-pill:hover{ color:#fff; border-color:rgba(255,255,255,0.24); transform:translateY(-1px); }
     .nav-pill.active{
       color:#06111d;
       border-color:rgba(53,198,122,0.75);
-      background:linear-gradient(135deg, var(--green), var(--green-2));
+      background:linear-gradient(135deg,var(--green),var(--green-2));
     }
 
     .nav-dropdown{ position:relative; display:inline-flex; align-items:center; }
     .nav-pill-button{ cursor:pointer; }
     .nav-caret{ margin-left:6px; color:rgba(143,215,255,0.82); font-size:10px; line-height:1; }
+
     .dropdown-menu{
       position:absolute;
       top:calc(100% + 10px);
@@ -147,1332 +137,345 @@
       padding:8px;
       border:1px solid rgba(255,255,255,0.13);
       border-radius:18px;
-      background:linear-gradient(180deg, rgba(13,18,36,0.98), rgba(8,13,28,0.96));
-      box-shadow:0 22px 54px rgba(0,0,0,0.42), 0 0 34px rgba(44,108,255,0.10);
+      background:linear-gradient(180deg,rgba(13,18,36,0.98),rgba(8,13,28,0.96));
+      box-shadow:0 22px 54px rgba(0,0,0,0.42);
       opacity:0;
       visibility:hidden;
       pointer-events:none;
       transform:translateY(8px) scale(0.98);
-      transform-origin:top right;
       transition:opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
     }
     .nav-dropdown:hover .dropdown-menu,
     .nav-dropdown:focus-within .dropdown-menu{
-      opacity:1;
-      visibility:visible;
-      pointer-events:auto;
-      transform:translateY(0) scale(1);
+      opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0) scale(1);
     }
+
     .dropdown-link{
       display:flex;
-      align-items:center;
       padding:10px 11px;
       border-radius:12px;
       color:rgba(255,255,255,0.76);
       font-size:12px;
       font-weight:700;
-      letter-spacing:0.01em;
-      text-transform:none;
-      transition:background 0.14s ease, color 0.14s ease, transform 0.14s ease;
     }
     .dropdown-link:hover,
-    .dropdown-link:focus{
-      outline:none;
-      color:#ffffff;
-      background:rgba(255,255,255,0.07);
-      transform:translateX(2px);
+    .dropdown-link:focus{ outline:none; color:#fff; background:rgba(255,255,255,0.07); }
+
+    /* ── Section utilities ── */
+    .section{
+      padding:clamp(56px,7vw,96px) 0;
+    }
+    .section + .section{
+      border-top:1px solid rgba(255,255,255,0.06);
     }
 
-    .page{
-      padding:24px 14px 0;
-    }
-
-    .hero{
-      display:block;
-    }
-
-    .hero-panel,
-    .side-panel,
-    .response-card,
-    .source-panel,
-    .trust-note{
-      border:1px solid var(--border);
-      background:rgba(13,18,36,0.78);
-      box-shadow:var(--shadow);
-    }
-
-    .hero-panel{
-      min-width:0;
-      padding:26px;
-      border-radius:22px;
-    }
-
-    .hero-panel .page-subtitle{
-      max-width:none;
-      width:min(100%, 1120px);
-      white-space:nowrap;
-    }
-
-    .page-kicker{
+    .section-kicker{
       color:#8fd7ff;
       font-size:11px;
-      line-height:1.2;
       font-weight:900;
       letter-spacing:0.13em;
       text-transform:uppercase;
+      margin:0 0 14px;
     }
 
-    .page-title{
-      margin:14px 0 0;
-      max-width:none;
-      display:flex;
-      align-items:center;
-      gap:0.34em;
-      flex-wrap:nowrap;
-      color:rgba(255,255,255,0.91);
-      font-size:clamp(27px, 2.65vw, 37px);
+    .section-headline{
+      color:var(--text);
+      font-size:clamp(24px,2.8vw,40px);
+      font-weight:800;
       line-height:1.12;
-      font-weight:680;
-      letter-spacing:0;
-      white-space:nowrap;
+      margin:0 0 16px;
+      max-width:700px;
     }
 
-    .title-step{
-      display:inline-flex;
-      align-items:center;
-      gap:0.34em;
-      min-width:max-content;
-    }
-
-    .title-arrow{
-      color:rgba(143,215,255,0.74);
-      font-weight:600;
-    }
-
-    .page-subtitle{
-      margin:16px 0 0;
-      max-width:1000px;
-      color:rgba(255,255,255,0.74);
-      font-size:clamp(15px, 1.22vw, 17px);
-      line-height:1.5;
+    .section-sub{
+      color:var(--muted);
+      font-size:clamp(14px,1.05vw,16px);
+      line-height:1.70;
       font-weight:500;
+      max-width:600px;
+      margin:0 0 38px;
     }
 
-    .query-box{
-      margin-top:30px;
-      padding:16px;
-      border:1px solid rgba(53,198,122,0.32);
-      border-radius:18px;
-      background:linear-gradient(180deg, rgba(53,198,122,0.075), rgba(255,255,255,0.045));
-      box-shadow:0 16px 36px rgba(0,0,0,0.26), 0 0 0 1px rgba(44,108,255,0.10);
-    }
-
-    .query-label{
-      margin:0 0 8px 3px;
-      color:rgba(255,255,255,0.58);
-      font-size:11px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-    }
-
-    .query-row{
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) auto;
-      gap:10px;
-      align-items:center;
-    }
-
-    .query-input{
-      width:100%;
-      min-height:58px;
-      padding:0 16px;
-      border:1px solid rgba(255,255,255,0.13);
-      border-radius:14px;
-      background:#070c1a;
-      color:#ffffff;
-      outline:none;
-      font-size:16px;
-      font-weight:650;
-    }
-
-    .query-input::placeholder{ color:rgba(255,255,255,0.44); }
-
-    .ask-btn{
-      min-height:58px;
-      padding:0 18px;
-      border:0;
-      border-radius:14px;
-      background:linear-gradient(135deg, var(--green), var(--green-2));
-      color:#06111d;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .prompt-chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:14px;
-    }
-
-    .prompt-chip{
-      border:1px solid rgba(255,255,255,0.11);
-      border-radius:999px;
-      padding:9px 11px;
-      background:rgba(255,255,255,0.045);
-      color:rgba(255,255,255,0.78);
-      font-size:12px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .prompt-chip:hover,
-    .prompt-chip.active{
-      border-color:rgba(53,198,122,0.52);
-      color:#dffbea;
-      background:rgba(53,198,122,0.10);
-    }
-
-    .side-panel{
-      border-radius:22px;
-      padding:18px;
-    }
-
-    .side-title{
-      margin:0;
-      font-size:16px;
-      font-weight:900;
-    }
-
-    .side-subtitle{
-      margin:5px 0 13px;
-      color:rgba(255,255,255,0.58);
-      font-size:11.5px;
-      line-height:1.45;
-      font-weight:600;
-    }
-
-    .signal-card{
-      padding:13px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.035);
-    }
-
-    .signal-card + .signal-card{ margin-top:9px; }
-
-    .signal-card span{
-      display:block;
-      color:rgba(255,255,255,0.56);
-      font-size:10px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-    }
-
-    .signal-card p{
-      margin:6px 0 0;
-      color:rgba(255,255,255,0.84);
-      font-size:12.5px;
-      line-height:1.45;
-      font-weight:600;
-    }
-
-    .response-card{
-      margin-top:18px;
-      padding:22px;
-      border-radius:22px;
-    }
-
-    .ask-response-card{
-      margin-top:14px;
-      padding:16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(5,8,20,0.36);
-      box-shadow:none;
-    }
-
-    .action-briefing-card{
-      background:rgba(13,18,36,0.70);
-    }
-
-    .priority-section{
-      margin-top:18px;
-      padding:22px;
-      border-radius:22px;
-      border:1px solid var(--border);
-      background:linear-gradient(180deg, rgba(13,18,36,0.84), rgba(17,24,49,0.70));
-      box-shadow:var(--shadow);
-    }
-
-    .priority-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:18px;
-    }
-
-    .priority-head h2{
-      margin:0;
-      color:rgba(255,255,255,0.90);
-      font-size:22px;
-      line-height:1.14;
-      font-weight:780;
-      letter-spacing:0;
-    }
-
-    .priority-head p{
-      margin:8px 0 0;
-      max-width:min(100%, 1040px);
-      color:rgba(255,255,255,0.66);
-      font-size:13px;
-      line-height:1.62;
-      font-weight:500;
-    }
-
-    .priority-badge{
-      flex:0 0 auto;
-      padding:8px 11px;
-      border-radius:999px;
-      border:1px solid rgba(44,108,255,0.34);
-      background:rgba(44,108,255,0.10);
-      color:#bcd1ff;
-      font-size:10px;
-      line-height:1.1;
-      font-weight:900;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-    }
-
-    .priority-grid{
-      display:grid;
-      grid-template-columns:repeat(5, minmax(0, 1fr));
-      gap:10px;
-    }
-
-    .priority-card{
-      min-width:0;
-      padding:15px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,0.09);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.028)),
-        rgba(5,8,20,0.40);
-      position:relative;
-      overflow:hidden;
-    }
-
-    .priority-card::before{
-      content:"";
-      position:absolute;
-      inset:0 auto 0 0;
-      width:3px;
-      background:linear-gradient(180deg, var(--green), var(--blue));
-      opacity:0.86;
-    }
-
-    .priority-rank{
-      color:rgba(143,215,255,0.82);
-      font-size:11px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:0.10em;
-    }
-
-    .priority-title{
-      margin:11px 0 0;
-      color:rgba(255,255,255,0.88);
-      font-size:13px;
-      line-height:1.34;
-      font-weight:720;
-      text-shadow:none;
-    }
-
-    .priority-copy{
-      margin:9px 0 13px;
-      color:rgba(255,255,255,0.68);
-      font-size:11.75px;
-      line-height:1.56;
-      font-weight:500;
-    }
-
-    .priority-meta{
-      display:grid;
-      gap:8px;
-      margin-top:auto;
-    }
-
-    .priority-meta-row{
-      display:grid;
-      gap:3px;
-    }
-
-    .priority-meta-row span{
-      color:rgba(143,215,255,0.64);
-      font-size:8.5px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:0.07em;
-      text-transform:uppercase;
-    }
-
-    .priority-meta-row strong{
-      color:rgba(255,255,255,0.74);
-      font-size:11.25px;
-      line-height:1.38;
-      font-weight:620;
-    }
-
-    .priority-impact{
-      margin-top:10px;
-      padding-top:10px;
-      border-top:1px solid rgba(255,255,255,0.075);
-      color:rgba(255,255,255,0.64);
-      font-size:11px;
-      line-height:1.48;
-      font-weight:500;
-    }
-
-    .priority-impact strong{
-      color:rgba(143,215,255,0.66);
-      font-size:8.5px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:0.07em;
-      text-transform:uppercase;
-    }
-
-    .priority-actionability{
-      display:flex;
-      flex-wrap:wrap;
-      gap:5px;
-      margin-top:11px;
-    }
-
-    .actionability-btn{
-      appearance:none;
-      border:1px solid rgba(255,255,255,0.11);
-      border-radius:999px;
-      background:rgba(255,255,255,0.045);
-      color:rgba(255,255,255,0.72);
-      padding:6px 7px;
-      font:inherit;
-      font-size:9.5px;
-      line-height:1.05;
-      font-weight:900;
-      cursor:pointer;
-      transition:border-color 0.14s ease, background 0.14s ease, color 0.14s ease, transform 0.14s ease;
-    }
-
-    .actionability-btn:hover{
-      color:#fff;
-      border-color:rgba(143,215,255,0.36);
-      transform:translateY(-1px);
-    }
-
-    .actionability-btn.active{
-      color:#06111d;
-      border-color:rgba(53,198,122,0.72);
-      background:linear-gradient(135deg,var(--green),var(--green-2));
-      box-shadow:0 8px 18px rgba(53,198,122,0.12);
-    }
-
-    .priority-save-state{
-      margin-top:8px;
-      color:rgba(255,255,255,0.46);
-      font-size:10px;
-      line-height:1.2;
-      font-weight:800;
-    }
-
-    .priority-save-state.success{ color:#7ce7b5; }
-    .priority-save-state.error{ color:#ffb6b6; }
-
-    .priority-card-footer{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      margin-top:12px;
-      padding-top:10px;
-      border-top:1px solid rgba(255,255,255,0.08);
-    }
-
-    .priority-status,
-    .priority-urgency{
-      display:inline-flex;
-      align-items:center;
-      min-height:22px;
-      padding:5px 8px;
-      border-radius:999px;
-      font-size:9px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:0.06em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .followup-contact{
-      margin:-4px 0 14px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.032);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-
-    .followup-contact-line{
-      margin:0;
-      color:rgba(226,235,248,0.70);
-      font-size:12px;
-      line-height:1.35;
-      font-weight:700;
-    }
-
-    .followup-contact-form{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .followup-contact-label{
-      color:rgba(255,255,255,0.58);
-      font-size:11px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.05em;
-      text-transform:uppercase;
-    }
-
-    .followup-contact-input{
-      width:min(260px, 52vw);
-      min-height:34px;
-      border:1px solid rgba(255,255,255,0.11);
-      border-radius:999px;
-      background:rgba(4,8,18,0.42);
-      color:rgba(255,255,255,0.88);
-      padding:0 12px;
-      font:inherit;
-      font-size:12px;
-      font-weight:700;
-      outline:none;
-    }
-
-    .followup-contact-input:focus{
-      border-color:rgba(143,215,255,0.42);
-      box-shadow:0 0 0 3px rgba(44,108,255,0.12);
-    }
-
-    .followup-contact-btn{
-      min-height:34px;
-      padding:0 12px;
-      border:0;
-      border-radius:999px;
-      color:#06111d;
-      background:linear-gradient(135deg,var(--green),var(--green-2));
-      font:inherit;
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:0.05em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    .followup-contact-edit{
-      appearance:none;
-      border:0;
-      background:transparent;
-      color:rgba(143,215,255,0.78);
-      padding:0;
-      font:inherit;
-      font-size:11px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.04em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    .followup-contact-status{
-      color:rgba(255,255,255,0.48);
-      font-size:11px;
-      line-height:1.25;
-      font-weight:700;
-    }
-
-    .followup-contact-status.error{ color:#ffb6b6; }
-    .followup-contact-status.success{ color:#7ce7b5; }
-
-    .priority-status{
-      border:1px solid rgba(53,198,122,0.30);
-      background:rgba(53,198,122,0.10);
-      color:#dffbea;
-    }
-
-    .priority-urgency{
-      border:1px solid rgba(246,180,75,0.28);
-      background:rgba(246,180,75,0.10);
-      color:#ffe1b0;
-    }
-
-    .priority-empty{
-      padding:20px;
-      border:1px dashed rgba(255,255,255,0.16);
-      border-radius:16px;
-      color:rgba(255,255,255,0.64);
-      font-size:13px;
-      line-height:1.45;
-      font-weight:700;
-      background:rgba(255,255,255,0.03);
-    }
-
-    .response-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
-      margin-bottom:14px;
-    }
-
-    .response-head h2{
-      margin:0;
-      color:rgba(255,255,255,0.90);
-      font-size:22px;
-      line-height:1.14;
-      font-weight:780;
-      letter-spacing:0;
-    }
-
-    .response-subtitle{
-      margin:8px 0 0;
-      color:rgba(255,255,255,0.66);
-      font-size:13px;
-      line-height:1.62;
-      font-weight:500;
-    }
-
-    .flow-cue{
-      margin-top:18px;
-      display:flex;
-      align-items:center;
-      gap:9px;
-      color:rgba(255,255,255,0.48);
-      font-size:10.5px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-    }
-
-    .flow-cue::before,
-    .flow-cue::after{
-      content:"";
-      height:1px;
-      flex:1;
-      background:rgba(255,255,255,0.08);
-    }
-
-    .response-pill{
-      flex:0 0 auto;
-      padding:7px 10px;
-      border-radius:999px;
-      border:1px solid rgba(53,198,122,0.28);
-      background:rgba(53,198,122,0.09);
-      color:#dffbea;
-      font-size:10px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:0.06em;
-    }
-
-    .response-body{
-      color:rgba(255,255,255,0.82);
-      font-size:13.5px;
-      line-height:1.68;
-      max-width:none;
-    }
-
-    .response-body p,
-    .response-body ol,
-    .api-briefing-block p{
-      max-width:none;
-    }
-
-    .response-body ol{
-      margin:10px 0 6px;
-      padding-left:23px;
-    }
-
-    .response-body li + li{ margin-top:11px; }
-
-    .response-body strong{
-      color:rgba(255,255,255,0.90);
-      font-weight:720;
-    }
-
-    .api-briefing{
-      display:grid;
-      gap:14px;
-    }
-
-    .api-briefing-block span{
-      display:block;
-      color:rgba(143,215,255,0.66);
-      font-size:8.5px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:0.07em;
-      text-transform:uppercase;
-      margin-bottom:7px;
-    }
-
-    .api-briefing-block p{
-      margin:0;
-      color:rgba(255,255,255,0.80);
-      font-size:13.5px;
-      line-height:1.68;
-      white-space:pre-wrap;
-    }
-
-    .action-briefing-card .response-body{
-      color:rgba(255,255,255,0.76);
-      font-size:13px;
-      line-height:1.68;
-    }
-
-    .action-briefing-card .response-body ol{
-      margin-top:12px;
-      margin-bottom:0;
-    }
-
-    .action-briefing-card .response-body li{
-      padding-left:2px;
-    }
-
-    .action-briefing-card .response-body li::marker{
-      color:rgba(143,215,255,0.70);
-      font-weight:800;
-    }
-
-    .action-briefing-card .response-body li + li{
-      margin-top:12px;
-    }
-
-    .action-briefing-card .response-body strong{
-      display:inline-block;
-      margin-bottom:2px;
-      color:rgba(255,255,255,0.88);
-      font-size:13.25px;
-      line-height:1.38;
-      font-weight:720;
-    }
-
-    .brief-section{
-      padding-top:12px;
-      border-top:1px solid rgba(255,255,255,0.07);
-    }
-
-    .brief-section:first-child{
-      padding-top:0;
-      border-top:0;
-    }
-
-    .brief-label{
-      color:rgba(143,215,255,0.72);
-      font-size:10.5px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      margin-bottom:6px;
-    }
-
-    .brief-question{
-      margin:0 0 8px;
-      color:rgba(255,255,255,0.72);
-      font-size:13px;
-      line-height:1.45;
-      font-weight:700;
-    }
-
-    .brief-copy{
-      margin:0;
-      color:rgba(255,255,255,0.84);
-      font-size:14px;
-      line-height:1.64;
-      white-space:pre-wrap;
-    }
-
-    .brief-helper{
-      margin:0 0 8px;
-      color:rgba(255,255,255,0.58);
-      font-size:12px;
-      line-height:1.35;
-      font-weight:700;
-    }
-
-    .brief-action-list{
-      margin:0;
-      padding-left:20px;
-      color:rgba(238,244,255,0.88);
-      font-size:13.5px;
-      line-height:1.5;
-      font-weight:650;
-    }
-
-    .brief-action-list li + li{ margin-top:6px; }
-
-    .operational-response{
-      margin-top:12px;
-      padding-top:12px;
-      border-top:1px solid rgba(255,255,255,0.07);
-      background:transparent;
-    }
-
-    .operational-response-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:10px;
-    }
-
-    .operational-response-title{
-      margin:0 0 3px;
-      color:rgba(255,255,255,0.92);
-      font-size:13px;
-      line-height:1.2;
-      font-weight:800;
-    }
-
-    .operational-response-helper{
-      margin:0;
-      color:rgba(255,255,255,0.56);
-      font-size:11.5px;
-      line-height:1.4;
-      font-weight:600;
-    }
-
-    .op-save-status{
-      color:rgba(255,255,255,0.58);
-      font-size:11px;
-      line-height:1.35;
-      text-align:right;
-      min-width:96px;
-    }
-
-    .op-save-status.success{ color:#7ce7b5; }
-    .op-save-status.error{ color:#ffb6b6; }
-
-    .op-two-col{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:8px;
-    }
-
-    .op-field{
-      min-width:0;
-      padding-top:0;
-      border-top:0;
-    }
-
-    .op-field:first-child,
-    .op-field:nth-child(2){ padding-top:0; border-top:0; }
-
-    .op-label-row{ margin-bottom:7px; }
-
-    .op-label{
-      margin:0;
-      color:rgba(255,255,255,0.86);
-      font-size:11.5px;
-      line-height:1.2;
-      font-weight:800;
-    }
-
-    .op-sub{
-      margin:2px 0 0;
-      color:rgba(255,255,255,0.50);
-      font-size:10.5px;
-      line-height:1.3;
-      font-weight:600;
-    }
-
-    .op-pill-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
-    }
-
-    .op-pill{
-      appearance:none;
-      border:1px solid rgba(255,255,255,0.11);
-      border-radius:999px;
-      background:rgba(255,255,255,0.045);
-      color:rgba(255,255,255,0.72);
-      padding:7px 9px;
-      font:inherit;
-      font-size:10.5px;
-      line-height:1.1;
-      font-weight:800;
-      cursor:pointer;
-      transition:border-color 0.14s ease, background 0.14s ease, color 0.14s ease, transform 0.14s ease;
-    }
-
-    .op-pill:hover{
-      color:#fff;
-      border-color:rgba(143,215,255,0.35);
-      transform:translateY(-1px);
-    }
-
-    .op-pill.active{
-      color:#06111d;
-      border-color:rgba(53,198,122,0.72);
-      background:linear-gradient(135deg,var(--green),var(--green-2));
-      box-shadow:0 8px 18px rgba(53,198,122,0.12);
-    }
-
-    .op-action-pill{
-      max-width:100%;
-      text-align:left;
-    }
-
-    .op-action-list{
-      display:grid;
-      gap:8px;
-    }
-
-    .op-action-row{
-      display:grid;
-      grid-template-columns:minmax(180px, 1fr) auto;
-      gap:10px;
-      align-items:center;
-      padding:9px 0;
-      border-top:1px solid rgba(255,255,255,0.06);
-    }
-
-    .op-action-row:first-child{ border-top:0; padding-top:0; }
-
-    .op-action-text{
-      color:rgba(238,244,255,0.86);
-      font-size:12.5px;
-      line-height:1.38;
-      font-weight:700;
-    }
-
-    .op-note-toggle{
-      appearance:none;
-      border:0;
-      background:transparent;
-      color:rgba(143,215,255,0.76);
-      padding:0;
-      font:inherit;
-      font-size:11px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.04em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    .op-note-wrap[hidden]{ display:none; }
-
-    .op-follow-up{
-      display:grid;
-      grid-template-columns:minmax(150px, 220px) minmax(0,1fr);
-      gap:8px;
-    }
-
-    .op-input,
-    .op-notes{
-      width:100%;
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:12px;
-      background:rgba(4,8,18,0.42);
-      color:rgba(255,255,255,0.86);
-      font:inherit;
-      font-size:12px;
-      font-weight:600;
-      outline:none;
-    }
-
-    .op-input{ min-height:38px; padding:0 10px; color-scheme:dark; }
-    .op-notes{ min-height:38px; padding:10px; resize:vertical; }
-
-    .op-input:focus,
-    .op-notes:focus{
-      border-color:rgba(143,215,255,0.42);
-      box-shadow:0 0 0 3px rgba(44,108,255,0.12);
-    }
-
-    .op-footer{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:10px;
-      padding-top:10px;
-      border-top:1px solid rgba(255,255,255,0.07);
-    }
-
-    .op-save-btn{
-      min-height:38px;
-      padding:0 14px;
-      border:0;
-      border-radius:999px;
-      color:#06111d;
-      background:linear-gradient(135deg,var(--green),var(--green-2));
-      font:inherit;
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:0.03em;
-      text-transform:uppercase;
-      cursor:pointer;
-    }
-
-    .support-brief-grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0,1fr));
-      gap:14px;
-    }
-
-    .support-brief-card{
-      padding:18px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:linear-gradient(180deg, rgba(13,18,36,0.78), rgba(11,17,35,0.62));
-      box-shadow:0 18px 46px rgba(0,0,0,0.20);
-    }
-
-    .support-brief-card h2{
-      margin:0 0 10px;
-      color:#ffffff;
-      font-size:17px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0;
-    }
-
-    .support-brief-card p{
-      margin:0 0 12px;
-      color:rgba(226,235,248,0.68);
-      font-size:12.5px;
-      line-height:1.55;
-      font-weight:650;
-    }
-
-    .support-brief-card ul{
-      margin:0;
-      padding-left:17px;
-      color:rgba(238,244,255,0.78);
-      font-size:12.5px;
-      line-height:1.5;
-      font-weight:650;
-    }
-
-    .support-brief-card li + li{ margin-top:7px; }
-
-    .support-metrics{
-      display:grid;
-      gap:8px;
-      margin:0 0 12px;
-    }
-
-    .support-metric{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:8px 0;
-      border-top:1px solid rgba(255,255,255,0.06);
-      color:rgba(226,235,248,0.70);
-      font-size:11px;
-      line-height:1.2;
-      font-weight:900;
-      letter-spacing:0.06em;
-      text-transform:uppercase;
-    }
-
-    .support-metric:first-child{ border-top:0; }
-
-    .support-metric strong{
-      color:rgba(223,251,234,0.92);
-      font-size:12px;
-      letter-spacing:0;
-      text-transform:none;
-      text-align:right;
-      font-weight:850;
-    }
-
-    .op-save-btn:disabled{
-      cursor:not-allowed;
-      opacity:0.72;
-    }
-
-    .demo-source-note{
-      color:rgba(255,255,255,0.56);
-      font-size:11.5px;
-      line-height:1.45;
-      border-top:1px solid rgba(255,255,255,0.08);
-      padding-top:10px;
-    }
-
-    .loading-line{
-      color:#dffbea;
-      font-weight:800;
-    }
-
-    .best-move{
-      margin-top:14px;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid rgba(44,108,255,0.22);
-      background:rgba(44,108,255,0.08);
-    }
-
-    .source-panel{
-      margin-top:18px;
-      padding:22px;
-      border-radius:22px;
-    }
-
-    .section-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:18px;
-    }
-
-    .section-head h2{
-      margin:0;
-      font-size:22px;
-      line-height:1.14;
-      font-weight:780;
-      color:rgba(255,255,255,0.90);
-    }
-
-    .section-head p{
-      margin:8px 0 0;
-      max-width:min(100%, 1040px);
-      color:rgba(255,255,255,0.66);
-      line-height:1.62;
-      font-weight:500;
-      font-size:13px;
-    }
-
-    .section-badge{
-      flex:0 0 auto;
-      padding:7px 10px;
-      border-radius:999px;
-      border:1px solid rgba(53,198,122,0.26);
-      background:rgba(53,198,122,0.08);
-      color:rgba(223,251,234,0.84);
-      font-size:10px;
-      line-height:1;
-      font-weight:760;
-      letter-spacing:0.06em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .source-grid{
-      display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      gap:10px;
-    }
-
-    .source-item{
-      min-height:178px;
-      padding:15px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.032);
-      color:rgba(255,255,255,0.82);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .source-item h3{
-      margin:0;
-      color:rgba(255,255,255,0.88);
-      font-size:13px;
-      line-height:1.38;
-      font-weight:720;
-      letter-spacing:0;
-    }
-
-    .source-item ul{
-      margin:0;
-      padding-left:16px;
-      color:rgba(255,255,255,0.68);
-      font-size:11.75px;
-      line-height:1.54;
-      font-weight:500;
-    }
-
-    .source-item li + li{
-      margin-top:5px;
-    }
-
-    .source-note{
-      margin-top:auto;
-      padding-top:9px;
-      border-top:1px solid rgba(255,255,255,0.075);
-      color:rgba(124,231,181,0.68);
-      font-size:11px;
-      line-height:1.46;
-      font-weight:600;
-    }
-
-    .source-status{
-      align-self:flex-start;
-      margin-top:-2px;
-      padding:5px 7px;
-      border-radius:999px;
-      border:1px solid rgba(143,215,255,0.18);
-      background:rgba(143,215,255,0.06);
-      color:rgba(143,215,255,0.68);
-      font-size:8.5px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:0.07em;
-      text-transform:uppercase;
-    }
-
-    .trust-note{
-      margin-top:18px;
-      border-radius:18px;
-      padding:16px 18px;
-      color:rgba(255,255,255,0.72);
-      font-size:12.5px;
-      line-height:1.55;
-      box-shadow:none;
-    }
-
+    /* ── CTA buttons ── */
     .cta-row{
       display:flex;
       flex-wrap:wrap;
+      gap:14px;
       align-items:center;
-      gap:10px;
-      margin-top:18px;
     }
 
-    .cta-row .cta-book{
-      margin-left:auto;
-    }
-
-    .btn{
+    .btn-primary{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-height:42px;
-      padding:11px 14px;
+      padding:13px 26px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.13);
-      background:rgba(255,255,255,0.055);
-      color:#ffffff;
-      font-size:12px;
+      background:linear-gradient(135deg,var(--green),var(--green-2));
+      border:1px solid rgba(53,198,122,0.66);
+      color:#05101a;
+      font-size:13.5px;
       font-weight:800;
+      letter-spacing:0.01em;
+      text-decoration:none;
+      transition:filter 0.14s ease, transform 0.12s ease;
+    }
+    .btn-primary:hover{ filter:brightness(1.07); transform:translateY(-1px); }
+
+    .btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 26px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(255,255,255,0.055);
+      color:var(--text);
+      font-size:13.5px;
+      font-weight:800;
+      letter-spacing:0.01em;
+      text-decoration:none;
+      transition:border-color 0.14s ease, filter 0.14s ease, transform 0.12s ease;
+    }
+    .btn-ghost:hover{ border-color:rgba(255,255,255,0.28); filter:brightness(1.08); transform:translateY(-1px); }
+
+    .btn-blue{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:13px 28px;
+      border-radius:999px;
+      border:1px solid rgba(44,108,255,0.55);
+      background:var(--blue);
+      color:#fff;
+      font-size:13.5px;
+      font-weight:800;
+      letter-spacing:0.01em;
+      text-decoration:none;
+      transition:filter 0.14s ease, transform 0.12s ease;
+    }
+    .btn-blue:hover{ filter:brightness(1.1); transform:translateY(-1px); }
+
+    /* ── Hero ── */
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 340px;
+      gap:clamp(40px,6vw,80px);
+      align-items:center;
+      padding:clamp(56px,9vw,112px) 0 clamp(48px,7vw,88px);
     }
 
-    .btn.primary{
-      color:#06111d;
-      border-color:rgba(53,198,122,0.66);
-      background:linear-gradient(135deg, var(--green), var(--green-2));
+    .hero-headline{
+      color:var(--text);
+      font-size:clamp(28px,3.6vw,52px);
+      font-weight:800;
+      line-height:1.10;
+      margin:0 0 22px;
+      max-width:680px;
     }
 
-    @media (max-width:980px){
-      .platform-header-top{ flex-direction:column; align-items:flex-start; width:100%; }
-      .platform-nav{ justify-content:flex-start; width:100%; }
-      .nav-dropdown{ width:100%; flex-direction:column; align-items:stretch; }
-      .nav-dropdown .nav-pill{ width:100%; justify-content:space-between; }
-      .dropdown-menu{
-        position:static;
-        width:100%;
-        margin-top:8px;
-        opacity:1;
-        visibility:visible;
-        pointer-events:auto;
-        transform:none;
-        box-shadow:0 14px 32px rgba(0,0,0,0.24);
-      }
-      .hero-panel .page-subtitle{ white-space:normal; width:auto; max-width:100%; }
-      .priority-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
-      .priority-head{ align-items:flex-start; flex-direction:column; }
-      .support-brief-grid{ grid-template-columns:1fr; }
-      .source-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
-      .section-head{ flex-direction:column; }
+    .hero-sub{
+      color:var(--muted);
+      font-size:clamp(15px,1.1vw,17px);
+      line-height:1.74;
+      font-weight:500;
+      max-width:580px;
+      margin:0 0 34px;
     }
 
-    @media (max-width:640px){
-      .shell{ width:min(1280px, calc(100% - 20px)); margin:14px auto 28px; }
-      .platform-header{ padding:14px 10px 0; }
-      .page{ padding:16px 10px 0; }
-      .hero-panel,
-      .response-card,
-      .ask-response-card,
-      .priority-section,
-      .support-brief-card,
-      .source-panel,
-      .side-panel{ padding:16px; }
-      .priority-grid{ grid-template-columns:1fr; }
-      .priority-card-footer{ align-items:flex-start; flex-direction:column; }
-      .page-title{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:4px;
-        font-size:clamp(28px, 8vw, 36px);
-        white-space:normal;
-      }
-      .query-row{ grid-template-columns:1fr; }
-      .source-grid{ grid-template-columns:1fr; }
-      .followup-contact{ align-items:flex-start; flex-direction:column; }
-      .followup-contact-input{ width:100%; }
-      .op-two-col,
-      .op-follow-up{ grid-template-columns:1fr; }
-      .op-action-row{ grid-template-columns:1fr; }
-      .op-field:nth-child(2){ padding-top:8px; border-top:1px solid rgba(255,255,255,0.07); }
-      .operational-response-head{ flex-direction:column; }
-      .op-footer{ align-items:flex-start; flex-direction:column; }
-      .op-save-status{ text-align:left; }
-      .cta-row .cta-book{ margin-left:0; }
-      .nav-pill{ font-size:10px; padding:8px 10px; }
+    .hero-signal{
+      width:100%;
+      max-width:340px;
+      height:auto;
+      opacity:0.85;
+      display:block;
+    }
+
+    .section-sub-flush{ margin-bottom:0; }
+
+    /* ── Problem section ── */
+    .problem-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+
+    .problem-card{
+      border:1px solid var(--border);
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:clamp(22px,2.8vw,32px);
+    }
+
+    .problem-card-label{
+      display:block;
+      color:rgba(143,215,255,0.78);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:0.11em;
+      text-transform:uppercase;
+      margin:0 0 12px;
+    }
+
+    .problem-card-title{
+      color:var(--text);
+      font-size:16px;
+      font-weight:800;
+      line-height:1.25;
+      margin:0 0 12px;
+    }
+
+    .problem-card-body{
+      color:var(--muted);
+      font-size:13.5px;
+      line-height:1.65;
+      font-weight:500;
+      margin:0;
+    }
+
+    /* ── Approach section ── */
+    .approach-intro{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(32px,5vw,72px);
+      align-items:start;
+      margin-bottom:36px;
+    }
+
+    .approach-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+
+    .approach-card{
+      border:1px solid var(--border);
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:clamp(22px,2.8vw,30px);
+      border-left:3px solid rgba(44,108,255,0.45);
+    }
+
+    .approach-card-title{
+      color:var(--text);
+      font-size:15px;
+      font-weight:800;
+      line-height:1.3;
+      margin:0 0 10px;
+    }
+
+    .approach-card-body{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.65;
+      font-weight:500;
+      margin:0;
+    }
+
+    /* ── Proof band ── */
+    .proof-band{
+      margin:clamp(32px,4vw,48px) 0;
+      padding:clamp(36px,5vw,60px) clamp(28px,4vw,52px);
+      border-radius:22px;
+      border:1px solid rgba(44,108,255,0.20);
+      background:rgba(44,108,255,0.06);
+    }
+
+    .proof-band .section-headline{ max-width:600px; }
+    .proof-band .section-sub{ max-width:560px; }
+
+    /* ── Preview section ── */
+    .preview-inner{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:clamp(40px,6vw,80px);
+      align-items:center;
+    }
+
+    .preview-panel{
+      border:1px solid var(--border);
+      background:var(--panel);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:clamp(24px,3vw,36px);
+      display:grid;
+      gap:14px;
+    }
+
+    .preview-scenario{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.07);
+      background:rgba(255,255,255,0.025);
+    }
+
+    .scenario-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      flex:0 0 auto;
+    }
+    .dot-green{ background:var(--green); }
+    .dot-amber{ background:#f6b44b; }
+    .dot-red{ background:#f06161; }
+
+    .scenario-name{
+      color:rgba(255,255,255,0.84);
+      font-size:13px;
+      font-weight:700;
+      flex:1;
+    }
+
+    .scenario-tag{
+      color:rgba(255,255,255,0.44);
+      font-size:10.5px;
+      font-weight:700;
+      letter-spacing:0.04em;
+      text-transform:uppercase;
+    }
+
+    /* ── Responsive ── */
+    @media(max-width:1000px){
+      .hero{ grid-template-columns:1fr; }
+      .hero-signal{ display:none; }
+      .approach-intro{ grid-template-columns:1fr; }
+      .preview-inner{ grid-template-columns:1fr; }
+    }
+
+    @media(max-width:800px){
+      .problem-grid{ grid-template-columns:1fr; }
+      .approach-grid{ grid-template-columns:1fr; }
+      .platform-header-top{ flex-direction:column; align-items:flex-start; }
+      .platform-nav{ justify-content:flex-start; flex-wrap:wrap; }
+      .nav-dropdown{ width:auto; }
+    }
+
+    @media(max-width:640px){
+      .shell{ width:calc(100% - 24px); }
+      .cta-row{ flex-direction:column; align-items:flex-start; }
+      .proof-band{ padding:26px 20px; }
     }
   </style>
 </head>
 <body>
   <div class="shell">
+
+    <!-- Navigation -->
     <header class="platform-header">
       <div class="platform-header-top">
-        <div class="platform-brand">
-          <div class="vol-logo-horizontal" aria-label="VOL Health">
-            <span class="logo-letter">V</span>
-            <span class="logo-o" aria-hidden="true"></span>
-            <span class="logo-letter">L</span>
+        <a href="/" aria-label="VOL Health home">
+          <div class="vol-logo-horizontal">
+            <span>V</span><span class="logo-o" aria-hidden="true"></span><span>L</span>
             <span class="logo-gap" aria-hidden="true"></span>
-            <span class="logo-letter">H</span>
-            <span class="logo-letter">E</span>
-            <span class="logo-letter">A</span>
-            <span class="logo-letter">L</span>
-            <span class="logo-letter">T</span>
-            <span class="logo-letter">H</span>
+            <span>H</span><span>E</span><span>A</span><span>L</span><span>T</span><span>H</span>
           </div>
-        </div>
-
+        </a>
         <nav class="platform-nav">
-          <a href="/" class="nav-pill active">VOL rEDi</a>
+          <a href="/redi" class="nav-pill">VOL rEDi</a>
           <a href="redi-brief.html" class="nav-pill">rEDi Brief</a>
           <a href="advisor.html" class="nav-pill">OpAdvisor</a>
           <a href="data-demo.html" class="nav-pill">Data Demo</a>
@@ -1492,1650 +495,210 @@
       </div>
     </header>
 
-    <main class="page">
+    <main>
+
+      <!-- ─────────────────────────────────────── -->
+      <!-- Section 1 — Hero                        -->
+      <!-- ─────────────────────────────────────── -->
       <section class="hero">
-        <div class="hero-panel">
-          <div class="page-kicker">Daily rEDi</div>
-          <h1 class="page-title"><span class="title-step">Signal <span class="title-arrow">&rarr;</span></span><span class="title-step">Prioritization <span class="title-arrow">&rarr;</span></span><span class="title-step">Action</span></h1>
-          <p class="page-subtitle">VOL rEDi helps senior living leaders start the day with a clearer read on what needs attention first.</p>
-
-          <div class="query-box" aria-labelledby="queryTitle">
-            <div class="query-label" id="queryTitle">VOL rEDi</div>
-            <div class="query-row">
-              <input id="dailySignalInput" class="query-input" type="text" value="What should I focus on today?" placeholder="What needs leadership attention first today?" aria-label="VOL rEDi" />
-              <button id="askButton" class="ask-btn" type="button">Get rEDi</button>
-            </div>
-            <div class="response-card ask-response-card" aria-live="polite">
-              <div class="response-head">
-                <div>
-                  <h2 id="responseTitle">rEDi Brief</h2>
-                  <p class="response-subtitle">Your daily operational readiness brief.</p>
-                </div>
-                <div id="responsePill" class="response-pill">rEDi Brief Ready</div>
-              </div>
-              <div id="responseBody" class="response-body"></div>
-            </div>
-            <div class="prompt-chips" aria-label="Suggested Daily rEDi prompts">
-              <button class="prompt-chip active" type="button" data-prompt="What should I focus on today?">What should I focus on today?</button>
-              <button class="prompt-chip" type="button" data-prompt="What needs follow-up this week?">What needs follow-up this week?</button>
-              <button class="prompt-chip" type="button" data-prompt="Who should I recognize today?">Who should I recognize today?</button>
-              <button class="prompt-chip" type="button" data-prompt="What family touchpoints are pending?">What family touchpoints are pending?</button>
-              <button class="prompt-chip" type="button" data-prompt="What requests may have been missed?">What requests may have been missed?</button>
-              <button class="prompt-chip" type="button" data-prompt="What should we review in standup?">What should we review in standup?</button>
-            </div>
-          </div>
-
+        <div class="hero-copy">
+          <h1 class="hero-headline">Operational instability in senior living compounds quietly. VOL helps leadership teams see it forming before it becomes embedded.</h1>
+          <p class="hero-sub">Small pressures across staffing, workflow, leadership bandwidth, and resident demand rarely stay isolated. VOL synthesizes those fragmented signals into a clearer operating picture — so the right things get attention before strain becomes the new normal.</p>
           <div class="cta-row">
-            <a class="btn primary" href="data-demo.html">Review demo data</a>
-            <a class="btn" href="shai.html">Open SHAI synthesis</a>
-            <a class="btn primary cta-book" href="https://calendly.com/hud-volhealth/connect" target="_blank" rel="noopener">Book a guided data review</a>
+            <a href="/data-demo" class="btn-primary">See It In the Data Demo</a>
+            <a href="/contact" class="btn-ghost">Explore a Pilot</a>
           </div>
-          <div class="flow-cue">Get rEDi &rarr; Top 5 Queue &rarr; Leadership Action Briefing</div>
         </div>
 
+        <!-- Signal visual — VOL O motif with emanating rings -->
+        <div class="hero-signal-wrap" aria-hidden="true">
+          <svg class="hero-signal" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer rings -->
+            <circle cx="160" cy="160" r="152" stroke="rgba(44,108,255,0.05)" stroke-width="1"/>
+            <circle cx="160" cy="160" r="128" stroke="rgba(44,108,255,0.08)" stroke-width="1"/>
+            <circle cx="160" cy="160" r="104" stroke="rgba(44,108,255,0.12)" stroke-width="1"/>
+            <circle cx="160" cy="160" r="80"  stroke="rgba(44,108,255,0.18)" stroke-width="1"/>
+            <circle cx="160" cy="160" r="56"  stroke="rgba(44,108,255,0.26)" stroke-width="1"/>
+            <!-- Center O -->
+            <circle cx="160" cy="160" r="28"  stroke="rgba(79,130,255,0.55)" stroke-width="1.5"/>
+            <circle cx="160" cy="160" r="18"  fill="rgba(44,108,255,0.14)"/>
+            <circle cx="160" cy="160" r="28"
+              stroke="rgba(255,255,255,0.18)"
+              stroke-width="1"
+              stroke-dasharray="4 52"
+              stroke-dashoffset="-12"
+            />
+            <!-- Crosshair signal lines -->
+            <line x1="0"   y1="160" x2="120" y2="160" stroke="rgba(44,108,255,0.14)" stroke-width="1"/>
+            <line x1="200" y1="160" x2="320" y2="160" stroke="rgba(44,108,255,0.14)" stroke-width="1"/>
+            <line x1="160" y1="0"   x2="160" y2="120" stroke="rgba(44,108,255,0.10)" stroke-width="1"/>
+            <line x1="160" y1="200" x2="160" y2="320" stroke="rgba(44,108,255,0.10)" stroke-width="1"/>
+            <!-- Signal pulse dots on lines -->
+            <circle cx="88"  cy="160" r="3"   fill="rgba(44,108,255,0.55)"/>
+            <circle cx="232" cy="160" r="3"   fill="rgba(44,108,255,0.55)"/>
+            <circle cx="160" cy="82"  r="2.5" fill="rgba(44,108,255,0.38)"/>
+            <circle cx="160" cy="238" r="2.5" fill="rgba(44,108,255,0.38)"/>
+            <!-- Diagonal accent marks at ring intersections -->
+            <circle cx="217" cy="217" r="2" fill="rgba(53,198,122,0.35)"/>
+            <circle cx="103" cy="103" r="2" fill="rgba(53,198,122,0.25)"/>
+            <circle cx="217" cy="103" r="2" fill="rgba(44,108,255,0.28)"/>
+            <circle cx="103" cy="217" r="2" fill="rgba(44,108,255,0.22)"/>
+          </svg>
+        </div>
       </section>
 
-      <section class="priority-section" aria-labelledby="priorityActionsTitle">
-        <div class="priority-head">
+
+      <!-- ─────────────────────────────────────── -->
+      <!-- Section 2 — The Problem                 -->
+      <!-- ─────────────────────────────────────── -->
+      <section class="section">
+        <p class="section-kicker">The Operational Reality</p>
+        <h2 class="section-headline">The instability is already forming. Most communities can't see it yet.</h2>
+
+        <div class="problem-grid">
+          <div class="problem-card">
+            <span class="problem-card-label">01</span>
+            <h3 class="problem-card-title">Fragmented signals</h3>
+            <p class="problem-card-body">Staffing strain, workflow disruption, leadership bandwidth, and resident demand all generate pressure independently — but no one is synthesizing what they mean together.</p>
+          </div>
+
+          <div class="problem-card">
+            <span class="problem-card-label">02</span>
+            <h3 class="problem-card-title">Reactive leadership</h3>
+            <p class="problem-card-body">By the time operational instability is visible, it has already compounded. Leaders are managing consequences instead of patterns.</p>
+          </div>
+
+          <div class="problem-card">
+            <span class="problem-card-label">03</span>
+            <h3 class="problem-card-title">Invisible cost</h3>
+            <p class="problem-card-body">Volatility drag — overtime, agency dependency, turnover, leadership exhaustion — accumulates quietly and is rarely connected back to its operational source.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ─────────────────────────────────────── -->
+      <!-- Section 3 — The VOL Approach            -->
+      <!-- ─────────────────────────────────────── -->
+      <section class="section">
+        <div class="approach-intro">
           <div>
-            <h2 id="priorityActionsTitle">Top 5 Priority Actions</h2>
-            <p>The five most important leadership actions currently detected from the active operating read.</p>
+            <p class="section-kicker">How VOL Works</p>
+            <h2 class="section-headline">Signal clarity. Earlier prioritization. Calmer operations.</h2>
           </div>
-          <div class="priority-badge">Action Capture Active</div>
-        </div>
-        <div class="followup-contact" id="followupContact">
-          <form class="followup-contact-form" id="followupContactForm">
-            <label class="followup-contact-label" for="followupEmail">Send follow-up checks to:</label>
-            <input class="followup-contact-input" id="followupEmail" type="email" autocomplete="email" placeholder="operator@example.com">
-            <button class="followup-contact-btn" type="submit">Save</button>
-            <span class="followup-contact-status" id="followupContactStatus"></span>
-          </form>
-          <p class="followup-contact-line" id="followupContactSaved" hidden></p>
-        </div>
-        <div id="priorityActionsGrid" class="priority-grid"></div>
-      </section>
-
-      <section class="response-card action-briefing-card">
-        <div class="response-head">
           <div>
-            <h2>Leadership Action Briefing</h2>
-            <p class="response-subtitle">Concise leadership focus from the current rEDi Brief.</p>
+            <p class="section-sub section-sub-flush">VOL is not another dashboard. It is an operational intelligence layer that synthesizes fragmented signals into a clearer picture of what is forming, what deserves attention first, and what it is costing the community.</p>
           </div>
-          <div class="response-pill">Stay rEDi.</div>
         </div>
-        <div id="leadershipBriefingBody" class="response-body">
-          <ol>
-            <li>Use the Top 5 queue to assign owners before or during standup.</li>
-            <li>Confirm closure on resident and family touchpoints before the end of day.</li>
-            <li>Watch for clustering across dining, housekeeping, communication, and coverage pressure.</li>
-          </ol>
+
+        <div class="approach-grid">
+          <div class="approach-card">
+            <h3 class="approach-card-title">Daily Readiness Intelligence</h3>
+            <p class="approach-card-body">A morning briefing layer that helps community leadership start the day with operational clarity instead of reactive triage.</p>
+          </div>
+
+          <div class="approach-card">
+            <h3 class="approach-card-title">Volatility Pattern Recognition</h3>
+            <p class="approach-card-body">Identifies how pressure is forming and compounding across workforce, operations, and resident demand before it becomes embedded instability.</p>
+          </div>
+
+          <div class="approach-card">
+            <h3 class="approach-card-title">Economic Visibility</h3>
+            <p class="approach-card-body">Connects operational strain to its financial consequences — volatility cost, workforce drag, and stabilizable upside — in language leadership and ownership can act on.</p>
+          </div>
+
+          <div class="approach-card">
+            <h3 class="approach-card-title">Decision Support, Not Replacement</h3>
+            <p class="approach-card-body">VOL is intentionally decision-supportive. Human leadership remains central. VOL makes the patterns easier to see. Leaders provide the judgment, culture, and context behind every decision.</p>
+          </div>
         </div>
       </section>
 
-      <section class="source-panel">
-        <div class="section-head">
+
+      <!-- ─────────────────────────────────────── -->
+      <!-- Section 4 — Social Proof Placeholder    -->
+      <!-- ─────────────────────────────────────── -->
+      <section class="proof-band">
+        <p class="section-kicker">Built with Operators</p>
+        <h2 class="section-headline">VOL is being developed in active collaboration with senior living operators.</h2>
+        <p class="section-sub">Our pilot partners shape what gets built, what gets refined, and what gets prioritized. If you are navigating operational instability and want to be part of building the solution, we want to hear from you.</p>
+        <div class="cta-row">
+          <a href="/contact" class="btn-blue">Learn About the Pilot Program</a>
+        </div>
+      </section>
+
+
+      <!-- ─────────────────────────────────────── -->
+      <!-- Section 5 — Product Preview             -->
+      <!-- ─────────────────────────────────────── -->
+      <section class="section">
+        <div class="preview-inner">
           <div>
-            <div class="page-kicker">How VOL gets results</div>
-            <h2>Signal-to-action from governed visibility.</h2>
-            <p>This public demo environment uses synthetic PHI-free operational context to show how VOL connects leadership signals across staffing, service recovery, resident experience, and operational follow-through.</p>
+            <p class="section-kicker">See It in Action</p>
+            <h2 class="section-headline">Five operational scenarios. Real intelligence. No data required.</h2>
+            <p class="section-sub">The VOL Data Demo shows what operational intelligence looks like across five different community stability patterns — from stable baseline to structural decline. See the signal before you share the data.</p>
+            <div class="cta-row">
+              <a href="/data-demo" class="btn-primary">Open the Data Demo</a>
+            </div>
           </div>
-          <div class="section-badge">Synthetic PHI-Free Operating Context</div>
-        </div>
-        <div class="source-grid" id="governedVisibilityGrid">
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Care and service notes</h3>
-            <ul>
-              <li>Two wellness follow-ups logged this week</li>
-              <li>Meal preference adjustment pending closure confirmation</li>
-              <li>Increased service requests following recent move-ins</li>
-            </ul>
-            <div class="source-note">Demo fallback: patterns in service follow-through may indicate early operational drift.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Staffing and schedule context</h3>
-            <ul>
-              <li>42 overtime hours logged in the demo window</li>
-              <li>5 open shifts visible in the demo schedule</li>
-              <li>4 last-minute call-off events</li>
-            </ul>
-            <div class="source-note">Demo fallback: coverage strain is increasing before agency usage becomes visible.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Resident and family requests</h3>
-            <ul>
-              <li>One family callback pending in demo context</li>
-              <li>Two resident requests may need closure confirmation</li>
-              <li>Repeated dining preference changes logged</li>
-            </ul>
-            <div class="source-note">Demo fallback: unresolved follow-ups often surface before formal dissatisfaction.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Recognition moments</h3>
-            <ul>
-              <li>Pedro, Executive Chef, birthday today</li>
-              <li>One employee anniversary this week</li>
-              <li>Positive family feedback tied to dining team</li>
-            </ul>
-            <div class="source-note">Demo fallback: recognition visibility helps stabilize culture and retention.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Dining, housekeeping, and maintenance notes</h3>
-            <ul>
-              <li>One housekeeping concern reopened twice</li>
-              <li>Dining requests clustering around evening service</li>
-              <li>Minor maintenance follow-up aging beyond target</li>
-            </ul>
-            <div class="source-note">Demo fallback: small service misses tend to compound before they escalate.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Census and occupancy movement</h3>
-            <ul>
-              <li>Two recent move-ins increasing onboarding load</li>
-              <li>Acuity mix trending upward this month</li>
-              <li>Resident transition activity elevated this week</li>
-            </ul>
-            <div class="source-note">Demo fallback: resident movement often reshapes staffing pressure invisibly.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Labor cost and coverage pressure</h3>
-            <ul>
-              <li>42 overtime hours in the demo window</li>
-              <li>8% agency usage remains below critical dependency</li>
-              <li>5 open shifts concentrated in the operating window</li>
-            </ul>
-            <div class="source-note">Demo fallback: cost pressure is forming before it becomes a staffing crisis.</div>
-          </div>
-          <div class="source-item">
-            <div class="source-status">demo fallback</div>
-            <h3>Quality and operational risk signals</h3>
-            <ul>
-              <li>Family communication follow-ups clustering</li>
-              <li>Cross-department rework increasing</li>
-              <li>Service recovery tasks remaining open longer</li>
-            </ul>
-            <div class="source-note">Demo fallback: small execution gaps may indicate emerging coordination strain.</div>
+
+          <div class="preview-panel" aria-hidden="true">
+            <div class="preview-scenario">
+              <span class="scenario-dot dot-green"></span>
+              <span class="scenario-name">Maple Glen</span>
+              <span class="scenario-tag">Stable</span>
+            </div>
+            <div class="preview-scenario">
+              <span class="scenario-dot dot-amber"></span>
+              <span class="scenario-name">Cedar Ridge</span>
+              <span class="scenario-tag">Strain emerging</span>
+            </div>
+            <div class="preview-scenario">
+              <span class="scenario-dot dot-amber"></span>
+              <span class="scenario-name">Willow Creek</span>
+              <span class="scenario-tag">Disruption cycle</span>
+            </div>
+            <div class="preview-scenario">
+              <span class="scenario-dot dot-red"></span>
+              <span class="scenario-name">River Bend</span>
+              <span class="scenario-tag">Decline pressure</span>
+            </div>
+            <div class="preview-scenario">
+              <span class="scenario-dot dot-green"></span>
+              <span class="scenario-name">Oak Hollow</span>
+              <span class="scenario-tag">Recovery</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="trust-note">
-        This public demo environment uses synthetic PHI-free operational context to demonstrate how VOL synthesizes leadership signals from disconnected systems. In approved deployments, additional operational and clinical-adjacent signals may be incorporated under community authorization and compliant governance controls. VOL is not a clinical diagnosis tool, treatment recommendation system, or replacement for required care documentation.
-      </div>
     </main>
+
+    <!-- ─────────────────────────────────────── -->
+    <!-- Section 6 — Footer CTA                  -->
+    <!-- ─────────────────────────────────────── -->
+    <style>
+      .vol-footer-cta{margin-top:18px;padding:32px 28px;border-radius:22px;border:1px solid rgba(255,255,255,0.10);background:rgba(13,18,36,0.78);}
+      .vol-footer-kicker{margin:0 0 12px;color:#8fd7ff;font-size:11px;font-weight:900;letter-spacing:0.13em;text-transform:uppercase;}
+      .vol-footer-headline{margin:0 0 12px;color:#ffffff;font-size:21px;font-weight:800;line-height:1.3;}
+      .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;max-width:560px;}
+      .vol-footer-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
+      .vol-footer-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;background:#2C6CFF;color:#ffffff;font-size:13px;font-weight:800;text-decoration:none;border:1px solid rgba(44,108,255,0.5);transition:filter 0.12s ease;}
+      .vol-footer-btn-primary:hover{filter:brightness(1.1);}
+      .vol-footer-link-secondary{color:rgba(255,255,255,0.54);font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,0.28);transition:color 0.12s ease;}
+      .vol-footer-link-secondary:hover{color:rgba(255,255,255,0.84);}
+      @media(max-width:640px){.vol-footer-cta{padding:22px 16px;}.vol-footer-headline{font-size:18px;}.vol-footer-actions{flex-direction:column;align-items:flex-start;}}
+    </style>
+    <section class="vol-footer-cta">
+      <p class="vol-footer-kicker">Working with VOL</p>
+      <h2 class="vol-footer-headline">Is operational instability something you're navigating right now?</h2>
+      <p class="vol-footer-sub">VOL is being built with a small number of senior living operators. If what you've seen here feels relevant to what you're managing, we'd like to understand what you're seeing.</p>
+      <div class="vol-footer-actions">
+        <a href="/contact" class="vol-footer-btn-primary">Explore a Pilot</a>
+        <a href="/data-demo" class="vol-footer-link-secondary">See it in the Data Demo</a>
+      </div>
+    </section>
+
   </div>
-
-  <script>
-    const dailySignalsData = {
-      priorityActions: [
-        {
-          title: "Confirm family follow-up closure",
-          explanation: "Two resident/family touchpoints may need confirmation before end of day.",
-          signal: "Resident / Family Touchpoint",
-          owner: "ED or Business Office",
-          urgency: "Review Today",
-          status: "Open"
-        },
-        {
-          title: "Review service recovery cluster",
-          explanation: "Dining, housekeeping, and family communication follow-ups are clustering.",
-          signal: "Operational Watch Item",
-          owner: "Department Heads",
-          urgency: "Standup Review",
-          status: "Review Today"
-        },
-        {
-          title: "Recognize Pedro, Executive Chef",
-          explanation: "Culture touchpoint detected. Recognition moment may support team engagement.",
-          signal: "Recognition Moment",
-          owner: "ED",
-          urgency: "Today",
-          status: "Open"
-        },
-        {
-          title: "Check Room 303 communication expectation",
-          explanation: "Ruth, daughter of Room 303, is expecting a follow-up call.",
-          signal: "Resident / Family Touchpoint",
-          owner: "Care Team / ED",
-          urgency: "Review Today",
-          status: "Open"
-        },
-        {
-          title: "Monitor request backlog",
-          explanation: "Repeated follow-up items suggest possible closure drift.",
-          signal: "Follow-Up Risk",
-          owner: "Leadership Team",
-          urgency: "Monitor",
-          status: "Monitor"
-        }
-      ]
-    };
-
-    const responses = {
-      "What should I focus on today?": {
-        title: "Today&apos;s focus",
-        html: `
-          <ol>
-            <li>Recognize Pedro, the Executive Chef, for his birthday. A simple note from leadership would go a long way.</li>
-            <li>Follow up on Room 414&apos;s meal preference request and confirm the change was actually experienced, not just logged.</li>
-            <li>Check on Room 295&apos;s housekeeping concern and make sure the resident feels the issue was resolved.</li>
-            <li>Confirm Ruth, Room 303&apos;s daughter, receives the expected call today.</li>
-            <li>Watch the pattern: dining, housekeeping, and family communication follow-ups are all active. That suggests small service issues may be starting to compound.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Spend 20 minutes before standup assigning clear owners for each item.</div>
-        `
-      },
-      "What needs follow-up this week?": {
-        title: "Follow-up this week",
-        html: `
-          <ol>
-            <li>Confirm meal preference closure for Room 414.</li>
-            <li>Close the housekeeping loop with Room 295 and document whether the resident experienced the fix.</li>
-            <li>Verify Ruth receives the expected call about Room 303.</li>
-            <li>Review whether dining and housekeeping requests are clustering by shift or daypart.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Ask each department lead to bring one closure update to standup.</div>
-        `
-      },
-      "Who should I recognize today?": {
-        title: "Recognition moment",
-        html: `
-          <ol>
-            <li>Pedro, Executive Chef, has a birthday today.</li>
-            <li>Dining has active follow-up pressure, so visible appreciation may help reinforce service consistency.</li>
-            <li>A short handwritten note from leadership is enough for today&apos;s signal.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Recognize Pedro before lunch service and thank the dining team for follow-through.</div>
-        `
-      },
-      "What family touchpoints are pending?": {
-        title: "Family touchpoints",
-        html: `
-          <ol>
-            <li>Ruth, daughter of Room 303, is expecting a follow-up call today.</li>
-            <li>The call should confirm ownership, timing, and next step rather than only acknowledge the request.</li>
-            <li>Family communication is clustering with other service follow-ups, so closure discipline matters.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Assign one leader to complete the call and confirm closure before end of day.</div>
-        `
-      },
-      "What requests may have been missed?": {
-        title: "Possible missed requests",
-        html: `
-          <ol>
-            <li>Room 414&apos;s meal preference may be logged but not yet experienced by the resident.</li>
-            <li>Room 295&apos;s housekeeping concern may need closure confirmation.</li>
-            <li>Ruth&apos;s expected call is pending and should not roll into tomorrow.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Check closure, not task status. Ask whether each person experienced the follow-up.</div>
-        `
-      },
-      "What should we review in standup?": {
-        title: "Standup review",
-        html: `
-          <ol>
-            <li>Owner for Room 414 meal preference closure.</li>
-            <li>Owner for Room 295 housekeeping follow-up.</li>
-            <li>Owner and timing for Ruth&apos;s call regarding Room 303.</li>
-            <li>Dining and housekeeping follow-up volume across the last few days.</li>
-            <li>Recognition moment for Pedro and the dining team.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Keep the standup to owners, timing, and closure confirmation.</div>
-        `
-      },
-      "default": {
-        title: "rEDi Brief",
-        html: `
-          <ol>
-            <li>Start with open follow-ups that affect resident or family experience.</li>
-            <li>Confirm ownership for any request that has been logged but not closed.</li>
-            <li>Look for clustering across dining, housekeeping, communication, and staffing context.</li>
-          </ol>
-          <div class="best-move"><strong>Best next move:</strong><br/>Use standup to assign owners and confirm what must be closed today.</div>
-        `
-      }
-    };
-
-    const input = document.getElementById("dailySignalInput");
-    const askButton = document.getElementById("askButton");
-    const responseTitle = document.getElementById("responseTitle");
-    const responseBody = document.getElementById("responseBody");
-    const responsePill = document.getElementById("responsePill");
-    const priorityActionsGrid = document.getElementById("priorityActionsGrid");
-    const leadershipBriefingBody = document.getElementById("leadershipBriefingBody");
-    const governedVisibilityGrid = document.getElementById("governedVisibilityGrid");
-    const followupContactForm = document.getElementById("followupContactForm");
-    const followupEmail = document.getElementById("followupEmail");
-    const followupContactStatus = document.getElementById("followupContactStatus");
-    const followupContactSaved = document.getElementById("followupContactSaved");
-    const chips = Array.from(document.querySelectorAll(".prompt-chip"));
-    const sourceNote = "Demo mode: this public demo uses synthetic PHI-free operating context.";
-    const opState = {
-      sessionId: getOperationalSessionId(),
-      question: "",
-      response: "",
-      bestNextMoves: [],
-      priorityActions: [],
-      watchItem: "",
-      actionPulses: {},
-      normalizedData: null,
-      operator_alignment: "",
-      execution_confidence: "",
-      top_priority_action: "",
-      recommendation_status: "",
-      assigned_owner: "",
-      execution_barrier: "",
-      outcome_observed: ""
-    };
-    const riskViScore = document.getElementById("riskViScore");
-    const riskWsiScore = document.getElementById("riskWsiScore");
-    const riskDrag = document.getElementById("riskDrag");
-    const riskTier = document.getElementById("riskTier");
-    const riskPattern = document.getElementById("riskPattern");
-
-    function escapeHtml(value){
-      return stripMarkdown(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function stripMarkdown(value){
-      return stripEmbeddedAskVolJson(String(value || ""))
-        .replace(/\*\*(.*?)\*\*/g, "$1")
-        .replace(/\*(.*?)\*/g, "$1")
-        .replace(/`([^`]+)`/g, "$1")
-        .replace(/^#+\s*/gm, "")
-        .trim();
-    }
-
-    function extractFirstJsonObject(text){
-      const value = String(text || "");
-      const start = value.indexOf("{");
-      if(start < 0) return "";
-      let depth = 0;
-      let inString = false;
-      let escaped = false;
-      for(let index = start; index < value.length; index += 1){
-        const char = value[index];
-        if(inString){
-          if(escaped){
-            escaped = false;
-          }else if(char === "\\"){
-            escaped = true;
-          }else if(char === "\""){
-            inString = false;
-          }
-          continue;
-        }
-        if(char === "\""){
-          inString = true;
-        }else if(char === "{"){
-          depth += 1;
-        }else if(char === "}"){
-          depth -= 1;
-          if(depth === 0) return value.slice(start, index + 1);
-        }
-      }
-      return "";
-    }
-
-    function stripEmbeddedAskVolJson(value){
-      const text = String(value || "");
-      if(!/["']?volRead["']?\s*:/.test(text)) return text;
-      const jsonBlock = extractFirstJsonObject(text);
-      return jsonBlock ? text.replace(jsonBlock, "").trim() : text;
-    }
-
-    function warnMissingSelector(name){
-      console.warn(`Ask VOL skipped missing selector: ${name}`);
-    }
-
-    function setAskButtonLoading(isLoading){
-      if(!askButton) return;
-      askButton.disabled = isLoading;
-      askButton.textContent = isLoading ? "Processing..." : "Get rEDi";
-    }
-
-    function createOperationalSessionId(){
-      return `ask-vol-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    }
-
-    function getOperatorContact(){
-      try{
-        const contact = JSON.parse(localStorage.getItem("vol_operator_contact") || "{}");
-        return contact && isValidEmail(contact.email) ? contact : null;
-      }catch(error){
-        return null;
-      }
-    }
-
-    function saveOperatorContactLocal(contact){
-      const normalized = {
-        email: String(contact.email || "").trim(),
-        name: String(contact.name || "").trim(),
-        community_name: String(contact.community_name || "").trim(),
-        saved_at: new Date().toISOString()
-      };
-      localStorage.setItem("vol_operator_contact", JSON.stringify(normalized));
-      return normalized;
-    }
-
-    function isValidEmail(value){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
-    }
-
-    function renderOperatorContact(){
-      if(!followupContactForm || !followupContactSaved || !followupContactStatus) return;
-      const contact = getOperatorContact();
-      if(contact){
-        followupContactForm.hidden = true;
-        followupContactSaved.hidden = false;
-        followupContactSaved.innerHTML = `Follow-up checks: <strong>${escapeHtml(contact.email)}</strong> <button class="followup-contact-edit" id="followupContactEdit" type="button">Edit</button>`;
-        followupContactStatus.textContent = "";
-        followupContactStatus.className = "followup-contact-status";
-      }else{
-        followupContactForm.hidden = false;
-        followupContactSaved.hidden = true;
-      }
-    }
-
-    function setFollowupContactStatus(message, type){
-      if(!followupContactStatus) return;
-      followupContactStatus.textContent = message;
-      followupContactStatus.className = `followup-contact-status ${type || ""}`.trim();
-    }
-
-    async function saveOperatorContact(contact){
-      const normalized = saveOperatorContactLocal(contact);
-      renderOperatorContact();
-      try{
-        await fetch("/api/save-operator-contact", {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body:JSON.stringify({
-            ...normalized,
-            assessment_session_id: opState.sessionId,
-            sessionId: opState.sessionId
-          })
-        });
-      }catch(error){
-        // Local persistence keeps action capture moving if the contact sync is unavailable.
-      }
-      return normalized;
-    }
-
-    function getOperationalSessionId(){
-      const key = "volOperationalReadSessionId";
-      const existing = localStorage.getItem(key);
-      if(existing) return existing;
-      const next = createOperationalSessionId();
-      localStorage.setItem(key, next);
-      return next;
-    }
-
-    function startOperationalSession(question){
-      opState.sessionId = createOperationalSessionId();
-      localStorage.setItem("volOperationalReadSessionId", opState.sessionId);
-      opState.question = question;
-      opState.response = "";
-      opState.bestNextMoves = [];
-      opState.priorityActions = [];
-      opState.watchItem = "";
-      opState.actionPulses = {};
-      opState.top_priority_action = "";
-      opState.derivedScores = {};
-      updateRiskSignalPanel();
-      renderGovernedVisibilityCards(opState.normalizedData, opState.derivedScores);
-      renderPriorityActions([]);
-    }
-
-    function setStaticResponse(prompt){
-      const response = responses[prompt] || responses.default;
-      if(!responseTitle || !responsePill || !responseBody){
-        warnMissingSelector("responseTitle / responsePill / responseBody");
-        return;
-      }
-      responseTitle.textContent = "rEDi Brief";
-      responsePill.textContent = "Demo fallback brief";
-      responseBody.innerHTML = response.html;
-      chips.forEach((chip) => chip.classList.toggle("active", chip.dataset.prompt === prompt));
-    }
-
-    function setLoading(question){
-      if(!responseTitle || !responsePill || !responseBody){
-        warnMissingSelector("responseTitle / responsePill / responseBody");
-        return;
-      }
-      responseTitle.textContent = "rEDi Brief";
-      responsePill.textContent = "Preparing rEDi Brief";
-      responseBody.innerHTML = `
-        <div class="api-briefing">
-          <div class="api-briefing-block">
-            <span>You asked</span>
-            <p>${escapeHtml(question)}</p>
-          </div>
-          <div class="api-briefing-block">
-            <span>rEDi response</span>
-            <p class="loading-line">VOL rEDi is reading the available context and preparing the brief...</p>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderApiResponse(question, answer, note, responseSource, fallbackReason){
-      if(!responseTitle || !responsePill || !responseBody){
-        warnMissingSelector("responseTitle / responsePill / responseBody");
-        return;
-      }
-      const structured = normalizeAskVolPayload(answer);
-      if(structured?.volRead){
-        renderStructuredAskVolResponse(question, {
-          ...structured,
-          metadata: {
-            ...(structured.metadata || {}),
-            fallbackUsed: responseSource !== "live"
-          },
-          source_note: note,
-          response_source: responseSource,
-          fallback_reason: fallbackReason
-        });
-        return;
-      }
-      const responseText = String(answer || sourceNote);
-      const isLive = responseSource === "live";
-      responsePill.textContent = isLive ? "rEDi Brief" : "Demo fallback brief";
-      responseTitle.textContent = "rEDi Brief";
-      const bestMoves = parseBestNextMoves(responseText);
-      const actionItems = bestMoves.length ? bestMoves : dailySignalsData.priorityActions.slice(0, 5).map(action => action.title);
-      const priorityActions = buildPriorityActionsFromMoves(actionItems);
-      const synthesisText = getSynthesisText(responseText);
-      responseBody.innerHTML = `
-        <div class="api-briefing">
-          <div class="api-briefing-block">
-            <span>You asked</span>
-            <p>${escapeHtml(question)}</p>
-          </div>
-          <div class="api-briefing-block">
-            <span>rEDi response</span>
-            <p>${escapeHtml(synthesisText)}</p>
-          </div>
-          ${isLive || !fallbackReason ? "" : `<div class="demo-source-note">Fallback reason: ${escapeHtml(fallbackReason.replaceAll("_", " "))}</div>`}
-        </div>
-      `;
-      opState.question = question;
-      opState.response = responseText;
-      opState.bestNextMoves = priorityActions.map(action => action.title);
-      opState.watchItem = parseWatchItem(responseText);
-      renderPriorityActions(priorityActions);
-      renderLeadershipBriefing(priorityActions);
-    }
-
-    function tryParseJson(value){
-      if(typeof value !== "string") return null;
-      let text = value.trim().replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim();
-      if(!text) return null;
-      try{
-        return JSON.parse(text);
-      }catch(error){
-        const extracted = extractFirstJsonObject(text);
-        if(extracted){
-          try{
-            return JSON.parse(extracted);
-          }catch(parseError){
-            console.warn("Ask VOL received malformed extracted JSON.", parseError);
-          }
-        }else if(text.includes("volRead")){
-          console.warn("Ask VOL received malformed stringified JSON.", error);
-        }
-        return null;
-      }
-    }
-
-    function normalizeAskVolPayload(payload){
-      let data = payload;
-      if(typeof data === "string"){
-        data = tryParseJson(data) || { answer:data };
-      }
-      if(!data || typeof data !== "object"){
-        return { answer:String(payload || "") };
-      }
-
-      const answerObject = tryParseJson(data.answer);
-      if(answerObject && typeof answerObject === "object"){
-        data = {
-          ...data,
-          ...answerObject,
-          metadata:{ ...(data.metadata || {}), ...(answerObject.metadata || {}) }
-        };
-      }
-
-      const contentObject = tryParseJson(data.output_text || data.response || data.content);
-      if(contentObject && typeof contentObject === "object"){
-        data = {
-          ...data,
-          ...contentObject,
-          metadata:{ ...(data.metadata || {}), ...(contentObject.metadata || {}) }
-        };
-      }
-
-      if(typeof data.volRead === "string"){
-        data.volRead = tryParseJson(data.volRead) || { summary:data.volRead };
-      }
-
-      if(data.volRead && typeof data.volRead === "object"){
-        const nested = tryParseJson(data.volRead.summary);
-        if(nested?.volRead){
-          data = {
-            ...data,
-            ...nested,
-            metadata:{ ...(data.metadata || {}), ...(nested.metadata || {}) }
-          };
-        }
-      }
-
-      data.leadershipActionBriefing = Array.isArray(data.leadershipActionBriefing) ? data.leadershipActionBriefing : [];
-      data.priorityActions = Array.isArray(data.priorityActions) ? data.priorityActions : [];
-      data.governedVisibilityCards = Array.isArray(data.governedVisibilityCards) ? data.governedVisibilityCards : [];
-
-      console.log("Ask VOL normalized payload", {
-        responseType: typeof payload,
-        keys:Object.keys(data),
-        hasVolRead:Boolean(data.volRead),
-        hasLeadershipActionBriefing:data.leadershipActionBriefing.length > 0,
-        hasPriorityActions:data.priorityActions.length > 0,
-        hasGovernedVisibilityCards:data.governedVisibilityCards.length > 0
-      });
-
-      return data;
-    }
-
-    function formatReadTitle(title){
-      return String(title || "rEDi Brief")
-        .replace(/\bVOL Read\b/gi, "rEDi Read")
-        .replace(/\bVOL Response\b/gi, "rEDi Brief")
-        .replace(/\bAsk VOL\b/gi, "VOL rEDi");
-    }
-
-    function renderStructuredAskVolResponse(question, data){
-      data = normalizeAskVolPayload(data);
-      console.log("Ask VOL response shape", {
-        responseType: typeof data,
-        keys: data && typeof data === "object" ? Object.keys(data) : [],
-        hasVolRead: Boolean(data?.volRead),
-        leadershipActionBriefing: data?.leadershipActionBriefing?.length || 0,
-        priorityActions: data?.priorityActions?.length || 0,
-        governedVisibilityCards: data?.governedVisibilityCards?.length || 0,
-        metadata: data?.metadata || {}
-      });
-      if(!data?.volRead){
-        console.warn("Ask VOL frontend falling back to legacy answer rendering.");
-        renderApiResponse(question, data?.answer, data?.source_note, data?.response_source, data?.fallback_reason);
-        return;
-      }
-      if(!responseTitle || !responsePill || !responseBody){
-        warnMissingSelector("responseTitle / responsePill / responseBody");
-        return;
-      }
-      const volRead = data.volRead || {};
-      responsePill.textContent = data.metadata?.fallbackUsed ? "Demo fallback brief" : "rEDi Brief";
-      responseTitle.textContent = formatReadTitle(volRead.title || "rEDi Brief");
-      const summary = typeof volRead.summary === "object"
-        ? (volRead.summary.summary || volRead.summary.text || sourceNote)
-        : volRead.summary;
-      const watchItem = typeof volRead.watchItem === "object"
-        ? (volRead.watchItem.summary || volRead.watchItem.text || "")
-        : volRead.watchItem;
-      const operationalConsequence = typeof volRead.operationalConsequence === "object"
-        ? (volRead.operationalConsequence.summary || volRead.operationalConsequence.text || "")
-        : volRead.operationalConsequence;
-      responseBody.innerHTML = `
-        <div class="api-briefing">
-          <div class="api-briefing-block">
-            <span>You asked</span>
-            <p>${escapeHtml(question)}</p>
-          </div>
-          <div class="api-briefing-block">
-            <span>rEDi read</span>
-            <p>${escapeHtml(summary || sourceNote)}</p>
-          </div>
-          ${watchItem ? `<div class="api-briefing-block"><span>Watch item</span><p>${escapeHtml(watchItem)}</p></div>` : ""}
-          ${operationalConsequence ? `<div class="api-briefing-block"><span>Operational consequence</span><p>${escapeHtml(operationalConsequence)}</p></div>` : ""}
-        </div>
-      `;
-      opState.question = question;
-      opState.response = summary || "";
-      opState.bestNextMoves = Array.isArray(data.priorityActions) ? data.priorityActions.map(action => action.title).filter(Boolean) : [];
-      opState.watchItem = watchItem || "";
-      const normalizedActions = normalizeClientPriorityActions(data.priorityActions || []);
-      const normalizedBriefing = normalizeClientLeadershipBriefing(data.leadershipActionBriefing || normalizedActions);
-      const normalizedCards = normalizeClientGovernedCards(data.governedVisibilityCards || []);
-      safeRenderSection("Top 5 Priority Actions", () => renderPriorityActions(normalizedActions), () => renderPriorityActions([]));
-      safeRenderSection("Leadership Action Briefing", () => renderLeadershipBriefing(normalizedBriefing), () => renderLeadershipBriefing(normalizedActions));
-      safeRenderSection("Governed Visibility", () => renderGovernedVisibilityCards(normalizedCards, opState.derivedScores), () => renderGovernedVisibilityCards(opState.normalizedData || {}, opState.derivedScores || {}));
-    }
-
-    function safeRenderSection(name, renderFn, fallbackFn){
-      try{
-        renderFn();
-      }catch(error){
-        console.warn(`${name} render failed; using safe fallback.`, error);
-        try{
-          fallbackFn();
-        }catch(fallbackError){
-          console.warn(`${name} fallback render failed.`, fallbackError);
-        }
-      }
-    }
-
-    function buildAskVolContext(){
-      return {
-        page: "ask_vol",
-        mode: "public_demo_with_live_llm_when_configured",
-        communityName: "Demo Community",
-        reportingWindow: "This week",
-        normalized_operating_data: {
-          source_status: "demo_fallback",
-          community_type: "AL / MC",
-          open_shifts_per_week: 5,
-          last_minute_calloffs_per_week: 4,
-          monthly_overtime_hours: 42,
-          agency_shift_pct: 8,
-          percent_shifts_prn: 8,
-          avg_time_to_fill_days: 45,
-          open_clinical_fte_vacancies: 3,
-          census_volatility: 3,
-          acuity_variability: 4,
-          leadership_bandwidth: 5,
-          workflow_disruption: 5,
-          care_coordination_strain: 5,
-          schedule_stress: 5,
-          coverage_fragility: 5,
-          overtime_pressure: 5,
-          pbj_risk_score: 2,
-          coverage_resolution: "overtime",
-          leadership_turnover_events: 1,
-          monthly_recruiting_spend: 5000
-        },
-        availableSignals: {
-          staffing: "5 open shifts, 4 call-offs, 42 overtime hours, 8% agency/PRN coverage",
-          residentFollowUps: "Room 414 meal preference request; Room 295 recurring housekeeping concern",
-          familyTouchpoint: "Ruth, daughter of Room 303, expects a follow-up call",
-          recognition: "Pedro, Executive Chef, has a birthday today",
-          serviceRecovery: "Dining, housekeeping, and family communication follow-ups are clustering"
-        },
-        priorityActions: dailySignalsData.priorityActions
-      };
-    }
-
-    function parseBestNextMoves(answer){
-      const text = String(answer || "");
-      const moves = [];
-      const numbered = text.matchAll(/(?:^|\n)\s*\d+[.)]\s+([^\n]+)/g);
-      for(const match of numbered){
-        const value = match[1].trim();
-        if(value) moves.push(value);
-      }
-      if(moves.length) return moves.slice(0, 5);
-
-      const single = text.match(/best next moves?:\s*([\s\S]*?)(?:\n\s*watch item:|$)/i);
-      if(single?.[1]){
-        return single[1]
-          .split(/\n|;|\.\s+/)
-          .map(item => item.replace(/^[-*]\s*/, "").trim())
-          .filter(Boolean)
-          .slice(0, 5);
-      }
-
-      return dailySignalsData.priorityActions.slice(0, 5).map(action => action.title);
-    }
-
-    function parseWatchItem(answer){
-      const match = String(answer || "").match(/watch item:\s*([\s\S]*)$/i);
-      return match?.[1]?.trim() || "";
-    }
-
-    function getSynthesisText(answer){
-      return stripEmbeddedAskVolJson(String(answer || ""))
-        .replace(/best next moves?:[\s\S]*?(?=\n\s*watch item:|$)/i, "")
-        .replace(/watch item:[\s\S]*$/i, "")
-        .replace(/(?:^|\n)\s*\d+[.)]\s+[^\n]+/g, "")
-        .replace(/\n{3,}/g, "\n\n")
-        .trim() || sourceNote;
-    }
-
-    function firstObserved(...values){
-      return values.find((value) => value === 0 || value);
-    }
-
-    function hasObserved(data, fields){
-      return fields.some((field) => data?.[field] === 0 || data?.[field]);
-    }
-
-    function formatValue(value, suffix = ""){
-      return value === 0 || value ? `${value}${suffix}` : null;
-    }
-
-    function listValue(value){
-      if(Array.isArray(value)) return value.filter(Boolean);
-      if(typeof value === "string" && value.trim()){
-        return value.split(/\n|;/).map(item => item.trim()).filter(Boolean);
-      }
-      return [];
-    }
-
-    function sourceStatusFor(data, fields, derivedOnly = false){
-      if(derivedOnly) return "derived";
-      if(!hasObserved(data, fields)) return "missing";
-      return data?.source_status === "demo_fallback" ? "demo_fallback" : "live";
-    }
-
-    function withFallback(card, fallback){
-      if(card.bullets.filter(Boolean).length){
-        return { ...card, bullets: card.bullets.filter(Boolean) };
-      }
-      return {
-        ...card,
-        bullets: fallback.bullets,
-        insight: fallback.insight,
-        source_status: "demo_fallback",
-        fields_used: []
-      };
-    }
-
-    function buildGovernedVisibilityCards(normalizedData = {}, derivedScores = {}){
-      normalizedData = normalizedData || {};
-      derivedScores = derivedScores || {};
-      const openShifts = firstObserved(normalizedData.open_shifts_per_week, normalizedData.open_shifts);
-      const calloffs = firstObserved(normalizedData.last_minute_calloffs_per_week, normalizedData.last_minute_calloffs);
-      const overtime = firstObserved(normalizedData.monthly_overtime_hours, normalizedData.overtime_hours, normalizedData.overtime_hours_this_week);
-      const agency = firstObserved(normalizedData.agency_shift_pct, normalizedData.agency_usage_pct);
-      const prn = firstObserved(normalizedData.percent_shifts_prn, normalizedData.prn_shift_pct);
-      const moveIns = firstObserved(normalizedData.move_ins, normalizedData.recent_move_ins);
-      const census = firstObserved(normalizedData.census, normalizedData.current_census);
-      const censusVolatility = firstObserved(normalizedData.census_volatility);
-      const acuity = firstObserved(normalizedData.acuity_variability);
-      const residentFollowUps = listValue(firstObserved(normalizedData.resident_followups, normalizedData.open_resident_followups, normalizedData.resident_requests));
-      const familyTouchpoints = listValue(firstObserved(normalizedData.family_touchpoints, normalizedData.pending_family_touchpoints, normalizedData.family_requests));
-      const recognition = listValue(firstObserved(normalizedData.recognition_moments, normalizedData.culture_touchpoints));
-      const serviceRecovery = listValue(firstObserved(normalizedData.service_recovery_items, normalizedData.service_recovery, normalizedData.unresolved_service_tasks));
-      const workflowDisruption = firstObserved(normalizedData.workflow_disruption);
-      const coordinationStrain = firstObserved(normalizedData.care_coordination_strain);
-      const wsiRisk = firstObserved(derivedScores.wsi_risk_level, normalizedData.wsi_risk_level);
-      const primaryConstraint = firstObserved(derivedScores.primary_constraint, normalizedData.primary_constraint);
-
-      return [
-        withFallback({
-          title: "Care and service notes",
-          bullets: [
-            residentFollowUps.length ? `${residentFollowUps.length} resident follow-up${residentFollowUps.length === 1 ? "" : "s"} visible in the current signal set` : null,
-            serviceRecovery.length ? `${serviceRecovery.length} service recovery item${serviceRecovery.length === 1 ? "" : "s"} need closure visibility` : null,
-            formatValue(coordinationStrain, " care coordination strain") || null
-          ],
-          insight: serviceRecovery.length || residentFollowUps.length ? "Patterns in service follow-through may indicate early operational drift." : "No live service-note volume is connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["resident_followups","open_resident_followups","resident_requests","service_recovery_items","service_recovery","care_coordination_strain"]),
-          fields_used: ["resident_followups","open_resident_followups","resident_requests","service_recovery_items","service_recovery","care_coordination_strain"]
-        }, {
-          bullets: ["Two wellness follow-ups logged this week", "Meal preference adjustment pending closure confirmation", "Increased service requests following recent move-ins"],
-          insight: "Demo fallback: patterns in service follow-through may indicate early operational drift."
-        }),
-        withFallback({
-          title: "Staffing and schedule context",
-          bullets: [
-            formatValue(overtime, " overtime hours logged in the current window"),
-            formatValue(openShifts, " open shifts visible in the current schedule"),
-            formatValue(calloffs, " last-minute call-off events"),
-            agency || prn ? `${formatValue(agency, "% agency usage") || "Agency usage not observed"} / ${formatValue(prn, "% PRN coverage") || "PRN mix not observed"}` : null
-          ],
-          insight: openShifts || calloffs || overtime ? "Coverage strain is becoming visible through schedule pressure and recovery burden." : "No live staffing schedule metrics are connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["monthly_overtime_hours","overtime_hours","open_shifts_per_week","open_shifts","last_minute_calloffs_per_week","agency_shift_pct","percent_shifts_prn"]),
-          fields_used: ["monthly_overtime_hours","open_shifts_per_week","last_minute_calloffs_per_week","agency_shift_pct","percent_shifts_prn"]
-        }, {
-          bullets: ["42 overtime hours logged in the demo window", "5 open shifts visible in the demo schedule", "4 last-minute call-off events"],
-          insight: "Demo fallback: coverage strain is increasing before agency usage becomes visible."
-        }),
-        withFallback({
-          title: "Resident and family requests",
-          bullets: [
-            familyTouchpoints.length ? `${familyTouchpoints.length} family touchpoint${familyTouchpoints.length === 1 ? "" : "s"} pending or recently active` : null,
-            residentFollowUps.length ? `${residentFollowUps.length} resident request${residentFollowUps.length === 1 ? "" : "s"} need closure confirmation` : null,
-            serviceRecovery.length ? `${serviceRecovery.length} service recovery signal${serviceRecovery.length === 1 ? "" : "s"} connected to resident experience` : null
-          ],
-          insight: familyTouchpoints.length || residentFollowUps.length ? "Unresolved follow-ups often surface before formal dissatisfaction." : "No live resident or family request feed is connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["family_touchpoints","pending_family_touchpoints","resident_followups","resident_requests","service_recovery_items"]),
-          fields_used: ["family_touchpoints","pending_family_touchpoints","resident_followups","resident_requests","service_recovery_items"]
-        }, {
-          bullets: ["One family callback pending in demo context", "Two resident requests may need closure confirmation", "Repeated dining preference changes logged"],
-          insight: "Demo fallback: unresolved follow-ups often surface before formal dissatisfaction."
-        }),
-        withFallback({
-          title: "Recognition moments",
-          bullets: recognition.slice(0, 3),
-          insight: recognition.length ? "Recognition visibility helps stabilize culture and retention." : "No live recognition or culture touchpoint feed is connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["recognition_moments","culture_touchpoints"]),
-          fields_used: ["recognition_moments","culture_touchpoints"]
-        }, {
-          bullets: ["Pedro, Executive Chef, birthday today", "One employee anniversary this week", "Positive family feedback tied to dining team"],
-          insight: "Demo fallback: recognition visibility helps stabilize culture and retention."
-        }),
-        withFallback({
-          title: "Dining, housekeeping, and maintenance notes",
-          bullets: serviceRecovery.slice(0, 3),
-          insight: serviceRecovery.length ? "Small service misses tend to compound before they escalate." : "No live dining, housekeeping, or maintenance notes are connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["service_recovery_items","service_recovery","unresolved_service_tasks"]),
-          fields_used: ["service_recovery_items","service_recovery","unresolved_service_tasks"]
-        }, {
-          bullets: ["One housekeeping concern reopened twice", "Dining requests clustering around evening service", "Minor maintenance follow-up aging beyond target"],
-          insight: "Demo fallback: small service misses tend to compound before they escalate."
-        }),
-        withFallback({
-          title: "Census and occupancy movement",
-          bullets: [
-            formatValue(census, " current census"),
-            formatValue(moveIns, " recent move-ins increasing onboarding load"),
-            formatValue(censusVolatility, " census volatility level"),
-            formatValue(acuity, " acuity variability level")
-          ],
-          insight: moveIns || censusVolatility || acuity ? "Resident movement often reshapes staffing pressure invisibly." : "No live census or resident-transition feed is connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["census","current_census","move_ins","recent_move_ins","census_volatility","acuity_variability"]),
-          fields_used: ["census","move_ins","census_volatility","acuity_variability"]
-        }, {
-          bullets: ["Two recent move-ins increasing onboarding load", "Acuity mix trending upward this month", "Resident transition activity elevated this week"],
-          insight: "Demo fallback: resident movement often reshapes staffing pressure invisibly."
-        }),
-        withFallback({
-          title: "Labor cost and coverage pressure",
-          bullets: [
-            formatValue(overtime, " overtime hours contributing to recovery burden"),
-            formatValue(agency, "% agency usage"),
-            formatValue(openShifts, " open shifts creating coverage pressure"),
-            wsiRisk ? `WSI risk level: ${wsiRisk}` : null,
-            primaryConstraint ? `Primary constraint: ${primaryConstraint}` : null
-          ],
-          insight: overtime || agency || wsiRisk ? "Cost pressure is forming through coverage recovery, overtime, and dependency risk." : "No live labor-cost or coverage pressure metrics are connected yet.",
-          source_status: wsiRisk ? "derived" : sourceStatusFor(normalizedData, ["monthly_overtime_hours","agency_shift_pct","open_shifts_per_week"]),
-          fields_used: ["monthly_overtime_hours","agency_shift_pct","open_shifts_per_week","wsi_risk_level","primary_constraint"]
-        }, {
-          bullets: ["42 overtime hours in the demo window", "8% agency usage remains below critical dependency", "5 open shifts concentrated in the operating window"],
-          insight: "Demo fallback: cost pressure is forming before it becomes a staffing crisis."
-        }),
-        withFallback({
-          title: "Quality and operational risk signals",
-          bullets: [
-            familyTouchpoints.length ? `${familyTouchpoints.length} family communication follow-up${familyTouchpoints.length === 1 ? "" : "s"} active` : null,
-            formatValue(workflowDisruption, " workflow disruption level"),
-            formatValue(coordinationStrain, " care coordination strain level"),
-            serviceRecovery.length ? `${serviceRecovery.length} service recovery task${serviceRecovery.length === 1 ? "" : "s"} open or aging` : null
-          ],
-          insight: workflowDisruption || coordinationStrain || serviceRecovery.length ? "Small execution gaps may indicate emerging coordination strain." : "No live quality or operational risk signal feed is connected yet.",
-          source_status: sourceStatusFor(normalizedData, ["family_touchpoints","workflow_disruption","care_coordination_strain","service_recovery_items"]),
-          fields_used: ["family_touchpoints","workflow_disruption","care_coordination_strain","service_recovery_items"]
-        }, {
-          bullets: ["Family communication follow-ups clustering", "Cross-department rework increasing", "Service recovery tasks remaining open longer"],
-          insight: "Demo fallback: small execution gaps may indicate emerging coordination strain."
-        })
-      ];
-    }
-
-    function renderGovernedVisibilityCards(normalizedData, derivedScores){
-      if(!governedVisibilityGrid) return;
-      const cards = Array.isArray(normalizedData)
-        ? normalizedData
-        : buildGovernedVisibilityCards(normalizedData || {}, derivedScores || {});
-      if(cards.length !== 8){
-        console.warn("Ask VOL governedVisibilityCards length !== 8 during render.", cards.length);
-      }
-      governedVisibilityGrid.innerHTML = cards.map(card => `
-        <div class="source-item" title="Fields used: ${escapeHtml(card.fields_used.join(", ") || "demo fallback")}">
-          <div class="source-status">${escapeHtml(card.source_status.replaceAll("_", " "))}</div>
-          <h3>${escapeHtml(card.title)}</h3>
-          <ul>
-            ${card.bullets.slice(0, 3).map(bullet => `<li>${escapeHtml(bullet)}</li>`).join("")}
-          </ul>
-          <div class="source-note">${escapeHtml(card.insight)}</div>
-        </div>
-      `).join("");
-    }
-
-    function updateOperationalSelections(){
-      document.querySelectorAll("[data-pulse-group]").forEach((group) => {
-        const index = group.dataset.pulseGroup;
-        group.querySelectorAll(".actionability-btn").forEach((button) => {
-          button.classList.toggle("active", opState.actionPulses[index] === button.dataset.value);
-        });
-      });
-    }
-
-    function getDerivedScoreContext(){
-      return opState.derivedScores || {};
-    }
-
-    function formatScore(value){
-      return value === 0 || value ? String(value) : "Pending";
-    }
-
-    function updateRiskSignalPanel(){
-      const scores = getDerivedScoreContext();
-      if(riskViScore) riskViScore.textContent = formatScore(scores.vi_score_current);
-      if(riskWsiScore) riskWsiScore.textContent = formatScore(scores.wsi_score_current ?? scores.wsi_score);
-      if(riskDrag) riskDrag.textContent = formatScore(scores.vi_volatility_drag);
-      if(riskTier) riskTier.textContent = scores.stability_tier || "Pending";
-      if(riskPattern){
-        const domain = scores.vi_dominant_domain || "Dominant instability pattern";
-        const interpretation = scores.vi_interpretation || scores.wsi_interpretation || "Derived interpretation will update as normalized signals are available.";
-        riskPattern.textContent = `${domain}: ${interpretation}`;
-      }
-    }
-
-    function buildOperationalPulseSummary(){
-      return (opState.priorityActions || [])
-        .slice(0, 5)
-        .map((action, index) => ({ action, pulse: opState.actionPulses[index] || "" }))
-        .filter(item => item.pulse)
-        .map(({ action, pulse }) => `${action.title}: ${pulse}`)
-        .join("\n");
-    }
-
-    function getDemoActionMatch(title){
-      const value = String(title || "").toLowerCase();
-      return dailySignalsData.priorityActions.find((action) => {
-        const actionTitle = String(action.title || "").toLowerCase();
-        return actionTitle && (value.includes(actionTitle.slice(0, 18)) || actionTitle.includes(value.slice(0, 18)));
-      });
-    }
-
-    function inferSignalType(title, index){
-      const text = String(title || "").toLowerCase();
-      if(text.includes("staff") || text.includes("coverage") || text.includes("call-off") || text.includes("overtime")) return "Coverage Pressure";
-      if(text.includes("family") || text.includes("communication") || text.includes("callback")) return "Family Communication";
-      if(text.includes("dining") || text.includes("housekeeping") || text.includes("maintenance") || text.includes("service")) return "Service Recovery";
-      if(text.includes("recognize") || text.includes("recognition") || text.includes("birthday")) return "Culture Stabilization";
-      return dailySignalsData.priorityActions[index]?.signal || "Operating Signal";
-    }
-
-    function buildClientFallbackActions(){
-      const data = opState.normalizedData || {};
-      const openShifts = data.open_shifts_per_week ?? data.open_shifts ?? 5;
-      const calloffs = data.last_minute_calloffs_per_week ?? data.last_minute_calloffs ?? 4;
-      const overtime = data.monthly_overtime_hours ?? data.overtime_hours ?? 42;
-      const agency = data.agency_shift_pct ?? data.agency_usage_pct ?? 8;
-      return [{
-        id:"coverage-gap-lock",
-        number:1,
-        title:"Lock tomorrow's coverage gaps",
-        explanation:`Review the ${openShifts} open shifts and ${calloffs} call-offs before end of day and assign one owner to close the highest-risk gaps.`,
-        signal:"Coverage Pressure",
-        impact:"Reduces resident-care disruption risk in the next operating day.",
-        owner:"Scheduler / ED",
-        status:"Open",
-        urgency:"Immediate"
-      }, {
-        id:"resident-risk-coverage",
-        number:2,
-        title:"Match assignments to resident risk first",
-        explanation:"Place the strongest available staff around higher-acuity residents and essential routines before moving lower-risk service tasks.",
-        signal:"Resident Flow",
-        impact:"Protects care continuity when staffing coverage is unstable.",
-        owner:"DON / Clinical Leadership",
-        status:"Open",
-        urgency:"Immediate"
-      }, {
-        id:"prn-agency-sequence",
-        number:3,
-        title:"Run the PRN and agency call sequence now",
-        explanation:"Contact reliable PRN and part-time staff first, then use agency only for remaining uncovered blocks where resident-care continuity is at risk.",
-        signal:"Coverage Dependency",
-        impact:`Limits avoidable agency dependence while preserving critical coverage (${agency}% agency context).`,
-        owner:"Scheduler / Regional Ops",
-        status:"Open",
-        urgency:"Review Today"
-      }, {
-        id:"overtime-fatigue-protection",
-        number:4,
-        title:"Protect the core team from repeat overtime",
-        explanation:`Check who is carrying the ${overtime} overtime-hour burden and avoid solving tomorrow by overloading the same people again.`,
-        signal:"Recovery Burden",
-        impact:"Reduces the chance that today's coverage fix creates the next 48-72 hour call-off cycle.",
-        owner:"ED / Scheduler",
-        status:"Open",
-        urgency:"Review Today"
-      }, {
-        id:"service-followup-closure",
-        number:5,
-        title:"Close resident and family follow-ups before they cluster",
-        explanation:"Assign one leader to confirm open family, dining, housekeeping, and service recovery follow-ups before coverage strain turns them into escalations.",
-        signal:"Service Recovery",
-        impact:"Prevents small service misses from compounding while leadership attention is absorbed by staffing.",
-        owner:"ED / Department Heads",
-        status:"Open",
-        urgency:"Today"
-      }];
-    }
-
-    function isWeakClientPriorityAction(action){
-      const generic = /^(priority action\s*\d*|operational priority|monitor issue)$/i;
-      const combined = `${action?.title || ""} ${action?.explanation || action?.description || ""} ${action?.impact || ""}`;
-      return !action?.title ||
-        action.title.length < 12 ||
-        generic.test(action.title.trim()) ||
-        /confirm owner,?\s*timing|operational follow-through|operational drift|monitor staffing pressure|consider reviewing/i.test(combined) ||
-        !(action?.explanation || action?.description) ||
-        String(action.explanation || action.description || "").length < 45 ||
-        !action?.signal ||
-        action.signal === "Operational Priority" ||
-        !action?.owner ||
-        action.owner === "Leadership Team";
-    }
-
-    function buildPriorityActionsFromMoves(moves){
-      const fallbackActions = buildClientFallbackActions();
-      const safeMoves = Array.isArray(moves) && moves.length
-        ? moves.slice(0, 5)
-        : fallbackActions;
-      const actions = safeMoves.map((move, index) => {
-        const title = typeof move === "string" ? move : move.title;
-        const fallback = fallbackActions[index] || fallbackActions[0];
-        const demoMatch = typeof move === "object" ? move : getDemoActionMatch(title);
-        const signal = move?.signal || demoMatch?.signal || inferSignalType(title, index);
-        const action = {
-          id: move?.id || `action-${index + 1}`,
-          number: move?.number || index + 1,
-          title: stripMarkdown(title || fallback.title),
-          explanation: stripMarkdown(move?.description || move?.explanation || demoMatch?.explanation || fallback.explanation),
-          signal,
-          impact: stripMarkdown(move?.impact || demoMatch?.impact || fallback.impact),
-          owner: stripMarkdown(move?.owner || demoMatch?.owner || fallback.owner || (signal.includes("Coverage") ? "Scheduler / ED" : "Executive Director")),
-          status: stripMarkdown(move?.status || demoMatch?.status || fallback.status || "Open"),
-          urgency: stripMarkdown(move?.urgency || demoMatch?.urgency || fallback.urgency || "Review Today")
-        };
-        return isWeakClientPriorityAction(action) ? { ...fallback, number:index + 1, source_status:"demo_fallback" } : action;
-      });
-      opState.priorityActions = actions;
-      opState.bestNextMoves = actions.map(action => action.title);
-      return actions;
-    }
-
-    function normalizeClientPriorityActions(actions){
-      const normalized = buildPriorityActionsFromMoves(Array.isArray(actions) ? actions : []);
-      if(normalized.length < 5){
-        console.warn("Ask VOL priorityActions length < 5; filling with fallback cards.", normalized.length);
-      }
-      while(normalized.length < 5){
-        const fallback = buildClientFallbackActions()[normalized.length];
-        normalized.push({ ...fallback, source_status:"demo_fallback" });
-      }
-      return normalized.slice(0, 5);
-    }
-
-    function normalizeClientLeadershipBriefing(items){
-      const source = Array.isArray(items) && items.length ? items : normalizeClientPriorityActions([]);
-      const normalized = source.slice(0, 5).map((item, index) => ({
-        title: stripMarkdown(item.title || item.description || `Leadership action ${index + 1}`),
-        description: stripMarkdown(item.description || item.explanation || ""),
-        owner: stripMarkdown(item.owner || "Leadership Team"),
-        urgency: stripMarkdown(item.urgency || "Review Today")
-      }));
-      while(normalized.length < 3){
-        const fallback = normalizeClientPriorityActions([])[normalized.length];
-        normalized.push({
-          title: fallback.title,
-          description: fallback.explanation,
-          owner: fallback.owner,
-          urgency: fallback.urgency
-        });
-      }
-      return normalized.slice(0, 5);
-    }
-
-    function normalizeClientGovernedCards(cards){
-      const requiredTitles = [
-        "Care and service notes",
-        "Staffing and schedule context",
-        "Resident and family requests",
-        "Recognition moments",
-        "Dining, housekeeping, and maintenance notes",
-        "Census and occupancy movement",
-        "Labor cost and coverage pressure",
-        "Quality and operational risk signals"
-      ];
-      if(!Array.isArray(cards) || cards.length !== 8){
-        console.warn("Ask VOL governedVisibilityCards length !== 8; filling with fallback cards.", cards?.length || 0);
-      }
-      const fallback = buildGovernedVisibilityCards(opState.normalizedData || {}, opState.derivedScores || {});
-      return requiredTitles.map((title, index) => {
-        const incoming = Array.isArray(cards) ? cards.find(card => stripMarkdown(card.title).toLowerCase() === title.toLowerCase()) : null;
-        const safe = incoming || fallback[index] || {};
-        return {
-          title,
-          bullets: Array.isArray(safe.bullets) && safe.bullets.length ? safe.bullets.map(stripMarkdown).slice(0, 3) : fallback[index].bullets,
-          insight: stripMarkdown(safe.insight || fallback[index].insight),
-          source_status: ["live","derived","demo_fallback","missing"].includes(safe.source_status) ? safe.source_status : "demo_fallback",
-          fields_used: Array.isArray(safe.fields_used) ? safe.fields_used : []
-        };
-      });
-    }
-
-    function renderLeadershipBriefing(actions){
-      if(!leadershipBriefingBody) return;
-      const safeActions = Array.isArray(actions) && actions.length
-        ? actions.slice(0, 5)
-        : buildPriorityActionsFromMoves([]);
-      leadershipBriefingBody.innerHTML = `
-        <ol>
-          ${safeActions.slice(0, 5).map(action => `<li><strong>${escapeHtml(action.title || action.description || "")}</strong>${action.description && action.title ? `<br>${escapeHtml(action.description)}` : ""}</li>`).join("")}
-        </ol>
-      `;
-    }
-
-    function buildOperationalReadPayload(action, actionability){
-      const derivedScores = getDerivedScoreContext();
-      const pulseSummary = buildOperationalPulseSummary();
-      const contact = getOperatorContact() || {};
-      return {
-        sessionId: opState.sessionId,
-        assessment_session_id: opState.sessionId,
-        timestamp: new Date().toISOString(),
-        community_name: contact.community_name || "Demo Community",
-        operator_email: contact.email,
-        email: contact.email,
-        operator_name: contact.name,
-        submitted_by: contact.name,
-        user_question: opState.question,
-        vol_response: opState.response,
-        best_next_moves: opState.bestNextMoves,
-        watch_item: opState.watchItem,
-        action_id: action?.id,
-        action_number: action?.number,
-        action_title: action?.title,
-        action_text: action?.title,
-        signal_type: action?.signal,
-        impact_risk: action?.impact,
-        suggested_owner: action?.owner,
-        actionability_response: actionability,
-        operator_alignment: "",
-        execution_confidence: actionability === "Difficult Today" ? "Low Confidence" : "",
-        top_priority_action: action?.title || "",
-        recommendation_status: actionability === "Will Act" ? "Accepted" : actionability === "Already Handling" ? "In Progress" : actionability === "Not Priority" ? "Acknowledged" : "Deferred",
-        assigned_owner: "",
-        execution_barrier: "",
-        follow_up_date: "",
-        notes: pulseSummary ? `Actionability read:\n${pulseSummary}` : "",
-        operational_pulse: pulseSummary,
-        outcome_observed: "",
-        scoring_source: derivedScores.scoring_source,
-        scoring_version: derivedScores.scoring_version,
-        score_confidence: derivedScores.score_confidence,
-        missing_inputs: derivedScores.missing_inputs,
-        vi_score_current: derivedScores.vi_score_current,
-        vi_score_stabilized: derivedScores.vi_score_stabilized,
-        vi_volatility_drag: derivedScores.vi_volatility_drag,
-        vi_dominant_domain: derivedScores.vi_dominant_domain,
-        wsi_score: derivedScores.wsi_score,
-        wsi_score_current: derivedScores.wsi_score_current,
-        wsi_score_stabilized: derivedScores.wsi_score_stabilized,
-        wsi_risk_level: derivedScores.wsi_risk_level,
-        combined_stability_score: derivedScores.combined_stability_score,
-        stability_tier: derivedScores.stability_tier
-      };
-    }
-
-    function setCardSaveState(index, message, type){
-      const element = document.querySelector(`[data-save-state="${index}"]`);
-      if(!element) return;
-      element.textContent = message;
-      element.className = `priority-save-state ${type || ""}`.trim();
-    }
-
-    async function saveActionPulse(index, actionability){
-      const action = opState.priorityActions?.[index];
-      if(!action) return;
-      if(!getOperatorContact()){
-        setCardSaveState(index, "Add email first", "error");
-        if(followupContactForm) followupContactForm.hidden = false;
-        if(followupContactSaved) followupContactSaved.hidden = true;
-        if(followupEmail) followupEmail.focus();
-        return;
-      }
-      setCardSaveState(index, "Saving...", "");
-      try{
-        const response = await fetch("/api/save-operational-read", {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body:JSON.stringify(buildOperationalReadPayload(action, actionability))
-        });
-        const data = await response.json().catch(() => ({}));
-        if(!response.ok || data.success === false){
-          throw new Error(data.error || "Unable to save actionability read");
-        }
-        localStorage.setItem(`volActionPulse:${opState.sessionId}:${index}`, JSON.stringify(buildOperationalReadPayload(action, actionability)));
-        setCardSaveState(index, "Saved", "success");
-      }catch(error){
-        setCardSaveState(index, "Save failed", "error");
-      }
-    }
-
-    function renderPriorityActions(actions){
-      const topActions = buildPriorityActionsFromMoves(actions);
-      if(!priorityActionsGrid) return;
-      if(!topActions.length){
-        priorityActionsGrid.className = "priority-empty";
-        priorityActionsGrid.textContent = "No priority actions detected from the current signal set.";
-        return;
-      }
-      priorityActionsGrid.className = "priority-grid";
-      priorityActionsGrid.innerHTML = topActions.map((action, index) => `
-        <article class="priority-card">
-          <div class="priority-rank">${String(index + 1).padStart(2, "0")}</div>
-          <h3 class="priority-title">${escapeHtml(action.title)}</h3>
-          <p class="priority-copy">${escapeHtml(action.explanation)}</p>
-          <div class="priority-meta">
-            <div class="priority-meta-row">
-              <span>Signal</span>
-              <strong>${escapeHtml(action.signal)}</strong>
-            </div>
-            <div class="priority-meta-row">
-              <span>Owner</span>
-              <strong>${escapeHtml(action.owner)}</strong>
-            </div>
-          </div>
-          <div class="priority-impact"><strong>Impact:</strong> ${escapeHtml(action.impact || "Review today")}</div>
-          <div class="priority-actionability" data-pulse-group="${index}">
-            <button class="actionability-btn" type="button" data-value="Will Act">Will Act</button>
-            <button class="actionability-btn" type="button" data-value="Difficult Today">Difficult Today</button>
-            <button class="actionability-btn" type="button" data-value="Already Handling">Already Handling</button>
-            <button class="actionability-btn" type="button" data-value="Not Priority">Not Priority</button>
-          </div>
-          <div class="priority-save-state" data-save-state="${index}">${opState.actionPulses[index] ? "Selected" : "Not saved"}</div>
-          <div class="priority-card-footer">
-            <span class="priority-status">${escapeHtml(action.status || "Open")}</span>
-            <span class="priority-urgency">${escapeHtml(action.urgency || "Review Today")}</span>
-          </div>
-        </article>
-      `).join("");
-      updateOperationalSelections();
-    }
-
-    function clientFallbackAnswer(question){
-      const normalized = String(question || "").toLowerCase();
-      const has = (words) => words.some((word) => normalized.includes(word));
-      const hasStaffingCrisis = () => has(["quit", "quits", "resigned", "resignation", "walked out", "short staffed", "short-staffed", "cna", "cnas", "caregiver", "caregivers", "shifts tomorrow", "tomorrow are filled", "residents do not suffer", "residents don't suffer"]) && has(["shift", "shifts", "coverage", "staff", "staffing", "filled", "tomorrow", "schedule"]);
-      const staffingCrisis = () => {
-        const match = String(question || "").match(/\b(\d+)\s+(?:cna|cnas|caregivers|staff|employees|aides)\b/i);
-        const lossCount = match?.[1] || "multiple";
-        return `${sourceNote}
-VOL Read:
-Treat this as an immediate coverage stabilization event, not a hiring problem yet. ${lossCount} CNA departures create tomorrow-shift risk, overtime risk, and resident-care continuity risk; the first priority is to protect essential resident coverage while leadership rebuilds the schedule.
-
-Leadership Action Briefing:
-1. Freeze nonessential work for 30 minutes and have the ED/DON/Scheduler reconcile tomorrow's shift grid by unit, shift, and minimum safe coverage need.
-2. Identify the exact uncovered blocks, then call internal PRN, reliable part-time staff, and recently off-duty staff before agency. Offer split shifts only where resident continuity will not suffer.
-3. Assign the strongest available aides to highest-acuity/resident-risk areas; move lower-risk tasks behind direct care, meals, toileting, and safety checks.
-4. Escalate to regional support now if any shift remains uncovered after the first call round. Do not wait until morning.
-5. Communicate a short plan to nurses and department heads: who is covering, what is deferred, and what resident risks need extra eyes.
-
-Watch Item:
-The next instability is burnout transfer: filling tomorrow with the same core staff may protect one shift but create call-offs 48-72 hours later.
-
-Operational Consequence:
-If leadership waits to solve this in the morning, uncovered blocks can turn into missed care routines, rushed handoffs, family complaints, and avoidable agency dependence.`;
-      };
-      const hasFacilitiesSignal = () => has(["maintenance", "hvac", "cooling", "heating", "air conditioning", " ac ", "a/c", "water", "power", "outage", "elevator", "building", "plumbing", "cooling tower", "chiller", "boiler", "temperature"]) || /\bac\b/.test(normalized);
-      const facilitiesDisruption = () => `${sourceNote} This sounds like a facilities disruption. Direct read: the current demo does not include live facilities data, but a building systems issue should be managed around resident comfort, maintenance escalation, communication, and staffing support. Best next moves: confirm estimated downtime and affected zones with maintenance, identify residents or areas most affected, create a temporary mitigation plan, communicate a short update to department leads and families as appropriate, and review whether extra rounds or staffing support are needed. Watch item: facilities issues often create secondary strain through resident comfort concerns, family calls, and service recovery.`;
-      const unavailable = (signalLabel, liveExamples) => `${sourceNote} No ${signalLabel} are currently active in this demo dataset. In a live environment, VOL could surface ${liveExamples} if those operational signals were connected.`;
-      const unsupported = () => {
-        if(has(["accident", "accidents", "incident", "incidents", "fall", "falls", "injury", "injuries"])){
-          return buildUnsupportedAnswer("incident or accident-log", "incident or risk-management system");
-        }
-        if(has(["flu", "covid", "sick", "illness", "infection", "fever", "outbreak", "virus", "symptom", "symptoms"])){
-          return buildUnsupportedAnswer("illness census or protected resident clinical", "illness census, infection-control, or wellness tracking system");
-        }
-        if(has(["hospital", "hospitalization", "hospitalized", "emergency room", "emergency department", "ambulance", "transfer", "transported"]) || /\ber\b/.test(normalized)){
-          return buildUnsupportedAnswer("hospital transfer or ambulance", "transport, transfer, or clinical coordination system");
-        }
-        if(has(["medication", "medications", "medicine", "meds", "prescription", "dose", "dosage", "pharmacy"])){
-          return buildUnsupportedAnswer("medication or pharmacy", "medication administration or pharmacy system");
-        }
-        if(has(["diagnosis", "diagnoses", "diagnosed", "treatment", "care plan", "clinical", "medical record", "chart", "phi", "hipaa"])){
-          return buildUnsupportedAnswer("diagnosis, treatment, or protected clinical record", "clinical record or care documentation system");
-        }
-        if(has(["surveillance", "monitoring", "wellness census", "clinical census"])){
-          return buildUnsupportedAnswer("protected resident surveillance, clinical census, or wellness-monitoring", "wellness monitoring or clinical census system");
-        }
-        if(has(["travel", "trip", "vacation", "away", "leave town", "transportation", "transport", "ride", "pickup", "drop-off", "bus", "driver"])){
-          return buildUnsupportedAnswer("resident travel or transportation", "transportation, scheduling, or family coordination system");
-        }
-        return "";
-      };
-      const buildUnsupportedAnswer = (signalLabel, sourceSystem) => `${sourceNote} The current demo dataset does not include ${signalLabel} visibility, so I cannot answer that directly. Based on available demo signals, VOL can currently see staffing pressure, open shifts, call-offs, overtime, family touchpoints, resident follow-ups, recognition moments, and service recovery signals. Best next move: review the ${sourceSystem}, then use VOL to connect any operational staffing or follow-up impact.`;
-      const unknownTopic = () => {
-        const stopWords = new Set(["a","an","any","are","about","at","be","been","by","can","could","do","does","for","from","have","how","i","in","is","it","me","need","needs","of","on","or","our","should","that","the","there","this","to","we","what","when","where","who","with","would","you"]);
-        const topic = String(question || "").toLowerCase().replace(/[^a-z0-9\s-]/g, " ").split(/\s+/).filter((word) => word && !stopWords.has(word)).slice(0, 4).join(" ") || "that topic";
-        return `${sourceNote} The current demo dataset does not contain active signals related to ${topic}. In a live deployment, VOL could synthesize operational context related to this type of question and surface leadership-relevant follow-up, staffing impact, coordination risk, or workflow implications.`;
-      };
-      const unsupportedResponse = unsupported();
-      if(hasFacilitiesSignal()){
-        return facilitiesDisruption();
-      }
-      if(hasStaffingCrisis()){
-        return staffingCrisis();
-      }
-      if(unsupportedResponse){
-        return unsupportedResponse;
-      }
-
-      if(has(["overtime", " ot ", "ot hours", "labor cost", "labor hours", "premium hours"])){
-        return `${sourceNote} 42 overtime hours have been logged so far this week, up from 36 last week. The practical signal is that overtime is rising while 5 open shifts and 4 call-offs are still active, which suggests coverage pressure is being absorbed by the core team. Best next move: review the next 72 hours of coverage before standup.`;
-      }
-      if(has(["call-off", "calloff", "call off", "open shift", "open shifts", "coverage", "agency", "prn", "staffing", "staff", "shift", "shifts"])){
-        return `${sourceNote}
-VOL Read:
-The demo context shows active coverage pressure: 5 open shifts, 4 call-offs, 8% agency/PRN coverage, and 42 overtime hours. The practical issue is whether tomorrow's coverage is being stabilized through reliable assignments or absorbed by the same fatigued core team.
-
-Leadership Action Briefing:
-1. Review the next 72 hours by shift and unit, starting with tomorrow's highest-risk coverage gaps.
-2. Separate must-fill direct care gaps from work that can be delayed without resident impact.
-3. Call internal PRN and part-time staff before adding agency; use agency only where continuity risk is lower than vacancy risk.
-4. Watch overtime concentration by person, not only total hours, to avoid creating the next call-off.
-5. Confirm the charge nurse knows which resident routines need extra protection during the coverage adjustment.
-
-Watch Item:
-Coverage pressure may shift into resident experience if dining, toileting, rounds, or family communication are left to the thinnest parts of the schedule.
-
-Operational Consequence:
-If the team solves only tomorrow's open shifts without managing fatigue, the building may buy one day of coverage at the cost of higher instability later in the week.`;
-      }
-      if(has(["family", "daughter", "son", "spouse", "call back", "callback", "touchpoint", "touch point"])){
-        return `${sourceNote} One family touchpoint needs attention today: Ruth, daughter of Room 303, is expecting a follow-up call. Best next move: assign one owner before standup and confirm the call is completed today.`;
-      }
-      if(has(["travel", "trip", "vacation", "away", "leave town"])){
-        return unavailable("travel-related resident signals", "upcoming resident travel plans, transportation coordination needs, temporary service adjustments, or family travel notifications");
-      }
-      if(has(["transportation", "transport", "ride", "pickup", "drop-off", "bus", "driver"])){
-        return unavailable("transportation signals", "ride coordination, appointment transportation, resident outing logistics, family pickup notes, or staffing impact from transportation needs");
-      }
-      if(has(["activity", "activities", "program", "outing"])){
-        return unavailable("activity-program signals", "attendance trends, transportation coordination, resident participation shifts, event-related staffing pressure, or follow-up needs after activities");
-      }
-      if(has(["event", "events"])){
-        return unavailable("event-related signals", "community event readiness, staffing coverage, resident participation trends, service follow-up needs, or family communication timing");
-      }
-      if(has(["appointment", "appointments"])){
-        return unavailable("appointment-related signals", "upcoming appointment coordination, transportation needs, family notifications, service adjustments, or staffing impact around scheduled appointments");
-      }
-      if(has(["weather", "storm", "snow", "ice", "heat", "rain"])){
-        return unavailable("weather-related operating signals", "weather-driven staffing risk, transportation disruption, family communication needs, maintenance checks, or resident activity adjustments");
-      }
-      if(has(["visitor", "visitors", "visit", "visits", "front desk", "traffic"])){
-        return unavailable("visitor-related signals", "expected visitor volume, family arrival notes, front-desk traffic patterns, communication follow-ups, or service coordination needs");
-      }
-      if(has(["resident", "room", "request", "missed", "follow-up", "follow up", "closure"])){
-        return `${sourceNote} Two resident follow-ups may need closure confirmation. Room 414 requested a meal preference change, and Room 295 raised a recurring housekeeping concern. Best next move: confirm both were not only logged, but actually experienced as resolved.`;
-      }
-      if(has(["recognize", "recognition", "birthday", "anniversary", "milestone", "celebrate"])){
-        return `${sourceNote} Pedro, the Executive Chef, has a birthday today. A short note from leadership would be a simple high-value recognition moment.`;
-      }
-      if(has(["maintenance", "housekeeping", "repair", "work order", "issue", "issues", "service recovery"])){
-        return `${sourceNote} One recurring housekeeping concern and one aging maintenance follow-up are currently active in the demo context. The larger signal is that small service issues may be clustering before they become formal dissatisfaction events. Best next move: confirm whether the open items were experienced as resolved, not only logged.`;
-      }
-      if(has(["meal", "food", "dining", "preference", "kitchen"])){
-        return `${sourceNote} Dining signals are active in the demo context. Room 414 has a meal preference change that may need closure confirmation, and dining follow-ups are clustering with housekeeping and family communication items. Best next move: verify the preference change was actually experienced by the resident.`;
-      }
-      if(has(["risk", "worry", "worried", "concern", "watch", "problem", "priority", "leadership", "standup", "stand-up", "focus", "operations", "operational"])){
-        return `${sourceNote} The main pattern is follow-up fragmentation plus rising coverage strain. Resident requests, family communication, dining, and housekeeping follow-ups are clustering while overtime has increased from 36 to 42 hours this week. Best next move: assign owners for open follow-ups and review weekend coverage risk before standup.`;
-      }
-      if(has(["schedule", "scheduling", "calendar"])){
-        return `${sourceNote} The current demo context contains staffing schedule pressure, not resident or event scheduling detail. This week shows 5 open shifts and 4 call-offs, which suggests the next 72 hours of coverage should be reviewed before standup. In a live deployment, VOL could also synthesize resident appointments, activities, transportation, and leadership calendar follow-ups.`;
-      }
-      if(has(["weekend", "saturday", "sunday", "upcoming", "this week", "next week", "today", "tomorrow"])){
-        return `${sourceNote} The demo dataset does not contain a full upcoming calendar, but it does show open shifts concentrated in the current operating window and follow-up items that should be closed before the weekend. In a live deployment, VOL could synthesize weekend staffing, activities, transportation, family visits, and service recovery items into one leadership briefing.`;
-      }
-      if(has(["communication", "communications", "message", "messages", "email", "phone"])){
-        return `${sourceNote} Communication follow-up is active in the demo context. Ruth, daughter of Room 303, is expecting a follow-up call today, and family communication follow-ups are clustering with dining and housekeeping items. Best next move: assign one owner and confirm completion today.`;
-      }
-      return unknownTopic();
-    }
-
-    async function askVol(prompt){
-      try{
-        console.log("Ask VOL handler started");
-        if(!input){
-          warnMissingSelector("dailySignalInput");
-          renderApiResponse("VOL rEDi unavailable.", `${sourceNote} VOL rEDi input is not available on this page.`, sourceNote, "fallback", "missing_input");
-          return;
-        }
-        const question = String(prompt || input.value || "").trim();
-        if(!question){
-          renderApiResponse("No question entered.", `${sourceNote} Try asking what needs leadership attention today.`, sourceNote, "fallback", "empty_question");
-          return;
-        }
-
-        setAskButtonLoading(true);
-        input.value = question;
-        chips.forEach((chip) => chip.classList.toggle("active", chip.dataset.prompt === question));
-        const askVolContext = buildAskVolContext();
-        startOperationalSession(question);
-        opState.normalizedData = askVolContext.normalized_operating_data || null;
-        renderGovernedVisibilityCards(opState.normalizedData, opState.derivedScores);
-        setLoading(question);
-
-        const response = await fetch("/api/daily-signals", {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body:JSON.stringify({ question, context: askVolContext })
-        });
-        console.log("Ask VOL endpoint response status:", response.status);
-        const responseForText = response.clone();
-        const data = await response.json().catch(async (error) => {
-          console.warn("Ask VOL response.json() failed; attempting text parse.", error);
-          const raw = await responseForText.text().catch(() => "");
-          return tryParseJson(raw) || { answer:raw };
-        });
-        const normalizedData = normalizeAskVolPayload(data);
-        if(!response.ok || data.success === false){
-          throw new Error(data.error || "Daily rEDi request failed");
-        }
-        if(!normalizedData.answer && !normalizedData.volRead){
-          console.warn("Ask VOL API returned no usable response; rendering demo fallback.");
-          renderApiResponse(question, clientFallbackAnswer(question), sourceNote, "fallback", "empty_api_answer");
-          return;
-        }
-        opState.derivedScores = normalizedData.derived_scores || normalizedData.derivedScores || {};
-        opState.normalizedData = normalizedData.normalized_operating_data || askVolContext.normalized_operating_data || opState.normalizedData;
-        updateRiskSignalPanel();
-        renderStructuredAskVolResponse(question, normalizedData);
-      }catch(error){
-        console.warn("Ask VOL fallback response rendered after error:", error);
-        opState.derivedScores = {};
-        updateRiskSignalPanel();
-        renderGovernedVisibilityCards(opState.normalizedData, opState.derivedScores);
-        const fallbackQuestion = String(prompt || input?.value || "What should I focus on today?").trim();
-        renderApiResponse(fallbackQuestion, clientFallbackAnswer(fallbackQuestion), sourceNote, "fallback", "api_call_failed");
-      }finally{
-        setAskButtonLoading(false);
-      }
-    }
-
-    document.addEventListener("click", (event) => {
-      const editContact = event.target.closest("#followupContactEdit");
-      if(editContact){
-        const contact = getOperatorContact();
-        if(!followupEmail || !followupContactForm || !followupContactSaved){
-          warnMissingSelector("followup contact controls");
-          return;
-        }
-        followupEmail.value = contact?.email || "";
-        followupContactForm.hidden = false;
-        followupContactSaved.hidden = true;
-        followupEmail.focus();
-        return;
-      }
-
-      const button = event.target.closest("[data-pulse-group] .actionability-btn");
-      if(!button) return;
-      const group = button.closest("[data-pulse-group]");
-      const index = Number(group.dataset.pulseGroup);
-      opState.actionPulses[index] = button.dataset.value;
-      updateOperationalSelections();
-      saveActionPulse(index, button.dataset.value);
-    });
-
-    if(followupContactForm && followupEmail){
-      followupContactForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const email = followupEmail.value.trim();
-        if(!isValidEmail(email)){
-          setFollowupContactStatus("Enter a valid email.", "error");
-          followupEmail.focus();
-          return;
-        }
-        setFollowupContactStatus("Saving...", "");
-        await saveOperatorContact({ email, community_name: "Demo Community" });
-        setFollowupContactStatus("Saved", "success");
-      });
-    }else{
-      warnMissingSelector("followupContactForm / followupEmail");
-    }
-
-    chips.forEach((chip) => {
-      chip.addEventListener("click", () => {
-        input.value = chip.dataset.prompt;
-        askVol(chip.dataset.prompt);
-      });
-    });
-
-    if(askButton){
-      askButton.addEventListener("click", () => {
-        askVol(input?.value || "");
-      });
-    }else{
-      warnMissingSelector("askButton");
-    }
-
-    if(input){
-      input.addEventListener("keydown", (event) => {
-        if(event.key === "Enter"){
-          event.preventDefault();
-          askVol(input.value.trim());
-        }
-      });
-    }else{
-      warnMissingSelector("dailySignalInput");
-    }
-
-    renderOperatorContact();
-    renderPriorityActions(dailySignalsData.priorityActions);
-    renderLeadershipBriefing(dailySignalsData.priorityActions);
-    if(input && responseBody){
-      askVol("What should I focus on today?");
-    }
-  </script>
 </body>
 </html>

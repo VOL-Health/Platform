@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -459,13 +459,40 @@
       text-transform:uppercase;
     }
 
+    .response-head-right{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex:0 0 auto;
+    }
+
     .context-line{
-      margin:4px 0 18px;
+      margin:4px 0 6px;
       color:rgba(255,255,255,0.58);
       font-size:12.5px;
       line-height:1.5;
       font-weight:600;
     }
+
+    .revise-link{
+      display:inline-block;
+      margin:0 0 14px;
+      color:rgba(255,255,255,0.38);
+      font-size:11px;
+      font-weight:600;
+      letter-spacing:0.01em;
+      text-decoration:none;
+      cursor:pointer;
+      transition:color 0.12s ease;
+    }
+    .revise-link:hover{ color:rgba(255,255,255,0.68); text-decoration:underline; }
+
+    @keyframes panel-pulse{
+      0%  { border-color:var(--border); }
+      28% { border-color:rgba(143,215,255,0.55); }
+      100%{ border-color:var(--border); }
+    }
+    .builder-panel.pulse{ animation:panel-pulse 600ms ease-out; }
 
     .duration-note{
       margin:0 0 18px;
@@ -812,6 +839,86 @@
       .disruption-grid{ grid-template-columns:1fr; }
       .nav-pill{ font-size:10px; padding:8px 10px; }
     }
+    .btn.btn-sm{
+      min-height:0;
+      padding:6px 12px;
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+    }
+
+    @media print{
+      @page{ margin:1.5cm; size:letter portrait; }
+
+      header.platform-header,
+      .hero-panel,
+      .section-block,
+      #comingSoonNote,
+      #builderPanel,
+      #feedbackCard,
+      .disclaimer-box,
+      #printBriefBtn,
+      #reviseLink,
+      .copy-btn{ display:none !important; }
+
+      body{ background:#ffffff !important; color:#111 !important; }
+
+      .response-card{
+        background:#ffffff !important;
+        border:none !important;
+        box-shadow:none !important;
+        padding:0 !important;
+        margin:0 !important;
+        border-radius:0 !important;
+      }
+
+      .response-head h2{ color:#111 !important; font-size:18pt; }
+      .response-pill{ border-color:#aaa !important; background:#ffffff !important; color:#333 !important; }
+      .context-line{ color:#444 !important; }
+
+      .duration-note{
+        background:#fffbe8 !important;
+        border-color:#dfc050 !important;
+        color:#444 !important;
+      }
+
+      .brief-section{ border-top-color:#ddd !important; page-break-inside:avoid; }
+      .brief-label{ color:#333 !important; }
+      .brief-num{ background:#eee !important; border-color:#bbb !important; color:#333 !important; }
+      .brief-list{ color:#222 !important; }
+
+      .impact-note{
+        background:#f0f4ff !important;
+        border-color:#99b0e0 !important;
+        color:#222 !important;
+      }
+
+      .notify-row{ background:#f8f8f8 !important; border-color:#ddd !important; }
+      .notify-when{ color:#333 !important; }
+      .notify-who{ color:#222 !important; }
+
+      .brief-section-highlight{
+        background:#f8fff8 !important;
+        border-color:#aadca8 !important;
+      }
+      .brief-section-helper{ color:#555 !important; }
+
+      .say-grid{ grid-template-columns:repeat(2, 1fr); }
+      .say-card{
+        background:#ffffff !important;
+        border:1px solid #ccc !important;
+        border-top:3px solid #3ab05a !important;
+        box-shadow:none !important;
+        page-break-inside:avoid;
+      }
+      .say-card-head h3{ color:#222 !important; }
+      .say-card p{ color:#222 !important; }
+
+      .related-section{ border-top-color:#ddd !important; }
+      .related-pill{ border-color:#ccc !important; background:#f4f4f4 !important; color:#444 !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -834,7 +941,7 @@
         </div>
 
         <nav class="platform-nav">
-          <a href="/" class="nav-pill">VOL rEDi</a>
+          <a href="/redi" class="nav-pill">VOL rEDi</a>
           <a href="redi-brief.html" class="nav-pill">rEDi Brief</a>
           <a href="advisor.html" class="nav-pill active">OpAdvisor</a>
           <a href="data-demo.html" class="nav-pill">Data Demo</a>
@@ -878,22 +985,22 @@
           <button class="disruption-tile" type="button" data-disruption="staffing">
             <strong>Staffing Coverage Crisis</strong>
             <span>Call-offs, shift gaps, sudden coverage shortfalls.</span>
-            <span class="tile-tag">Coming soon</span>
+            <span class="tile-tag">Request This Workflow</span>
           </button>
           <button class="disruption-tile" type="button" data-disruption="family">
             <strong>Family Escalation</strong>
             <span>Complaints, threats to move out, urgent concerns.</span>
-            <span class="tile-tag">Coming soon</span>
+            <span class="tile-tag">Request This Workflow</span>
           </button>
           <button class="disruption-tile" type="button" data-disruption="infectious">
             <strong>Infectious Disease Concern</strong>
             <span>Outbreak signs, illness clusters, reporting needs.</span>
-            <span class="tile-tag">Coming soon</span>
+            <span class="tile-tag">Request This Workflow</span>
           </button>
           <button class="disruption-tile" type="button" data-disruption="survey">
             <strong>Survey / Regulatory Arrival</strong>
             <span>Unannounced state survey or regulatory visit.</span>
-            <span class="tile-tag">Coming soon</span>
+            <span class="tile-tag">Request This Workflow</span>
           </button>
         </div>
 
@@ -905,12 +1012,15 @@
       <section class="builder-panel hidden" id="builderPanel">
         <div class="builder-section">
           <div class="builder-label">Operational issue</div>
-          <div class="option-group">
+          <div class="option-group" id="subOptionGroup">
             <button class="option-pill active" type="button" data-sub="water-outage">Water Leak / Water Outage</button>
+            <button class="option-pill" type="button" data-sub="power-outage">Power Outage</button>
+            <button class="option-pill" type="button" data-sub="hvac-failure">HVAC Failure</button>
+            <button class="option-pill" type="button" data-sub="elevator-failure">Elevator Failure</button>
           </div>
         </div>
 
-        <div class="builder-section">
+        <div class="builder-section" id="scopeSection">
           <div class="builder-label">Scope</div>
           <div class="option-group" id="scopeGroup">
             <button class="option-pill" type="button" data-scope="whole-building">Whole Building</button>
@@ -942,9 +1052,13 @@
           <div>
             <h2>Advisor Brief</h2>
           </div>
-          <div class="response-pill">OpAdvisor</div>
+          <div class="response-head-right">
+            <button class="btn btn-sm" type="button" id="printBriefBtn" onclick="window.print()">Print Brief</button>
+            <div class="response-pill">OpAdvisor</div>
+          </div>
         </div>
         <div class="context-line" id="briefContext"></div>
+        <a class="revise-link" href="#" id="reviseLink">Revise scope or duration</a>
         <div class="duration-note" id="durationNote"></div>
         <div id="briefBody"></div>
       </section>
@@ -999,6 +1113,27 @@
         Use this brief alongside your organization&rsquo;s emergency procedures, licensure requirements, and local emergency direction. VOL supports decision quality; it does not replace leadership judgment or required protocols.
       </div>
     </main>
+  <style>
+    .vol-footer-cta{margin-top:18px;padding:32px 28px;border-radius:22px;border:1px solid rgba(255,255,255,0.10);background:rgba(13,18,36,0.78);}
+    .vol-footer-kicker{margin:0 0 12px;color:#8fd7ff;font-size:11px;font-weight:900;letter-spacing:0.13em;text-transform:uppercase;}
+    .vol-footer-headline{margin:0 0 12px;color:#ffffff;font-size:21px;font-weight:800;line-height:1.3;}
+    .vol-footer-sub{margin:0 0 22px;color:rgba(255,255,255,0.62);font-size:14px;font-weight:600;line-height:1.6;max-width:560px;}
+    .vol-footer-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
+    .vol-footer-btn-primary{display:inline-flex;align-items:center;justify-content:center;padding:11px 22px;border-radius:999px;background:#2C6CFF;color:#ffffff;font-size:13px;font-weight:800;text-decoration:none;border:1px solid rgba(44,108,255,0.5);transition:filter 0.12s ease;}
+    .vol-footer-btn-primary:hover{filter:brightness(1.1);}
+    .vol-footer-link-secondary{color:rgba(255,255,255,0.54);font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,0.28);transition:color 0.12s ease;}
+    .vol-footer-link-secondary:hover{color:rgba(255,255,255,0.84);}
+    @media(max-width:640px){.vol-footer-cta{padding:22px 16px;}.vol-footer-headline{font-size:18px;}.vol-footer-actions{flex-direction:column;align-items:flex-start;}}
+  </style>
+  <section class="vol-footer-cta">
+    <p class="vol-footer-kicker">Working with VOL</p>
+    <h2 class="vol-footer-headline">Is operational instability something you're navigating right now?</h2>
+    <p class="vol-footer-sub">VOL is being built with a small number of senior living operators. If what you've seen here feels relevant to what you're managing, we'd like to understand what you're seeing.</p>
+    <div class="vol-footer-actions">
+      <a href="/contact" class="vol-footer-btn-primary">Explore a Pilot</a>
+      <a href="/data-demo" class="vol-footer-link-secondary">See it in the Data Demo</a>
+    </div>
+  </section>
   </div>
 
   <script>
@@ -1165,6 +1300,185 @@
           ]
         }
             }
+          },
+          "power-outage": {
+            label: "Power Outage",
+            relatedWorkflows: ["Water Leak / Water Outage", "HVAC Failure", "Elevator Failure", "Staffing Coverage Crisis"],
+            operationalImpact: "A power outage strikes every department simultaneously — lighting, call systems, electronic charting, medication refrigeration, HVAC, and elevators are all affected at once, often before staff have had a chance to orient. Residents notice immediately and without context can quickly become anxious; families who live nearby or see utility alerts may reach out before you've had a chance to reach them. The first 15 minutes define whether this event runs smoothly or reactively. If the backup generator is running, there is still no guarantee it covers everything — most generators in senior living power only emergency lighting, select outlets, and life-safety systems. Documenting what is failing and what is holding is as important as fixing the problem.",
+            immediatePriorities: [
+              "Confirm scope immediately — is this a utility failure, an internal electrical panel issue, or a partial circuit fault? Call the utility company for an outage map and ETA while maintenance inspects the panel.",
+              "Verify what the generator (if present) actually covers: emergency lighting, call systems, HVAC, refrigeration, and resident room outlets are not all guaranteed — check each one; do not assume.",
+              "Conduct an immediate sweep of residents dependent on powered medical equipment (oxygen concentrators, electric beds, powered wheelchairs, medical devices), confirm backup power for each, and flag any gaps to nursing right now."
+            ],
+            notify: [
+              { when: "0–5 min", who: "Maintenance/facilities lead; nursing supervisor (powered medical equipment check starts immediately)" },
+              { when: "0–15 min", who: "On-call regional leadership — informational; department heads to activate department-level response" },
+              { when: "15–30 min", who: "Utility company or electrician — confirm scope and ETA; all staff via shift huddle or group message" },
+              { when: "30–60 min", who: "Full staff update — generator coverage status, workaround plan, expected timeline" },
+              { when: "1–2 hours (if unresolved)", who: "Families — proactive update, especially if building is dark, elevators are down, or residents use powered equipment" },
+              { when: "2–4 hours (if unresolved)", who: "State agency if required by licensure; regional/corporate with resolution ETA and contingency plan" }
+            ],
+            vendorNeeds: [
+              "Electric utility company — confirm ETA on restoration and whether outage is area-wide or building-specific",
+              "Licensed electrician if cause is internal (panel, wiring, breaker, transformer)",
+              "Generator service technician if the backup generator fails, is low on fuel, or does not cover expected systems",
+              "Battery-powered or LED flashlights and lanterns for staff to stage at nursing stations, corridors, and dining areas",
+              "Coolers or ice if refrigeration outage approaches one hour — separate medication storage from food storage",
+              "Cooler packs for insulin and temperature-sensitive biologics — confirm with nursing which residents need them before the medication storage situation becomes critical"
+            ],
+            whatToSay: {
+              staff: "We have a power outage affecting [building-wide / partial area]. Maintenance is in contact with [utility/electrician] and the current ETA is [time]. The generator is [active and covering / not covering] [specific systems]. Please confirm your area has adequate lighting, and check now on any residents who use powered medical equipment. Medication refrigeration is being monitored — do not open those fridges unless essential. We'll update you every [interval]. Direct all questions to [point person].",
+              residents: "We're experiencing a temporary power outage. Our team is on it, and we've made sure you have lighting where you need it. Essential systems are running. We expect power restored [timeframe] — please let a staff member know right away if anything feels unsafe or if you need something.",
+              family: "Hi [Family Name] — quick update: [Community Name] is experiencing a temporary power outage [due to a utility issue / an internal electrical issue]. Our emergency systems are active, resident care is continuing, and we are closely monitoring anyone with powered medical equipment. We expect power restored [timeframe] and will update you if that changes. [Resident's] care is not interrupted — no action needed from you.",
+              leadership: "Status update — power outage at [Community Name], discovered [time]. Cause: [utility area outage / internal electrical issue / unknown]. Scope: [building-wide / partial]. Generator status: [active covering X systems / not available / failed at time]. Residents on powered equipment: [number identified, status and plan for each]. Medication refrigeration status: [holding / coolers deployed at time]. Utility or electrician ETA: [time]. Families notified at [time]. Next update by [time]."
+            },
+            commonMistakes: [
+              "Assuming the backup generator covers everything — most generators in senior living cover only emergency lighting and select circuits, not all resident room outlets, HVAC, or medical equipment.",
+              "Skipping the sweep for residents on powered medical equipment because 'it'll be back in 20 minutes' — this cannot wait and cannot be assumed.",
+              "Opening medication or food refrigerators repeatedly during the outage, accelerating temperature rise — assign one person to monitor and minimize door openings.",
+              "Not communicating with families during night or early-morning outages — families near the community may see a dark building or utility alerts and call in before you've reached out.",
+              "Underestimating the impact on cognitively impaired residents — darkness and disrupted routine can trigger significant anxiety and behavioral changes; these residents need in-person reassurance faster than others."
+            ],
+            watchFor: [
+              "Any resident's powered medical equipment fails without battery backup → immediate clinical escalation, not a facilities question",
+              "Refrigerated medication temperature rises above safe threshold → clinical decision on medication disposal and replacement needed immediately",
+              "Generator running but not covering HVAC during extreme outdoor temperatures → building heat or cold becomes a secondary emergency; monitor temperature every 30 minutes",
+              "Elevators down during the outage → activate elevator-failure protocol in parallel for mobility-dependent residents on upper floors",
+              "Outage exceeds 1 hour → notify families; confirm refrigeration status with a documented temperature reading",
+              "Outage exceeds 2 hours → confirm with regional whether evacuation of any resident subset is warranted",
+              "Outage exceeds 4 hours → formal regulatory notification review; escalate to corporate; assess generator fuel reserves"
+            ],
+            documentation: [
+              "Time discovered and how (staff report, alarm, resident report)",
+              "Cause (utility area outage, internal electrical, unknown)",
+              "Scope (building-wide, wing, partial circuit)",
+              "Generator status: activated, what it covers, any failures or fuel issues",
+              "Residents identified on powered medical equipment — name, device, backup status, assigned staff",
+              "Medication refrigeration log: temperature readings with timestamps, any medications assessed for compromise or disposal",
+              "Food service adjustments made",
+              "Vendor(s) contacted, time of contact, response, arrival on site",
+              "Communications sent (staff, residents, families, regional) with timestamps",
+              "Power restoration time and any follow-up needed (medication review, equipment inspection, incident report)"
+            ]
+          },
+          "hvac-failure": {
+            label: "HVAC Failure",
+            relatedWorkflows: ["Water Leak / Water Outage", "Power Outage", "Elevator Failure", "Staffing Coverage Crisis"],
+            operationalImpact: "In senior living, an HVAC failure is not a comfort issue — it is a health and safety event. Older adults have impaired thermoregulation and may not recognize when they are becoming dangerously hot or cold. During summer heat, indoor temperatures can reach unsafe levels within hours without cooling; during a winter failure, the same is true in reverse. Medication storage is a parallel concern — insulin, certain biologics, and other temperature-sensitive medications require refrigeration or controlled room temperature, and a prolonged HVAC failure can compromise both. Staff will face competing demands: monitoring residents, deploying portable equipment, fielding family calls, and coordinating with vendors — all while trying to keep care on schedule. Seasonal urgency changes the calculus entirely: a mild-weather day buys time; an extreme-heat or extreme-cold day does not.",
+            immediatePriorities: [
+              "Take an immediate temperature reading in the affected area and establish a documented baseline — monitor every 30 minutes. Temperatures above 82°F are a concern in senior living; above 85°F during summer is a life-safety threshold that requires escalation.",
+              "Confirm whether the failure is a thermostat or controls issue, a mechanical failure (compressor, heat exchanger, blower), or a power-related cause — this determines vendor type and realistic repair time.",
+              "Begin deploying portable fans or space heaters immediately and identify residents with heat or cold sensitivity (cardiac conditions, respiratory conditions, dementia, low body weight) for priority check-in and possible temporary relocation."
+            ],
+            notify: [
+              { when: "0–15 min", who: "Maintenance/facilities lead; nursing/care supervisor (resident health sensitivity check — identify residents at highest risk)" },
+              { when: "15–30 min", who: "HVAC vendor/contractor — request emergency service, confirm after-hours contact, and get a technician ETA" },
+              { when: "30–60 min", who: "On-call regional leadership — inform and confirm escalation threshold, especially if outdoor conditions are extreme" },
+              { when: "1–2 hours (if unresolved or rising temperature)", who: "All staff via shift huddle — temperature status, resident check-in protocol, portable equipment locations" },
+              { when: "1–2 hours (if residents are noticeably uncomfortable)", who: "Families of residents in affected areas — proactive update; do not wait for them to call" },
+              { when: "2–4 hours (if unresolved during extreme weather)", who: "State agency if required by licensure; evaluate whether temporary relocation or evacuation is warranted" }
+            ],
+            vendorNeeds: [
+              "HVAC contractor or technician on emergency call — confirm whether the building has a service agreement and who the after-hours emergency contact is",
+              "Portable fans (summer) or space heaters (winter) — know where these are stored before the emergency; if unavailable in-house, call a local equipment rental company immediately",
+              "Digital thermometers for every affected common area and nursing station — log readings every 30 minutes while the issue is unresolved",
+              "Ice, cooling towels, or cold packs (summer) for residents showing signs of heat discomfort or who are at elevated risk",
+              "If medication storage temperature is at risk: ice packs, a secondary cooler, or a pharmacy contact for emergency medication management guidance"
+            ],
+            whatToSay: {
+              staff: "We have a [heating/cooling] failure affecting [area]. Current indoor temperature is [reading] and we are monitoring it every 30 minutes. Portable [fans/heaters] are staged at [locations] — deploy them in resident rooms and common areas now. Nursing has a list of residents to watch closely for [heat/cold] sensitivity — check in on your assigned residents and report any signs of distress to [point person] immediately. A technician is [en route / on site], ETA [time]. Keep flagging anything you see.",
+              residents: "We're dealing with a temporary [heating/cooling] issue in [area]. Our team is working on it and we've brought in [fans/heaters] to keep you as comfortable as possible while we fix it. If you're feeling [too warm/too cold], dizzy, or just not quite right — please let any staff member know right away. We'd rather hear from you and have it be nothing. We'll keep you updated.",
+              family: "Hi [Family Name] — I wanted to give you a heads-up: we're experiencing a temporary [heating/cooling] issue at [Community Name] affecting [area/the building]. We're monitoring indoor temperatures closely, have deployed portable [fans/heaters], and our team is keeping a close eye on residents with any heat or cold sensitivity. A technician is [on the way / working on it now] with an expected resolution of [timeframe]. We'll update you if anything changes — [resident] is being monitored and is [comfortable/doing fine].",
+              leadership: "Status update — HVAC failure at [Community Name], discovered [time]. Affected area: [zone / building-wide]. Cause: [known/unknown]. Current indoor temperature: [reading], trending [up/down/stable]. Outdoor conditions: [temp]°F — seasonal risk level [low/moderate/high]. Portable [fans/heaters] deployed at [locations]. Residents flagged for sensitivity monitoring: [number]. Medication storage status: [checked, holding / at risk]. Vendor: [name], ETA [time]. Relocation or evacuation under consideration: [yes/no/threshold at X°F]. Next update by [time]."
+            },
+            commonMistakes: [
+              "Treating a summer HVAC failure as a comfort issue until a resident shows symptoms — heat illness develops quickly and silently in older adults; monitor proactively, not reactively.",
+              "Not knowing where portable fans or heaters are stored before the emergency — if staff have to search during an active event, precious time is lost.",
+              "Assuming temperature-sensitive medications are safe without checking — insulin and certain biologics have a narrow temperature window; a nursing check early prevents a medically significant problem.",
+              "Waiting too long to notify families because 'the vendor said a few hours' — during extreme outdoor temperatures, families deserve to know immediately, not after resolution.",
+              "Not documenting temperature readings over time — if the issue extends or draws regulatory review, a log of temperatures is essential to demonstrating safe management."
+            ],
+            watchFor: [
+              "Indoor temperature approaches 82°F (summer) or drops below 65°F (winter) → immediately escalate portable equipment deployment and begin evaluating resident relocation",
+              "Indoor temperature reaches 85°F (summer) or below 60°F (winter) → treat as a life-safety event; escalate to regional immediately and begin temporary relocation",
+              "Any resident shows signs of heat exhaustion (confusion, weakness, flushed skin, fast pulse) or hypothermia (shivering, confusion, slow pulse) → immediate clinical escalation; call 911 if indicated",
+              "Medication storage temperature rises above acceptable range → notify nursing immediately for medication assessment and pharmacy guidance",
+              "HVAC vendor ETA is more than 4 hours and outdoor conditions are extreme → escalate immediately; do not wait for the scheduled visit",
+              "Failure affects memory care or skilled nursing wing → elevate monitoring frequency and staffing support faster than for other areas",
+              "Issue extends into overnight hours during extreme weather → reevaluate relocation or emergency heating/cooling sourcing before night shift begins"
+            ],
+            documentation: [
+              "Time discovered and initial temperature reading in affected area",
+              "Temperature log: readings every 30 minutes while unresolved, with timestamps",
+              "Cause (if determined) and scope (zone, floor, building-wide)",
+              "Portable equipment deployed — type, locations, and time activated",
+              "Residents assessed for heat/cold sensitivity; names, any symptoms observed, and actions taken",
+              "Medication storage: temperature checked, medications assessed for compromise, any disposed",
+              "Vendor contacted, time of contact, response, arrival on site, resolution",
+              "Family notifications sent with timestamps",
+              "Whether relocation or evacuation was considered, threshold used, and outcome",
+              "Resolution time and follow-up inspection or system check needed"
+            ]
+          },
+          "elevator-failure": {
+            label: "Elevator Failure",
+            relatedWorkflows: ["Water Leak / Water Outage", "Power Outage", "HVAC Failure", "Staffing Coverage Crisis"],
+            operationalImpact: "Elevator failure in a multi-story senior living community is a mobility crisis, not an inconvenience. Many residents cannot use stairs at all — wheelchair users, residents with significant mobility limitations, memory care residents, and post-surgical residents may be effectively isolated on their floor within minutes of an outage. Every scheduled event that crosses a floor — meals, medication passes, activities, scheduled appointments, visitor access — requires active replanning. The operational load compounds quickly: staff must simultaneously escort residents, deliver meals to upper floors, manage medication passes, reroute visitors, and reassure anxious residents, all while waiting for a technician who may be hours away. If anyone is inside the elevator at the time of failure, that is a life-safety emergency and takes absolute priority over everything else.",
+            immediatePriorities: [
+              "Immediately confirm whether anyone is inside the elevator — if yes, call the elevator company emergency line without delay, stay in verbal contact with any trapped person, and follow building emergency procedures. This takes priority over everything else.",
+              "Identify every resident on upper floors who cannot use stairs, and assign a staff member to each affected floor for a direct in-person check-in — do not rely on the call system alone.",
+              "Contact dietary and nursing immediately to begin planning meal and medication delivery to affected floors, and notify any vendors or outside visitors with scheduled appointments so they can plan for alternate access."
+            ],
+            notify: [
+              { when: "Immediately", who: "Maintenance/facilities lead; elevator company emergency line (required if anyone is trapped)" },
+              { when: "0–15 min", who: "Care staff on all affected floors; dietary (meal delivery planning); nursing (medication pass planning for affected floors)" },
+              { when: "15–30 min", who: "On-call regional leadership — informational; activities/life enrichment (schedule adjustments for the day)" },
+              { when: "30–60 min", who: "All staff via shift huddle — affected floors, next mealtime plan, resident escort protocol" },
+              { when: "As needed", who: "Families of residents who miss scheduled outings, appointments, or activities because of the outage" },
+              { when: "2+ hours (if unresolved)", who: "Regional/corporate escalation; written update to families of any resident with disrupted care or missed meals" }
+            ],
+            vendorNeeds: [
+              "Elevator service company — the emergency line number should be posted in maintenance; confirm technician is en route and get a firm ETA",
+              "Additional staffing (PRN or on-call) if the outage extends through a mealtime — tray delivery to multiple floors by hand is labor-intensive",
+              "Handcarts or transport carts for meal tray and medication delivery to upper floors via stairwell",
+              "Temporary signage at elevator doors and building entrance directing residents and visitors to alternate elevator or stair access",
+              "If building has multiple elevators: confirm whether alternates are fully operable and activate all available"
+            ],
+            whatToSay: {
+              staff: "The [elevator/elevator bank] is out of service — first confirm that no one is inside. [If trapped: call [elevator emergency line] immediately and stay in verbal contact until resolved.] Every resident on an upper floor who cannot use stairs needs an in-person check-in now — [assign by name or floor]. All resident transport, meal delivery, and med passes for upper floors go through [alternate elevator/stairwell]. Dietary has been notified to plan tray delivery. Give [point person] a list of every resident who needs assistance. Technician ETA is [time].",
+              residents: "We're letting you know the elevator [location] is temporarily out of service. Our team will make sure you get to meals and activities — just let any staff member know if you need help getting anywhere, and they'll take care of it. A technician is [en route / working on it] and we expect this resolved [timeframe]. We'll come to you.",
+              family: "Hi [Family Name] — quick update: the elevator at [Community Name] is temporarily out of service. We have staff on every affected floor assisting residents, and we're delivering meals and medications directly to those floors. [Resident] is [doing well and has been checked on / will be assisted to their next meal]. A technician is [on the way / on site] and we expect this resolved [timeframe]. We'll let you know if anything changes or if [resident] has a scheduled appointment affected.",
+              leadership: "Status update — elevator outage at [Community Name], discovered [time]. Trapped rider confirmed: [none / yes, resolved at time]. Cause: [known/unknown]. Affected floors: [list]. Residents on affected floors who cannot use stairs: [number]. Meal and medication delivery to upper floors: [plan activated / in progress]. Alternate elevator available: [yes/no]. Vendor: [name], ETA [time]. Appointments or outings disrupted: [list]. Next update by [time]."
+            },
+            commonMistakes: [
+              "Not immediately confirming whether anyone is inside the elevator before doing anything else — this is the only true life-safety priority in this scenario.",
+              "Assuming all residents can use stairs and skipping the floor-by-floor check — in most senior living communities, a significant share of residents cannot safely navigate stairs under any conditions.",
+              "Delivering only standard meal trays without accounting for residents on therapeutic diets — the right tray must go to the right resident, not a generic delivery.",
+              "Not communicating with families when a resident misses a scheduled outing, appointment, or activity — these are the moments families are most likely to hear from a frustrated resident before they hear from the community.",
+              "Waiting until the elevator is fixed to document what was disrupted — record missed meals, delayed medications, and canceled appointments in real time, not retroactively."
+            ],
+            watchFor: [
+              "Any report of someone inside the elevator → life-safety priority; call the elevator emergency line and building emergency response immediately; do not wait for maintenance to diagnose",
+              "Outage extends through a mealtime → confirm every upper-floor resident has received a meal tray delivered by staff; do not assume it happened without verification",
+              "A resident on an upper floor has not been reached by staff → escalate to supervisor immediately",
+              "Outage extends beyond 4 hours → escalate to regional leadership; document impact on meals, medications, and scheduled care; notify families of any resident with disrupted care",
+              "Multiple elevators out simultaneously → treat as a building-wide mobility emergency; request emergency staffing support",
+              "Technician projects a multi-day repair → escalate immediately; discuss temporary room reassignment to lower floors for mobility-limited residents",
+              "Any resident shows signs of distress from isolation, missed meals, or delayed medication → clinical escalation and priority staffing to that floor"
+            ],
+            documentation: [
+              "Time discovered and which elevator(s) or bank affected",
+              "Whether anyone was inside at discovery — if yes, time resolved and how",
+              "Cause (mechanical failure, power issue, control system fault, unknown)",
+              "Floors affected and alternate elevator or stair access available",
+              "Residents on affected floors who cannot use stairs — name, room number, assigned staff contact",
+              "Meals delivered to upper floors: times, floors covered, any missed or delayed and reason",
+              "Medications passed on affected floors: times, any delays or misses, nursing supervisor notified",
+              "Appointments, outings, or activities disrupted — list with follow-up plan",
+              "Vendor contacted, time of contact, technician arrival on site, resolution",
+              "Family notifications sent with timestamps",
+              "Resolution time; follow-up needed (inspection, root cause assessment, room reassignment if extended outage)"
+            ]
           }
         }
       }
@@ -1189,6 +1503,8 @@
     const disruptionGrid = document.getElementById("disruptionGrid");
     const comingSoonNote = document.getElementById("comingSoonNote");
     const builderPanel = document.getElementById("builderPanel");
+    const subOptionGroup = document.getElementById("subOptionGroup");
+    const scopeSection = document.getElementById("scopeSection");
     const scopeGroup = document.getElementById("scopeGroup");
     const durationGroup = document.getElementById("durationGroup");
     const generateBtn = document.getElementById("generateBtn");
@@ -1199,8 +1515,31 @@
     const briefBody = document.getElementById("briefBody");
     const feedbackCard = document.getElementById("feedbackCard");
 
+    let selectedIssue = "water-outage";
     let selectedScope = null;
     let selectedDuration = null;
+
+    subOptionGroup.addEventListener("click", (e) => {
+      const pill = e.target.closest(".option-pill");
+      if (!pill) return;
+
+      subOptionGroup.querySelectorAll(".option-pill").forEach((p) => p.classList.remove("active"));
+      pill.classList.add("active");
+      selectedIssue = pill.dataset.sub;
+
+      if (selectedIssue === "water-outage") {
+        scopeSection.classList.remove("hidden");
+      } else {
+        scopeSection.classList.add("hidden");
+        scopeGroup.querySelectorAll(".option-pill").forEach((p) => p.classList.remove("active"));
+        selectedScope = null;
+      }
+
+      briefOutput.classList.add("hidden");
+      feedbackCard.classList.add("hidden");
+
+      updateGenerateState();
+    });
 
     disruptionGrid.addEventListener("click", (e) => {
       const tile = e.target.closest(".disruption-tile");
@@ -1218,7 +1557,11 @@
         builderPanel.classList.add("hidden");
         briefOutput.classList.add("hidden");
         feedbackCard.classList.add("hidden");
-        comingSoonNote.classList.remove("hidden");
+        comingSoonNote.classList.add("hidden");
+        const tileName = tile.querySelector("strong").textContent;
+        const subject = encodeURIComponent(`OpAdvisor Workflow Request — ${tileName}`);
+        const body = encodeURIComponent(`I’d like to request the ${tileName} workflow for OpAdvisor.`);
+        window.location.href = `mailto:hud@volhealth.com?subject=${subject}&body=${body}`;
       }
     });
 
@@ -1241,12 +1584,16 @@
     });
 
     function updateGenerateState(){
-      if (selectedScope && selectedDuration) {
+      const scopeSatisfied = selectedIssue !== "water-outage" || !!selectedScope;
+
+      if (scopeSatisfied && selectedDuration) {
         generateBtn.disabled = false;
         generateHint.textContent = "Ready. Build your Advisor Brief below.";
       } else {
         generateBtn.disabled = true;
-        generateHint.textContent = "Select a scope and estimated duration to continue.";
+        generateHint.textContent = selectedIssue === "water-outage"
+          ? "Select a scope and estimated duration to continue."
+          : "Select an estimated duration to continue.";
       }
     }
 
@@ -1368,13 +1715,18 @@
     }
 
     generateBtn.addEventListener("click", () => {
-      if (!selectedScope || !selectedDuration) return;
+      const scopeSatisfied = selectedIssue !== "water-outage" || !!selectedScope;
+      if (!scopeSatisfied || !selectedDuration) return;
 
       const category = advisorContent.infrastructure;
-      const issue = category.issues["water-outage"];
-      const content = issue.variants[selectedScope];
+      const issue = category.issues[selectedIssue];
+      const content = selectedIssue === "water-outage" ? issue.variants[selectedScope] : issue;
 
-      briefContext.textContent = `${category.label} — ${issue.label} — ${content.label} — Estimated duration: ${durationLabels[selectedDuration]}`;
+      const contextParts = [category.label, issue.label];
+      if (selectedIssue === "water-outage") contextParts.push(content.label);
+      contextParts.push(`Estimated duration: ${durationLabels[selectedDuration]}`);
+
+      briefContext.textContent = contextParts.join(" — ");
       durationNote.textContent = durationNotes[selectedDuration];
       briefBody.innerHTML = buildBriefHtml(content, issue.relatedWorkflows);
 
@@ -1382,6 +1734,13 @@
       feedbackCard.classList.remove("hidden");
 
       briefOutput.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("reviseLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      builderPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      builderPanel.classList.add("pulse");
+      builderPanel.addEventListener("animationend", () => builderPanel.classList.remove("pulse"), { once: true });
     });
 
     briefBody.addEventListener("click", (e) => {
@@ -1441,8 +1800,8 @@
     document.getElementById("feedbackSubmit").addEventListener("click", () => {
       const payload = {
         timestamp: new Date().toISOString(),
-        disruption: "Building & Infrastructure Disruption — Water Leak / Water Outage",
-        scope: selectedScope,
+        disruption: `${advisorContent.infrastructure.label} — ${advisorContent.infrastructure.issues[selectedIssue].label}`,
+        scope: selectedIssue === "water-outage" ? selectedScope : null,
         duration: selectedDuration,
         useful: feedbackState.useful,
         wouldHaveHelpedMoveFaster: feedbackState.faster,
@@ -1454,6 +1813,25 @@
       const existing = JSON.parse(localStorage.getItem("volOpAdvisorFeedback") || "[]");
       existing.push(payload);
       localStorage.setItem("volOpAdvisorFeedback", JSON.stringify(existing));
+
+      fetch("https://emlxxxjjukjejepzbgey.supabase.co/rest/v1/op_advisor_feedback", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer sb_publishable_uM1ymE8VP_VqnYzZ8WvuLA_1-oUp-F2",
+          "apikey": "sb_publishable_uM1ymE8VP_VqnYzZ8WvuLA_1-oUp-F2"
+        },
+        body: JSON.stringify({
+          disruption: payload.disruption,
+          scope: payload.scope,
+          duration: payload.duration,
+          useful: payload.useful,
+          would_have_helped_move_faster: payload.wouldHaveHelpedMoveFaster,
+          would_have_used_during_real_event: payload.wouldHaveUsedDuringRealEvent,
+          what_was_missing: payload.whatWasMissing || null,
+          what_would_you_change: payload.whatWouldYouChange || null
+        })
+      }).catch(() => {});
 
       console.log("VOL OpAdvisor feedback submitted:", payload);
 
